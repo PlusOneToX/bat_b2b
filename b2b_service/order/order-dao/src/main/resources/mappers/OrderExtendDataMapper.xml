@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.data.OrderExtendDataMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.data.dataobject.OrderExtendDataDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_thirdparty_no" jdbcType="VARCHAR" property="orderThirdpartyNo"/>
+        <result column="order_erp_no" jdbcType="VARCHAR" property="orderErpNo"/>
+        <result column="order_erp_type" jdbcType="VARCHAR" property="orderErpType"/>
+        <result column="order_factory_no" jdbcType="VARCHAR" property="orderFactoryNo"/>
+        <result column="factory_code" jdbcType="VARCHAR" property="factoryCode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="auto_delivery" jdbcType="SMALLINT" property="autoDelivery"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+    </resultMap>
+    <resultMap id="OrderExtendDataCOResultMap" type="com.bat.order.dao.data.co.OrderExtendDataCO">
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_thirdparty_no" jdbcType="VARCHAR" property="orderThirdpartyNo"/>
+        <result column="order_erp_no" jdbcType="VARCHAR" property="orderErpNo"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="order_factory_no" jdbcType="VARCHAR" property="orderFactoryNo"/>
+        <result column="factory_code" jdbcType="VARCHAR" property="factoryCode"/>
+        <result column="auto_delivery" jdbcType="SMALLINT" property="autoDelivery"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , order_id, order_thirdparty_no, order_erp_no, order_erp_type, order_factory_no,
+    factory_code, create_time, update_time, auto_delivery,open_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_extend_data
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByOrderId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_extend_data
+        where order_id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_extend_data
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.data.dataobject.OrderExtendDataDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into order_extend_data (order_id, order_thirdparty_no, order_erp_no,
+                                       order_erp_type, order_factory_no, factory_code,
+                                       create_time, update_time, auto_delivery, open_id)
+        values (#{orderId,jdbcType=INTEGER}, #{orderThirdpartyNo,jdbcType=VARCHAR}, #{orderErpNo,jdbcType=VARCHAR},
+                #{orderErpType,jdbcType=VARCHAR}, #{orderFactoryNo,jdbcType=VARCHAR}, #{factoryCode,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{autoDelivery,jdbcType=SMALLINT},
+                #{openId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.data.dataobject.OrderExtendDataDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_extend_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderThirdpartyNo != null">
+                order_thirdparty_no,
+            </if>
+            <if test="orderErpNo != null">
+                order_erp_no,
+            </if>
+            <if test="orderErpType != null">
+                order_erp_type,
+            </if>
+            <if test="orderFactoryNo != null">
+                order_factory_no,
+            </if>
+            <if test="factoryCode != null">
+                factory_code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="autoDelivery != null">
+                auto_delivery,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderThirdpartyNo != null">
+                #{orderThirdpartyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderErpNo != null">
+                #{orderErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderErpType != null">
+                #{orderErpType,jdbcType=VARCHAR},
+            </if>
+            <if test="orderFactoryNo != null">
+                #{orderFactoryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryCode != null">
+                #{factoryCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoDelivery != null">
+                #{autoDelivery,jdbcType=SMALLINT},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.data.dataobject.OrderExtendDataDO">
+        update order_extend_data
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderThirdpartyNo != null">
+                order_thirdparty_no = #{orderThirdpartyNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderErpNo != null">
+                order_erp_no = #{orderErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderErpType != null">
+                order_erp_type = #{orderErpType,jdbcType=VARCHAR},
+            </if>
+            <if test="orderFactoryNo != null">
+                order_factory_no = #{orderFactoryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryCode != null">
+                factory_code = #{factoryCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoDelivery != null">
+                auto_delivery = #{autoDelivery,jdbcType=SMALLINT},
+            </if>
+            <if test="openId != null">
+                open_id = #{openId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.data.dataobject.OrderExtendDataDO">
+        update order_extend_data
+        set order_id            = #{orderId,jdbcType=INTEGER},
+            order_thirdparty_no = #{orderThirdpartyNo,jdbcType=VARCHAR},
+            order_erp_no        = #{orderErpNo,jdbcType=VARCHAR},
+            order_erp_type      = #{orderErpType,jdbcType=VARCHAR},
+            order_factory_no    = #{orderFactoryNo,jdbcType=VARCHAR},
+            factory_code        = #{factoryCode,jdbcType=VARCHAR},
+            create_time         = #{createTime,jdbcType=TIMESTAMP},
+            update_time         = #{updateTime,jdbcType=TIMESTAMP},
+            auto_delivery       = #{autoDelivery,jdbcType=SMALLINT},
+            open_id             = #{openId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listExtendDataSimpleByOrderIdList" resultMap="OrderExtendDataCOResultMap">
+        select oed.order_id, oed.order_thirdparty_no, oed.order_erp_no, oed.order_factory_no,oi.order_no
+        from order_extend_data oed left join order_info oi on oed.order_id = oi.id
+        where 1=1
+        and oed.order_id in
+        <foreach collection="orderIdList" item="orderId" separator=" , " open=" (" close=" )">
+            #{orderId}
+        </foreach>
+    </select>
+
+    <select id="getByOrderErpNo" resultMap="BaseResultMap">
+        select *
+        from order_extend_data
+        where order_erp_no = #{orderErpNo,jdbcType=VARCHAR}
+    </select>
+    <select id="listByOrderThirdpartyNoAndDistributorId" resultMap="BaseResultMap">
+        select oed.*
+        from order_extend_data oed
+                 join order_distributor_data odd
+                      on odd.distributor_id = #{distributorId} and odd.order_id = oed.order_id
+        where oed.order_thirdparty_no = #{orderThirdpartyNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getByOrderNo" resultMap="BaseResultMap">
+        select oed.*
+        from order_extend_data oed
+                 join order_info oi on oi.id = oed.order_id
+        where oi.order_no = #{orderNo,jdbcType=VARCHAR}
+    </select>
+    <select id="getByOrderFactoryNoAndFactoryCode" resultMap="BaseResultMap">
+        select *
+        from order_extend_data
+        where order_factory_no = #{orderFactoryNo,jdbcType=VARCHAR}
+          and factory_code = #{factoryCode,jdbcType=VARCHAR}
+    </select>
+    <select id="getExtendDataSimpleByOrderId" resultMap="OrderExtendDataCOResultMap">
+        select oed.order_id,
+               oed.order_thirdparty_no,
+               oed.order_erp_no,
+               oed.order_factory_no,
+               oi.order_no,
+               oed.factory_code,
+               oed.auto_delivery,
+               oed.open_id
+        from order_extend_data oed
+                 left join order_info oi on oed.order_id = oi.id
+        where oed.order_id = #{orderId}
+    </select>
+    <select id="getByOrderFactoryNo" resultMap="BaseResultMap">
+        select *
+        from order_extend_data
+        where order_factory_no = #{orderFactoryNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryOrderFactoryNoByOrderId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select order_factory_no
+        from order_extend_data
+        where order_id = #{orderId}
+    </select>
+
+    <update id="updateShoppingCartItemStatus" parameterType="java.lang.Integer">
+        update shopping_cart_distributor
+        set open_flag=#{cartItemStatus}
+        where goods_id = #{goodsId}
+    </update>
+
+</mapper>

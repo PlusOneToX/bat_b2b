@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.logistics.LogisticsAreaMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.logistics.dataobject.LogisticsAreaDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="logistics_id" jdbcType="INTEGER" property="logisticsId"/>
+        <result column="first_weight_cost" jdbcType="DOUBLE" property="firstWeightCost"/>
+        <result column="first_volume_cost" jdbcType="DOUBLE" property="firstVolumeCost"/>
+        <result column="additional_weight_cost" jdbcType="DOUBLE" property="additionalWeightCost"/>
+        <result column="additional_volume_cost" jdbcType="DOUBLE" property="additionalVolumeCost"/>
+        <result column="default_flag" jdbcType="SMALLINT" property="defaultFlag"/>
+        <result column="formula_flag" jdbcType="SMALLINT" property="formulaFlag"/>
+        <result column="formula" jdbcType="VARCHAR" property="formula"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="group_id" jdbcType="VARCHAR" property="groupId"/>
+        <result column="country_id" jdbcType="INTEGER" property="countryId"/>
+        <result column="province_id" jdbcType="INTEGER" property="provinceId"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="district_id" jdbcType="INTEGER" property="districtId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, logistics_id, first_weight_cost, first_volume_cost, additional_weight_cost, additional_volume_cost,
+    default_flag, formula_flag, formula, create_time, update_time, group_id, country_id, 
+    province_id, city_id, district_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_area
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByLogisticsId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_area
+        where logistics_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByLogisticsIdGroupByGroupId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_area
+        <if test="id!=null">
+            where logistics_id = #{id,jdbcType=INTEGER}
+        </if>
+        group by group_id
+    </select>
+    <select id="listByLogisticsIdAndGroupId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_area
+        where logistics_id = #{logisticsId,jdbcType=INTEGER}
+        and group_id = #{groupId,jdbcType=VARCHAR}
+    </select>
+    <select id="listByGroupId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_area
+        where group_id = #{groupId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from logistics_area
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByLogisticsId">
+        delete
+        from logistics_area
+        where logistics_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsAreaDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_area (logistics_id, first_weight_cost, first_volume_cost,
+        additional_weight_cost, additional_volume_cost,
+        default_flag, formula_flag, formula,
+        create_time, update_time, group_id,
+        country_id, province_id, city_id,
+        district_id)
+        values (#{logisticsId,jdbcType=INTEGER}, #{firstWeightCost,jdbcType=DOUBLE}, #{firstVolumeCost,jdbcType=DOUBLE},
+        #{additionalWeightCost,jdbcType=DOUBLE}, #{additionalVolumeCost,jdbcType=DOUBLE},
+        #{defaultFlag,jdbcType=SMALLINT}, #{formulaFlag,jdbcType=SMALLINT}, #{formula,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{groupId,jdbcType=VARCHAR},
+        #{countryId,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},
+        #{districtId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsAreaDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logisticsId != null">
+                logistics_id,
+            </if>
+            <if test="firstWeightCost != null">
+                first_weight_cost,
+            </if>
+            <if test="firstVolumeCost != null">
+                first_volume_cost,
+            </if>
+            <if test="additionalWeightCost != null">
+                additional_weight_cost,
+            </if>
+            <if test="additionalVolumeCost != null">
+                additional_volume_cost,
+            </if>
+            <if test="defaultFlag != null">
+                default_flag,
+            </if>
+            <if test="formulaFlag != null">
+                formula_flag,
+            </if>
+            <if test="formula != null">
+                formula,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="countryId != null">
+                country_id,
+            </if>
+            <if test="provinceId != null">
+                province_id,
+            </if>
+            <if test="cityId != null">
+                city_id,
+            </if>
+            <if test="districtId != null">
+                district_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logisticsId != null">
+                #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="firstWeightCost != null">
+                #{firstWeightCost,jdbcType=DOUBLE},
+            </if>
+            <if test="firstVolumeCost != null">
+                #{firstVolumeCost,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalWeightCost != null">
+                #{additionalWeightCost,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalVolumeCost != null">
+                #{additionalVolumeCost,jdbcType=DOUBLE},
+            </if>
+            <if test="defaultFlag != null">
+                #{defaultFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="formulaFlag != null">
+                #{formulaFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="formula != null">
+                #{formula,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                #{countryId,jdbcType=INTEGER},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="cityId != null">
+                #{cityId,jdbcType=INTEGER},
+            </if>
+            <if test="districtId != null">
+                #{districtId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertList" parameterType="list">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_area (logistics_id, first_weight_cost, first_volume_cost,
+        additional_weight_cost, additional_volume_cost,
+        default_flag, formula_flag, formula,
+        create_time, update_time, group_id,
+        country_id, province_id, city_id,
+        district_id)
+        values
+        <foreach collection="logisticsAreaDOS" item="area" separator=",">
+            (#{area.logisticsId,jdbcType=INTEGER}, #{area.firstWeightCost,jdbcType=DOUBLE},
+            #{area.firstVolumeCost,jdbcType=DOUBLE},
+            #{area.additionalWeightCost,jdbcType=DOUBLE}, #{area.additionalVolumeCost,jdbcType=DOUBLE},
+            #{area.defaultFlag,jdbcType=SMALLINT}, #{area.formulaFlag,jdbcType=SMALLINT},
+            #{area.formula,jdbcType=VARCHAR},
+            #{area.createTime,jdbcType=TIMESTAMP}, #{area.updateTime,jdbcType=TIMESTAMP},
+            #{area.groupId,jdbcType=VARCHAR},
+            #{area.countryId,jdbcType=INTEGER}, #{area.provinceId,jdbcType=INTEGER}, #{area.cityId,jdbcType=INTEGER},
+            #{area.districtId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.logistics.dataobject.LogisticsAreaDO">
+        update logistics_area
+        <set>
+            <if test="logisticsId != null">
+                logistics_id = #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="firstWeightCost != null">
+                first_weight_cost = #{firstWeightCost,jdbcType=DOUBLE},
+            </if>
+            <if test="firstVolumeCost != null">
+                first_volume_cost = #{firstVolumeCost,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalWeightCost != null">
+                additional_weight_cost = #{additionalWeightCost,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalVolumeCost != null">
+                additional_volume_cost = #{additionalVolumeCost,jdbcType=DOUBLE},
+            </if>
+            <if test="defaultFlag != null">
+                default_flag = #{defaultFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="formulaFlag != null">
+                formula_flag = #{formulaFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="formula != null">
+                formula = #{formula,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                country_id = #{countryId,jdbcType=INTEGER},
+            </if>
+            <if test="provinceId != null">
+                province_id = #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="cityId != null">
+                city_id = #{cityId,jdbcType=INTEGER},
+            </if>
+            <if test="districtId != null">
+                district_id = #{districtId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsAreaDO">
+        update logistics_area
+        set logistics_id           = #{logisticsId,jdbcType=INTEGER},
+            first_weight_cost      = #{firstWeightCost,jdbcType=DOUBLE},
+            first_volume_cost      = #{firstVolumeCost,jdbcType=DOUBLE},
+            additional_weight_cost = #{additionalWeightCost,jdbcType=DOUBLE},
+            additional_volume_cost = #{additionalVolumeCost,jdbcType=DOUBLE},
+            default_flag           = #{defaultFlag,jdbcType=SMALLINT},
+            formula_flag           = #{formulaFlag,jdbcType=SMALLINT},
+            formula                = #{formula,jdbcType=VARCHAR},
+            create_time            = #{createTime,jdbcType=TIMESTAMP},
+            update_time            = #{updateTime,jdbcType=TIMESTAMP},
+            group_id               = #{groupId,jdbcType=VARCHAR},
+            country_id             = #{countryId,jdbcType=INTEGER},
+            province_id            = #{provinceId,jdbcType=INTEGER},
+            city_id                = #{cityId,jdbcType=INTEGER},
+            district_id            = #{districtId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

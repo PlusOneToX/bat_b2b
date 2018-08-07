@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.user.UserMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.user.dataobject.UserDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="ding_avatar" jdbcType="VARCHAR" property="dingAvatar"/>
+        <result column="admin_type" jdbcType="SMALLINT" property="adminType"/>
+        <result column="brand_scope" jdbcType="SMALLINT" property="brandScope"/>
+        <result column="sale_scope" jdbcType="SMALLINT" property="saleScope"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="erp_user_no" jdbcType="VARCHAR" property="erpUserNo"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+        <result column="rock_account_id" jdbcType="BIGINT" property="rockAccountId"/>
+        <result column="fictitious_flag" jdbcType="SMALLINT" property="fictitiousFlag"/>
+        <result column="sale_flag" jdbcType="SMALLINT" property="saleFlag"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sys_user.id, sys_user.user_name, sys_user.real_name, sys_user.password, sys_user.mobile, sys_user.email, sys_user.ding_avatar, sys_user.admin_type, sys_user.brand_scope,
+    sys_user.sale_scope, sys_user.status, sys_user.erp_user_no, sys_user.organization_id, sys_user.department_id,
+    sys_user.rock_account_id, sys_user.fictitious_flag, sys_user.sale_flag, sys_user.remark, sys_user.update_time, sys_user.create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="status!=null">
+                and `status` = #{status,jdbcType=SMALLINT}
+            </if>
+        </where>
+    </select>
+    <select id="getByUserNameAndPassword" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            and user_name = #{userName,jdbcType=VARCHAR}
+            and password = #{password,jdbcType=VARCHAR}
+        </where>
+    </select>
+    <select id="getByErpUserNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            and erp_user_no = #{erpUserNo,jdbcType=VARCHAR}
+        </where>
+    </select>
+    <select id="getByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            and user_name = #{userName,jdbcType=VARCHAR}
+        </where>
+    </select>
+    <select id="getByIdAndErpUserNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            and id = #{id,jdbcType=INTEGER}
+            and erp_user_no = #{erpUserNo,jdbcType=VARCHAR}
+        </where>
+    </select>
+    <select id="getByNotEqIdAndErpUserNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            and id != #{id,jdbcType=INTEGER}
+            and erp_user_no = #{erpUserNo,jdbcType=VARCHAR}
+        </where>
+    </select>
+    <select id="listByContent" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <if test="contentType==4 and content!='超级管理员'">
+            ,sys_user_role,sys_role
+        </if>
+        <where>
+            <if test="status!=null">
+                and sys_user.`status` = #{status,jdbcType=SMALLINT}
+            </if>
+            <if test="saleFlag!=null">
+                and sys_user.`sale_flag` = #{saleFlag,jdbcType=SMALLINT}
+            </if>
+            <if test="contentType==1">
+                and sys_user.user_name like CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="contentType==2">
+                and sys_user.real_name like CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="contentType==3">
+                and sys_user.erp_user_no like CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="contentType==4 and content=='超级管理员'">
+                and sys_user.admin_type = 1
+            </if>
+            <if test="contentType==4 and content!='超级管理员'">
+                and sys_user.id = sys_user_role.user_id and sys_user_role.role_id = sys_role.id
+                and sys_role.role_name like CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by sys_user.create_time desc
+    </select>
+    <select id="listUserByDepartmentIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where department_id in ( ${ids} )
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <if test="params.roleName!=null and params.roleName!='超级管理员'">
+            ,sys_user_role,sys_role
+        </if>
+        <where>
+            <if test="params.status!=null">
+                and sys_user.`status` = #{params.status,jdbcType=SMALLINT}
+            </if>
+            <if test="params.saleFlag!=null">
+                and sys_user.`sale_flag` = #{params.saleFlag,jdbcType=SMALLINT}
+            </if>
+            <if test="params.userName!=null">
+                and sys_user.user_name like CONCAT('%',#{params.userName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="params.realName!=null">
+                and sys_user.real_name like CONCAT('%',#{params.realName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="params.erpUserNo!=null">
+                and sys_user.erp_user_no like CONCAT('%',#{params.erpUserNo,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="params.roleName!=null and params.roleName=='超级管理员'">
+                and sys_user.admin_type = 1
+            </if>
+            <if test="params.roleName!=null and params.roleName!='超级管理员'">
+                and sys_user.id = sys_user_role.user_id and sys_user_role.role_id = sys_role.id
+                and sys_role.role_name like CONCAT('%',#{params.roleName,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by sys_user.update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.user.dataobject.UserDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_name, real_name, password,
+        mobile, email, ding_avatar,
+        admin_type, brand_scope, sale_scope,
+        status, erp_user_no, organization_id,
+        department_id, rock_account_id,
+        fictitious_flag, sale_flag, remark,
+        update_time, create_time)
+        values (#{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dingAvatar,jdbcType=VARCHAR},
+        #{adminType,jdbcType=SMALLINT}, #{brandScope,jdbcType=SMALLINT}, #{saleScope,jdbcType=SMALLINT},
+        #{status,jdbcType=SMALLINT}, #{erpUserNo,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER},
+        #{departmentId,jdbcType=INTEGER}, #{rockAccountId,jdbcType=BIGINT},
+        #{fictitiousFlag,jdbcType=SMALLINT}, #{saleFlag,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.user.dataobject.UserDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="dingAvatar != null">
+                ding_avatar,
+            </if>
+            <if test="adminType != null">
+                admin_type,
+            </if>
+            <if test="brandScope != null">
+                brand_scope,
+            </if>
+            <if test="saleScope != null">
+                sale_scope,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="erpUserNo != null">
+                erp_user_no,
+            </if>
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+            <if test="rockAccountId != null">
+                rock_account_id,
+            </if>
+            <if test="fictitiousFlag != null">
+                fictitious_flag,
+            </if>
+            <if test="saleFlag != null">
+                sale_flag,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="dingAvatar != null">
+                #{dingAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="adminType != null">
+                #{adminType,jdbcType=SMALLINT},
+            </if>
+            <if test="brandScope != null">
+                #{brandScope,jdbcType=SMALLINT},
+            </if>
+            <if test="saleScope != null">
+                #{saleScope,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="erpUserNo != null">
+                #{erpUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="rockAccountId != null">
+                #{rockAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="fictitiousFlag != null">
+                #{fictitiousFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="saleFlag != null">
+                #{saleFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.user.dataobject.UserDO">
+        update sys_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="dingAvatar != null">
+                ding_avatar = #{dingAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="adminType != null">
+                admin_type = #{adminType,jdbcType=SMALLINT},
+            </if>
+            <if test="brandScope != null">
+                brand_scope = #{brandScope,jdbcType=SMALLINT},
+            </if>
+            <if test="saleScope != null">
+                sale_scope = #{saleScope,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="erpUserNo != null">
+                erp_user_no = #{erpUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="rockAccountId != null">
+                rock_account_id = #{rockAccountId,jdbcType=BIGINT},
+            </if>
+            <if test="fictitiousFlag != null">
+                fictitious_flag = #{fictitiousFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="saleFlag != null">
+                sale_flag = #{saleFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.user.dataobject.UserDO">
+        update sys_user
+        set user_name       = #{userName,jdbcType=VARCHAR},
+            real_name       = #{realName,jdbcType=VARCHAR},
+            password        = #{password,jdbcType=VARCHAR},
+            mobile          = #{mobile,jdbcType=VARCHAR},
+            email           = #{email,jdbcType=VARCHAR},
+            ding_avatar     = #{dingAvatar,jdbcType=VARCHAR},
+            admin_type      = #{adminType,jdbcType=SMALLINT},
+            brand_scope     = #{brandScope,jdbcType=SMALLINT},
+            sale_scope      = #{saleScope,jdbcType=SMALLINT},
+            status          = #{status,jdbcType=SMALLINT},
+            erp_user_no     = #{erpUserNo,jdbcType=VARCHAR},
+            organization_id = #{organizationId,jdbcType=INTEGER},
+            department_id   = #{departmentId,jdbcType=INTEGER},
+            rock_account_id = #{rockAccountId,jdbcType=BIGINT},
+            fictitious_flag = #{fictitiousFlag,jdbcType=SMALLINT},
+            sale_flag       = #{saleFlag,jdbcType=SMALLINT},
+            remark          = #{remark,jdbcType=VARCHAR},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP},
+            create_time     = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select * from sys_user where 1=1
+        <if test="status !=null">
+            and status = #{status,jdbcType=SMALLINT}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.cost.OrderCustomerCostMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cost.dataobject.OrderCustomerCostDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerId"/>
+        <result column="goods_amount" jdbcType="DECIMAL" property="goodsAmount"/>
+        <result column="distribution_amount" jdbcType="DECIMAL" property="distributionAmount"/>
+        <result column="goods_promotion_amount" jdbcType="DECIMAL" property="goodsPromotionAmount"/>
+        <result column="order_promotion_amount" jdbcType="DECIMAL" property="orderPromotionAmount"/>
+        <result column="order_amount" jdbcType="DECIMAL" property="orderAmount"/>
+        <result column="pay_amount" jdbcType="DECIMAL" property="payAmount"/>
+        <result column="paid_amount" jdbcType="DECIMAL" property="paidAmount"/>
+        <result column="refunded_amount" jdbcType="DECIMAL" property="refundedAmount"/>
+        <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="order_coupon_amount" jdbcType="DECIMAL" property="orderCouponAmount"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_id, customer_id, goods_amount, distribution_amount, goods_promotion_amount,
+    order_promotion_amount, order_amount, pay_amount, paid_amount,refunded_amount,out_trade_no, create_time, update_time,
+    order_coupon_amount
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_cost
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_customer_cost
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cost.dataobject.OrderCustomerCostDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_customer_cost (order_id, customer_id, goods_amount,
+        distribution_amount, goods_promotion_amount,
+        order_promotion_amount, order_amount, pay_amount,
+        paid_amount,refunded_amount,out_trade_no, create_time, update_time,
+        order_coupon_amount)
+        values (#{orderId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{goodsAmount,jdbcType=DECIMAL},
+        #{distributionAmount,jdbcType=DECIMAL}, #{goodsPromotionAmount,jdbcType=DECIMAL},
+        #{orderPromotionAmount,jdbcType=DECIMAL}, #{orderAmount,jdbcType=DECIMAL}, #{payAmount,jdbcType=DECIMAL},
+        #{paidAmount,jdbcType=DECIMAL},#{refundedAmount,jdbcType=DECIMAL},#{outTradeNo,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{orderCouponAmount,jdbcType=DECIMAL})
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_customer_cost (order_id, customer_id, goods_amount,
+        distribution_amount, goods_promotion_amount,
+        order_promotion_amount, order_amount, pay_amount,
+        paid_amount,refunded_amount,out_trade_no, create_time, update_time,
+        order_coupon_amount)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.orderId,jdbcType=INTEGER}, #{item.customerId,jdbcType=INTEGER},
+            #{item.goodsAmount,jdbcType=DECIMAL},
+            #{item.distributionAmount,jdbcType=DECIMAL}, #{item.goodsPromotionAmount,jdbcType=DECIMAL},
+            #{item.orderPromotionAmount,jdbcType=DECIMAL}, #{item.orderAmount,jdbcType=DECIMAL},
+            #{item.payAmount,jdbcType=DECIMAL},
+            #{item.paidAmount,jdbcType=DECIMAL},#{item.refundedAmount,jdbcType=DECIMAL},#{item.outTradeNo,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.orderCouponAmount,jdbcType=DECIMAL})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cost.dataobject.OrderCustomerCostDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_customer_cost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="goodsAmount != null">
+                goods_amount,
+            </if>
+            <if test="distributionAmount != null">
+                distribution_amount,
+            </if>
+            <if test="goodsPromotionAmount != null">
+                goods_promotion_amount,
+            </if>
+            <if test="orderPromotionAmount != null">
+                order_promotion_amount,
+            </if>
+            <if test="orderAmount != null">
+                order_amount,
+            </if>
+            <if test="payAmount != null">
+                pay_amount,
+            </if>
+            <if test="paidAmount != null">
+                paid_amount,
+            </if>
+            <if test="refundedAmount != null">
+                refunded_amount,
+            </if>
+            <if test="outTradeNo != null">
+                out_trade_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="orderCouponAmount != null">
+                order_coupon_amount,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAmount != null">
+                #{goodsAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="distributionAmount != null">
+                #{distributionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPromotionAmount != null">
+                #{goodsPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPromotionAmount != null">
+                #{orderPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAmount != null">
+                #{orderAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="payAmount != null">
+                #{payAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paidAmount != null">
+                #{paidAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundedAmount != null">
+                #{refundedAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="outTradeNo != null">
+                #{outTradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderCouponAmount != null">
+                #{orderCouponAmount,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.cost.dataobject.OrderCustomerCostDO">
+        update order_customer_cost
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAmount != null">
+                goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="distributionAmount != null">
+                distribution_amount = #{distributionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPromotionAmount != null">
+                goods_promotion_amount = #{goodsPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPromotionAmount != null">
+                order_promotion_amount = #{orderPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAmount != null">
+                order_amount = #{orderAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="payAmount != null">
+                pay_amount = #{payAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paidAmount != null">
+                paid_amount = #{paidAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundedAmount != null">
+                refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="outTradeNo != null">
+                out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderCouponAmount != null">
+                order_coupon_amount = #{orderCouponAmount,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cost.dataobject.OrderCustomerCostDO">
+        update order_customer_cost
+        set order_id               = #{orderId,jdbcType=INTEGER},
+            customer_id            = #{customerId,jdbcType=INTEGER},
+            goods_amount           = #{goodsAmount,jdbcType=DECIMAL},
+            distribution_amount    = #{distributionAmount,jdbcType=DECIMAL},
+            goods_promotion_amount = #{goodsPromotionAmount,jdbcType=DECIMAL},
+            order_promotion_amount = #{orderPromotionAmount,jdbcType=DECIMAL},
+            order_amount           = #{orderAmount,jdbcType=DECIMAL},
+            pay_amount             = #{payAmount,jdbcType=DECIMAL},
+            paid_amount            = #{paidAmount,jdbcType=DECIMAL},
+            refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+            out_trade_no           = #{outTradeNo,jdbcType=VARCHAR},
+            update_time            = now()
+            order_coupon_amount    = #{orderCouponAmount,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateOrderRefundedAmount" parameterType="map">
+        update order_customer_cost
+        set refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+            update_time = now()
+        where order_id = #{orderId,jdbcType=INTEGER} and customer_id = #{customerId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_customer_cost
+            set order_id = #{item.orderId,jdbcType=INTEGER},
+            customer_id = #{item.customerId,jdbcType=INTEGER},
+            goods_amount = #{item.goodsAmount,jdbcType=DECIMAL},
+            distribution_amount = #{item.distributionAmount,jdbcType=DECIMAL},
+            goods_promotion_amount = #{item.goodsPromotionAmount,jdbcType=DECIMAL},
+            order_promotion_amount = #{item.orderPromotionAmount,jdbcType=DECIMAL},
+            order_amount = #{item.orderAmount,jdbcType=DECIMAL},
+            pay_amount = #{item.payAmount,jdbcType=DECIMAL},
+            paid_amount = #{item.paidAmount,jdbcType=DECIMAL},
+            refunded_amount = #{item.refundedAmount,jdbcType=DECIMAL},
+            out_trade_no = #{item.outTradeNo,jdbcType=VARCHAR},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = now(),
+            order_coupon_amount = #{item.orderCouponAmount,jdbcType=DECIMAL}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <select id="getByOrderIdAndCustomerId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_cost
+        where order_id = #{orderId,jdbcType=INTEGER}
+        <if test="customerId!=null">
+            and customer_id = #{customerId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="getByOrderId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_cost
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderIdsAndCustomerId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_cost
+        where customer_id = #{customerId,jdbcType=INTEGER}
+        and order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

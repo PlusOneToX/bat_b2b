@@ -1,0 +1,2 @@
+ALTER TABLE `distributor_extend_data` 
+ADD COLUMN `open_id` varchar(50) NULL COMMENT '最新一个人登录的open_id' AFTER `sub_account_flag`;

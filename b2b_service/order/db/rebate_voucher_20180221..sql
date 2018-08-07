@@ -1,0 +1,1 @@
+ALTER TABLE `order_db_101`.`order_distributor_cost` ADD COLUMN `rebate_voucher_amount` decimal(16, 4) NULL DEFAULT NULL COMMENT '代金券抵扣金额' AFTER `order_promotion_amount`;

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.promotion.GoodsPromotionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="extension_goods_name" jdbcType="VARCHAR" property="extensionGoodsName"/>
+        <result column="pc_en_extension_img_url" jdbcType="VARCHAR" property="pcEnExtensionImgUrl"/>
+        <result column="pc_en_extension_goods_url" jdbcType="VARCHAR" property="pcEnExtensionGoodsUrl"/>
+        <result column="pc_cn_extension_img_url" jdbcType="VARCHAR" property="pcCnExtensionImgUrl"/>
+        <result column="pc_cn_extension_goods_url" jdbcType="VARCHAR" property="pcCnExtensionGoodsUrl"/>
+        <result column="distributor_scope" jdbcType="TINYINT" property="distributorScope"/>
+        <result column="extension_start_time" jdbcType="DATE" property="extensionStartTime"/>
+        <result column="extension_end_time" jdbcType="DATE" property="extensionEndTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="mo_en_extension_img_url" jdbcType="VARCHAR" property="moEnExtensionImgUrl"/>
+        <result column="mo_en_extension_goods_url" jdbcType="VARCHAR" property="moEnExtensionGoodsUrl"/>
+        <result column="mo_cn_extension_img_url" jdbcType="VARCHAR" property="moCnExtensionImgUrl"/>
+        <result column="mo_cn_extension_goods_url" jdbcType="VARCHAR" property="moCnExtensionGoodsUrl"/>
+        <result column="status" property="status"></result>
+    </resultMap>
+
+
+    <resultMap id="GoodsPromotionRelevanceMap"
+               type="com.bat.system.dao.promotion.dataobject.DistributorGoodsPromotionRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="goods_promotion_id" jdbcType="VARCHAR" property="goodsPromotionId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        , extension_goods_name, pc_en_extension_img_url, pc_en_extension_goods_url, pc_cn_extension_img_url,
+    pc_cn_extension_goods_url, distributor_scope, extension_start_time, extension_end_time, 
+    create_time, update_time, mo_en_extension_img_url, mo_en_extension_goods_url, mo_cn_extension_img_url, 
+    mo_cn_extension_goods_url
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from goods_promotion
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from goods_promotion
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods_promotion (extension_goods_name, pc_en_extension_img_url,
+        pc_en_extension_goods_url, pc_cn_extension_img_url,
+        pc_cn_extension_goods_url, distributor_scope,
+        extension_start_time, extension_end_time, create_time,
+        update_time, mo_en_extension_img_url, mo_en_extension_goods_url,
+        mo_cn_extension_img_url, mo_cn_extension_goods_url
+        )
+        values (#{extensionGoodsName,jdbcType=VARCHAR}, #{pcEnExtensionImgUrl,jdbcType=VARCHAR},
+        #{pcEnExtensionGoodsUrl,jdbcType=VARCHAR}, #{pcCnExtensionImgUrl,jdbcType=VARCHAR},
+        #{pcCnExtensionGoodsUrl,jdbcType=VARCHAR}, #{distributorScope,jdbcType=TINYINT},
+        #{extensionStartTime,jdbcType=DATE}, #{extensionEndTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{moEnExtensionImgUrl,jdbcType=VARCHAR},
+        #{moEnExtensionGoodsUrl,jdbcType=VARCHAR},
+        #{moCnExtensionImgUrl,jdbcType=VARCHAR}, #{moCnExtensionGoodsUrl,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods_promotion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="extensionGoodsName != null">
+                extension_goods_name,
+            </if>
+            <if test="pcEnExtensionImgUrl != null">
+                pc_en_extension_img_url,
+            </if>
+            <if test="pcEnExtensionGoodsUrl != null">
+                pc_en_extension_goods_url,
+            </if>
+            <if test="pcCnExtensionImgUrl != null">
+                pc_cn_extension_img_url,
+            </if>
+            <if test="pcCnExtensionGoodsUrl != null">
+                pc_cn_extension_goods_url,
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope,
+            </if>
+            <if test="extensionStartTime != null">
+                extension_start_time,
+            </if>
+            <if test="extensionEndTime != null">
+                extension_end_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="moEnExtensionImgUrl != null">
+                mo_en_extension_img_url,
+            </if>
+            <if test="moEnExtensionGoodsUrl != null">
+                mo_en_extension_goods_url,
+            </if>
+            <if test="moCnExtensionImgUrl != null">
+                mo_cn_extension_img_url,
+            </if>
+            <if test="moCnExtensionGoodsUrl != null">
+                mo_cn_extension_goods_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="extensionGoodsName != null">
+                #{extensionGoodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="pcEnExtensionImgUrl != null">
+                #{pcEnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pcEnExtensionGoodsUrl != null">
+                #{pcEnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pcCnExtensionImgUrl != null">
+                #{pcCnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pcCnExtensionGoodsUrl != null">
+                #{pcCnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorScope != null">
+                #{distributorScope,jdbcType=TINYINT},
+            </if>
+            <if test="extensionStartTime != null">
+                #{extensionStartTime,jdbcType=DATE},
+            </if>
+            <if test="extensionEndTime != null">
+                #{extensionEndTime,jdbcType=DATE},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="moEnExtensionImgUrl != null">
+                #{moEnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="moEnExtensionGoodsUrl != null">
+                #{moEnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="moCnExtensionImgUrl != null">
+                #{moCnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="moCnExtensionGoodsUrl != null">
+                #{moCnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO">
+        update goods_promotion
+        <set>
+            <if test="extensionGoodsName != null">
+                extension_goods_name = #{extensionGoodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="pcEnExtensionImgUrl != null">
+                pc_en_extension_img_url = #{pcEnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pcEnExtensionGoodsUrl != null">
+                pc_en_extension_goods_url = #{pcEnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pcCnExtensionImgUrl != null">
+                pc_cn_extension_img_url = #{pcCnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pcCnExtensionGoodsUrl != null">
+                pc_cn_extension_goods_url = #{pcCnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope = #{distributorScope,jdbcType=TINYINT},
+            </if>
+            <if test="extensionStartTime != null">
+                extension_start_time = #{extensionStartTime,jdbcType=DATE},
+            </if>
+            <if test="extensionEndTime != null">
+                extension_end_time = #{extensionEndTime,jdbcType=DATE},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="moEnExtensionImgUrl != null">
+                mo_en_extension_img_url = #{moEnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="moEnExtensionGoodsUrl != null">
+                mo_en_extension_goods_url = #{moEnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="moCnExtensionImgUrl != null">
+                mo_cn_extension_img_url = #{moCnExtensionImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="moCnExtensionGoodsUrl != null">
+                mo_cn_extension_goods_url = #{moCnExtensionGoodsUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO">
+        update goods_promotion
+        set extension_goods_name      = #{extensionGoodsName,jdbcType=VARCHAR},
+            pc_en_extension_img_url   = #{pcEnExtensionImgUrl,jdbcType=VARCHAR},
+            pc_en_extension_goods_url = #{pcEnExtensionGoodsUrl,jdbcType=VARCHAR},
+            pc_cn_extension_img_url   = #{pcCnExtensionImgUrl,jdbcType=VARCHAR},
+            pc_cn_extension_goods_url = #{pcCnExtensionGoodsUrl,jdbcType=VARCHAR},
+            distributor_scope         = #{distributorScope,jdbcType=TINYINT},
+            extension_start_time      = #{extensionStartTime,jdbcType=DATE},
+            extension_end_time        = #{extensionEndTime,jdbcType=DATE},
+            create_time               = #{createTime,jdbcType=TIMESTAMP},
+            update_time               = #{updateTime,jdbcType=TIMESTAMP},
+            mo_en_extension_img_url   = #{moEnExtensionImgUrl,jdbcType=VARCHAR},
+            mo_en_extension_goods_url = #{moEnExtensionGoodsUrl,jdbcType=VARCHAR},
+            mo_cn_extension_img_url   = #{moCnExtensionImgUrl,jdbcType=VARCHAR},
+            mo_cn_extension_goods_url = #{moCnExtensionGoodsUrl,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="goodsPromotionList" parameterType="map" resultMap="BaseResultMap">
+        select id,
+               extension_goods_name,
+               extension_start_time,
+               extension_end_time,
+               status
+        from goods_promotion limit #{start},#{count}
+    </select>
+
+
+    <insert id="addGoodsPromotion" parameterType="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods_promotion (extension_goods_name, pc_en_extension_img_url,
+        pc_en_extension_goods_url, pc_cn_extension_img_url,
+        pc_cn_extension_goods_url, distributor_scope,
+        extension_start_time, extension_end_time, create_time,
+        update_time, mo_en_extension_img_url, mo_en_extension_goods_url,
+        mo_cn_extension_img_url, mo_cn_extension_goods_url
+        )
+        values (#{extensionGoodsName,jdbcType=VARCHAR}, #{pcEnExtensionImgUrl,jdbcType=VARCHAR},
+        #{pcEnExtensionGoodsUrl,jdbcType=VARCHAR}, #{pcCnExtensionImgUrl,jdbcType=VARCHAR},
+        #{pcCnExtensionGoodsUrl,jdbcType=VARCHAR}, #{distributorScope,jdbcType=TINYINT},
+        #{extensionStartTime,jdbcType=DATE}, #{extensionEndTime,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{moEnExtensionImgUrl,jdbcType=VARCHAR},
+        #{moEnExtensionGoodsUrl,jdbcType=VARCHAR},
+        #{moCnExtensionImgUrl,jdbcType=VARCHAR}, #{moCnExtensionGoodsUrl,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="queryGoodsPromotionDescTwo" resultMap="BaseResultMap">
+        select *
+        from goods_promotion
+        where status = 0
+        ORDER BY create_time DESC LIMIT 2
+    </select>
+
+    <insert id="createGoodsScalePriceRelevanceList">
+        insert into goods_promotion_distributor_grade(goods_promotion_id, distributor_grade_id) values
+        <foreach collection="scalePriceIds" item="item" separator=",">
+            (#{id},#{item})
+        </foreach>
+    </insert>
+
+    <delete id="deleteGoodsScalePriceRelevanceList" parameterType="java.lang.Integer">
+        delete
+        from goods_promotion_distributor_grade
+        where goods_promotion_id = #{id}
+    </delete>
+
+    <insert id="createGoodsDistributorRelevanceList">
+        insert into goods_promotion_distributor(goods_promotion_id, distributor_id) values
+        <foreach collection="distributorIds" item="item" separator=",">
+            (#{id},#{item})
+        </foreach>
+    </insert>
+
+    <delete id="deleteGoodsDistributorRelevanceList" parameterType="java.lang.Integer">
+        delete
+        from goods_promotion_distributor
+        where goods_promotion_id = #{id}
+    </delete>
+
+    <insert id="createGoodsDepartmentRelevanceList">
+        insert into goods_promotion_department(goods_promotion_id, department_id) values
+        <foreach collection="departmentIds" item="item" separator=",">
+            (#{id},#{item})
+        </foreach>
+    </insert>
+
+    <delete id="deleteGoodsDepartmentRelevanceList" parameterType="java.lang.Integer">
+        delete
+        from goods_promotion_department
+        where goods_promotion_id = #{id}
+    </delete>
+
+    <insert id="createGoodsAdminRelevanceList">
+        insert into goods_promotion_user(goods_promotion_id, user_id) values
+        <foreach collection="adminIds" item="item" separator=",">
+            (#{id,jdbcType=INTEGER},#{item,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <delete id="deleteGoodsAdminRelevanceList" parameterType="java.lang.Integer">
+        delete
+        from goods_promotion_user
+        where goods_promotion_id = #{id}
+    </delete>
+
+    <select id="getGoodsPromotion" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *
+        from goods_promotion
+        where id = #{id}
+    </select>
+
+    <delete id="deleteGoodsPromotionRelevanceById" parameterType="java.lang.String">
+        delete
+        from distributor_goods_promotion_relevance
+        where goods_promotion_id = #{id}
+    </delete>
+
+    <select id="listGoodsScalePriceRelevanceId" resultType="int" parameterType="java.lang.Integer">
+        select distributor_grade_id
+        FROM goods_promotion_distributor_grade
+        WHERE goods_promotion_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDistributorRelevanceId" resultType="int" parameterType="java.lang.Integer">
+        select distributor_id
+        from goods_promotion_distributor
+        where goods_promotion_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDepartmentRelevanceId" resultType="int" parameterType="java.lang.Integer">
+        select department_id
+        from goods_promotion_department
+        where goods_promotion_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsAdminRelevanceId" resultType="int" parameterType="java.lang.Integer">
+        select user_id
+        from goods_promotion_user
+        where goods_promotion_id = #{goodsId}
+    </select>
+
+    <select id="promotionsquery" parameterType="java.lang.Integer" resultMap="GoodsPromotionRelevanceMap">
+        select *
+        from distributor_goods_promotion_relevance
+        where distributor_id = #{userId}
+    </select>
+
+    <select id="getGoodsPromotionDesc" resultMap="BaseResultMap">
+        select *
+        from goods_promotion
+        where extension_end_time >= DATE_FORMAT(now(), '%Y-%m-%d')
+          and status = 0
+          and distributor_scope = 1
+        order by extension_start_time ASC
+    </select>
+
+
+    <select id="listByDistributorIds" parameterType="map" resultMap="GoodsPromotionRelevanceMap">
+        select id, distributor_id, goods_promotion_id
+        from distributor_goods_promotion_relevance
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByGoodsPromotionId" parameterType="java.lang.String"
+            resultMap="GoodsPromotionRelevanceMap">
+        select id, distributor_id, goods_promotion_id
+        from distributor_goods_promotion_relevance
+        where goods_promotion_id like concat(concat('%', #{id}), '%')
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into distributor_goods_promotion_relevance (distributor_id, goods_promotion_id)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.goodsPromotionId,jdbcType=LONGVARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update distributor_goods_promotion_relevance
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            goods_promotion_id = #{item.goodsPromotionId,jdbcType=LONGVARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from distributor_goods_promotion_relevance
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="updateGoodsPromotion" parameterType="com.bat.system.dao.promotion.dataobject.GoodsPromotionDO"
+            useGeneratedKeys="true" keyProperty="id">
+        update goods_promotion
+        SET extension_goods_name      = #{extensionGoodsName}
+          , pc_en_extension_img_url   = #{pcEnExtensionImgUrl}
+          , pc_en_extension_goods_url = #{pcEnExtensionGoodsUrl}
+          , pc_cn_extension_img_url   = #{pcCnExtensionImgUrl}
+          , pc_cn_extension_goods_url = #{pcCnExtensionGoodsUrl}
+          , distributor_scope         = #{distributorScope}
+          , extension_start_time      = #{extensionStartTime,jdbcType=DATE}
+          , extension_end_time        = #{extensionEndTime,jdbcType=DATE}
+          , update_time               = NOW()
+          , mo_en_extension_img_url   = #{moEnExtensionImgUrl}
+          , mo_en_extension_goods_url = #{moEnExtensionGoodsUrl}
+          , mo_cn_extension_img_url   = #{moCnExtensionImgUrl}
+          , mo_cn_extension_goods_url = #{moCnExtensionGoodsUrl}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteGoodsPromotionById" parameterType="java.lang.Integer">
+        DELETE
+        from goods_promotion
+        WHERE id = #{id}
+    </delete>
+
+    <update id="invalidGoodsPromotion" parameterType="java.lang.Integer">
+        update goods_promotion
+        set status=1
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRelevance" parameterType="java.lang.String">
+        delete
+        from distributor_goods_promotion_relevance
+        where goods_promotion_id = #{id}
+    </delete>
+
+    <select id="getGoodsPromotionListByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select *
+        from goods_promotion
+        where id in
+        <foreach collection="goodsPromotionIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

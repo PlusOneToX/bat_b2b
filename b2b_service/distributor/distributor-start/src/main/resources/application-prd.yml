@@ -1,0 +1,81 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: r-bp1bmhbto8cna52cqwpd.redis.rds.aliyuncs.com
+#      port: 6379
+#      password: bat123B2b456
+#      masterName: distributor-service
+### rocketmq stream消息
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2018
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 分销商消息生产者
+        distributor-output:
+          destination: distributor-service-topic
+          content-type: application/json
+
+        ### 消息消费者
+        ### 系统消息通道监听
+        distributor-system-input:
+          destination: system-service-topic
+          content-type: application/json
+          group: distributor-system-input-group
+        ### 分销商消息通道监听
+        distributor-input:
+          destination: distributor-service-topic
+          content-type: application/json
+          group: distributor-input-group
+        ### 平台消息通道监听
+        distributor-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: distributor-platform-input-group
+
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 分销商生产者配置
+          distributor-output:
+            producer:
+              group: distributor-output-group
+          ### 系统消费者tag监听
+          distributor-system-input:
+            consumer:
+              tags: updateDistributorVisibleBySalesId
+          ### 系统消费者tag监听
+          distributor-input:
+            consumer:
+              tags: updateDistributorVisibleByDistributorId
+          ### 平台消费者tag监听
+          distributor-platform-input:
+            consumer:
+              tags: tenantDBDelete

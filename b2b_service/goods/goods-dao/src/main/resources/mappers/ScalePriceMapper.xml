@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.scaleprice.ScalePriceMapper">
+    <resultMap id="ScalePriceMapper" type="com.bat.goods.dao.scaleprice.dataobject.ScalePriceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="erp_field" property="erpField" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="retail_flag" property="retailFlag" jdbcType="SMALLINT"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="scale_price_columns">
+        id,
+        name,
+        erp_field,
+        description,
+        retail_flag,
+        open_flag,
+        sort,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="scale_price_select">
+        SELECT
+        <include refid="scale_price_columns"/>
+        FROM scale_price
+    </sql>
+
+    <insert id="createScalePrice" parameterType="com.bat.goods.dao.scaleprice.dataobject.ScalePriceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO scale_price(
+        <include refid="scale_price_columns"/>
+        ) VALUES (
+        #{id},
+        #{name},
+        #{erpField},
+        #{description},
+        #{retailFlag},
+        #{openFlag},
+        #{sort},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <select id="listScalePrice" resultMap="ScalePriceMapper" parameterType="map">
+        <include refid="scale_price_select"/>
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listScalePriceField" resultMap="ScalePriceMapper" parameterType="map">
+        <include refid="scale_price_select"/>
+        WHERE open_flag = #{openFlag} and erp_field is not null and erp_field &lt;&gt; "" order by sort asc
+    </select>
+
+    <select id="listCount" resultType="int" parameterType="map">
+        select count(1) FROM scale_price
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            WHERE name like concat(concat('%',#{content}),'%')
+        </if>
+    </select>
+
+    <select id="getById" resultMap="ScalePriceMapper" parameterType="map">
+        <include refid="scale_price_select"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <update id="updateScalePrice" parameterType="com.bat.goods.dao.scaleprice.dataobject.ScalePriceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        UPDATE scale_price SET description = #{description}
+        ,erp_field = #{erpField}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="retailFlag != null">
+            ,retail_flag = #{retailFlag}
+        </if>
+        <if test="openFlag != null">
+            ,open_flag = #{openFlag}
+        </if>
+        <if test="sort != null">
+            ,sort = #{sort}
+        </if>
+        <if test="updateTime != null">
+            ,update_time = #{updateTime}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="openScalePrice" parameterType="map">
+        UPDATE scale_price SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <delete id="deleteScalePrice" parameterType="map">
+        DELETE FROM scale_price WHERE id = #{id}
+    </delete>
+</mapper>

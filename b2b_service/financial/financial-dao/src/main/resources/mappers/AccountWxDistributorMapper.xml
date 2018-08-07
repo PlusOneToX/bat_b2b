@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.distributoraccount.AccountWxDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.distributoraccount.dataobject.AccountWxDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="account_type" jdbcType="SMALLINT" property="accountType"/>
+        <result column="sub_account_ratio" property="subAccountRatio" jdbcType="DECIMAL"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="distributor_company_name" jdbcType="VARCHAR" property="distributorCompanyName"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="serial_number" jdbcType="CHAR" property="serialNumber"/>
+        <result column="certificate_invalid_time" jdbcType="TIMESTAMP" property="certificateInvalidTime"/>
+        <result column="account_no" jdbcType="VARCHAR" property="accountNo"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_type" jdbcType="SMALLINT" property="appType"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="sub_mchid" jdbcType="VARCHAR" property="subMchid"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.financial.dao.distributoraccount.dataobject.AccountWxDistributorDO">
+        <result column="apiclient_key" jdbcType="LONGVARCHAR" property="apiclientKey"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, distributor_id,distributor_name,distributor_company_name, account_name, app_id, serial_number, certificate_invalid_time, app_key, app_type, account_no,version,
+    create_time, update_time,account_type,sub_account_ratio,sub_mchid
+    </sql>
+    <sql id="Blob_Column_List">
+        apiclient_key
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_wx_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByDistributorId"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_wx_distributor
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_wx_distributor
+        <where>
+            <if test="params.appId">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.accountNo">
+                and account_no = #{params.accountNo}
+            </if>
+            <if test="params.appType!=null">
+                and app_type = #{params.appType}
+            </if>
+            <if test="params.accountName">
+                and account_name like CONCAT('%',#{params.accountName},'%')
+            </if>
+            <if test="params.distributorName">
+                and distributor_name like CONCAT('%',#{params.distributorName},'%')
+            </if>
+            <if test="params.distributorCompanyName">
+                and distributor_company_name like CONCAT('%',#{params.distributorCompanyName},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="listByIdsAndApptype" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_wx_distributor
+        <where>
+            <if test="ids!=null and ids.size()>0">
+                and id in
+                <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="appType!=null">
+                and app_type = #{appType}
+            </if>
+        </where>
+    </select>
+    <select id="listByAppIdAndSubMchid"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="Blob_Column_List"/>
+        from account_wx_distributor
+        <where>
+            and app_id = #{appId}
+            <if test="subMchid!=null">
+                and sub_mchid = #{subMchid}
+            </if>
+        </where>
+    </select>
+    <select id="getByDistributorIdAndAppType"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_wx_distributor
+        <where>
+            <if test="distributorId!=null">
+                and distributor_id = #{distributorId,jdbcType=INTEGER}
+            </if>
+            <if test="appType!=null">
+                and app_type = #{appType}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from account_wx_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByAppidAndSubMchid">
+        delete
+        from account_wx_distributor
+        where app_id = #{appId,jdbcType=VARCHAR}
+        <if test="subMchid!=null">
+            and sub_mchid = #{subMchid}
+        </if>
+    </delete>
+    <delete id="deleteByDistributorIds">
+        delete
+        from account_alipay_distributor
+        <where>
+            <if test="distributorIds!=null and distributorIds.size()>0">
+                and distributor_id in
+                <foreach collection="distributorIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountWxDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_wx_distributor (distributor_id,distributor_name,distributor_company_name, account_name,
+        app_id,apiclient_key,serial_number, certificate_invalid_time,
+        app_key, app_type,
+        account_no, version, create_time, update_time,account_type,sub_account_ratio,sub_mchid
+        )
+        values
+        (#{distributorId,jdbcType=INTEGER},#{distributorName,jdbcType=VARCHAR},#{distributorCompanyName,jdbcType=VARCHAR},
+        #{accountName,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR},#{apiclientKey,jdbcType=LONGVARCHAR},
+        #{serialNumber,jdbcType=CHAR},
+        #{certificateInvalidTime,jdbcType=TIMESTAMP},
+        #{appSecret,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{appType,jdbcType=SMALLINT},
+        #{accountNo,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{accountType,jdbcType=SMALLINT}, #{subAccountRatio,jdbcType=DECIMAL},
+        #{subMchid,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertBatch">
+        insert into account_wx_distributor (distributor_id,distributor_name,distributor_company_name, account_name,
+        app_id,apiclient_key,serial_number, certificate_invalid_time,
+        app_key, app_type,
+        account_no, version, create_time, update_time,account_type,sub_account_ratio,sub_mchid
+        )
+        values
+        <foreach collection="dos" index="index" item="item" separator=",">
+            (#{item.distributorId,jdbcType=INTEGER},#{item.distributorName,jdbcType=VARCHAR},#{item.distributorCompanyName,jdbcType=VARCHAR},
+            #{item.accountName,jdbcType=VARCHAR},
+            #{item.appId,jdbcType=VARCHAR},#{item.apiclientKey,jdbcType=LONGVARCHAR},
+            #{item.serialNumber,jdbcType=CHAR},
+            #{item.certificateInvalidTime,jdbcType=TIMESTAMP},
+            #{item.appKey,jdbcType=VARCHAR}, #{item.appType,jdbcType=SMALLINT},
+            #{item.accountNo,jdbcType=VARCHAR}, #{item.version,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}, #{item.accountType,jdbcType=SMALLINT},
+            #{item.subAccountRatio,jdbcType=DECIMAL}
+            ,#{item.subMchid,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountWxDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_wx_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="distributorCompanyName != null">
+                distributor_company_name,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="apiclientKey != null">
+                apiclient_key,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="certificateInvalidTime != null">
+                certificate_invalid_time,
+            </if>
+            <if test="appKey != null">
+                app_key,
+            </if>
+            <if test="appType != null">
+                app_type,
+            </if>
+            <if test="accountNo != null">
+                account_no,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="accountType !=null">
+                account_type,
+            </if>
+            <if test="subAccountRatio !=null">
+                sub_account_ratio,
+            </if>
+            <if test="subMchid !=null">
+                sub_mchid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorCompanyName != null">
+                #{distributorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="apiclientKey != null">
+                #{apiclientKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=CHAR},
+            </if>
+            <if test="certificateInvalidTime != null">
+                #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appKey != null">
+                #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appType != null">
+                #{appType,jdbcType=SMALLINT},
+            </if>
+            <if test="accountNo != null">
+                #{accountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountType !=null">
+                #{accountType,jdbcType=SMALLINT},
+            </if>
+            <if test="subAccountRatio !=null">
+                #{subAccountRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="subMchid !=null">
+                #{subMchid,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountWxDistributorDO">
+        update account_wx_distributor
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorCompanyName != null">
+                distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="apiclientKey != null">
+                apiclient_key = #{apiclientKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=CHAR},
+            </if>
+            <if test="certificateInvalidTime != null">
+                certificate_invalid_time = #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appKey != null">
+                app_key = #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appType != null">
+                app_type = #{appType,jdbcType=SMALLINT},
+            </if>
+            <if test="accountNo != null">
+                account_no = #{accountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountType !=null">
+                account_type = #{accountType,jdbcType=SMALLINT},
+            </if>
+            <if test="subAccountRatio !=null">
+                sub_account_ratio = #{subAccountRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="subMchid !=null">
+                sub_mchid = #{subMchid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountWxDistributorDO">
+        update account_wx_distributor
+        set distributor_id           = #{distributorId,jdbcType=INTEGER},
+            distributor_name         = #{distributorName,jdbcType=VARCHAR},
+            distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            account_name             = #{accountName,jdbcType=VARCHAR},
+            app_id                   = #{appId,jdbcType=VARCHAR},
+            apiclient_key            = #{apiclientKey,jdbcType=LONGVARCHAR},
+            serial_number            = #{serialNumber,jdbcType=CHAR},
+            certificate_invalid_time = #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            app_key                  = #{appKey,jdbcType=VARCHAR},
+            app_type                 = #{appType,jdbcType=SMALLINT},
+            account_no               = #{accountNo,jdbcType=VARCHAR},
+            version                  = #{version,jdbcType=VARCHAR},
+            create_time              = #{createTime,jdbcType=TIMESTAMP},
+            update_time              = #{updateTime,jdbcType=TIMESTAMP},
+            account_type             = #{accountType,jdbcType=SMALLINT},
+            sub_account_ratio        = #{subAccountRatio,jdbcType=DECIMAL},
+            sub_mchid                = #{subMchid,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listByCondition" resultMap="ResultMapWithBLOBs">
+        select * from account_wx_distributor
+        where 1=1
+        <if test="distributorId !=null">
+            and distributor_id = #{distributorId,jdbcType=INTEGER}
+        </if>
+        <if test="appType !=null">
+            and app_type = #{appType,jdbcType=SMALLINT}
+        </if>
+        <if test="appId !=null and appId !=''">
+            and app_id = #{appId,jdbcType=VARCHAR}
+        </if>
+        <if test="accountType !=null">
+            and account_type = #{accountType}
+        </if>
+    </select>
+</mapper>

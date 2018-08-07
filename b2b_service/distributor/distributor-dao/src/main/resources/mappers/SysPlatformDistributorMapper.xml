@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.platform.SysPlatformDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.platform.dataobject.SysPlatformDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="`sys_platform_id" jdbcType="INTEGER" property="`sysPlatformId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+    <resultMap id="DistributorPlatformApiRpcDOResultMap"
+               type="com.bat.distributor.dao.platform.dataobject.DistributorPlatformApiRpcDO">
+        <result column="sys_platform_id" jdbcType="INTEGER" property="sysPlatformId"/>
+        <result column="api_type" jdbcType="SMALLINT" property="apiType"/>
+        <result column="uri" jdbcType="VARCHAR" property="uri"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="host_name" jdbcType="VARCHAR" property="hostName"/>
+        <result column="develop_source" jdbcType="SMALLINT" property="developSource"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_platform_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.platform.dataobject.SysPlatformDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_platform_distributor (sys_platform_id, distributor_id,
+        name, company_name)
+        values (#{sysPlatformId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER},
+        #{name,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.platform.dataobject.SysPlatformDistributorDO">
+    update sys_platform_distributor
+    set sys_platform_id = #{sysPlatformId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, sys_platform_id, distributor_id, name, company_name
+    from sys_platform_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, sys_platform_id, distributor_id, name, company_name
+    from sys_platform_distributor
+  </select>
+
+    <delete id="deleteBySysPlatformId" parameterType="java.lang.Integer">
+    delete from sys_platform_distributor
+    where sys_platform_id = #{sysPlatformId,jdbcType=INTEGER}
+  </delete>
+
+    <update id="insertList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into sys_platform_distributor (sys_platform_id, distributor_id,
+            name, company_name)
+            values (#{item.sysPlatformId,jdbcType=INTEGER}, #{item.distributorId,jdbcType=INTEGER},
+            #{item.name,jdbcType=VARCHAR}, #{item.companyName,jdbcType=VARCHAR})
+        </foreach>
+    </update>
+
+    <select id="listBySysPlatformId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, sys_platform_id, distributor_id, name, company_name
+    from sys_platform_distributor
+    where sys_platform_id = #{sysPlatformId,jdbcType=INTEGER}
+  </select>
+    <select id="getByDistributorIdAndApiTypeAndPlatform" resultMap="DistributorPlatformApiRpcDOResultMap">
+SELECT
+	spd.sys_platform_id,
+	sp.host_name,
+	spa.uri,
+	spa.method,
+	spa.develop_source,
+	sp.app_id,
+	sp.app_key
+FROM
+	sys_platform_distributor spd
+	LEFT JOIN sys_platform sp ON sp.id = spd.sys_platform_id
+	LEFT JOIN sys_platform_api spa ON spa.sys_platform_id = sp.id
+WHERE
+	spd.distributor_id = #{distributorId}
+	AND sp.platform = #{platform}
+	AND spa.api_type =#{apiType}
+   </select>
+</mapper>

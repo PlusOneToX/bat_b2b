@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.data.OrderDistributorDataMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.data.dataobject.OrderDistributorDataDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="distributor_id" property="distributorId" jdbcType="INTEGER"/>
+        <result column="distributor_name" property="distributorName" jdbcType="VARCHAR"/>
+        <result column="distributor_contact_id" property="distributorContactId" jdbcType="INTEGER"/>
+        <result column="distributor_contact_name" property="distributorContactName" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="distributor_ancestor_id" property="distributorAncestorId" jdbcType="INTEGER"/>
+        <result column="distributor_ancestor_name" property="distributorAncestorName" jdbcType="VARCHAR"/>
+        <result column="distributor_ancestor_company_name" property="distributorAncestorCompanyName"
+                jdbcType="VARCHAR"/>
+        <result column="direct_flag" property="directFlag" jdbcType="SMALLINT"/>
+        <result column="erp_flag" property="erpFlag" jdbcType="SMALLINT"/>
+        <result column="tree_node" property="treeNode" jdbcType="INTEGER"/>
+        <result column="order_status" property="orderStatus" jdbcType="SMALLINT"/>
+        <result column="pay_status" property="payStatus" jdbcType="SMALLINT"/>
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+        <result column="pay_way" property="payWay" jdbcType="SMALLINT"/>
+        <result column="distribution_mode" property="distributionMode" jdbcType="SMALLINT"/>
+        <result column="currency_type" property="currencyType" jdbcType="VARCHAR"/>
+        <result column="current_rates" property="currentRates" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="cancel_remark" property="cancelRemark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , order_id, distributor_id, distributor_name,distributor_contact_id,distributor_contact_name, company_name,
+        distributor_ancestor_id,distributor_ancestor_name,distributor_ancestor_company_name,direct_flag,erp_flag,
+        tree_node, order_status,
+        pay_status,pay_time, pay_way,distribution_mode, currency_type, current_rates, remark, cancel_remark, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getDistributorDataByOrderIdAndFlag"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        <where>
+            <if test="orderId!=null">
+                and order_id = #{orderId}
+            </if>
+            <if test="orderFlag!=null">
+                <if test="orderFlag==1">
+                    and tree_node = 1
+                </if>
+                <if test="orderFlag==2">
+                    and erp_flag = 1
+                </if>
+                <if test="orderFlag==3">
+                    and direct_flag = 1
+                </if>
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_distributor_data
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.data.dataobject.OrderDistributorDataDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_distributor_data (id, order_id, distributor_id,
+                                            distributor_name, distributor_contact_id, distributor_contact_name,
+                                            company_name,
+                                            distributor_ancestor_id, distributor_ancestor_name,
+                                            distributor_ancestor_company_name, direct_flag, erp_flag, tree_node,
+                                            order_status, pay_status, pay_time, pay_way, distribution_mode,
+                                            currency_type, current_rates, remark, cancel_remark,
+                                            create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER},
+                #{distributorName,jdbcType=VARCHAR}, #{distributorContactId,jdbcType=INTEGER},
+                #{distributorContactName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
+                #{distributorAncestorId,jdbcType=INTEGER}, #{distributorAncestorName,jdbcType=VARCHAR},
+                #{distributorAncestorCompanyName,jdbcType=VARCHAR}, #{directFlag,jdbcType=SMALLINT},
+                #{erpFlag,jdbcType=SMALLINT}, #{treeNode,jdbcType=INTEGER},
+                #{orderStatus,jdbcType=SMALLINT}, #{payStatus,jdbcType=SMALLINT}, #{payTime,jdbcType=TIMESTAMP},
+                #{payWay,jdbcType=SMALLINT}, #{distributionMode,jdbcType=SMALLINT},
+                #{currencyType,jdbcType=VARCHAR}, #{currentRates,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR},
+                #{cancelRemark,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.data.dataobject.OrderDistributorDataDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_distributor_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="distributorContactId != null">
+                distributor_contact_id,
+            </if>
+            <if test="distributorContactName != null">
+                distributor_contact_name,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="distributorAncestorId != null">
+                distributor_ancestor_id,
+            </if>
+            <if test="distributorAncestorName != null">
+                distributor_ancestor_name,
+            </if>
+            <if test="distributorAncestorCompanyName != null">
+                distributor_ancestor_company_name,
+            </if>
+            <if test="directFlag != null">
+                direct_flag,
+            </if>
+            <if test="erpFlag != null">
+                erp_flag,
+            </if>
+            <if test="treeNode != null">
+                tree_node,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="payStatus != null">
+                pay_status,
+            </if>
+            <if test="payTime != null">
+                pay_time,
+            </if>
+            <if test="payWay != null">
+                pay_way,
+            </if>
+            <if test="distributionMode != null">
+                distribution_mode,
+            </if>
+            <if test="currencyType != null">
+                currency_type,
+            </if>
+            <if test="currentRates != null">
+                current_rates,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="cancelRemark != null">
+                cancel_remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorContactId != null">
+                #{distributorContactId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorContactName != null">
+                #{distributorContactName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorAncestorId != null">
+                #{distributorAncestorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorName != null">
+                #{distributorAncestorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorAncestorCompanyName != null">
+                #{distributorAncestorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="directFlag != null">
+                #{directFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="treeNode != null">
+                #{treeNode,jdbcType=INTEGER},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payStatus != null">
+                #{payStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payTime != null">
+                #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="payWay != null">
+                #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="currencyType != null">
+                #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="currentRates != null">
+                #{currentRates,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="cancelRemark != null">
+                #{cancelRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.data.dataobject.OrderDistributorDataDO">
+        update order_distributor_data
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorContactId != null">
+                distributor_contact_id = #{distributorContactId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorContactName != null">
+                distributor_contact_name = #{distributorContactName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorAncestorId != null">
+                distributor_ancestor_id = #{distributorAncestorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorName != null">
+                distributor_ancestor_name = #{distributorAncestorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorAncestorCompanyName != null">
+                distributor_ancestor_company_name = #{distributorAncestorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="directFlag != null">
+                direct_flag = #{directFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="erpFlag != null">
+                erp_flag = #{erpFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="treeNode != null">
+                tree_node = #{treeNode,jdbcType=INTEGER},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payStatus != null">
+                pay_status = #{payStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="payWay != null">
+                pay_way = #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="distributionMode != null">
+                distribution_mode = #{distributionMode,jdbcType=SMALLINT},
+            </if>
+            <if test="currencyType != null">
+                currency_type = #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="currentRates != null">
+                current_rates = #{currentRates,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="cancelRemark != null">
+                cancel_remark = #{cancelRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.data.dataobject.OrderDistributorDataDO">
+        update order_distributor_data
+        set order_id                          = #{orderId,jdbcType=INTEGER},
+            distributor_id                    = #{distributorId,jdbcType=INTEGER},
+            distributor_name                  = #{distributorName,jdbcType=VARCHAR},
+            distributor_contact_id            = #{distributorContactId,jdbcType=INTEGER},
+            distributor_contact_name          = #{distributorContactName,jdbcType=VARCHAR},
+            company_name                      = #{companyName,jdbcType=VARCHAR},
+            distributor_ancestor_id           = #{distributorAncestorId,jdbcType=INTEGER},
+            distributor_ancestor_name         = #{distributorAncestorName,jdbcType=VARCHAR},
+            distributor_ancestor_company_name = #{distributorAncestorCompanyName,jdbcType=VARCHAR},
+            direct_flag                       = #{directFlag,jdbcType=SMALLINT},
+            erp_flag                          = #{erpFlag,jdbcType=SMALLINT},
+            tree_node                         = #{treeNode,jdbcType=INTEGER},
+            order_status                      = #{orderStatus,jdbcType=SMALLINT},
+            pay_status                        = #{payStatus,jdbcType=SMALLINT},
+            pay_time                          = #{payTime,jdbcType=TIMESTAMP},
+            pay_way                           = #{payWay,jdbcType=SMALLINT},
+            distribution_mode                 = #{distributionMode,jdbcType=SMALLINT},
+            currency_type                     = #{currencyType,jdbcType=VARCHAR},
+            current_rates                     = #{currentRates,jdbcType=DECIMAL},
+            remark                            = #{remark,jdbcType=VARCHAR},
+            cancel_remark                     = #{cancelRemark,jdbcType=VARCHAR},
+            create_time                       = #{createTime,jdbcType=TIMESTAMP},
+            update_time                       = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateOrderPayStatus" parameterType="map">
+        update order_distributor_data
+        set pay_status  = #{payStatus,jdbcType=SMALLINT},
+            update_time = now()
+        where order_id = #{orderId}
+          and distributor_id = #{distributorId}
+    </update>
+
+    <update id="updateOrderPayStatusFormDeliver" parameterType="map">
+        update order_distributor_data
+        set pay_status  = #{payStatus,jdbcType=SMALLINT},
+            update_time = now()
+        where order_id = #{orderId}
+          and pay_status = 2
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_distributor_data
+            set order_id = #{item.orderId,jdbcType=INTEGER},
+            distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            distributor_name = #{item.distributorName,jdbcType=VARCHAR},
+            distributor_contact_id = #{item.distributorContactId,jdbcType=INTEGER},
+            distributor_contact_name = #{item.distributorContactName,jdbcType=VARCHAR},
+            company_name = #{item.companyName,jdbcType=VARCHAR},
+            distributor_ancestor_id = #{item.distributorAncestorId,jdbcType=INTEGER},
+            distributor_ancestor_name = #{item.distributorAncestorName,jdbcType=VARCHAR},
+            distributor_ancestor_company_name = #{item.distributorAncestorCompanyName,jdbcType=VARCHAR},
+            direct_flag = #{item.directFlag,jdbcType=SMALLINT},
+            erp_flag = #{item.erpFlag,jdbcType=SMALLINT},
+            tree_node = #{item.treeNode,jdbcType=INTEGER},
+            order_status = #{item.orderStatus,jdbcType=SMALLINT},
+            pay_status = #{item.payStatus,jdbcType=SMALLINT},
+            pay_time = #{item.payTime,jdbcType=TIMESTAMP},
+            pay_way = #{item.payWay,jdbcType=SMALLINT},
+            distribution_mode = #{item.distributionMode,jdbcType=SMALLINT},
+            currency_type = #{item.currencyType,jdbcType=VARCHAR},
+            current_rates = #{item.currentRates,jdbcType=DECIMAL},
+            remark = #{item.remark,jdbcType=VARCHAR},
+            cancel_remark = #{item.cancelRemark,jdbcType=VARCHAR},
+            update_time = now()
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="listByOrderId" resultMap="BaseResultMap">
+        select *
+        from order_distributor_data
+        where order_id = #{orderId}
+        order by tree_node asc
+    </select>
+
+
+    <select id="getByOrderIdAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        where order_id = #{orderId,jdbcType=INTEGER}
+        and distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getByOrderIdAndDistributorAncestorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        where order_id = #{orderId,jdbcType=INTEGER}
+        and distributor_ancestor_id = #{distributorAncestorId,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderIdsAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        and order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByOrderIdsAndAncestorDistributor"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        where distributor_ancestor_id = #{ancestorDistributorId,jdbcType=INTEGER}
+        and order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByOrderErpNoAndErpFlag" resultMap="BaseResultMap">
+        select
+        odd.*
+        from order_distributor_data odd
+        left join order_extend_data oed on odd.order_id = oed.order_id
+        where oed.order_erp_no = #{orderErpNo}
+        <if test="erpFlag !=null">
+            and odd.erp_flag = #{erpFlag}
+        </if>
+    </select>
+
+    <select id="listByOrderErpNo" resultMap="BaseResultMap">
+        select odd.*
+        from order_distributor_data odd
+                 join order_extend_data oed on odd.order_id = oed.order_id
+        where oed.order_erp_no = #{orderErpNo}
+    </select>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_data
+        where order_id = #{orderId}
+        <if test="distributorId !=null">
+            and distributor_id = #{distributorId}
+        </if>
+        <if test="erpFlag !=null">
+            and erp_flag = #{erpFlag}
+        </if>
+
+    </select>
+
+    <select id="getFirstTreeNode" resultMap="BaseResultMap">
+        select *
+        from order_distributor_data
+        where order_id = #{orderId}
+        order by tree_node asc limit 1
+    </select>
+
+    <select id="getNotErpOrderIds" resultType="int">
+        select odd.order_id
+        FROM order_distributor_data odd
+                 join order_extend_data oed on oed.order_id = odd.order_id
+        WHERE odd.erp_flag = 1
+          and oed.order_erp_no is NULL
+          and odd.order_status = 2
+          <if test="startTime != null">
+            and oed.create_time <![CDATA[ > ]]> #{startTime}
+          </if>
+    </select>
+
+    <select id="queryOrderDistributorDataByOrderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *
+        from order_distributor_data
+        where order_id = #{orderId}
+          and tree_node <![CDATA[ < ]]> #{treeNode}
+    </select>
+
+
+    <update id="updateOrderDistributorDataByDistributorIdAndOrderId" parameterType="map">
+        update order_distributor_data
+        set pay_way=#{distributionPayWay}
+        where order_id = #{orderId}
+          and distributor_id = #{distributorId}
+    </update>
+
+    <update id="modifyPaymentTime" parameterType="map">
+        update order_distributor_data
+        set pay_time= now()
+        where order_id = #{orderId}
+          and distributor_id = #{primaryDistributorId}
+    </update>
+
+    <select id="findATier1DistributorOrderDistributorData" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from order_distributor_data
+        where order_id = #{orderId}
+          and distributor_id = #{primaryDistributorId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.deposit.DepositDistributorSubsidiaryBookMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.financial.dao.deposit.dataobject.DepositDistributorSubsidiaryBookDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="deposit_distributor_id" jdbcType="INTEGER" property="depositDistributorId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="business_type" jdbcType="VARCHAR" property="businessType"/>
+        <result column="pay_way" jdbcType="SMALLINT" property="payWay"/>
+        <result column="business_id" jdbcType="INTEGER" property="businessId"/>
+        <result column="change_type" jdbcType="SMALLINT" property="changeType"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="before_deposit_amount" jdbcType="DECIMAL" property="beforeDepositAmount"/>
+        <result column="after_deposit_amount" jdbcType="DECIMAL" property="afterDepositAmount"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , deposit_distributor_id, distributor_id, distributor_name, business_type, pay_way, business_id,
+    change_type, amount, before_deposit_amount, after_deposit_amount, remark, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor_subsidiary_book
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor_subsidiary_book
+        <where>
+            <if test="params.distributorId!=null">
+                and distributor_id = #{params.distributorId}
+            </if>
+            <if test="params.distributorIds!=null and params.distributorIds.size()>0">
+                and distributor_id in
+                <foreach collection="params.distributorIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="params.businessId!=null">
+                and FIND_IN_SET(#{params.businessId,jdbcType=VARCHAR},business_id)
+            </if>
+            <if test="params.businessType!=null">
+                and business_type in (${params.businessType})
+            </if>
+            <if test="params.payWay!=null">
+                and pay_way = #{params.payWay}
+            </if>
+            <if test="params.amount!=null">
+                and amount = #{params.amount}
+            </if>
+            <if test="params.depositDistributorId!=null">
+                and deposit_distributor_id = #{params.depositDistributorId}
+            </if>
+            <if test="params.changeType!=null">
+                and change_type = #{params.changeType}
+            </if>
+            <if test="params.distributorName!=null">
+                and distributor_name like CONCAT("%",#{params.distributorName},"%")
+            </if>
+        </where>
+        order by create_time desc, business_id desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from deposit_distributor_subsidiary_book
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorSubsidiaryBookDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deposit_distributor_subsidiary_book (deposit_distributor_id, distributor_id,
+        distributor_name, business_type, pay_way, business_id,
+        change_type, amount, before_deposit_amount,
+        after_deposit_amount, remark, create_time
+        )
+        values (#{depositDistributorId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER},
+        #{distributorName,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, #{payWay},
+        #{businessId,jdbcType=INTEGER},
+        #{changeType,jdbcType=SMALLINT}, #{amount,jdbcType=DECIMAL}, #{beforeDepositAmount,jdbcType=DECIMAL},
+        #{afterDepositAmount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorSubsidiaryBookDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deposit_distributor_subsidiary_book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="depositDistributorId != null">
+                deposit_distributor_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="payWay != null">
+                pay_way,
+            </if>
+            <if test="businessId != null">
+                business_id,
+            </if>
+            <if test="changeType != null">
+                change_type,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="beforeDepositAmount != null">
+                before_deposit_amount,
+            </if>
+            <if test="afterDepositAmount != null">
+                after_deposit_amount,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="depositDistributorId != null">
+                #{depositDistributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=VARCHAR},
+            </if>
+            <if test="payWay != null">
+                #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                #{businessId,jdbcType=INTEGER},
+            </if>
+            <if test="changeType != null">
+                #{changeType,jdbcType=SMALLINT},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="beforeDepositAmount != null">
+                #{beforeDepositAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="afterDepositAmount != null">
+                #{afterDepositAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch">
+        INSERT INTO deposit_distributor_subsidiary_book
+        (deposit_distributor_id, distributor_id,
+        distributor_name, business_type, pay_way, business_id,
+        change_type, amount, before_deposit_amount,
+        after_deposit_amount, remark, create_time
+        )VALUES
+        <foreach collection="dos" index="index" item="item" open="" separator="," close="">
+            (#{item.depositDistributorId,jdbcType=INTEGER}, #{item.distributorId,jdbcType=INTEGER},
+            #{item.distributorName,jdbcType=VARCHAR},
+            #{item.businessType,jdbcType=VARCHAR},#{item.payWay,jdbcType=SMALLINT},
+            #{item.businessId,jdbcType=INTEGER},
+            #{item.changeType,jdbcType=SMALLINT}, #{item.amount,jdbcType=DECIMAL},
+            #{item.beforeDepositAmount,jdbcType=DECIMAL},
+            #{item.afterDepositAmount,jdbcType=DECIMAL}, #{item.remark,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorSubsidiaryBookDO">
+        update deposit_distributor_subsidiary_book
+        <set>
+            <if test="depositDistributorId != null">
+                deposit_distributor_id = #{depositDistributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=VARCHAR},
+            </if>
+            <if test="payWay != null">
+                pay_way = #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                business_id = #{businessId,jdbcType=INTEGER},
+            </if>
+            <if test="changeType != null">
+                change_type = #{changeType,jdbcType=SMALLINT},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="beforeDepositAmount != null">
+                before_deposit_amount = #{beforeDepositAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="afterDepositAmount != null">
+                after_deposit_amount = #{afterDepositAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorSubsidiaryBookDO">
+        update deposit_distributor_subsidiary_book
+        set deposit_distributor_id = #{depositDistributorId,jdbcType=INTEGER},
+            distributor_id         = #{distributorId,jdbcType=INTEGER},
+            distributor_name       = #{distributorName,jdbcType=VARCHAR},
+            business_type          = #{businessType,jdbcType=VARCHAR},
+            pay_way                = #{payWay,jdbcType=SMALLINT},
+            business_id            = #{businessId,jdbcType=INTEGER},
+            change_type            = #{changeType,jdbcType=SMALLINT},
+            amount                 = #{amount,jdbcType=DECIMAL},
+            before_deposit_amount  = #{beforeDepositAmount,jdbcType=DECIMAL},
+            after_deposit_amount   = #{afterDepositAmount,jdbcType=DECIMAL},
+            remark                 = #{remark,jdbcType=VARCHAR},
+            create_time            = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

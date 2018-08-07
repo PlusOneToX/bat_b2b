@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.platform.SysPlatformMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.platform.dataobject.SysPlatformDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="host_name" jdbcType="VARCHAR" property="hostName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="SysPlatformListDOMap" type="com.bat.distributor.dao.platform.dataobject.SysPlatformListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="platform_name" jdbcType="VARCHAR" property="platformName"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="host_name" jdbcType="VARCHAR" property="hostName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_platform
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.platform.dataobject.SysPlatformDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_platform (platform, app_id, app_key,
+        app_secret, host_name, create_time,
+        update_time)
+        values (#{platform,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR},
+        #{appSecret,jdbcType=VARCHAR}, #{hostName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.platform.dataobject.SysPlatformDO">
+    update sys_platform
+    set platform = #{platform,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      app_key = #{appKey,jdbcType=VARCHAR},
+      app_secret = #{appSecret,jdbcType=VARCHAR},
+      host_name = #{hostName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, platform, app_id, app_key, app_secret, host_name, create_time, update_time
+    from sys_platform
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, platform, app_id, app_key, app_secret, host_name, create_time, update_time
+    from sys_platform
+  </select>
+
+    <select id="selectByAppIdorAppKey" parameterType="map" resultMap="BaseResultMap">
+    select count(1)
+    from sys_platform where app_key = #{appId} or app_key = #{appKey}
+  </select>
+
+    <select id="listSysPlatform" resultMap="SysPlatformListDOMap" parameterType="map">
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content) and contentType != null and contentType == 2">
+            select sp.id, p.name as platform_name, sp.platform, sp.app_id, sp.app_key, sp.app_secret, sp.host_name,
+            sp.create_time, sp.update_time
+            from sys_platform_distributor spd
+            join sys_platform sp on sp.id = spd.sys_platform_id
+            join platform p on p.platform_no = sp.platform WHERE 1=1
+            and p.name like concat(concat('%',#{content}),'%')
+            and (spd.name like concat(concat('%',#{content}),'%')
+            or spd.company_name like concat(concat('%',#{content}),'%'))
+            group by sp.id order by sp.update_time desc
+        </if>
+        <if test="(@org.apache.commons.lang3.StringUtils@isNotBlank(content) and (contentType == null or contentType == 1)) or @org.apache.commons.lang3.StringUtils@isBlank(content)">
+            select sp.id, p.name as platform_name, sp.platform, sp.app_id, sp.app_key, sp.app_secret, sp.host_name,
+            sp.create_time, sp.update_time
+            from sys_platform sp join platform p on p.platform_no = sp.platform WHERE 1=1
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+                and p.name like concat(concat('%',#{content}),'%')
+            </if>
+            order by sp.update_time desc
+        </if>
+    </select>
+    <select id="getByPlatformAndDistributorId" resultMap="BaseResultMap">
+        SELECT
+	sp.*
+FROM
+	sys_platform sp
+	LEFT JOIN sys_platform_distributor spd ON spd.sys_platform_id = sp.id
+WHERE
+	spd.distributor_id = #{distributorId}
+	AND sp.platform = #{platform}
+	LIMIT 1
+    </select>
+</mapper>

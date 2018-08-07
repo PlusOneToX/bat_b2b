@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.user.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.user.dataobject.PermissionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="service" jdbcType="VARCHAR" property="service"/>
+        <result column="module" jdbcType="VARCHAR" property="module"/>
+        <result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
+        <result column="permission_module" jdbcType="VARCHAR" property="permissionModule"/>
+        <result column="url_path" jdbcType="VARCHAR" property="urlPath"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, service,module, permission_name, permission_module, url_path, method, sort, status
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission
+        order by service ,module,permission_module
+    </select>
+    <select id="getByPathUrlAndMethod"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission
+        where method = #{method,jdbcType=VARCHAR}
+        and url_path = #{urlPath,jdbcType=VARCHAR}
+    </select>
+    <select id="listByModule" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission
+        where permission_module = #{name,jdbcType=VARCHAR}
+    </select>
+    <select id="listByPrimaryKeys" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission
+        <where>
+            <if test="ids!=null and ids.size()>0">
+                and id in
+                <foreach collection="ids" open="(" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="listByPermissionUserMapping" resultType="map">
+        SELECT CONCAT(a.url_path, "-", a.method) url,
+               GROUP_CONCAT(DISTINCT c.user_id)  userids
+        FROM sys_permission a,
+             sys_role_permission b,
+             sys_user_role c
+        WHERE a.id = b.permission_id
+          AND b.role_id = c.role_id
+        GROUP BY url
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sys_permission
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.user.dataobject.PermissionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_permission (service,module,permission_name, permission_module,
+        url_path, method, sort, status))
+        values (#{service,jdbcType=VARCHAR},#{module,jdbcType=VARCHAR},#{permissionName,jdbcType=VARCHAR},
+        #{permissionModule,jdbcType=VARCHAR},
+        #{urlPath,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}), #{sort,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.user.dataobject.PermissionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="service != null">
+                service,
+            </if>
+            <if test="module != null">
+                module,
+            </if>
+            <if test="permissionName != null">
+                permission_name,
+            </if>
+            <if test="permissionModule != null">
+                permission_module,
+            </if>
+            <if test="urlPath != null">
+                url_path,
+            </if>
+            <if test="method != null">
+                method,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="service != null">
+                #{service,jdbcType=VARCHAR},
+            </if>
+            <if test="module != null">
+                #{module,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionName != null">
+                #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionModule != null">
+                #{permissionModule,jdbcType=VARCHAR},
+            </if>
+            <if test="urlPath != null">
+                #{urlPath,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.user.dataobject.PermissionDO">
+        update sys_permission
+        <set>
+            <if test="service != null">
+                service = #{service,jdbcType=VARCHAR},
+            </if>
+            <if test="module != null">
+                module = #{module,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionName != null">
+                permission_name = #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionModule != null">
+                permission_module = #{permissionModule,jdbcType=VARCHAR},
+            </if>
+            <if test="urlPath != null">
+                url_path = #{urlPath,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                method = #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.user.dataobject.PermissionDO">
+        update sys_permission
+        set service           = #{service,jdbcType=VARCHAR},
+            module            = #{module,jdbcType=VARCHAR},
+            permission_name   = #{permissionName,jdbcType=VARCHAR},
+            permission_module = #{permissionModule,jdbcType=VARCHAR},
+            url_path          = #{urlPath,jdbcType=VARCHAR},
+            method            = #{method,jdbcType=VARCHAR},
+            sort              = #{sort,jdbcType=INTEGER},
+            status            = #{status,jdbcType=SMALLINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

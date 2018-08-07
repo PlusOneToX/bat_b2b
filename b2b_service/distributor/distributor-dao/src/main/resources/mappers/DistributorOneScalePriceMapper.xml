@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorOneScalePriceMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorOneScalePriceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="scale_price_id" jdbcType="INTEGER" property="scalePriceId"/>
+        <result column="distribution_scale_price_id" jdbcType="INTEGER" property="distributionScalePriceId"/>
+    </resultMap>
+
+    <resultMap id="DistributorNameMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorNameDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_one_scale_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from distributor_one_scale_price
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorOneScalePriceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_one_scale_price (distributor_id, brand_id, category_id,
+        scale_price_id,distribution_scale_price_id)
+        values (#{distributorId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+        #{scalePriceId,jdbcType=INTEGER},#{distributionScalePriceId,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorOneScalePriceDO">
+    update distributor_one_scale_price
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      scale_price_id = #{scalePriceId,jdbcType=INTEGER},
+      distribution_scale_price_id = #{distributionScalePriceId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update distributor_one_scale_price
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            brand_id = #{item.brandId,jdbcType=INTEGER},
+            category_id = #{item.categoryId,jdbcType=INTEGER},
+            scale_price_id = #{item.scalePriceId,jdbcType=INTEGER},
+            distribution_scale_price_id = #{item.distributionScalePriceId,jdbcType=INTEGER}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, brand_id, category_id, scale_price_id
+    from distributor_one_scale_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="listDefaultByDistributorIds" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, brand_id, category_id, scale_price_id,distribution_scale_price_id
+        from distributor_one_scale_price
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and (brand_id is NULL or brand_id = 0)
+        and (category_id is NULL or category_id = 0)
+    </select>
+
+    <select id="selectDefaultByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, distributor_id, brand_id, category_id, scale_price_id,distribution_scale_price_id
+        from distributor_one_scale_price
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        and (brand_id is NULL or brand_id = 0)
+        and (category_id is NULL or category_id = 0)
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, brand_id, category_id, scale_price_id,distribution_scale_price_id
+    from distributor_one_scale_price
+  </select>
+    <insert id="insertList" parameterType="java.util.List">
+        insert into distributor_one_scale_price (distributor_id, brand_id, category_id,
+        scale_price_id,distribution_scale_price_id)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.brandId,jdbcType=INTEGER},
+            #{item.categoryId,jdbcType=INTEGER},
+            #{item.scalePriceId,jdbcType=INTEGER},
+            #{item.distributionScalePriceId,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+    <select id="listByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, brand_id, category_id, scale_price_id,distribution_scale_price_id
+    from distributor_one_scale_price
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </select>
+
+    <select id="listByBrandId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, brand_id, category_id, scale_price_id,distribution_scale_price_id
+    from distributor_one_scale_price
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+
+    <select id="listIdByScalePriceIdsAndBrandId" resultType="int" parameterType="map">
+        select dosp.distributor_id FROM distributor_one_scale_price dosp join distributor d on d.id=dosp.distributor_id
+        and d.tree_node=1
+        WHERE dosp.scale_price_id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="brandId!=null">
+            and dosp.brand_id = #{brandId}
+        </if>
+    </select>
+
+    <select id="listDistributorIdByScalePriceIdsTwo" resultType="int" parameterType="map">
+        select dosp.distributor_id FROM distributor_one_scale_price dosp join distributor d on d.id=dosp.distributor_id
+        and d.tree_node=1
+        WHERE dosp.scale_price_id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY distributor_id
+    </select>
+
+    <select id="listDefaultByScalePriceIds" resultType="int" parameterType="map">
+        select dosp.distributor_id FROM distributor_one_scale_price dosp join distributor d on d.id=dosp.distributor_id
+        and d.tree_node=1
+        WHERE dosp.scale_price_id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and (dosp.brand_id is null or dosp.brand_id = 0) and (dosp.category_id is null or dosp.category_id = 0)
+    </select>
+
+    <select id="listDistributorNameDefaultByScalePriceIds"
+            resultMap="DistributorNameMap" parameterType="map">
+        select dosp.distributor_id id,d.name,d.company_name FROM distributor_one_scale_price dosp join distributor d on d.id=dosp.distributor_id
+        and d.tree_node=1
+        WHERE dosp.scale_price_id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and (dosp.brand_id is null or dosp.brand_id = 0) and (dosp.category_id is null or dosp.category_id = 0)
+    </select>
+
+
+    <delete id="deleteByDistributorIdsAndBrandId" parameterType="map">
+        delete from distributor_one_scale_price
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and brand_id = #{brandId}
+    </delete>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_one_scale_price
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

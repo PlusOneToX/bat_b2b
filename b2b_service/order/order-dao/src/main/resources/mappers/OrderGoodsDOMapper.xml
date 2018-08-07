@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.order.OrderGoodsDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.order.dataobject.OrderGoodsDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="serial_number" jdbcType="INTEGER" property="serialNumber"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_no" jdbcType="VARCHAR" property="goodsNo"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode"/>
+        <result column="bar_code" jdbcType="VARCHAR" property="barCode"/>
+        <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="goods_type" jdbcType="SMALLINT" property="goodsType"/>
+        <result column="diy_type" jdbcType="SMALLINT" property="diyType"/>
+        <result column="specs_name" jdbcType="VARCHAR" property="specsName"/>
+        <result column="color_name" jdbcType="VARCHAR" property="colorName"/>
+        <result column="weight" jdbcType="DECIMAL" property="weight"/>
+        <result column="length" jdbcType="DECIMAL" property="length"/>
+        <result column="width" jdbcType="DECIMAL" property="width"/>
+        <result column="height" jdbcType="DECIMAL" property="height"/>
+        <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
+        <result column="item_count" jdbcType="INTEGER" property="itemCount"/>
+        <result column="item_in_count" jdbcType="INTEGER" property="itemInCount"/>
+        <result column="item_vmi_count" jdbcType="INTEGER" property="itemVmiCount"/>
+        <result column="item_on_way_count" jdbcType="INTEGER" property="itemOnWayCount"/>
+        <result column="deliver_count" jdbcType="INTEGER" property="deliverCount"/>
+        <result column="un_deliver_count" jdbcType="INTEGER" property="unDeliverCount"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="OrderGoodsDO2Map" type="com.bat.order.dao.order.dataobject.OrderGoodsDO2">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
+        <result column="order_erp_no" jdbcType="VARCHAR" property="orderErpNo"/>
+        <result column="serial_number" jdbcType="INTEGER" property="serialNumber"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_id, serial_number, goods_id, goods_name, goods_no, item_id, item_code,
+    bar_code, item_name,image_url, goods_type, diy_type, specs_name, color_name, weight, length,
+    width, height, warehouse_id, item_count, item_in_count, item_vmi_count, item_on_way_count,
+    deliver_count, un_deliver_count, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByIdsAndOrderStatus" parameterType="java.util.List" resultMap="BaseResultMap">
+        select og.*
+        from order_goods og join order_distributor_data odd on odd.erp_flag = 1 and odd.order_id =
+        og.order_id
+        where odd.order_status in (1,2) and og.id in
+        <foreach collection="list" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByOrderId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods
+        where order_id = #{orderId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_goods
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByIds" parameterType="map">
+        delete
+        from order_goods
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDO" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods (id, order_id, serial_number,
+                                 goods_id, goods_name, goods_no,
+                                 item_id, item_code, bar_code,
+                                 item_name, image_url, goods_type, diy_type,
+                                 specs_name, color_name, weight,
+                                 length, width, height,
+                                 warehouse_id, item_count, item_in_count,
+                                 item_vmi_count, item_on_way_count, deliver_count,
+                                 un_deliver_count, create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{serialNumber,jdbcType=INTEGER},
+                #{goodsId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsNo,jdbcType=VARCHAR},
+                #{itemId,jdbcType=INTEGER}, #{itemCode,jdbcType=VARCHAR}, #{barCode,jdbcType=VARCHAR},
+                #{itemName,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{goodsType,jdbcType=SMALLINT},
+                #{diyType,jdbcType=SMALLINT},
+                #{specsName,jdbcType=VARCHAR}, #{colorName,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL},
+                #{length,jdbcType=DECIMAL}, #{width,jdbcType=DECIMAL}, #{height,jdbcType=DECIMAL},
+                #{warehouseId,jdbcType=INTEGER}, #{itemCount,jdbcType=INTEGER}, #{itemInCount,jdbcType=INTEGER},
+                #{itemVmiCount,jdbcType=INTEGER}, #{itemOnWayCount,jdbcType=INTEGER}, #{deliverCount,jdbcType=INTEGER},
+                #{unDeliverCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods (id, order_id, serial_number,
+        goods_id, goods_name, goods_no,
+        item_id, item_code, bar_code,
+        item_name,image_url, goods_type, diy_type,
+        specs_name, color_name, weight,
+        length, width, height,
+        warehouse_id, item_count, item_in_count,
+        item_vmi_count, item_on_way_count, deliver_count,
+        un_deliver_count, create_time, update_time
+        )
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER}, #{item.serialNumber,jdbcType=INTEGER},
+            #{item.goodsId,jdbcType=INTEGER}, #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsNo,jdbcType=VARCHAR},
+            #{item.itemId,jdbcType=INTEGER}, #{item.itemCode,jdbcType=VARCHAR}, #{item.barCode,jdbcType=VARCHAR},
+            #{item.itemName,jdbcType=VARCHAR},#{item.imageUrl,jdbcType=VARCHAR}, #{item.goodsType,jdbcType=SMALLINT},
+            #{item.diyType,jdbcType=SMALLINT},
+            #{item.specsName,jdbcType=VARCHAR}, #{item.colorName,jdbcType=VARCHAR}, #{item.weight,jdbcType=DECIMAL},
+            #{item.length,jdbcType=DECIMAL}, #{item.width,jdbcType=DECIMAL}, #{item.height,jdbcType=DECIMAL},
+            #{item.warehouseId,jdbcType=INTEGER}, #{item.itemCount,jdbcType=INTEGER},
+            #{item.itemInCount,jdbcType=INTEGER},
+            #{item.itemVmiCount,jdbcType=INTEGER}, #{item.itemOnWayCount,jdbcType=INTEGER},
+            #{item.deliverCount,jdbcType=INTEGER},
+            #{item.unDeliverCount,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDO" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsNo != null">
+                goods_no,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="itemCode != null">
+                item_code,
+            </if>
+            <if test="barCode != null">
+                bar_code,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="goodsType != null">
+                goods_type,
+            </if>
+            <if test="diyType != null">
+                diy_type,
+            </if>
+            <if test="specsName != null">
+                specs_name,
+            </if>
+            <if test="colorName != null">
+                color_name,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="length != null">
+                length,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="itemCount != null">
+                item_count,
+            </if>
+            <if test="itemInCount != null">
+                item_in_count,
+            </if>
+            <if test="itemVmiCount != null">
+                item_vmi_count,
+            </if>
+            <if test="itemOnWayCount != null">
+                item_on_way_count,
+            </if>
+            <if test="deliverCount != null">
+                deliver_count,
+            </if>
+            <if test="unDeliverCount != null">
+                un_deliver_count,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsNo != null">
+                #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCode != null">
+                #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="barCode != null">
+                #{barCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsType != null">
+                #{goodsType,jdbcType=SMALLINT},
+            </if>
+            <if test="diyType != null">
+                #{diyType,jdbcType=SMALLINT},
+            </if>
+            <if test="specsName != null">
+                #{specsName,jdbcType=VARCHAR},
+            </if>
+            <if test="colorName != null">
+                #{colorName,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=DECIMAL},
+            </if>
+            <if test="length != null">
+                #{length,jdbcType=DECIMAL},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=DECIMAL},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=DECIMAL},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCount != null">
+                #{itemCount,jdbcType=INTEGER},
+            </if>
+            <if test="itemInCount != null">
+                #{itemInCount,jdbcType=INTEGER},
+            </if>
+            <if test="itemVmiCount != null">
+                #{itemVmiCount,jdbcType=INTEGER},
+            </if>
+            <if test="itemOnWayCount != null">
+                #{itemOnWayCount,jdbcType=INTEGER},
+            </if>
+            <if test="deliverCount != null">
+                #{deliverCount,jdbcType=INTEGER},
+            </if>
+            <if test="unDeliverCount != null">
+                #{unDeliverCount,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDO">
+        update order_goods
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsNo != null">
+                goods_no = #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCode != null">
+                item_code = #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="barCode != null">
+                bar_code = #{barCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                item_name = #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsType != null">
+                goods_type = #{goodsType,jdbcType=SMALLINT},
+            </if>
+            <if test="diyType != null">
+                diy_type = #{diyType,jdbcType=SMALLINT},
+            </if>
+            <if test="specsName != null">
+                specs_name = #{specsName,jdbcType=VARCHAR},
+            </if>
+            <if test="colorName != null">
+                color_name = #{colorName,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=DECIMAL},
+            </if>
+            <if test="length != null">
+                length = #{length,jdbcType=DECIMAL},
+            </if>
+            <if test="width != null">
+                width = #{width,jdbcType=DECIMAL},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=DECIMAL},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCount != null">
+                item_count = #{itemCount,jdbcType=INTEGER},
+            </if>
+            <if test="itemInCount != null">
+                item_in_count = #{itemInCount,jdbcType=INTEGER},
+            </if>
+            <if test="itemVmiCount != null">
+                item_vmi_count = #{itemVmiCount,jdbcType=INTEGER},
+            </if>
+            <if test="itemOnWayCount != null">
+                item_on_way_count = #{itemOnWayCount,jdbcType=INTEGER},
+            </if>
+            <if test="deliverCount != null">
+                deliver_count = #{deliverCount,jdbcType=INTEGER},
+            </if>
+            <if test="unDeliverCount != null">
+                un_deliver_count = #{unDeliverCount,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDO">
+        update order_goods
+        set order_id          = #{orderId,jdbcType=INTEGER},
+            serial_number     = #{serialNumber,jdbcType=INTEGER},
+            goods_id          = #{goodsId,jdbcType=INTEGER},
+            goods_name        = #{goodsName,jdbcType=VARCHAR},
+            goods_no          = #{goodsNo,jdbcType=VARCHAR},
+            item_id           = #{itemId,jdbcType=INTEGER},
+            item_code         = #{itemCode,jdbcType=VARCHAR},
+            bar_code          = #{barCode,jdbcType=VARCHAR},
+            item_name         = #{itemName,jdbcType=VARCHAR},
+            image_url         = #{imageUrl,jdbcType=VARCHAR},
+            goods_type        = #{goodsType,jdbcType=SMALLINT},
+            diy_type          = #{diyType,jdbcType=SMALLINT},
+            specs_name        = #{specsName,jdbcType=VARCHAR},
+            color_name        = #{colorName,jdbcType=VARCHAR},
+            weight            = #{weight,jdbcType=DECIMAL},
+            length            = #{length,jdbcType=DECIMAL},
+            width             = #{width,jdbcType=DECIMAL},
+            height            = #{height,jdbcType=DECIMAL},
+            warehouse_id      = #{warehouseId,jdbcType=INTEGER},
+            item_count        = #{itemCount,jdbcType=INTEGER},
+            item_in_count     = #{itemInCount,jdbcType=INTEGER},
+            item_vmi_count    = #{itemVmiCount,jdbcType=INTEGER},
+            item_on_way_count = #{itemOnWayCount,jdbcType=INTEGER},
+            deliver_count     = #{deliverCount,jdbcType=INTEGER},
+            un_deliver_count  = #{unDeliverCount,jdbcType=INTEGER},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_goods
+            set order_id = #{item.orderId,jdbcType=INTEGER},
+            serial_number = #{item.serialNumber,jdbcType=INTEGER},
+            goods_id = #{item.goodsId,jdbcType=INTEGER},
+            goods_name = #{item.goodsName,jdbcType=VARCHAR},
+            goods_no = #{item.goodsNo,jdbcType=VARCHAR},
+            item_id = #{item.itemId,jdbcType=INTEGER},
+            item_code = #{item.itemCode,jdbcType=VARCHAR},
+            bar_code = #{item.barCode,jdbcType=VARCHAR},
+            item_name = #{item.itemName,jdbcType=VARCHAR},
+            image_url = #{item.imageUrl,jdbcType=VARCHAR},
+            goods_type = #{item.goodsType,jdbcType=SMALLINT},
+            diy_type = #{item.diyType,jdbcType=SMALLINT},
+            specs_name = #{item.specsName,jdbcType=VARCHAR},
+            color_name = #{item.colorName,jdbcType=VARCHAR},
+            weight = #{item.weight,jdbcType=DECIMAL},
+            length = #{item.length,jdbcType=DECIMAL},
+            width = #{item.width,jdbcType=DECIMAL},
+            height = #{item.height,jdbcType=DECIMAL},
+            warehouse_id = #{item.warehouseId,jdbcType=INTEGER},
+            item_count = #{item.itemCount,jdbcType=INTEGER},
+            item_in_count = #{item.itemInCount,jdbcType=INTEGER},
+            item_vmi_count = #{item.itemVmiCount,jdbcType=INTEGER},
+            item_on_way_count = #{item.itemOnWayCount,jdbcType=INTEGER},
+            deliver_count = #{item.deliverCount,jdbcType=INTEGER},
+            un_deliver_count = #{item.unDeliverCount,jdbcType=INTEGER},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <select id="findByOrderIdAndItemIdAndSerialNumber" resultMap="BaseResultMap">
+     select * from order_goods where  order_id = #{orderId} and item_id = #{itemId} and serial_number = #{serialNumber,jdbcType=INTEGER}
+ </select>
+
+    <select id="listVmiByParam" resultType="com.bat.order.dao.order.dataobject.OrderGoodsVmiDO">
+        select
+        og.id,og.order_id orderId,og.item_id itemId,
+        og.item_code itemCode,og.item_name itemName,og.item_vmi_count itemVmiCount,
+        oed.order_erp_no orderErpNo,oi.create_time orderCreateTime,
+        odd.pay_status payStatus,odd.order_status orderStatus
+        from order_goods og
+        left join order_info oi on og.order_id=oi.id
+        left join order_distributor_data odd on odd.order_id=og.order_id
+        left join order_extend_data oed on oed.order_id=og.order_id
+        where og.item_vmi_count>0 and erp_flag=1
+        <if test="params.payStatus!=null">
+            AND odd.pay_status = #{params.payStatus}
+        </if>
+        <if test="params.orderStatus!=null">
+            AND odd.order_status = #{params.orderStatus}
+        </if>
+        <if test="params.orderId!=null">
+            AND og.order_id = #{params.orderId}
+        </if>
+        <if test="params.itemCode!=null and params.itemCode!=''">
+            AND og.item_code = #{params.itemCode}
+        </if>
+        <if test="params.orderErpNo!=null and params.orderErpNo!=''">
+            AND oed.order_erp_no = #{params.orderErpNo}
+        </if>
+        <if test="params.startTime!=null">
+            AND oi.create_time &gt;= #{params.startTime}
+        </if>
+        <if test="params.endTime!=null">
+            AND oi.create_time &lt;= #{params.endTime}
+        </if>
+    </select>
+
+    <select id="listOrderGoodsDetailByOrderId"
+            resultType="com.bat.order.dao.order.dataobject.OrderGoodsDetailDTO">
+        select a.id,
+               a.order_id orderId,
+               a.goods_id goodsId,
+               a.item_id itemId,
+               a.item_name itemName,
+               a.item_count itemCount,
+               b.generate_image generateImage,
+               b.preview_image previewImage,
+               c.actual_price actualPrice
+        from order_goods a
+                 inner join order_goods_diy b on a.id = b.order_goods_id
+                 inner join order_goods_customer_cost c on a.id = c.order_goods_id
+               where a.order_id=#{orderId}
+    </select>
+    <select id="listByOrderIdList" resultMap="BaseResultMap">
+        select * from order_goods
+        where order_id in
+        <foreach collection="orderIdList" item="orderId" separator="," open="( " close=")">
+            #{orderId}
+        </foreach>
+        order by order_id asc
+    </select>
+
+    <select id="listOrderGoodsDO2ByOrderErpNos" resultMap="OrderGoodsDO2Map">
+        select
+        og.id,og.order_id,oed.order_erp_no,og.goods_id,og.item_id,og.serial_number,odd.distributor_id,og.warehouse_id
+        from
+        order_goods og join
+        order_extend_data
+        oed on oed.order_id = og.order_id join order_distributor_data odd on odd.erp_flag = 1 and odd.order_id =
+        og.order_id
+        where oed.order_erp_no in
+        <foreach collection="orderErpNos" item="orderErpNo" separator="," open="( " close=")">
+            #{orderErpNo}
+        </foreach>
+    </select>
+</mapper>

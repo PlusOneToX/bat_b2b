@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.cart.ShoppingCartDiyCustomerMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cart.dataobject.ShoppingCartDiyCustomerDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="shopping_cart_customer_id" jdbcType="INTEGER" property="shoppingCartCustomerId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="material_id" jdbcType="INTEGER" property="materialId"/>
+        <result column="material_name" jdbcType="VARCHAR" property="materialName"/>
+        <result column="manufactors" jdbcType="VARCHAR" property="manufactors"/>
+        <result column="model_id" jdbcType="INTEGER" property="modelId"/>
+        <result column="model_name" jdbcType="VARCHAR" property="modelName"/>
+        <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+        <result column="brand_name" jdbcType="VARCHAR" property="brandName"/>
+        <result column="picture_id" jdbcType="INTEGER" property="pictureId"/>
+        <result column="picture_name" jdbcType="VARCHAR" property="pictureName"/>
+        <result column="generate_image" jdbcType="VARCHAR" property="generateImage"/>
+        <result column="preview_image" jdbcType="VARCHAR" property="previewImage"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , shopping_cart_customer_id, category_id, category_name, material_id, material_name, manufactors,
+    model_id, model_name, brand_id, brand_name, picture_id, picture_name, generate_image, 
+    preview_image, open_flag, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping_cart_diy_customer
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from shopping_cart_diy_customer
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDiyCustomerDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into shopping_cart_diy_customer (shopping_cart_customer_id, category_id,
+        category_name, material_id, material_name,manufactors,
+        model_id, model_name, brand_id,
+        brand_name, picture_id, picture_name,
+        generate_image, preview_image, open_flag,
+        create_time, update_time)
+        values (#{shoppingCartCustomerId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER},
+        #{categoryName,jdbcType=VARCHAR}, #{materialId,jdbcType=INTEGER},
+        #{materialName,jdbcType=VARCHAR},#{manufactors,jdbcType=VARCHAR},
+        #{modelId,jdbcType=INTEGER}, #{modelName,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER},
+        #{brandName,jdbcType=VARCHAR}, #{pictureId,jdbcType=INTEGER}, #{pictureName,jdbcType=VARCHAR},
+        #{generateImage,jdbcType=VARCHAR}, #{previewImage,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into shopping_cart_diy_customer (shopping_cart_customer_id, category_id,
+            category_name, material_id, material_name,manufactors,
+            model_id, model_name, brand_id,
+            brand_name, picture_id, picture_name,
+            generate_image, preview_image, open_flag,
+            create_time, update_time)
+            values (#{item.shoppingCartCustomerId,jdbcType=INTEGER}, #{item.categoryId,jdbcType=INTEGER},
+            #{item.categoryName,jdbcType=VARCHAR}, #{item.materialId,jdbcType=INTEGER},
+            #{item.materialName,jdbcType=VARCHAR},#{item.manufactors,jdbcType=VARCHAR},
+            #{item.modelId,jdbcType=INTEGER}, #{item.modelName,jdbcType=VARCHAR}, #{item.brandId,jdbcType=INTEGER},
+            #{item.brandName,jdbcType=VARCHAR}, #{item.pictureId,jdbcType=INTEGER},
+            #{item.pictureName,jdbcType=VARCHAR},
+            #{item.generateImage,jdbcType=VARCHAR}, #{item.previewImage,jdbcType=VARCHAR},
+            #{item.openFlag,jdbcType=SMALLINT},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDiyCustomerDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into shopping_cart_diy_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shoppingCartCustomerId != null">
+                shopping_cart_customer_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="materialId != null">
+                material_id,
+            </if>
+            <if test="materialName != null">
+                material_name,
+            </if>
+            <if test="manufactors != null">
+                manufactors,
+            </if>
+            <if test="modelId != null">
+                model_id,
+            </if>
+            <if test="modelName != null">
+                model_name,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="brandName != null">
+                brand_name,
+            </if>
+            <if test="pictureId != null">
+                picture_id,
+            </if>
+            <if test="pictureName != null">
+                picture_name,
+            </if>
+            <if test="generateImage != null">
+                generate_image,
+            </if>
+            <if test="previewImage != null">
+                preview_image,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shoppingCartCustomerId != null">
+                #{shoppingCartCustomerId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="materialId != null">
+                #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="materialName != null">
+                #{materialName,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactors != null">
+                #{manufactors,jdbcType=VARCHAR},
+            </if>
+            <if test="modelId != null">
+                #{modelId,jdbcType=INTEGER},
+            </if>
+            <if test="modelName != null">
+                #{modelName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="brandName != null">
+                #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="pictureId != null">
+                #{pictureId,jdbcType=INTEGER},
+            </if>
+            <if test="pictureName != null">
+                #{pictureName,jdbcType=VARCHAR},
+            </if>
+            <if test="generateImage != null">
+                #{generateImage,jdbcType=VARCHAR},
+            </if>
+            <if test="previewImage != null">
+                #{previewImage,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDiyCustomerDO">
+        update shopping_cart_diy_customer
+        <set>
+            <if test="shoppingCartCustomerId != null">
+                shopping_cart_customer_id = #{shoppingCartCustomerId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="materialId != null">
+                material_id = #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="materialName != null">
+                material_name = #{materialName,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactors != null">
+                manufactor = #{manufactor,jdbcType=VARCHAR},
+            </if>
+            <if test="modelId != null">
+                model_id = #{modelId,jdbcType=INTEGER},
+            </if>
+            <if test="modelName != null">
+                model_name = #{modelName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="brandName != null">
+                brand_name = #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="pictureId != null">
+                picture_id = #{pictureId,jdbcType=INTEGER},
+            </if>
+            <if test="pictureName != null">
+                picture_name = #{pictureName,jdbcType=VARCHAR},
+            </if>
+            <if test="generateImage != null">
+                generate_image = #{generateImage,jdbcType=VARCHAR},
+            </if>
+            <if test="previewImage != null">
+                preview_image = #{previewImage,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDiyCustomerDO">
+        update shopping_cart_diy_customer
+        set shopping_cart_customer_id = #{shoppingCartCustomerId,jdbcType=INTEGER},
+            category_id               = #{categoryId,jdbcType=INTEGER},
+            category_name             = #{categoryName,jdbcType=VARCHAR},
+            material_id               = #{materialId,jdbcType=INTEGER},
+            material_name             = #{materialName,jdbcType=VARCHAR},
+            manufactor                = #{manufactor,jdbcType=VARCHAR},
+            model_id                  = #{modelId,jdbcType=INTEGER},
+            model_name                = #{modelName,jdbcType=VARCHAR},
+            brand_id                  = #{brandId,jdbcType=INTEGER},
+            brand_name                = #{brandName,jdbcType=VARCHAR},
+            picture_id                = #{pictureId,jdbcType=INTEGER},
+            picture_name              = #{pictureName,jdbcType=VARCHAR},
+            generate_image            = #{generateImage,jdbcType=VARCHAR},
+            preview_image             = #{previewImage,jdbcType=VARCHAR},
+            open_flag                 = #{openFlag,jdbcType=SMALLINT},
+            create_time               = #{createTime,jdbcType=TIMESTAMP},
+            update_time               = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByCartIds" parameterType="java.util.List">
+        delete from shopping_cart_diy_customer
+        where shopping_cart_customer_id in
+        <foreach collection="list" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByCartId" parameterType="java.lang.Integer">
+        delete
+        from shopping_cart_diy_customer
+        where shopping_cart_customer_id = #{cartId,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 循环查询客户购物车定制信息  -->
+    <select id="listByCartIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping_cart_diy_customer
+        where shopping_cart_customer_id in
+        <foreach collection="list" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 单个查询客户购物车定制信息  -->
+    <select id="getByCardId" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping_cart_diy_customer
+        where shopping_cart_customer_id = #{id,jdbcType=INTEGER}
+    </select>
+
+</mapper>

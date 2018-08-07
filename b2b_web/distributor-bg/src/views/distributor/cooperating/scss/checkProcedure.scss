@@ -1,0 +1,55 @@
+section.procedure {
+  border-top: 1px solid #dcdcdc ;
+  border-bottom: 1px solid #dcdcdc ;
+  margin-top: 20px;
+  padding: 0 30px 30px 30px;
+  padding-left: 60px;
+  padding-right: 60px;
+  text-align: center;
+  .title{
+      font-weight:700;
+      margin-bottom:10px;
+  }
+  div.information {
+    width: 193px;
+    float: left;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #dcdcdc;
+    padding: 20px 20px 63px 20px;
+    height: 200px;
+    border-radius: 6px;
+    div.user {
+      // padding: 20px;
+      width: 150px;
+      height: 50px;
+      line-height: 50px;
+      border-radius: 30px;
+      color: white;
+      background-color: $lakeBlue;
+    }
+    div.check-status {
+      margin-top: 15px;
+    }
+    div.check-time {
+      margin-top: 10px;
+      color:$lakeBlue;
+    }
+    div.check-remark {
+      margin-top: 10px;
+    }
+  }
+  div.icon {
+    width: 70px;
+    height: 70px;
+    font-size: 40px;
+    color: grey;
+    float: left;
+    margin-right: 50px;
+    margin-top: 77px;
+  }
+  div.clear-float {
+    clear: both;
+  }
+}

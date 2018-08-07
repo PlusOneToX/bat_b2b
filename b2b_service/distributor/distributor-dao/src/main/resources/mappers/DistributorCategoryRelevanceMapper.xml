@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorCategoryRelevanceMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorCategoryRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="category_ids" jdbcType="LONGVARCHAR" property="categoryIds"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_category_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorCategoryRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_category_relevance (distributor_id, category_ids)
+        values (#{distributorId,jdbcType=INTEGER}, #{categoryIds,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorCategoryRelevanceDO">
+    update distributor_category_relevance
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      category_ids = #{categoryIds,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, category_ids
+    from distributor_category_relevance
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, category_ids
+    from distributor_category_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, category_ids
+    from distributor_category_relevance
+  </select>
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_category_relevance
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+
+    <select id="listByDistributorIds" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, category_ids
+        from distributor_category_relevance
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listDistributorIdsByCategoryId" parameterType="java.lang.String" resultType="int">
+        select distributor_id
+        from distributor_category_relevance
+        where category_ids like concat(concat('%',#{categoryId}),'%')
+    </select>
+
+    <select id="listByCategoryId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select id, distributor_id, category_ids
+        from distributor_category_relevance
+        where category_ids like concat(concat('%',#{categoryId}),'%')
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into distributor_category_relevance (distributor_id, category_ids)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.categoryIds,jdbcType=LONGVARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update distributor_category_relevance
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            category_ids = #{item.categoryIds,jdbcType=LONGVARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from distributor_category_relevance
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

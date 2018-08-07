@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.platform.SysPlatformApiMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.platform.dataobject.SysPlatformApiDO">
+        <result column="sys_platform_id" jdbcType="INTEGER" property="sysPlatformId"/>
+        <result column="api_type" jdbcType="SMALLINT" property="apiType"/>
+        <result column="uri" jdbcType="VARCHAR" property="uri"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="develop_source" jdbcType="SMALLINT" property="developSource"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_platform_api
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.platform.dataobject.SysPlatformApiDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_platform_api (sys_platform_id, api_type, uri,method,
+        develop_source)
+        values (#{sysPlatformId,jdbcType=INTEGER}, #{apiType,jdbcType=SMALLINT},
+        #{uri,jdbcType=VARCHAR},#{method,jdbcType=VARCHAR},
+        #{developSource,jdbcType=SMALLINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.platform.dataobject.SysPlatformApiDO">
+    update sys_platform_api
+    set sys_platform_id = #{sysPlatformId,jdbcType=INTEGER},
+      api_type = #{apiType,jdbcType=SMALLINT},
+      uri = #{uri,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      develop_source = #{developSource,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, sys_platform_id, api_type, uri,method, develop_source
+    from sys_platform_api
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, sys_platform_id, api_type, uri,method, develop_source
+    from sys_platform_api
+  </select>
+
+    <delete id="deleteBySysPlatformId" parameterType="java.lang.Integer">
+    delete from sys_platform_api
+    where sys_platform_id = #{sysPlatformId,jdbcType=INTEGER}
+  </delete>
+
+    <update id="insertList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into sys_platform_api (sys_platform_id, api_type, uri,method,
+            develop_source)
+            values (#{item.sysPlatformId,jdbcType=INTEGER}, #{item.apiType,jdbcType=SMALLINT},
+            #{item.uri,jdbcType=VARCHAR},#{item.method,jdbcType=VARCHAR},
+            #{item.developSource,jdbcType=SMALLINT})
+        </foreach>
+    </update>
+
+    <select id="listBySysPlatformId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, sys_platform_id, api_type, uri,method, develop_source
+    from sys_platform_api
+    where sys_platform_id = #{sysPlatformId,jdbcType=INTEGER}
+  </select>
+    <select id="getSysPlatformApiBySysPlatformIdAndApiType" resultMap="BaseResultMap">
+         select *
+    from sys_platform_api
+    where sys_platform_id = #{sysPlatformId,jdbcType=INTEGER} and api_type = #{apiType}
+    </select>
+</mapper>

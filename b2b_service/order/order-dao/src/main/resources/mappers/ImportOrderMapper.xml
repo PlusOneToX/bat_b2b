@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.importOrder.ImportOrderMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="erp_distributor_no" jdbcType="VARCHAR" property="erpDistributorNo"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="order_type_value" jdbcType="VARCHAR" property="orderTypeValue"/>
+        <result column="order_type_name" jdbcType="VARCHAR" property="orderTypeName"/>
+        <result column="country_id" jdbcType="INTEGER" property="countryId"/>
+        <result column="country_name" jdbcType="INTEGER" property="countryName"/>
+        <result column="province_id" jdbcType="INTEGER" property="provinceId"/>
+        <result column="province_name" jdbcType="VARCHAR" property="provinceName"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="district_id" jdbcType="INTEGER" property="districtId"/>
+        <result column="district_name" jdbcType="VARCHAR" property="districtName"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="zip_code" jdbcType="VARCHAR" property="zipCode"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="pay_way" jdbcType="BIT" property="payWay"/>
+        <result column="delivery_type" jdbcType="BIT" property="deliveryType"/>
+        <result column="delivery_time" jdbcType="TIMESTAMP" property="deliveryTime"/>
+        <result column="distribution_id" jdbcType="INTEGER" property="distributionId"/>
+        <result column="distribution_name" jdbcType="VARCHAR" property="distributionName"/>
+        <result column="invoice_type" jdbcType="BIT" property="invoiceType"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="handle_flag" jdbcType="BIT" property="handleFlag"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="order_create_time" jdbcType="TIMESTAMP" property="orderCreateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="count_sum" jdbcType="INTEGER" property="countSum"/>
+        <result column="amount_sum" jdbcType="DECIMAL" property="amountSum"/>
+        <result column="is_invoice" jdbcType="BIT" property="isInvoice"/>
+        <result column="operate_uid" jdbcType="INTEGER" property="operateUid"/>
+        <result column="currency_type" jdbcType="VARCHAR" property="currencyType"/>
+        <result column="currency_rates" jdbcType="DECIMAL" property="currencyRates"/>
+        <result column="submit_status" jdbcType="TINYINT" property="submitStatus"/>
+        <result column="order_split_flag" jdbcType="VARCHAR" property="orderSplitFlag"/>
+        <result column="manufactor" jdbcType="VARCHAR" property="manufactor"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        <result column="remind" jdbcType="LONGVARCHAR" property="remind"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , erp_distributor_no, distributor_id, distributor_name, order_type_value, order_type_name, country_id,
+    province_id, city_id, district_id, country_name, province_name, city_name, district_name, address,
+    zip_code, user_name, mobile, phone, pay_way, delivery_type, delivery_time, distribution_id, 
+    distribution_name, invoice_type, remark, handle_flag, order_id, order_no, order_create_time, 
+    create_time, update_time, count_sum, amount_sum, is_invoice, operate_uid, currency_type, 
+    currency_rates, submit_status, order_split_flag, manufactor
+    </sql>
+    <sql id="Blob_Column_List">
+        remind
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from import_order
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listImportOrderByParams" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from import_order
+        <where>
+            <if test="params.importOrderStatus!=null">
+                AND handle_flag = #{params.importOrderStatus}
+            </if>
+            <if test="params.distributorId!=null and params.distributorId!=''">
+                AND distributor_id = #{params.distributorId}
+            </if>
+            <if test="params.currencyType!=null and params.currencyType!=''">
+                AND currency_type = #{params.currencyType,jdbcType=VARCHAR}
+            </if>
+            <if test="params.content!=null and params.content!=''">
+                AND (mobile like CONCAT('%',#{params.content},'%') OR user_name like CONCAT('%',#{params.content},'%')
+                OR mobile like
+                CONCAT('%',#{params.content},'%'))
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="listImportOrderByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from import_order
+        where id in
+        <foreach collection="dos" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from import_order
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByPrimaryKeys">
+        delete
+        from import_order
+        where id in
+        <foreach collection="dos" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into import_order (erp_distributor_no, distributor_id,
+        distributor_name, order_type_value, order_type_name, country_id,
+        province_id, city_id, district_id, country_name,
+        province_name, city_name, district_name,
+        address, zip_code, user_name,
+        mobile, phone, pay_way,
+        delivery_type, delivery_time, distribution_id,
+        distribution_name, invoice_type, remark,
+        handle_flag, order_id, order_no,
+        order_create_time, create_time, update_time,
+        count_sum, amount_sum, is_invoice,
+        operate_uid, currency_type, currency_rates,
+        submit_status, order_split_flag, manufactor,
+        remind)
+        values (#{erpDistributorNo,jdbcType=VARCHAR}, #{distributorId,jdbcType=INTEGER},
+        #{distributorName,jdbcType=VARCHAR}, #{orderTypeValue,jdbcType=VARCHAR},
+        #{orderTypeName,jdbcType=VARCHAR},#{countryId,jdbcType=INTEGER},
+        #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},
+        #{districtId,jdbcType=INTEGER},#{countryName,jdbcType=VARCHAR},
+        #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{payWay,jdbcType=BIT},
+        #{deliveryType,jdbcType=BIT}, #{deliveryTime,jdbcType=TIMESTAMP}, #{distributionId,jdbcType=INTEGER},
+        #{distributionName,jdbcType=VARCHAR}, #{invoiceType,jdbcType=BIT}, #{remark,jdbcType=VARCHAR},
+        #{handleFlag,jdbcType=BIT}, #{orderId,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
+        #{orderCreateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{countSum,jdbcType=INTEGER}, #{amountSum,jdbcType=DECIMAL}, #{isInvoice,jdbcType=BIT},
+        #{operateUid,jdbcType=INTEGER}, #{currencyType,jdbcType=VARCHAR}, #{currencyRates,jdbcType=DECIMAL},
+        #{submitStatus,jdbcType=TINYINT}, #{orderSplitFlag,jdbcType=VARCHAR}, #{manufactor,jdbcType=VARCHAR},
+        #{remind,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into import_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="erpDistributorNo != null">
+                erp_distributor_no,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="orderTypeValue != null">
+                order_type_value,
+            </if>
+            <if test="orderTypeName != null">
+                order_type_name,
+            </if>
+            <if test="countryId != null">
+                country_id,
+            </if>
+            <if test="provinceId != null">
+                province_id,
+            </if>
+            <if test="cityId != null">
+                city_id,
+            </if>
+            <if test="districtId != null">
+                district_id,
+            </if>
+            <if test="countryName != null">
+                country_name,
+            </if>
+            <if test="provinceName != null">
+                province_name,
+            </if>
+            <if test="cityName != null">
+                city_name,
+            </if>
+            <if test="districtName != null">
+                district_name,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="zipCode != null">
+                zip_code,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="payWay != null">
+                pay_way,
+            </if>
+            <if test="deliveryType != null">
+                delivery_type,
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time,
+            </if>
+            <if test="distributionId != null">
+                distribution_id,
+            </if>
+            <if test="distributionName != null">
+                distribution_name,
+            </if>
+            <if test="invoiceType != null">
+                invoice_type,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="handleFlag != null">
+                handle_flag,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="orderCreateTime != null">
+                order_create_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="countSum != null">
+                count_sum,
+            </if>
+            <if test="amountSum != null">
+                amount_sum,
+            </if>
+            <if test="isInvoice != null">
+                is_invoice,
+            </if>
+            <if test="operateUid != null">
+                operate_uid,
+            </if>
+            <if test="currencyType != null">
+                currency_type,
+            </if>
+            <if test="currencyRates != null">
+                currency_rates,
+            </if>
+            <if test="submitStatus != null">
+                submit_status,
+            </if>
+            <if test="orderSplitFlag != null">
+                order_split_flag,
+            </if>
+            <if test="manufactor != null">
+                manufactor,
+            </if>
+            <if test="remind != null">
+                remind,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="erpDistributorNo != null">
+                #{erpDistributorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTypeValue != null">
+                #{orderTypeValue,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTypeName != null">
+                #{orderTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                #{countryId,jdbcType=INTEGER},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="cityId != null">
+                #{cityId,jdbcType=INTEGER},
+            </if>
+            <if test="districtId != null">
+                #{districtId,jdbcType=INTEGER},
+            </if>
+            <if test="countryName != null">
+                #{countryName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null">
+                #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName != null">
+                #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="zipCode != null">
+                #{zipCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="payWay != null">
+                #{payWay,jdbcType=BIT},
+            </if>
+            <if test="deliveryType != null">
+                #{deliveryType,jdbcType=BIT},
+            </if>
+            <if test="deliveryTime != null">
+                #{deliveryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="distributionId != null">
+                #{distributionId,jdbcType=INTEGER},
+            </if>
+            <if test="distributionName != null">
+                #{distributionName,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceType != null">
+                #{invoiceType,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="handleFlag != null">
+                #{handleFlag,jdbcType=BIT},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCreateTime != null">
+                #{orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="countSum != null">
+                #{countSum,jdbcType=INTEGER},
+            </if>
+            <if test="amountSum != null">
+                #{amountSum,jdbcType=DECIMAL},
+            </if>
+            <if test="isInvoice != null">
+                #{isInvoice,jdbcType=BIT},
+            </if>
+            <if test="operateUid != null">
+                #{operateUid,jdbcType=INTEGER},
+            </if>
+            <if test="currencyType != null">
+                #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="currencyRates != null">
+                #{currencyRates,jdbcType=DECIMAL},
+            </if>
+            <if test="submitStatus != null">
+                #{submitStatus,jdbcType=TINYINT},
+            </if>
+            <if test="orderSplitFlag != null">
+                #{orderSplitFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactor != null">
+                #{manufactor,jdbcType=VARCHAR},
+            </if>
+            <if test="remind != null">
+                #{remind,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into import_order (erp_distributor_no, distributor_id,
+        distributor_name, order_type_value, order_type_name, country_id,
+        province_id, city_id, district_id, country_name,
+        province_name, city_name, district_name,
+        address, zip_code, user_name,
+        mobile, phone, pay_way,
+        delivery_type, delivery_time, distribution_id,
+        distribution_name, invoice_type, remark,
+        handle_flag, order_id, order_no,
+        order_create_time, create_time, update_time,
+        count_sum, amount_sum, is_invoice,
+        operate_uid, currency_type, currency_rates,
+        submit_status, order_split_flag, manufactor,
+        remind)
+        values
+        <foreach collection="dos" index="index" item="item" open="" separator="," close="">
+            (#{item.erpDistributorNo,jdbcType=VARCHAR}, #{item.distributorId,jdbcType=INTEGER},
+            #{item.distributorName,jdbcType=VARCHAR}, #{item.orderTypeValue,jdbcType=VARCHAR},
+            #{item.orderTypeName,jdbcType=VARCHAR},#{item.countryId,jdbcType=INTEGER},
+            #{item.provinceId,jdbcType=INTEGER}, #{item.cityId,jdbcType=INTEGER},
+            #{item.districtId,jdbcType=INTEGER},#{item.countryName,jdbcType=VARCHAR},
+            #{item.provinceName,jdbcType=VARCHAR}, #{item.cityName,jdbcType=VARCHAR},
+            #{item.districtName,jdbcType=VARCHAR},
+            #{item.address,jdbcType=VARCHAR}, #{item.zipCode,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR},
+            #{item.mobile,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.payWay,jdbcType=BIT},
+            #{item.deliveryType,jdbcType=BIT}, #{item.deliveryTime,jdbcType=TIMESTAMP},
+            #{item.distributionId,jdbcType=INTEGER},
+            #{item.distributionName,jdbcType=VARCHAR}, #{item.invoiceType,jdbcType=BIT},
+            #{item.remark,jdbcType=VARCHAR},
+            #{item.handleFlag,jdbcType=BIT}, #{item.orderId,jdbcType=VARCHAR}, #{item.orderNo,jdbcType=VARCHAR},
+            #{item.orderCreateTime,jdbcType=TIMESTAMP}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.countSum,jdbcType=INTEGER}, #{item.amountSum,jdbcType=DECIMAL}, #{item.isInvoice,jdbcType=BIT},
+            #{item.operateUid,jdbcType=INTEGER}, #{item.currencyType,jdbcType=VARCHAR},
+            #{item.currencyRates,jdbcType=DECIMAL},
+            #{item.submitStatus,jdbcType=TINYINT}, #{item.orderSplitFlag,jdbcType=VARCHAR},
+            #{item.manufactor,jdbcType=VARCHAR},
+            #{item.remind,jdbcType=LONGVARCHAR})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        update import_order
+        <set>
+            <if test="erpDistributorNo != null">
+                erp_distributor_no = #{erpDistributorNo,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTypeValue != null">
+                order_type_value = #{orderTypeValue,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTypeName != null">
+                order_type_name = #{orderTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="countryId != null">
+                country_id = #{countryId,jdbcType=INTEGER},
+            </if>
+            <if test="provinceId != null">
+                province_id = #{provinceId,jdbcType=INTEGER},
+            </if>
+            <if test="cityId != null">
+                city_id = #{cityId,jdbcType=INTEGER},
+            </if>
+            <if test="districtId != null">
+                district_id = #{districtId,jdbcType=INTEGER},
+            </if>
+            <if test="countryName != null">
+                country_name = #{countryName,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null">
+                province_name = #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName != null">
+                district_name = #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="zipCode != null">
+                zip_code = #{zipCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="payWay != null">
+                pay_way = #{payWay,jdbcType=BIT},
+            </if>
+            <if test="deliveryType != null">
+                delivery_type = #{deliveryType,jdbcType=BIT},
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="distributionId != null">
+                distribution_id = #{distributionId,jdbcType=INTEGER},
+            </if>
+            <if test="distributionName != null">
+                distribution_name = #{distributionName,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceType != null">
+                invoice_type = #{invoiceType,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="handleFlag != null">
+                handle_flag = #{handleFlag,jdbcType=BIT},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCreateTime != null">
+                order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="countSum != null">
+                count_sum = #{countSum,jdbcType=INTEGER},
+            </if>
+            <if test="amountSum != null">
+                amount_sum = #{amountSum,jdbcType=DECIMAL},
+            </if>
+            <if test="isInvoice != null">
+                is_invoice = #{isInvoice,jdbcType=BIT},
+            </if>
+            <if test="operateUid != null">
+                operate_uid = #{operateUid,jdbcType=INTEGER},
+            </if>
+            <if test="currencyType != null">
+                currency_type = #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="currencyRates != null">
+                currency_rates = #{currencyRates,jdbcType=DECIMAL},
+            </if>
+            <if test="submitStatus != null">
+                submit_status = #{submitStatus,jdbcType=TINYINT},
+            </if>
+            <if test="orderSplitFlag != null">
+                order_split_flag = #{orderSplitFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactor != null">
+                manufactor = #{manufactor,jdbcType=VARCHAR},
+            </if>
+            <if test="remind != null">
+                remind = #{remind,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        update import_order
+        set erp_distributor_no = #{erpDistributorNo,jdbcType=VARCHAR},
+            distributor_id     = #{distributorId,jdbcType=INTEGER},
+            distributor_name   = #{distributorName,jdbcType=VARCHAR},
+            order_type_value   = #{orderTypeValue,jdbcType=VARCHAR},
+            order_type_name    = #{orderTypeName,jdbcType=VARCHAR},
+            country_id         = #{countryId,jdbcType=INTEGER},
+            province_id        = #{provinceId,jdbcType=INTEGER},
+            city_id            = #{cityId,jdbcType=INTEGER},
+            district_id        = #{districtId,jdbcType=INTEGER},
+            country_name       = #{countryName,jdbcType=VARCHAR},
+            province_name      = #{provinceName,jdbcType=VARCHAR},
+            city_name          = #{cityName,jdbcType=VARCHAR},
+            district_name      = #{districtName,jdbcType=VARCHAR},
+            address            = #{address,jdbcType=VARCHAR},
+            zip_code           = #{zipCode,jdbcType=VARCHAR},
+            user_name          = #{userName,jdbcType=VARCHAR},
+            mobile             = #{mobile,jdbcType=VARCHAR},
+            phone              = #{phone,jdbcType=VARCHAR},
+            pay_way            = #{payWay,jdbcType=BIT},
+            delivery_type      = #{deliveryType,jdbcType=BIT},
+            delivery_time      = #{deliveryTime,jdbcType=TIMESTAMP},
+            distribution_id    = #{distributionId,jdbcType=INTEGER},
+            distribution_name  = #{distributionName,jdbcType=VARCHAR},
+            invoice_type       = #{invoiceType,jdbcType=BIT},
+            remark             = #{remark,jdbcType=VARCHAR},
+            handle_flag        = #{handleFlag,jdbcType=BIT},
+            order_id           = #{orderId,jdbcType=VARCHAR},
+            order_no           = #{orderNo,jdbcType=VARCHAR},
+            order_create_time  = #{orderCreateTime,jdbcType=TIMESTAMP},
+            create_time        = #{createTime,jdbcType=TIMESTAMP},
+            update_time        = #{updateTime,jdbcType=TIMESTAMP},
+            count_sum          = #{countSum,jdbcType=INTEGER},
+            amount_sum         = #{amountSum,jdbcType=DECIMAL},
+            is_invoice         = #{isInvoice,jdbcType=BIT},
+            operate_uid        = #{operateUid,jdbcType=INTEGER},
+            currency_type      = #{currencyType,jdbcType=VARCHAR},
+            currency_rates     = #{currencyRates,jdbcType=DECIMAL},
+            submit_status      = #{submitStatus,jdbcType=TINYINT},
+            order_split_flag   = #{orderSplitFlag,jdbcType=VARCHAR},
+            manufactor         = #{manufactor,jdbcType=VARCHAR},
+            remind             = #{remind,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDO">
+        update import_order
+        set erp_distributor_no = #{erpDistributorNo,jdbcType=VARCHAR},
+            distributor_id     = #{distributorId,jdbcType=INTEGER},
+            distributor_name   = #{distributorName,jdbcType=VARCHAR},
+            order_type_value   = #{orderTypeValue,jdbcType=VARCHAR},
+            order_type_name    = #{orderTypeName,jdbcType=VARCHAR},
+            country_id         = #{countryId,jdbcType=INTEGER},
+            province_id        = #{provinceId,jdbcType=INTEGER},
+            city_id            = #{cityId,jdbcType=INTEGER},
+            district_id        = #{districtId,jdbcType=INTEGER},
+            country_name       = #{countryName,jdbcType=VARCHAR},
+            province_name      = #{provinceName,jdbcType=VARCHAR},
+            city_name          = #{cityName,jdbcType=VARCHAR},
+            district_name      = #{districtName,jdbcType=VARCHAR},
+            address            = #{address,jdbcType=VARCHAR},
+            zip_code           = #{zipCode,jdbcType=VARCHAR},
+            user_name          = #{userName,jdbcType=VARCHAR},
+            mobile             = #{mobile,jdbcType=VARCHAR},
+            phone              = #{phone,jdbcType=VARCHAR},
+            pay_way            = #{payWay,jdbcType=BIT},
+            delivery_type      = #{deliveryType,jdbcType=BIT},
+            delivery_time      = #{deliveryTime,jdbcType=TIMESTAMP},
+            distribution_id    = #{distributionId,jdbcType=INTEGER},
+            distribution_name  = #{distributionName,jdbcType=VARCHAR},
+            invoice_type       = #{invoiceType,jdbcType=BIT},
+            remark             = #{remark,jdbcType=VARCHAR},
+            handle_flag        = #{handleFlag,jdbcType=BIT},
+            order_id           = #{orderId,jdbcType=VARCHAR},
+            order_no           = #{orderNo,jdbcType=VARCHAR},
+            order_create_time  = #{orderCreateTime,jdbcType=TIMESTAMP},
+            create_time        = #{createTime,jdbcType=TIMESTAMP},
+            update_time        = #{updateTime,jdbcType=TIMESTAMP},
+            count_sum          = #{countSum,jdbcType=INTEGER},
+            amount_sum         = #{amountSum,jdbcType=DECIMAL},
+            is_invoice         = #{isInvoice,jdbcType=BIT},
+            operate_uid        = #{operateUid,jdbcType=INTEGER},
+            currency_type      = #{currencyType,jdbcType=VARCHAR},
+            currency_rates     = #{currencyRates,jdbcType=DECIMAL},
+            submit_status      = #{submitStatus,jdbcType=TINYINT},
+            order_split_flag   = #{orderSplitFlag,jdbcType=VARCHAR},
+            manufactor         = #{manufactor,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="batchUpdate">
+        <foreach collection="dos" index="index" separator=" ; " item="item">
+            update import_order
+            set erp_distributor_no = #{item.erpDistributorNo,jdbcType=VARCHAR},
+            distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            distributor_name = #{item.distributorName,jdbcType=VARCHAR},
+            order_type_value = #{item.orderTypeValue,jdbcType=VARCHAR},
+            order_type_name = #{item.orderTypeName,jdbcType=VARCHAR},
+            country_id = #{item.countryId,jdbcType=INTEGER},
+            province_id = #{item.provinceId,jdbcType=INTEGER},
+            city_id = #{item.cityId,jdbcType=INTEGER},
+            district_id = #{item.districtId,jdbcType=INTEGER},
+            country_name = #{item.countryName,jdbcType=VARCHAR},
+            province_name = #{item.provinceName,jdbcType=VARCHAR},
+            city_name = #{item.cityName,jdbcType=VARCHAR},
+            district_name = #{item.districtName,jdbcType=VARCHAR},
+            address = #{item.address,jdbcType=VARCHAR},
+            zip_code = #{item.zipCode,jdbcType=VARCHAR},
+            user_name = #{item.userName,jdbcType=VARCHAR},
+            mobile = #{item.mobile,jdbcType=VARCHAR},
+            phone = #{item.phone,jdbcType=VARCHAR},
+            pay_way = #{item.payWay,jdbcType=BIT},
+            delivery_type = #{item.deliveryType,jdbcType=BIT},
+            delivery_time = #{item.deliveryTime,jdbcType=TIMESTAMP},
+            distribution_id = #{item.distributionId,jdbcType=INTEGER},
+            distribution_name = #{item.distributionName,jdbcType=VARCHAR},
+            invoice_type = #{item.invoiceType,jdbcType=BIT},
+            remark = #{item.remark,jdbcType=VARCHAR},
+            handle_flag = #{item.handleFlag,jdbcType=BIT},
+            order_id = #{item.orderId,jdbcType=VARCHAR},
+            order_no = #{item.orderNo,jdbcType=VARCHAR},
+            order_create_time = #{item.orderCreateTime,jdbcType=TIMESTAMP},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+            count_sum = #{item.countSum,jdbcType=INTEGER},
+            amount_sum = #{item.amountSum,jdbcType=DECIMAL},
+            is_invoice = #{item.isInvoice,jdbcType=BIT},
+            operate_uid = #{item.operateUid,jdbcType=INTEGER},
+            currency_type = #{item.currencyType,jdbcType=VARCHAR},
+            currency_rates = #{item.currencyRates,jdbcType=DECIMAL},
+            submit_status = #{item.submitStatus,jdbcType=TINYINT},
+            order_split_flag = #{item.orderSplitFlag,jdbcType=VARCHAR},
+            manufactor = #{item.manufactor,jdbcType=VARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+</mapper>

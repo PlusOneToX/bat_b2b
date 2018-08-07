@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.customer.CustomerPlatformMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.customer.dataobject.CustomerPlatformDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerId"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="other_id" jdbcType="VARCHAR" property="otherId"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer_platform
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.customer.dataobject.CustomerPlatformDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into customer_platform (customer_id, platform, open_id,
+        other_id, status, create_time,
+        update_time)
+        values (#{customerId,jdbcType=INTEGER}, #{platform,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
+        #{otherId,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.customer.dataobject.CustomerPlatformDO">
+    update customer_platform
+    set customer_id = #{customerId,jdbcType=INTEGER},
+      platform = #{platform,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      other_id = #{otherId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, customer_id, platform, open_id, other_id, status, create_time, update_time
+    from customer_platform
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, customer_id, platform, open_id, other_id, status, create_time, update_time
+    from customer_platform
+  </select>
+
+    <select id="selectByOpenIdAndOtherIdAndPlatformAndCustomerId" parameterType="map" resultMap="BaseResultMap">
+        select id, customer_id, platform, open_id, other_id, status, create_time, update_time
+        from customer_platform
+        where customer_id = #{customerId} and open_id = #{openId} and platform = #{platform}
+        <if test="otherId != null">
+            and other_id = #{otherId}
+        </if>
+    </select>
+
+    <select id="listByCustomerIdAndPlatform" parameterType="map" resultMap="BaseResultMap">
+        select id, customer_id, platform, open_id, other_id, status, create_time, update_time
+        from customer_platform
+        where platform = #{platform} and customer_id = #{customerId}
+    </select>
+
+    <select id="selectOneByOpenIdAndPlatform" resultMap="BaseResultMap">
+        select id, customer_id, platform, open_id, other_id, status, create_time, update_time
+        from customer_platform
+        where open_id = #{openId} and platform = #{platform} limit 1
+    </select>
+    <select id="getByOpenIdAndPlatform" resultMap="BaseResultMap">
+        select * from customer_platform where open_id = #{openId} and platform = #{platform}
+    </select>
+</mapper>

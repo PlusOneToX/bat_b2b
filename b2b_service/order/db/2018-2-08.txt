@@ -1,0 +1,2 @@
+ALTER TABLE `order_extend_data` 
+ADD COLUMN `open_id` varchar(50) NULL COMMENT '下单者openId';

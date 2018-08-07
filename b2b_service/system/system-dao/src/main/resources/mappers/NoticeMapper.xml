@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.storesetting.NoticeMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="attachment_name" jdbcType="VARCHAR" property="attachmentName"/>
+        <result column="attachment_url" jdbcType="VARCHAR" property="attachmentUrl"/>
+        <result column="release_area" jdbcType="SMALLINT" property="releaseArea"/>
+        <result column="release_status" jdbcType="SMALLINT" property="releaseStatus"/>
+        <result column="release_time" jdbcType="TIMESTAMP" property="releaseTime"/>
+        <result column="cancel_time" jdbcType="TIMESTAMP" property="cancelTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, title, attachment_name, attachment_url, release_area, release_status, release_time,
+    cancel_time, create_time, update_time
+    </sql>
+    <sql id="Blob_Column_List">
+        content
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from store_notice
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_notice
+        <where>
+            <if test="params.releaseStatus=null">
+                AND release_status = #{params.releaseStatus}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from store_notice
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_notice (title, attachment_name, attachment_url,
+        release_area, release_status, release_time,
+        cancel_time, create_time, update_time,
+        content)
+        values (#{title,jdbcType=VARCHAR}, #{attachmentName,jdbcType=VARCHAR}, #{attachmentUrl,jdbcType=VARCHAR},
+        #{releaseArea,jdbcType=SMALLINT}, #{releaseStatus,jdbcType=SMALLINT}, #{releaseTime,jdbcType=TIMESTAMP},
+        #{cancelTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{content,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="attachmentName != null">
+                attachment_name,
+            </if>
+            <if test="attachmentUrl != null">
+                attachment_url,
+            </if>
+            <if test="releaseArea != null">
+                release_area,
+            </if>
+            <if test="releaseStatus != null">
+                release_status,
+            </if>
+            <if test="releaseTime != null">
+                release_time,
+            </if>
+            <if test="cancelTime != null">
+                cancel_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="attachmentName != null">
+                #{attachmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="attachmentUrl != null">
+                #{attachmentUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="releaseArea != null">
+                #{releaseArea,jdbcType=SMALLINT},
+            </if>
+            <if test="releaseStatus != null">
+                #{releaseStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="releaseTime != null">
+                #{releaseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cancelTime != null">
+                #{cancelTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        update store_notice
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="attachmentName != null">
+                attachment_name = #{attachmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="attachmentUrl != null">
+                attachment_url = #{attachmentUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="releaseArea != null">
+                release_area = #{releaseArea,jdbcType=SMALLINT},
+            </if>
+            <if test="releaseStatus != null">
+                release_status = #{releaseStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="releaseTime != null">
+                release_time = #{releaseTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cancelTime != null">
+                cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        update store_notice
+        set title           = #{title,jdbcType=VARCHAR},
+            attachment_name = #{attachmentName,jdbcType=VARCHAR},
+            attachment_url  = #{attachmentUrl,jdbcType=VARCHAR},
+            release_area    = #{releaseArea,jdbcType=SMALLINT},
+            release_status  = #{releaseStatus,jdbcType=SMALLINT},
+            release_time    = #{releaseTime,jdbcType=TIMESTAMP},
+            cancel_time     = #{cancelTime,jdbcType=TIMESTAMP},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP},
+            content         = #{content,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.storesetting.dataobject.NoticeDO">
+        update store_notice
+        set title           = #{title,jdbcType=VARCHAR},
+            attachment_name = #{attachmentName,jdbcType=VARCHAR},
+            attachment_url  = #{attachmentUrl,jdbcType=VARCHAR},
+            release_area    = #{releaseArea,jdbcType=SMALLINT},
+            release_status  = #{releaseStatus,jdbcType=SMALLINT},
+            release_time    = #{releaseTime,jdbcType=TIMESTAMP},
+            cancel_time     = #{cancelTime,jdbcType=TIMESTAMP},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

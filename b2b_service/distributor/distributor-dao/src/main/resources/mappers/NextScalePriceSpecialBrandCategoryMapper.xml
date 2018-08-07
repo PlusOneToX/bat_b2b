@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.nextscaleprice.NextScalePriceSpecialBrandCategoryMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialBrandCategoryDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="next_scale_price_special_id" jdbcType="INTEGER" property="nextScalePriceSpecialId"/>
+        <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+    </resultMap>
+    <resultMap id="NextScalePriceSpecialFormulaMap"
+               type="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialFormulaDO">
+        <result column="next_scale_price_id" jdbcType="INTEGER" property="nextScalePriceId"/>
+        <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="arithmetic_type" jdbcType="SMALLINT" property="arithmeticType"/>
+        <result column="arithmetic_num" jdbcType="DECIMAL" property="arithmeticNum"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from next_scale_price_special_brand_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByNextScalePriceSpecialId" parameterType="java.lang.Integer">
+    delete from next_scale_price_special_brand_category
+    where next_scale_price_special_id = #{nextScalePriceSpecialId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert"
+            parameterType="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialBrandCategoryDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into next_scale_price_special_brand_category (next_scale_price_special_id, brand_id,
+        category_id)
+        values (#{nextScalePriceSpecialId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
+        #{categoryId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertList"
+            parameterType="java.util.List">
+        insert into next_scale_price_special_brand_category (next_scale_price_special_id, brand_id,
+        category_id)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.nextScalePriceSpecialId,jdbcType=INTEGER},
+            #{item.brandId,jdbcType=INTEGER},
+            #{item.categoryId,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialBrandCategoryDO">
+    update next_scale_price_special_brand_category
+    set next_scale_price_special_id = #{nextScalePriceSpecialId,jdbcType=INTEGER},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, next_scale_price_special_id, brand_id, category_id
+    from next_scale_price_special_brand_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, next_scale_price_special_id, brand_id, category_id
+    from next_scale_price_special_brand_category
+  </select>
+
+    <select id="listByNextScalePriceSpecialId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, next_scale_price_special_id, brand_id, category_id
+    from next_scale_price_special_brand_category
+    where next_scale_price_special_id = #{nextScalePriceSpecialId,jdbcType=INTEGER}
+  </select>
+
+    <select id="listByNextScalePriceIds" parameterType="map" resultMap="NextScalePriceSpecialFormulaMap">
+        select nsps.next_scale_price_id, nspsbc.brand_id, nspsbc.category_id,nsps.arithmetic_type,nsps.arithmetic_num
+        from next_scale_price_special_brand_category nspsbc
+        join next_scale_price_special nsps on nsps.id = nspsbc.next_scale_price_special_id
+        join next_scale_price nsp on nsp.id = nsps.next_scale_price_id
+        where nsp.id in
+        <foreach collection="nextScalePriceIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteByNextScalePriceSpecialIds" parameterType="map">
+        delete from next_scale_price_special_brand_category
+        where next_scale_price_special_id in
+        <foreach collection="nextScalePriceSpecialIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

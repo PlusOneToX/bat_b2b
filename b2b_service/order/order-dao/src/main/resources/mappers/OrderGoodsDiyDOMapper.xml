@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.order.OrderGoodsDiyDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.order.dataobject.OrderGoodsDiyDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="material_id" property="materialId" jdbcType="INTEGER"/>
+        <result column="material_name" property="materialName" jdbcType="VARCHAR"/>
+        <result column="model_id" property="modelId" jdbcType="INTEGER"/>
+        <result column="model_name" property="modelName" jdbcType="VARCHAR"/>
+        <result column="manufactors" property="manufactors" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="picture_id" property="pictureId" jdbcType="INTEGER"/>
+        <result column="label_id" property="labelId" jdbcType="INTEGER"/>
+        <result column="label_url" property="labelUrl" jdbcType="VARCHAR"/>
+        <result column="generate_image" property="generateImage" jdbcType="VARCHAR"/>
+        <result column="preview_image" property="previewImage" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , order_id,order_goods_id, category_id, category_name, material_id, material_name,manufactors, model_id,
+    model_name, brand_id, brand_name, picture_id, label_id, label_url, generate_image, 
+    preview_image, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_diy
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_goods_diy
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDiyDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into order_goods_diy (id, order_id, order_goods_id, category_id,
+                                     category_name, material_id, material_name, manufactors,
+                                     model_id, model_name, brand_id,
+                                     brand_name, picture_id, label_id,
+                                     label_url, generate_image, preview_image,
+                                     create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{orderGoodsId,jdbcType=INTEGER},
+                #{categoryId,jdbcType=INTEGER},
+                #{categoryName,jdbcType=VARCHAR}, #{materialId,jdbcType=INTEGER}, #{materialName,jdbcType=VARCHAR},
+                #{manufactors,jdbcType=VARCHAR},
+                #{modelId,jdbcType=INTEGER}, #{modelName,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER},
+                #{brandName,jdbcType=VARCHAR}, #{pictureId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER},
+                #{labelUrl,jdbcType=VARCHAR}, #{generateImage,jdbcType=VARCHAR}, #{previewImage,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods_diy (id,order_id, order_goods_id, category_id,
+        category_name, material_id, material_name,manufactors,
+        model_id, model_name, brand_id,
+        brand_name, picture_id, label_id,
+        label_url, generate_image, preview_image,
+        create_time, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER},#{item.orderId,jdbcType=INTEGER}, #{item.orderGoodsId,jdbcType=INTEGER},
+            #{item.categoryId,jdbcType=INTEGER},
+            #{item.categoryName,jdbcType=VARCHAR}, #{item.materialId,jdbcType=INTEGER},
+            #{item.materialName,jdbcType=VARCHAR},#{item.manufactors,jdbcType=VARCHAR},
+            #{item.modelId,jdbcType=INTEGER}, #{item.modelName,jdbcType=VARCHAR}, #{item.brandId,jdbcType=INTEGER},
+            #{item.brandName,jdbcType=VARCHAR}, #{item.pictureId,jdbcType=INTEGER}, #{item.labelId,jdbcType=INTEGER},
+            #{item.labelUrl,jdbcType=VARCHAR}, #{item.generateImage,jdbcType=VARCHAR},
+            #{item.previewImage,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDiyDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_goods_diy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="materialId != null">
+                material_id,
+            </if>
+            <if test="manufactors != null">
+                manufactors,
+            </if>
+            <if test="materialName != null">
+                material_name,
+            </if>
+            <if test="modelId != null">
+                model_id,
+            </if>
+            <if test="modelName != null">
+                model_name,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="brandName != null">
+                brand_name,
+            </if>
+            <if test="pictureId != null">
+                picture_id,
+            </if>
+            <if test="labelId != null">
+                label_id,
+            </if>
+            <if test="labelUrl != null">
+                label_url,
+            </if>
+            <if test="generateImage != null">
+                generate_image,
+            </if>
+            <if test="previewImage != null">
+                preview_image,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="materialId != null">
+                #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="materialName != null">
+                #{materialName,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactors != null">
+                #{manufactors,jdbcType=VARCHAR},
+            </if>
+            <if test="modelId != null">
+                #{modelId,jdbcType=INTEGER},
+            </if>
+            <if test="modelName != null">
+                #{modelName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="brandName != null">
+                #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="pictureId != null">
+                #{pictureId,jdbcType=INTEGER},
+            </if>
+            <if test="labelId != null">
+                #{labelId,jdbcType=INTEGER},
+            </if>
+            <if test="labelUrl != null">
+                #{labelUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="generateImage != null">
+                #{generateImage,jdbcType=VARCHAR},
+            </if>
+            <if test="previewImage != null">
+                #{previewImage,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDiyDO">
+        update order_goods_diy
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="materialId != null">
+                material_id = #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="materialName != null">
+                material_name = #{materialName,jdbcType=VARCHAR},
+            </if>
+            <if test="manufactors != null">
+                manufactors = #{manufactors,jdbcType=VARCHAR},
+            </if>
+            <if test="modelId != null">
+                model_id = #{modelId,jdbcType=INTEGER},
+            </if>
+            <if test="modelName != null">
+                model_name = #{modelName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=INTEGER},
+            </if>
+            <if test="brandName != null">
+                brand_name = #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="pictureId != null">
+                picture_id = #{pictureId,jdbcType=INTEGER},
+            </if>
+            <if test="labelId != null">
+                label_id = #{labelId,jdbcType=INTEGER},
+            </if>
+            <if test="labelUrl != null">
+                label_url = #{labelUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="generateImage != null">
+                generate_image = #{generateImage,jdbcType=VARCHAR},
+            </if>
+            <if test="previewImage != null">
+                preview_image = #{previewImage,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsDiyDO">
+        update order_goods_diy
+        set order_id       = #{orderId,jdbcType=INTEGER},
+            order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            category_id    = #{categoryId,jdbcType=INTEGER},
+            category_name  = #{categoryName,jdbcType=VARCHAR},
+            material_id    = #{materialId,jdbcType=INTEGER},
+            material_name  = #{materialName,jdbcType=VARCHAR},
+            manufactors    = #{manufactors,jdbcType=VARCHAR},
+            model_id       = #{modelId,jdbcType=INTEGER},
+            model_name     = #{modelName,jdbcType=VARCHAR},
+            brand_id       = #{brandId,jdbcType=INTEGER},
+            brand_name     = #{brandName,jdbcType=VARCHAR},
+            picture_id     = #{pictureId,jdbcType=INTEGER},
+            label_id       = #{labelId,jdbcType=INTEGER},
+            label_url      = #{labelUrl,jdbcType=VARCHAR},
+            generate_image = #{generateImage,jdbcType=VARCHAR},
+            preview_image  = #{previewImage,jdbcType=VARCHAR},
+            create_time    = #{createTime,jdbcType=TIMESTAMP},
+            update_time    = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="updateList" separator=" ; " item="orderGoodsDiyDO">
+            update order_goods_diy
+            set order_id = #{orderGoodsDiyDO.orderId,jdbcType=INTEGER},
+            order_goods_id = #{orderGoodsDiyDO.orderGoodsId,jdbcType=INTEGER},
+            category_id = #{orderGoodsDiyDO.categoryId,jdbcType=INTEGER},
+            category_name = #{orderGoodsDiyDO.categoryName,jdbcType=VARCHAR},
+            material_id = #{orderGoodsDiyDO.materialId,jdbcType=INTEGER},
+            material_name = #{orderGoodsDiyDO.materialName,jdbcType=VARCHAR},
+            manufactors = #{orderGoodsDiyDO.manufactors,jdbcType=VARCHAR},
+            model_id = #{orderGoodsDiyDO.modelId,jdbcType=INTEGER},
+            model_name = #{orderGoodsDiyDO.modelName,jdbcType=VARCHAR},
+            brand_id = #{orderGoodsDiyDO.brandId,jdbcType=INTEGER},
+            brand_name = #{orderGoodsDiyDO.brandName,jdbcType=VARCHAR},
+            picture_id = #{orderGoodsDiyDO.pictureId,jdbcType=INTEGER},
+            label_id = #{orderGoodsDiyDO.labelId,jdbcType=INTEGER},
+            label_url = #{orderGoodsDiyDO.labelUrl,jdbcType=VARCHAR},
+            generate_image = #{orderGoodsDiyDO.generateImage,jdbcType=VARCHAR},
+            preview_image = #{orderGoodsDiyDO.previewImage,jdbcType=VARCHAR},
+            create_time = #{orderGoodsDiyDO.createTime,jdbcType=TIMESTAMP},
+            update_time = #{orderGoodsDiyDO.updateTime,jdbcType=TIMESTAMP}
+            where id = #{orderGoodsDiyDO.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <update id="updateListLabel" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_goods_diy
+            set label_url = #{item.labelUrl,jdbcType=VARCHAR},
+            label_id = #{item.labelId,jdbcType=INTEGER},
+            update_time = now()
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="listByOrderId" resultMap="BaseResultMap">
+        select *
+        from order_goods_diy
+        where order_id = #{orderId}
+    </select>
+    <select id="getByOrderGoodsId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_diy
+        where order_goods_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据工厂编码查询未同步工厂的订单 -->
+    <select id="listUnSyncFactory" resultType="java.lang.Integer">
+        SELECT ody.order_id
+        FROM order_goods_diy ody
+                 LEFT JOIN order_distributor_data odd ON ody.order_id = odd.order_id
+                 LEFT JOIN order_extend_data oed ON oed.order_id = odd.order_id
+        WHERE ody.manufactors = #{manufactors}
+          AND odd.erp_flag = 1
+          AND odd.order_status = 2
+          AND oed.order_factory_no IS NULL
+        GROUP BY ody.order_id
+    </select>
+
+    <!-- 根据时间查询未同步工厂的订单 -->
+    <select id="listUnSyncFactoryByStartTime" resultType="java.lang.Integer">
+        SELECT ody.order_id
+        FROM order_goods_diy ody
+                 LEFT JOIN order_distributor_data odd ON ody.order_id = odd.order_id
+                 LEFT JOIN order_extend_data oed ON oed.order_id = odd.order_id
+        WHERE odd.erp_flag = 1
+          AND odd.order_status = 2
+          AND oed.order_factory_no IS NULL
+          <if test="startTime != null">
+              and oed.create_time <![CDATA[ > ]]> #{startTime}
+          </if>
+        GROUP BY ody.order_id
+    </select>
+
+    <select id="findLatelyNullLabel" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_diy
+        where (label_url is null or label_url="") and create_time &lt;= DATE_SUB(NOW(),INTERVAL 1 HOUR) and create_time
+        &gt;= DATE_SUB(NOW(),INTERVAL 1 DAY)
+        order by order_id desc
+    </select>
+
+    <select id="needToSyncOrders" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select *
+        from order_info oi
+                 join order_extend_data oed
+                      on oi.id = oed.order_id
+
+                 join order_customer_data ocd
+                      on oi.id = ocd.order_id
+
+                 join order_goods_diy ogd
+                      on oi.id = ogd.order_id
+
+        where oi.order_type_id = 13             -- 订单类型
+          and oi.deliver_status = 1             -- 订单状态（未发货）
+          and ocd.order_status = 2              -- C端订单状态
+          and oed.factory_code = #{manufactors} -- 同步的工厂
+          and ogd.material_id != 74 -- 材质ID，74为黑色玻璃壳
+    </select>
+
+</mapper>

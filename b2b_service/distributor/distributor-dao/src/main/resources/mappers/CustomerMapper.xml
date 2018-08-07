@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.customer.CustomerMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.customer.dataobject.CustomerDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="no" jdbcType="VARCHAR" property="no"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="nike_name" jdbcType="VARCHAR" property="nikeName"/>
+        <result column="sex" jdbcType="SMALLINT" property="sex"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="head_portrait" jdbcType="VARCHAR" property="headPortrait"/>
+        <result column="agreement_flag" jdbcType="SMALLINT" property="agreementFlag"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="customer_type" jdbcType="SMALLINT" property="customerType"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.customer.dataobject.CustomerDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into customer (distributor_id, no, phone,
+        password, name, nike_name,
+        sex, platform, birthday,
+        head_portrait, agreement_flag, status,
+        customer_type, parent_id, create_time,
+        update_time)
+        values (#{distributorId,jdbcType=INTEGER}, #{no,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nikeName,jdbcType=VARCHAR},
+        #{sex,jdbcType=SMALLINT}, #{platform,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP},
+        #{headPortrait,jdbcType=VARCHAR}, #{agreementFlag,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT},
+        #{customerType,jdbcType=SMALLINT}, #{parentId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.customer.dataobject.CustomerDO">
+    update customer
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      no = #{no,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      nike_name = #{nikeName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=SMALLINT},
+      platform = #{platform,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      head_portrait = #{headPortrait,jdbcType=VARCHAR},
+      agreement_flag = #{agreementFlag,jdbcType=SMALLINT},
+      status = #{status,jdbcType=SMALLINT},
+      customer_type = #{customerType,jdbcType=SMALLINT},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, no, phone, password, name, nike_name, sex, platform, birthday,
+    head_portrait, agreement_flag, status, customer_type, parent_id, create_time, update_time
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="selectByPhoneAndDistributorId" parameterType="map" resultMap="BaseResultMap">
+    select id, distributor_id, no, phone, password, name, nike_name, sex, platform, birthday,
+    head_portrait, agreement_flag, status, customer_type, parent_id, create_time, update_time
+    from customer
+    where phone = #{phone} and distributor_id = #{distributorId}
+  </select>
+    <select id="selectByOpenIdAndOtherUidAndDistributorIdAndPlatform" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.distributor_id, c.no, c.phone, c.password, c.name, c.nike_name, c.sex, c.platform, c.birthday,
+        c.head_portrait, c.agreement_flag, c.status, c.customer_type, c.parent_id, c.create_time, c.update_time
+        from customer_platform cp join customer c on c.id = cp.customer_id
+        where cp.open_id = #{openId} and c.distributor_id = #{distributorId} and cp.platform = #{platform}
+        <if test="otherId != null and otherId!=''">
+            and cp.other_id = #{otherId}
+        </if>
+        order by cp.create_time desc limit 1
+    </select>
+    <select id="listByOtherUidAndDistributorIdAndPlatform" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.distributor_id, c.no, c.phone, c.password, c.name, c.nike_name, c.sex, c.platform, c.birthday,
+        c.head_portrait, c.agreement_flag, c.status, c.customer_type, c.parent_id, c.create_time, c.update_time
+        from customer_platform cp join customer c on c.id = cp.customer_id
+        where c.distributor_id = #{distributorId} and cp.platform = #{platform}
+        <if test="otherId != null">
+            and cp.other_id = #{otherId}
+        </if>
+    </select>
+    <select id="listCustomerDO" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.distributor_id, c.no, c.phone, c.password, c.name, c.nike_name, c.sex, c.platform, c.birthday,
+        c.head_portrait, c.agreement_flag, c.status, c.customer_type, c.parent_id, c.create_time, c.update_time
+        from customer c
+        where 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and c.phone = #{content}
+            </if>
+            <if test="contentType == 2">
+                and replace(c.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 3">
+                and replace(c.nike_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        <if test="sex != null">
+            and c.sex = #{sex}
+        </if>
+        <if test="customerType != null">
+            and c.customer_type = #{customerType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(platform)">
+            and c.platform = #{platform}
+        </if>
+        order by c.update_time desc
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, no, phone, password, name, nike_name, sex, platform, birthday,
+    head_portrait, agreement_flag, status, customer_type, parent_id, create_time, update_time
+    from customer
+  </select>
+
+    <select id="listByIds" resultMap="BaseResultMap">
+        select id,
+               distributor_id, no, phone, password, name, nike_name, sex, platform, birthday,
+            head_portrait, agreement_flag, status, customer_type, parent_id, create_time, update_time
+        from customer
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

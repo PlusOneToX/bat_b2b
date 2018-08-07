@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.deposit.DepositDistributorFreezingMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.deposit.dataobject.DepositDistributorFreezingDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="deposit_distributor_id" jdbcType="INTEGER" property="depositDistributorId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="freezing_amount" jdbcType="DECIMAL" property="freezingAmount"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="business_type" jdbcType="SMALLINT" property="businessType"/>
+        <result column="business_id" jdbcType="INTEGER" property="businessId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, deposit_distributor_id, distributor_id, distributor_name, freezing_amount, status,
+    business_type, business_id, remark, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor_freezing
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByPrimaryKeyFreezing"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor_freezing
+        where id = #{id,jdbcType=INTEGER}
+        and `status` = 1
+    </select>
+    <select id="listFreezingByDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor_freezing
+        <where>
+            <if test="distributorId!=null and distributorId.size()>0">
+                and distributor_id in
+                <foreach collection="distributorId" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+                <if test="distributorName!=null">
+                    and distributor_name like CONCAT('%',#{distributorName},'%')
+                </if>
+            </if>
+            and `status` = 1
+        </where>
+        order by update_time desc
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor_freezing
+        <where>
+            <if test="params.distributorIds!=null and params.distributorIds.size()>0">
+                and distributor_id in
+                <foreach collection="params.distributorIds" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="params.businessType">
+                and business_type = #{params.businessType}
+            </if>
+            <if test="params.distributorName!=null">
+                and distributor_name like CONCAT('%',#{params.distributorName},'%')
+            </if>
+            and `status` = 1
+        </where>
+        order by update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from deposit_distributor_freezing
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorFreezingDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deposit_distributor_freezing (deposit_distributor_id, distributor_id,
+        distributor_name, freezing_amount, status,
+        business_type, business_id, remark,
+        create_time, update_time)
+        values (#{depositDistributorId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER},
+        #{distributorName,jdbcType=VARCHAR}, #{freezingAmount,jdbcType=DECIMAL}, #{status,jdbcType=SMALLINT},
+        #{businessType,jdbcType=SMALLINT}, #{businessId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorFreezingDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deposit_distributor_freezing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="depositDistributorId != null">
+                deposit_distributor_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="freezingAmount != null">
+                freezing_amount,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="businessId != null">
+                business_id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="depositDistributorId != null">
+                #{depositDistributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="freezingAmount != null">
+                #{freezingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                #{businessId,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorFreezingDO">
+        update deposit_distributor_freezing
+        <set>
+            <if test="depositDistributorId != null">
+                deposit_distributor_id = #{depositDistributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="freezingAmount != null">
+                freezing_amount = #{freezingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                business_id = #{businessId,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorFreezingDO">
+        update deposit_distributor_freezing
+        set deposit_distributor_id = #{depositDistributorId,jdbcType=INTEGER},
+            distributor_id         = #{distributorId,jdbcType=INTEGER},
+            distributor_name       = #{distributorName,jdbcType=VARCHAR},
+            freezing_amount        = #{freezingAmount,jdbcType=DECIMAL},
+            status                 = #{status,jdbcType=SMALLINT},
+            business_type          = #{businessType,jdbcType=SMALLINT},
+            business_id            = #{businessId,jdbcType=INTEGER},
+            remark                 = #{remark,jdbcType=VARCHAR},
+            create_time            = #{createTime,jdbcType=TIMESTAMP},
+            update_time            = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

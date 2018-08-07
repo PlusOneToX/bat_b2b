@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.deliver.OrderDeliveryTraceDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.deliver.dataobject.OrderDeliveryTraceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_deliver_bill_id" property="orderDeliverBillId" jdbcType="INTEGER"/>
+        <result column="accept_time" property="acceptTime" jdbcType="TIMESTAMP"/>
+        <result column="accept_station" property="acceptStation" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_deliver_bill_id, accept_time, accept_station, remark
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_delivery_trace
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByOrderDeliverBillId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_delivery_trace
+        where order_deliver_bill_id = #{orderDeliverBillId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_delivery_trace
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByOrderDeliverBillId">
+        delete
+        from order_delivery_trace
+        where order_deliver_bill_id = #{orderDeliverBillId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliveryTraceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_delivery_trace (id, order_deliver_bill_id, accept_time,
+                                          accept_station, remark)
+        values (#{id,jdbcType=INTEGER}, #{orderDeliverBillId,jdbcType=INTEGER}, #{acceptTime,jdbcType=TIMESTAMP},
+                #{acceptStation,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertBatch">
+        insert into order_delivery_trace (id, order_deliver_bill_id, accept_time,
+        accept_station, remark)
+        values
+        <foreach collection="dos" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.orderDeliverBillId,jdbcType=INTEGER},
+            #{item.acceptTime,jdbcType=TIMESTAMP},
+            #{item.acceptStation,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliveryTraceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_delivery_trace
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderDeliverBillId != null">
+                order_deliver_bill_id,
+            </if>
+            <if test="acceptTime != null">
+                accept_time,
+            </if>
+            <if test="acceptStation != null">
+                accept_station,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderDeliverBillId != null">
+                #{orderDeliverBillId,jdbcType=INTEGER},
+            </if>
+            <if test="acceptTime != null">
+                #{acceptTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="acceptStation != null">
+                #{acceptStation,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliveryTraceDO">
+        update order_delivery_trace
+        <set>
+            <if test="orderDeliverBillId != null">
+                order_deliver_bill_id = #{orderDeliverBillId,jdbcType=INTEGER},
+            </if>
+            <if test="acceptTime != null">
+                accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="acceptStation != null">
+                accept_station = #{acceptStation,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliveryTraceDO">
+        update order_delivery_trace
+        set order_deliver_bill_id = #{orderDeliverBillId,jdbcType=INTEGER},
+            accept_time           = #{acceptTime,jdbcType=TIMESTAMP},
+            accept_station        = #{acceptStation,jdbcType=VARCHAR},
+            remark                = #{remark,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

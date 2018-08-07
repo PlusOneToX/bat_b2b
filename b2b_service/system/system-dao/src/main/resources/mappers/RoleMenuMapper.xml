@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.user.RoleMenuMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.user.dataobject.RoleMenuDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
+    </resultMap>
+    <resultMap id="UnionResultMap" type="com.bat.system.dao.user.dataobject.RoleMenuDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <association property="menu" columnPrefix="m_"
+                     resultMap="com.bat.system.dao.user.MenuMapper.BaseResultMap"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        sys_role_menu.id, sys_role_menu.role_id, sys_role_menu.menu_id
+    </sql>
+    <sql id="Base_Menu_Column_List">
+        sys_menu.id as m_id,
+        sys_menu.service as m_service,
+        sys_menu.service_en as m_service_en,
+        sys_menu.module as m_module,
+        sys_menu.module_en as m_module_en,
+        sys_menu.menu as m_menu,
+        sys_menu.menu_en as m_menu_en,
+        sys_menu.sort as m_sort,
+        sys_menu.status as m_status
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByRoleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu
+        where role_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listUnionByRoleId" resultMap="UnionResultMap">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="Base_Menu_Column_List"/>
+        from sys_role_menu,sys_menu
+        where sys_role_menu.menu_id = sys_menu.id and sys_role_menu.role_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByRoleIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu
+        <where>
+            <if test="roleIds!=null and roleIds.size>0">
+                and role_id in
+                <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sys_role_menu
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByRoleId">
+        delete
+        from sys_role_menu
+        where role_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.user.dataobject.RoleMenuDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_role_menu (role_id, menu_id)
+        values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.user.dataobject.RoleMenuDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.user.dataobject.RoleMenuDO">
+        update sys_role_menu
+        <set>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="menuId != null">
+                menu_id = #{menuId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.user.dataobject.RoleMenuDO">
+        update sys_role_menu
+        set role_id = #{roleId,jdbcType=INTEGER},
+            menu_id = #{menuId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

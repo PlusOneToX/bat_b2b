@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.cost.OrderGoodsDistributorCostMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cost.dataobject.OrderGoodsDistributorCostDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="distributor_id" property="distributorId" jdbcType="INTEGER"/>
+        <result column="item_type" property="itemType" jdbcType="SMALLINT"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="actual_price" property="actualPrice" jdbcType="DECIMAL"/>
+        <result column="platform_price" property="platformPrice" jdbcType="DECIMAL"/>
+        <result column="goods_promotion_id" property="goodsPromotionId" jdbcType="INTEGER"/>
+        <result column="order_promotion_id" property="orderPromotionId" jdbcType="INTEGER"/>
+        <result column="spell_group_id" property="spellGroupId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="rebate_voucher_amount" property="rebateVoucherAmount" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        ,order_id, order_goods_id, distributor_id, item_type, sale_price, actual_price,platform_price, goods_promotion_id,
+    order_promotion_id, spell_group_id, create_time, update_time, rebate_voucher_amount
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_goods_distributor_cost
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByOrderGoodsIds" parameterType="map">
+        delete
+        from order_goods_distributor_cost
+        where order_goods_id in
+        <foreach collection="orderGoodsIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cost.dataobject.OrderGoodsDistributorCostDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_goods_distributor_cost (id, order_id, order_goods_id, distributor_id,
+                                                  item_type, sale_price, actual_price, platform_price,
+                                                  goods_promotion_id, order_promotion_id, spell_group_id,
+                                                  create_time, update_time, rebate_voucher_amount)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{orderGoodsId,jdbcType=INTEGER},
+                #{distributorId,jdbcType=INTEGER},
+                #{itemType,jdbcType=SMALLINT}, #{salePrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL},
+                #{platformPrice,jdbcType=DECIMAL},
+                #{goodsPromotionId,jdbcType=INTEGER}, #{orderPromotionId,jdbcType=INTEGER},
+                #{spellGroupId,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+                #{rebateVoucherAmount,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods_distributor_cost (id,order_id, order_goods_id, distributor_id,
+        item_type, sale_price, actual_price,platform_price,
+        goods_promotion_id, order_promotion_id, spell_group_id,
+        create_time, update_time, rebate_voucher_amount)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER},#{item.orderGoodsId,jdbcType=INTEGER},
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.itemType,jdbcType=SMALLINT}, #{item.salePrice,jdbcType=DECIMAL},
+            #{item.actualPrice,jdbcType=DECIMAL},#{item.platformPrice,jdbcType=DECIMAL},
+            #{item.goodsPromotionId,jdbcType=INTEGER}, #{item.orderPromotionId,jdbcType=INTEGER},
+            #{item.spellGroupId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.rebateVoucherAmount,jdbcType=DECIMAL})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cost.dataobject.OrderGoodsDistributorCostDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_goods_distributor_cost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="itemType != null">
+                item_type,
+            </if>
+            <if test="salePrice != null">
+                sale_price,
+            </if>
+            <if test="actualPrice != null">
+                actual_price,
+            </if>
+            <if test="platformPrice != null">
+                platform_price,
+            </if>
+            <if test="goodsPromotionId != null">
+                goods_promotion_id,
+            </if>
+            <if test="orderPromotionId != null">
+                order_promotion_id,
+            </if>
+            <if test="spellGroupId != null">
+                spell_group_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="rebateVoucherAmount != null">
+                rebate_voucher_amount,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="itemType != null">
+                #{itemType,jdbcType=SMALLINT},
+            </if>
+            <if test="salePrice != null">
+                #{salePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="actualPrice != null">
+                #{actualPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="platformPrice != null">
+                #{platformPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPromotionId != null">
+                #{goodsPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="orderPromotionId != null">
+                #{orderPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="spellGroupId != null">
+                #{spellGroupId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="rebateVoucherAmount != null">
+                #{rebateVoucherAmount,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.cost.dataobject.OrderGoodsDistributorCostDO">
+        update order_goods_distributor_cost
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="itemType != null">
+                item_type = #{itemType,jdbcType=SMALLINT},
+            </if>
+            <if test="salePrice != null">
+                sale_price = #{salePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="actualPrice != null">
+                actual_price = #{actualPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="platformPrice != null">
+                platform_price = #{platformPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPromotionId != null">
+                goods_promotion_id = #{goodsPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="orderPromotionId != null">
+                order_promotion_id = #{orderPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="spellGroupId != null">
+                spell_group_id = #{spellGroupId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="rebateVoucherAmount != null">
+                rebate_voucher_amount = #{rebateVoucherAmount,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cost.dataobject.OrderGoodsDistributorCostDO">
+        update order_goods_distributor_cost
+        set order_id              = #{orderId,jdbcType=INTEGER},
+            order_goods_id        = #{orderGoodsId,jdbcType=INTEGER},
+            distributor_id        = #{distributorId,jdbcType=INTEGER},
+            item_type             = #{itemType,jdbcType=SMALLINT},
+            sale_price            = #{salePrice,jdbcType=DECIMAL},
+            actual_price          = #{actualPrice,jdbcType=DECIMAL},
+            platform_price        = #{platformPrice,jdbcType=DECIMAL},
+            goods_promotion_id    = #{goodsPromotionId,jdbcType=INTEGER},
+            order_promotion_id    = #{orderPromotionId,jdbcType=INTEGER},
+            spell_group_id        = #{spellGroupId,jdbcType=INTEGER},
+            create_time           = #{createTime,jdbcType=TIMESTAMP},
+            update_time           = #{updateTime,jdbcType=TIMESTAMP},
+            rebate_voucher_amount = #{rebateVoucherAmount,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_goods_distributor_cost
+            set order_id = #{item.orderId,jdbcType=INTEGER},
+            order_goods_id = #{item.orderGoodsId,jdbcType=INTEGER},
+            distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            item_type = #{item.itemType,jdbcType=SMALLINT},
+            sale_price = #{item.salePrice,jdbcType=DECIMAL},
+            actual_price = #{item.actualPrice,jdbcType=DECIMAL},
+            platform_price = #{item.platformPrice,jdbcType=DECIMAL},
+            goods_promotion_id = #{item.goodsPromotionId,jdbcType=INTEGER},
+            order_promotion_id = #{item.orderPromotionId,jdbcType=INTEGER},
+            spell_group_id = #{item.spellGroupId,jdbcType=INTEGER},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+            rebate_voucher_amount = #{item.rebateVoucherAmount,jdbcType=DECIMAL}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="checkIsGroup" resultType="java.lang.Integer">
+        select c.spell_group_id
+        from order_goods_distributor_cost c
+        where c.order_id = #{orderId}
+        order by c.spell_group_id
+                desc limit 1;
+    </select>
+    <select id="listByOrderGoodsId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where order_goods_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderIdAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where order_id = #{orderId,jdbcType=INTEGER}
+        and distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderGoodsIdsAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        and order_goods_id in
+        <foreach collection="orderGoodsIds" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getByOrderGoodsIdAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        and order_goods_id = #{orderGoodsId,jdbcType=INTEGER}
+    </select>
+
+    <select id="orderGoodsDistributorCostByOrderIdsAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_distributor_cost
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        and order_id in
+        <foreach collection="orderGoodsIds" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

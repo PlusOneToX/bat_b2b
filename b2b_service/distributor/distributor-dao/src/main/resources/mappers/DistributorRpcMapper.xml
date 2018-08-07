@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorRpcMapper">
+    <resultMap id="DistributorErpIdRpcMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorErpIdRpcDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="erp_id" jdbcType="INTEGER" property="erpId"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+    </resultMap>
+
+    <resultMap id="DistributorNameMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorNameDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+
+    <resultMap id="DistributorRpcMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorRpcDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="erp_id" jdbcType="INTEGER" property="erpId"/>
+        <result column="erp_no" jdbcType="VARCHAR" property="erpNo"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="sales_id" jdbcType="INTEGER" property="salesId"/>
+        <result column="coordinator_id" jdbcType="INTEGER" property="coordinatorId"/>
+        <result column="auto_delivery" jdbcType="SMALLINT" property="autoDelivery"/>
+        <result column="trade_id" jdbcType="INTEGER" property="tradeId"/>
+        <result column="order_type_id" jdbcType="INTEGER" property="orderTypeId"/>
+        <result column="pay_way" jdbcType="SMALLINT" property="payWay"/>
+        <result column="on_way_flag" jdbcType="SMALLINT" property="onWayFlag"/>
+        <result column="erp_flag" jdbcType="SMALLINT" property="erpFlag"/>
+        <result column="erp_balance_flag" jdbcType="SMALLINT" property="erpBalanceFlag"/>
+        <result column="erp_settle_account_no" jdbcType="VARCHAR" property="erpSettleAccountNo"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="profile_status" jdbcType="SMALLINT" property="profileStatus"/>
+        <result column="customer_flag" jdbcType="SMALLINT" property="customerFlag"/>
+        <result column="customer_mode" jdbcType="SMALLINT" property="customerMode"/>
+        <result column="distribution_pay_way" jdbcType="SMALLINT" property="distributionPayWay"/>
+    </resultMap>
+
+    <resultMap id="DistributorInfoMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorInfoDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="erp_balance_flag" jdbcType="SMALLINT" property="erpBalanceFlag"/>
+    </resultMap>
+    <select id="listDistributorErpIdRpcByErpIds" parameterType="map" resultMap="DistributorErpIdRpcMap">
+        select d.id,d.name,d.company_name,d.tree_node,ded.erp_id
+        from distributor_extend_data ded join distributor d on d.id = ded.distributor_id
+        where ded.erp_id in
+        <foreach collection="erpIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectDistributorInfoDOByErpId" parameterType="map" resultMap="DistributorInfoMap">
+        select d.id, d.name, d.company_name, ded.erp_balance_flag
+        from distributor_extend_data ded
+                 join distributor d on d.id = ded.distributor_id
+        where ded.erp_id = #{erpId}
+    </select>
+
+    <select id="listDistributorErpIdRpcByDistributorIds" parameterType="map" resultMap="DistributorErpIdRpcMap">
+        select d.id,d.name,d.company_name,d.tree_node,ded.erp_id
+        from distributor_extend_data ded join distributor d on d.id = ded.distributor_id
+        where ded.distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listDistributorNameRpcByDistributorIds" parameterType="map" resultMap="DistributorNameMap">
+        select id,name,company_name
+        from distributor
+        where id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getAllDistributorNameOneTreeNode" resultMap="DistributorNameMap">
+        select id,name,company_name
+        from distributor
+        where tree_node=1
+    </select>
+
+    <select id="listDistributorRpcByIds" parameterType="map" resultMap="DistributorRpcMap">
+        select d.id,
+        d.name,
+        d.company_name,
+        d.tree_node,
+        d.apply_status,
+        d.profile_status,
+        ded.erp_id,
+        ded.erp_no,
+        ded.erp_flag,
+        db.sales_id,
+        db.coordinator_id,
+        db.auto_delivery,
+        dt.pay_way,
+        d.freeze_status
+        from distributor d
+        left join distributor_extend_data ded on ded.distributor_id = d.id
+        left join distributor_business db on db.distributor_id = d.id
+        left join distributor_financial df on df.distributor_id = d.id
+        left join distributor_trade dt on dt.id = df.trade_id
+        where d.id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectDistributorRpcById" parameterType="java.lang.Integer" resultMap="DistributorRpcMap">
+        select d.id,
+               d.name,
+               d.company_name,
+               d.tree_node,
+               ded.erp_id,
+               ded.distribution_pay_way,
+               ded.erp_flag,
+               ded.erp_balance_flag,
+               d.apply_status,
+               d.profile_status,
+               ded.erp_no,
+               db.sales_id,
+               db.coordinator_id,
+               db.auto_delivery,
+               d.freeze_status,
+               df.trade_id,
+               dt.pay_way,
+               dt.erp_settle_account_no,
+               db.on_way_flag,
+               dc.order_type_id,
+               ded.customer_flag,
+               ded.customer_mode
+        from distributor d
+                 left join distributor_extend_data ded on ded.distributor_id = d.id
+                 left join distributor_business db on db.distributor_id = d.id
+                 left join distributor_financial df on df.distributor_id = d.id
+                 left join distributor_trade dt on dt.id = df.trade_id
+                 left join distributor_category dc on dc.id = db.distributor_category_id
+        where d.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOrderTypeIdByDistributorId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select dc.order_type_id
+        from distributor_business db
+                 join distributor_category dc on dc.id = db.distributor_category_id
+        where db.distributor_id = #{distributorId}
+    </select>
+
+</mapper>

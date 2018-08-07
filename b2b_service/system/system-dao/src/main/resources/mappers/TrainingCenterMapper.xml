@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.trainingdownloadcenter.TrainingCenterMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.trainingdownloadcenter.dataobject.TrainingCenterDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="title_zh" jdbcType="VARCHAR" property="titleZh"/>
+        <result column="title_en" jdbcType="VARCHAR" property="titleEn"/>
+        <result column="content_url_zh" jdbcType="VARCHAR" property="contentUrlZh"/>
+        <result column="content_url_en" jdbcType="VARCHAR" property="contentUrlEn"/>
+        <result column="thumbnail_url_zh" jdbcType="VARCHAR" property="thumbnailUrlZh"/>
+        <result column="thumbnail_url_en" jdbcType="VARCHAR" property="thumbnailUrlEn"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="com.bat.system.dao.trainingdownloadcenter.dataobject.TrainingCenterDO"
+               extends="BaseResultMap">
+        <collection property="childrens" column="id" javaType="java.util.ArrayList" select="listByParentIdRecursion"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_id, sort, status, title_zh, title_en, content_url_zh, content_url_en,
+    thumbnail_url_zh, thumbnail_url_en, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from training_center
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByParentId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from training_center
+        where parent_id = #{id,jdbcType=INTEGER}
+        order by sort
+    </select>
+    <select id="getPreOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from training_center
+        where sort &lt; #{sort,jdbcType=INTEGER}
+        order by sort desc limit 1
+    </select>
+    <select id="getNextOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from training_center
+        where sort &gt; #{sort,jdbcType=INTEGER}
+        order by sort limit 1
+    </select>
+    <select id="listByParentIdRecursion" resultMap="BaseResultMap1">
+        select
+        <include refid="Base_Column_List"/>
+        from training_center
+        where parent_id = #{id,jdbcType=INTEGER}
+        order by sort
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from training_center
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.trainingdownloadcenter.dataobject.TrainingCenterDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into training_center (parent_id, sort, status,
+        title_zh, title_en, content_url_zh,
+        content_url_en, thumbnail_url_zh, thumbnail_url_en,
+        create_time, update_time)
+        values (#{parentId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT},
+        #{titleZh,jdbcType=VARCHAR}, #{titleEn,jdbcType=VARCHAR}, #{contentUrlZh,jdbcType=VARCHAR},
+        #{contentUrlEn,jdbcType=VARCHAR}, #{thumbnailUrlZh,jdbcType=VARCHAR}, #{thumbnailUrlEn,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.system.dao.trainingdownloadcenter.dataobject.TrainingCenterDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into training_center
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="titleZh != null">
+                title_zh,
+            </if>
+            <if test="titleEn != null">
+                title_en,
+            </if>
+            <if test="contentUrlZh != null">
+                content_url_zh,
+            </if>
+            <if test="contentUrlEn != null">
+                content_url_en,
+            </if>
+            <if test="thumbnailUrlZh != null">
+                thumbnail_url_zh,
+            </if>
+            <if test="thumbnailUrlEn != null">
+                thumbnail_url_en,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="titleZh != null">
+                #{titleZh,jdbcType=VARCHAR},
+            </if>
+            <if test="titleEn != null">
+                #{titleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="contentUrlZh != null">
+                #{contentUrlZh,jdbcType=VARCHAR},
+            </if>
+            <if test="contentUrlEn != null">
+                #{contentUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnailUrlZh != null">
+                #{thumbnailUrlZh,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnailUrlEn != null">
+                #{thumbnailUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.trainingdownloadcenter.dataobject.TrainingCenterDO">
+        update training_center
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="titleZh != null">
+                title_zh = #{titleZh,jdbcType=VARCHAR},
+            </if>
+            <if test="titleEn != null">
+                title_en = #{titleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="contentUrlZh != null">
+                content_url_zh = #{contentUrlZh,jdbcType=VARCHAR},
+            </if>
+            <if test="contentUrlEn != null">
+                content_url_en = #{contentUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnailUrlZh != null">
+                thumbnail_url_zh = #{thumbnailUrlZh,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnailUrlEn != null">
+                thumbnail_url_en = #{thumbnailUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.system.dao.trainingdownloadcenter.dataobject.TrainingCenterDO">
+        update training_center
+        set parent_id        = #{parentId,jdbcType=INTEGER},
+            sort             = #{sort,jdbcType=INTEGER},
+            status           = #{status,jdbcType=SMALLINT},
+            title_zh         = #{titleZh,jdbcType=VARCHAR},
+            title_en         = #{titleEn,jdbcType=VARCHAR},
+            content_url_zh   = #{contentUrlZh,jdbcType=VARCHAR},
+            content_url_en   = #{contentUrlEn,jdbcType=VARCHAR},
+            thumbnail_url_zh = #{thumbnailUrlZh,jdbcType=VARCHAR},
+            thumbnail_url_en = #{thumbnailUrlEn,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateSort">
+        UPDATE training_center
+        SET sort = sort + 1
+        WHERE parent_id = #{parentId,jdbcType=INTEGER}
+          and sort >= #{sort,jdbcType=INTEGER}
+        ORDER BY sort
+    </update>
+</mapper>

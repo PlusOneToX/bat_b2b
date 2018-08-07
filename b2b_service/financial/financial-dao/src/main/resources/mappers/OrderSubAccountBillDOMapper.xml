@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.financial.dao.subaccount.OrderSubAccountBillDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountBillDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_sub_account_id" property="orderSubAccountId" jdbcType="INTEGER" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+    <result column="max_sub_account_amount" property="maxSubAccountAmount" jdbcType="DECIMAL" />
+    <result column="actual_sub_account_amount" property="actualSubAccountAmount" jdbcType="DECIMAL" />
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="merchant_number" property="merchantNumber" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="saleman_id" property="salemanId" jdbcType="INTEGER" />
+    <result column="saleman_name" property="salemanName" jdbcType="VARCHAR" />
+    <result column="success_flag" property="successFlag" jdbcType="SMALLINT" />
+    <result column="fail_reason" property="failReason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="success_time" property="successTime" jdbcType="TIMESTAMP" />
+    <result column="sub_transaction_id" property="subTransactionId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_sub_account_id, level_id, level_name, max_sub_account_amount, actual_sub_account_amount, 
+    ratio, status, open_id, merchant_number, out_trade_no, saleman_id, saleman_name, 
+    success_flag, fail_reason, create_time, update_time, success_time,sub_transaction_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_sub_account_bill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_sub_account_bill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountBillDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into order_sub_account_bill (id, order_sub_account_id, level_id, 
+      level_name, max_sub_account_amount, actual_sub_account_amount, 
+      ratio, status, open_id, 
+      merchant_number, out_trade_no, saleman_id, 
+      saleman_name, success_flag, fail_reason, 
+      create_time, update_time, success_time,sub_transaction_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderSubAccountId,jdbcType=INTEGER}, #{levelId,jdbcType=INTEGER}, 
+      #{levelName,jdbcType=VARCHAR}, #{maxSubAccountAmount,jdbcType=DECIMAL}, #{actualSubAccountAmount,jdbcType=DECIMAL}, 
+      #{ratio,jdbcType=DECIMAL}, #{status,jdbcType=SMALLINT}, #{openId,jdbcType=VARCHAR}, 
+      #{merchantNumber,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, #{salemanId,jdbcType=INTEGER}, 
+      #{salemanName,jdbcType=VARCHAR}, #{successFlag,jdbcType=SMALLINT}, #{failReason,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{successTime,jdbcType=TIMESTAMP},
+       #{subTransactionId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="batchCreate" useGeneratedKeys="true" keyProperty="id">
+     insert into order_sub_account_bill ( order_sub_account_id, level_id,
+      level_name, max_sub_account_amount, actual_sub_account_amount,
+      ratio, status, open_id,
+      merchant_number, out_trade_no, saleman_id,
+      saleman_name, success_flag, fail_reason,
+      create_time, update_time, success_time,sub_transaction_id
+      )
+    values
+    <foreach collection="list" separator=" , " item="bill">
+      ( #{bill.orderSubAccountId,jdbcType=INTEGER}, #{bill.levelId,jdbcType=INTEGER},
+      #{bill.levelName,jdbcType=VARCHAR}, #{bill.maxSubAccountAmount,jdbcType=DECIMAL}, #{bill.actualSubAccountAmount,jdbcType=DECIMAL},
+      #{bill.ratio,jdbcType=DECIMAL}, #{bill.status,jdbcType=SMALLINT}, #{bill.openId,jdbcType=VARCHAR},
+      #{bill.merchantNumber,jdbcType=VARCHAR}, #{bill.outTradeNo,jdbcType=VARCHAR}, #{bill.salemanId,jdbcType=INTEGER},
+      #{bill.salemanName,jdbcType=VARCHAR}, #{bill.successFlag,jdbcType=SMALLINT}, #{bill.failReason,jdbcType=VARCHAR},
+      #{bill.createTime,jdbcType=TIMESTAMP}, #{bill.updateTime,jdbcType=TIMESTAMP}, #{bill.successTime,jdbcType=TIMESTAMP},
+      #{bill.subTransactionId,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountBillDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into order_sub_account_bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderSubAccountId != null" >
+        order_sub_account_id,
+      </if>
+      <if test="levelId != null" >
+        level_id,
+      </if>
+      <if test="levelName != null" >
+        level_name,
+      </if>
+      <if test="maxSubAccountAmount != null" >
+        max_sub_account_amount,
+      </if>
+      <if test="actualSubAccountAmount != null" >
+        actual_sub_account_amount,
+      </if>
+      <if test="ratio != null" >
+        ratio,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="merchantNumber != null" >
+        merchant_number,
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no,
+      </if>
+      <if test="salemanId != null" >
+        saleman_id,
+      </if>
+      <if test="salemanName != null" >
+        saleman_name,
+      </if>
+      <if test="successFlag != null" >
+        success_flag,
+      </if>
+      <if test="failReason != null" >
+        fail_reason,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="successTime != null" >
+        success_time,
+      </if>
+      <if test="subTransactionId !=null">
+        sub_transaction_id
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderSubAccountId != null" >
+        #{orderSubAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="levelId != null" >
+        #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null" >
+        #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxSubAccountAmount != null" >
+        #{maxSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSubAccountAmount != null" >
+        #{actualSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="ratio != null" >
+        #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNumber != null" >
+        #{merchantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salemanId != null" >
+        #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="salemanName != null" >
+        #{salemanName,jdbcType=VARCHAR},
+      </if>
+      <if test="successFlag != null" >
+        #{successFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="failReason != null" >
+        #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="successTime != null" >
+        #{successTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subTransactionId !=null">
+        #{subTransactionId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountBillDO" >
+    update order_sub_account_bill
+    <set >
+      <if test="orderSubAccountId != null" >
+        order_sub_account_id = #{orderSubAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null" >
+        level_name = #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxSubAccountAmount != null" >
+        max_sub_account_amount = #{maxSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSubAccountAmount != null" >
+        actual_sub_account_amount = #{actualSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="ratio != null" >
+        ratio = #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNumber != null" >
+        merchant_number = #{merchantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salemanId != null" >
+        saleman_id = #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="salemanName != null" >
+        saleman_name = #{salemanName,jdbcType=VARCHAR},
+      </if>
+      <if test="successFlag != null" >
+        success_flag = #{successFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="failReason != null" >
+        fail_reason = #{failReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="successTime != null" >
+        success_time = #{successTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subTransactionId !=null">
+        sub_transaction_id = #{subTransactionId,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountBillDO" >
+    update order_sub_account_bill
+    set order_sub_account_id = #{orderSubAccountId,jdbcType=INTEGER},
+      level_id = #{levelId,jdbcType=INTEGER},
+      level_name = #{levelName,jdbcType=VARCHAR},
+      max_sub_account_amount = #{maxSubAccountAmount,jdbcType=DECIMAL},
+      actual_sub_account_amount = #{actualSubAccountAmount,jdbcType=DECIMAL},
+      ratio = #{ratio,jdbcType=DECIMAL},
+      status = #{status,jdbcType=SMALLINT},
+      open_id = #{openId,jdbcType=VARCHAR},
+      merchant_number = #{merchantNumber,jdbcType=VARCHAR},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      saleman_id = #{salemanId,jdbcType=INTEGER},
+      saleman_name = #{salemanName,jdbcType=VARCHAR},
+      success_flag = #{successFlag,jdbcType=SMALLINT},
+      fail_reason = #{failReason,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      success_time = #{successTime,jdbcType=TIMESTAMP},
+      sub_transaction_id =#{subTransactionId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate" parameterType="java.util.List">
+    <foreach collection="billDOList" item="bill" separator=" ; ">
+      update order_sub_account_bill
+      set order_sub_account_id = #{bill.orderSubAccountId,jdbcType=INTEGER},
+      level_id = #{bill.levelId,jdbcType=INTEGER},
+      level_name = #{bill.levelName,jdbcType=VARCHAR},
+      max_sub_account_amount = #{bill.maxSubAccountAmount,jdbcType=DECIMAL},
+      actual_sub_account_amount = #{bill.actualSubAccountAmount,jdbcType=DECIMAL},
+      ratio = #{bill.ratio,jdbcType=DECIMAL},
+      status = #{bill.status,jdbcType=SMALLINT},
+      open_id = #{bill.openId,jdbcType=VARCHAR},
+      merchant_number = #{bill.merchantNumber,jdbcType=VARCHAR},
+      out_trade_no = #{bill.outTradeNo,jdbcType=VARCHAR},
+      saleman_id = #{bill.salemanId,jdbcType=INTEGER},
+      saleman_name = #{bill.salemanName,jdbcType=VARCHAR},
+      success_flag = #{bill.successFlag,jdbcType=SMALLINT},
+      fail_reason = #{bill.failReason,jdbcType=VARCHAR},
+      create_time = #{bill.createTime,jdbcType=TIMESTAMP},
+      update_time = #{bill.updateTime,jdbcType=TIMESTAMP},
+      success_time = #{bill.successTime,jdbcType=TIMESTAMP},
+      sub_transaction_id=#{bill.subTransactionId,jdbcType=VARCHAR}
+      where id = #{bill.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from order_sub_account_bill where 1=1
+    <if test="orderSubAccountId !=null">
+      and order_sub_account_id = #{orderSubAccountId,jdbcType=INTEGER}
+    </if>
+    <if test="status !=null">
+      and status = #{status,jdbcType=SMALLINT}
+    </if>
+  </select>
+  <select id="listByIdList" resultMap="BaseResultMap">
+    select * from order_sub_account_bill where id
+    in
+    <foreach collection="idList" item="id" separator=" , " open="(" close=")">
+      #{id}
+    </foreach>
+  </select>
+</mapper>

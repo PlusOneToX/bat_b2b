@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.storesetting.ColumnDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.storesetting.dataobject.ColumnDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="column_id" jdbcType="INTEGER" property="columnId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, column_id, distributor_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_column_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByColumnId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_column_distributor
+        where column_id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from store_column_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByColumnId">
+        delete
+        from store_column_distributor
+        where column_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_column_distributor (column_id, distributor_id)
+        values (#{columnId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_column_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="columnId != null">
+                column_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="columnId != null">
+                #{columnId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDistributorDO">
+        update store_column_distributor
+        <set>
+            <if test="columnId != null">
+                column_id = #{columnId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDistributorDO">
+        update store_column_distributor
+        set column_id      = #{columnId,jdbcType=INTEGER},
+            distributor_id = #{distributorId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

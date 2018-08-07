@@ -1,0 +1,55 @@
+.el-table .cell {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.category-list {
+    background-color: white;
+    header {
+        color: white;
+        height: $lineHight;
+        line-height: $lineHight;
+        background-color: $lakeBlue;
+        h4 {
+            display: inline-block;
+            font-weight: 350;
+            font-size: 16px;
+            margin: 0 20px;
+        }
+        .btn-home {
+            float: right;
+            padding: 5px;
+            margin-top: 8px;
+            margin-right: 8px;
+            margin-left: 0;
+            font-size: 12px;
+        }
+    }
+}
+
+.function {
+    background-color: white;
+    .Fheader {
+        margin: 10px;
+        display: flex !important;
+        // justify-content: flex-end !important;
+        justify-content: space-between;
+        align-items: center !important;
+        .Fleft {
+            overflow: hidden;
+            float: left;
+        }
+        .Fsearch {
+            overflow: hidden;
+            float: right;
+            .box-input {
+                width: 215px;
+                float: right;
+            }
+            .box-btn {
+                float: right;
+                margin-left: 5px;
+            }
+        }
+    }
+}

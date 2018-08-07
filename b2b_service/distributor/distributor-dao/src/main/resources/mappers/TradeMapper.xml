@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.trade.TradeMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.trade.dataobject.TradeDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="name_en" jdbcType="VARCHAR" property="nameEn"/>
+        <result column="pay_way" jdbcType="SMALLINT" property="payWay"/>
+        <result column="settling_time" jdbcType="INTEGER" property="settlingTime"/>
+        <result column="erp_settle_account_no" jdbcType="VARCHAR" property="erpSettleAccountNo"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="trade_columns">
+        id,
+        name,
+        name_en,
+        pay_way,
+        open_flag,
+        settling_time,
+        erp_settle_account_no,
+        open_flag,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="trade_select">
+        SELECT
+        <include refid="trade_columns"/>
+        FROM distributor_trade
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_trade
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.trade.dataobject.TradeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_trade (name, name_en, pay_way,
+        settling_time, erp_settle_account_no, open_flag,
+        create_time, update_time)
+        values (#{name,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{payWay,jdbcType=SMALLINT},
+        #{settlingTime,jdbcType=INTEGER}, #{erpSettleAccountNo,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.trade.dataobject.TradeDO">
+    update distributor_trade
+    set name = #{name,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      pay_way = #{payWay,jdbcType=SMALLINT},
+      settling_time = #{settlingTime,jdbcType=INTEGER},
+      erp_settle_account_no = #{erpSettleAccountNo,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, name_en, pay_way, settling_time, erp_settle_account_no, open_flag, 
+    create_time, update_time
+    from distributor_trade
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, name_en, pay_way, settling_time, erp_settle_account_no, open_flag, 
+    create_time, update_time
+    from distributor_trade
+  </select>
+
+    <update id="openTrade" parameterType="map">
+        UPDATE distributor_trade SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <select id="getTradeDistributorsCount" resultType="int" parameterType="map">
+        select count(1) FROM distributor_financial WHERE trade_id = #{tradeId}
+    </select>
+
+    <select id="listTrade" resultMap="BaseResultMap" parameterType="map">
+        <include refid="trade_select"/>
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by update_time desc
+    </select>
+    <select id="getByDistributorId" resultMap="BaseResultMap">
+        select dt.* from distributor_financial df left join distributor_trade dt on df.trade_id = dt.id where df.distributor_id = #{distributorId}
+    </select>
+</mapper>

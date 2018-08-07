@@ -1,0 +1,131 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: r-bp1bmhbto8cna52cqwpd.redis.rds.aliyuncs.com
+#      port: 6379
+#      password: bat123B2b456
+#      masterName: system-service
+erp:
+  # erp收款方式
+  settle:
+    account:
+      alipay: JSFS32_SYS
+      wxpay: JSFS31_SYS
+      kuaiqian: JSFS33
+      company-transfer: JSFS04_SYS
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2018
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        # 生产者
+        financial-output:
+          content-type: application/json
+          destination: financial-service-topic
+          # 财务-自身消费组
+        financial-self-input:
+          content-type: application/json
+          destination: financial-service-topic
+          group: financial-self-input-group
+          # 客户-财务消费组
+        financial-distributor-input:
+          content-type: application/json
+          destination: distributor-service-topic
+          group: financial-distributor-input-group
+          # 订单-财务消费组
+        financial-order-input:
+          content-type: application/json
+          destination: order-service-topic
+          group: financial-order-input-group
+        ### 平台消息通道监听
+        financial-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: financial-platform-input-group
+        ## 第三方 -财务消费组
+        financial-thirdparty-input:
+          content-type: application/json
+          destination: thirdparty-service-topic
+          group: financial-thirdparty-input-group
+      rocketmq:
+        bindings:
+          financial-output:
+            producer:
+              sync: true
+              group: financial-output-group
+          financial-self-input:
+            consumer:
+              tags: Recharge||Order||rechargeVoucher||Test||subAccountToWxPartner
+          financial-distributor-input:
+            consumer:
+              tags: distributorNameChange
+          financial-order-input:
+            consumer:
+              tags: orderVoucher||depositDetailChange||orderCommission||orderRefund||orderSubAccount
+          financial-thirdparty-input:
+            consumer:
+              tags: wxSubAccountTimer
+          ### 平台消费者tag监听
+          financial-platform-input:
+            consumer:
+              tags: tenantDBDelete
+wechat:
+  # (微信)不能直接使用 后面要拼上具体场景 例 jsapi: ${gateway}/jsapi
+  # 微信没有沙盒环境
+  gateway: https://api.mch.weixin.qq.com/v3
+  notify_url_create_v2: /financial/v1/web/admin/pay/wxpay/v2/pay/notify
+  notify_url_create_v3: /financial/v1/web/admin/pay/wxpay/v3/pay/notify
+  #退款异步通知后台
+  notify_url_refund_v3: /financial/v1/web/admin/pay/wxpay/v3/refund/notify
+  # 微信服务商下单回调
+  notify_url_create_partner: /financial/v1/web/admin/pay/wxpay/partner/pay/notify
+  ## 微信URL
+  url:
+    partner:
+      v3:
+        ## 微信服务商JSAPI统一下单(V3)
+        jsapi:
+          create: https://api.mch.weixin.qq.com/v3/pay/partner/transactions/jsapi
+        ## 服务商分账(V3)
+        subaccount:
+          create: https://api.mch.weixin.qq.com/v3/profitsharing/orders
+alipay:
+  gateway: https://openapi.alipay.com/gateway.do
+  #异步通知地址后台
+  notify_url_create: /financial/v1/web/admin/pay/alipay/pay/notify
+  test_appid: 2016102100730692,2018000119659210,2018000119659247
+kuaiqian:
+  gateway_pay: https://www.99bill.com/gateway/recvMerchantInfoAction.htm?
+  #  gateway_pay: https://sandbox.99bill.com/gateway/recvMerchantInfoAction.htm?
+  gateway_order_query: https://sandbox.99bill.com/gatewayapi/gatewayOrderQuery.do
+  #  sign_file: payconfig/kuaiqian/test/10012140356.pfx
+  check_file: payconfig/kuaiqian/prod/99bill-rsa.cer.cer
+  sign_file: payconfig/kuaiqian/prod/99bill-rsa.pfx
+  notify_url_create: /financial/v1/web/admin/pay/kuaiqianpay/pay/notify

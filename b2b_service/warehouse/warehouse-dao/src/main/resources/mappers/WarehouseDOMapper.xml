@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.warehouse.dao.warehouse.WarehouseDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.warehouse.dao.warehouse.dataobject.WarehouseDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="warehouse_no" property="warehouseNo" jdbcType="VARCHAR"/>
+        <result column="area_id" property="areaId" jdbcType="INTEGER"/>
+        <result column="sync_type" property="syncType" jdbcType="SMALLINT"/>
+        <result column="is_platform" property="isPlatform" jdbcType="SMALLINT"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="del_flag" property="delFlag" jdbcType="SMALLINT"/>
+        <result column="calculation_type" property="calculationType" jdbcType="SMALLINT"/>
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="WarehouseCOResultMap" type="com.bat.warehouse.dao.warehouse.co.WarehouseCO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="warehouse_no" property="warehouseNo" jdbcType="VARCHAR"/>
+        <result column="area_id" property="areaId" jdbcType="INTEGER"/>
+        <result column="sync_type" property="syncType" jdbcType="SMALLINT"/>
+        <result column="is_platform" property="isPlatform" jdbcType="SMALLINT"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="calculation_type" property="calculationType" jdbcType="SMALLINT"/>
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <!-- <result column="areaName" property="areaName" jdbcType="VARCHAR" />-->
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, name, warehouse_no, area_id, sync_type, is_platform, open_flag, del_flag, calculation_type, 
+    sort_no, create_time, create_user_id, create_user_name, update_time, update_user_id, 
+    update_user_name, delete_time, remark
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.warehouse.dao.warehouse.dataobject.WarehouseDO"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into warehouse (id, name, warehouse_no, 
+      area_id, sync_type, is_platform, 
+      open_flag, del_flag, calculation_type, 
+      sort_no, create_time, create_user_id, 
+      create_user_name, update_time, update_user_id, 
+      update_user_name, delete_time, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{warehouseNo,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=INTEGER}, #{syncType,jdbcType=SMALLINT}, #{isPlatform,jdbcType=SMALLINT}, 
+      #{openFlag,jdbcType=SMALLINT}, #{delFlag,jdbcType=SMALLINT}, #{calculationType,jdbcType=SMALLINT}, 
+      #{sortNo,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.bat.warehouse.dao.warehouse.dataobject.WarehouseDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into warehouse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="warehouseNo != null">
+                warehouse_no,
+            </if>
+            <if test="areaId != null">
+                area_id,
+            </if>
+            <if test="syncType != null">
+                sync_type,
+            </if>
+            <if test="isPlatform != null">
+                is_platform,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="calculationType != null">
+                calculation_type,
+            </if>
+            <if test="sortNo != null">
+                sort_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createUserName != null">
+                create_user_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="updateUserName != null">
+                update_user_name,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseNo != null">
+                #{warehouseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="areaId != null">
+                #{areaId,jdbcType=INTEGER},
+            </if>
+            <if test="syncType != null">
+                #{syncType,jdbcType=SMALLINT},
+            </if>
+            <if test="isPlatform != null">
+                #{isPlatform,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="calculationType != null">
+                #{calculationType,jdbcType=SMALLINT},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.warehouse.dao.warehouse.dataobject.WarehouseDO">
+        update warehouse
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseNo != null">
+                warehouse_no = #{warehouseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="areaId != null">
+                area_id = #{areaId,jdbcType=INTEGER},
+            </if>
+            <if test="syncType != null">
+                sync_type = #{syncType,jdbcType=SMALLINT},
+            </if>
+            <if test="isPlatform != null">
+                is_platform = #{isPlatform,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="calculationType != null">
+                calculation_type = #{calculationType,jdbcType=SMALLINT},
+            </if>
+            <if test="sortNo != null">
+                sort_no = #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                update_user_name = #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.warehouse.dao.warehouse.dataobject.WarehouseDO">
+    update warehouse
+    set name = #{name,jdbcType=VARCHAR},
+      warehouse_no = #{warehouseNo,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=INTEGER},
+      sync_type = #{syncType,jdbcType=SMALLINT},
+      is_platform = #{isPlatform,jdbcType=SMALLINT},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      calculation_type = #{calculationType,jdbcType=SMALLINT},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <select id="listByOpenFlagAndName" resultMap="WarehouseCOResultMap">
+        select id, name, warehouse_no, area_id, sync_type, is_platform, calculation_type,
+        sort_no, create_time, create_user_id, create_user_name, update_time, update_user_id,open_flag,
+        update_user_name, delete_time, remark from warehouse
+        where del_flag=0
+        <if test="openFlag !=null">
+            and open_flag=#{openFlag}
+        </if>
+        <if test="content !=null and content !=''">
+            and name like concat( '%',#{content,jdbcType=VARCHAR},'%')
+        </if>
+        order by sort_no asc
+    </select>
+    <select id="findMaxSortNo" resultType="java.lang.Integer">
+    select ifnull(max(sort_no),0) from warehouse where del_flag=0
+  </select>
+    <select id="findEffect" resultMap="BaseResultMap">
+        select * from warehouse where del_flag=0 and sort_no
+        <choose>
+            <when test="flag">
+                &lt; #{sortNo} order by sort_no desc limit 1
+            </when>
+            <otherwise>
+                &gt; #{sortNo} order by sort_no asc limit 1
+            </otherwise>
+        </choose>
+
+    </select>
+    <select id="listByAreaIdListAndOpenFlagAndSyncType" resultMap="BaseResultMap">
+        select * from warehouse where 1=1
+        <if test="openFlag !=null">
+            and open_flag = #{openFlag}
+        </if>
+        <if test="syncType !=null">
+            and sync_type = #{syncType}
+        </if>
+        <if test="areaIdList !=null and areaIdList.size() >0">
+            and area_id in
+            <foreach collection="areaIdList" index="index" item="areaId" open="(" separator="," close=")">
+                #{areaId}
+            </foreach>
+        </if>
+        and del_flag=0
+        order by sort_no asc
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select * from warehouse order by sort_no asc
+    </select>
+    <select id="getByWarehouseNo" resultMap="BaseResultMap">
+    select * from warehouse where warehouse_no =#{warehouseNo}
+  </select>
+
+    <select id="detailById" resultMap="WarehouseCOResultMap">
+    select id, name, warehouse_no, area_id, sync_type, is_platform, calculation_type,
+    sort_no, create_time, create_user_id, create_user_name, update_time, update_user_id,open_flag,
+    update_user_name, delete_time, remark from warehouse
+    where id=#{id}
+  </select>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select * from warehouse where 1=1
+        <if test="openFlag !=null">
+            and open_flag = #{openFlag}
+        </if>
+        <if test="areaId !=null">
+            and area_id = #{areaId}
+        </if>
+        <if test="warehouseNo !=null and warehouseNo !=''">
+            and warehouse_no = #{warehouseNo,jdbcType=VARCHAR}
+        </if>
+        and del_flag=0 order by sort_no asc
+    </select>
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.check.CheckConfigMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.check.dataobject.CheckConfigDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ext" jdbcType="SMALLINT" property="ext"/>
+        <result column="check_user" jdbcType="INTEGER" property="checkUser"/>
+        <result column="check_order" jdbcType="INTEGER" property="checkOrder"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, ext, check_user, check_order, open_flag, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from check_config
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from check_config
+        where open_flag =1
+        <if test="ext!=null">
+            and ext = #{ext}
+        </if>
+    </select>
+    <select id="getConfigsByExt" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from check_config
+        where ext = #{ext,jdbcType=SMALLINT}
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from check_flow
+        <where>
+            <if test="params.id!=null">
+                AND id = #{params.id}
+            </if>
+            <if test="params.ext!=null">
+                AND ext = #{params.ext}
+            </if>
+            <if test="params.checkUser!=null">
+                AND check_user = #{params.checkUser}
+            </if>
+            <if test="params.checkOrder!=null">
+                AND check_order = #{params.checkOrder}
+            </if>
+            <if test="params.openFlag!=null">
+                AND open_flag = #{params.openFlag}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from check_config
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.check.dataobject.CheckConfigDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into check_config (ext, check_user, check_order,
+        open_flag, create_time, update_time
+        )
+        values (#{ext,jdbcType=SMALLINT}, #{checkUser,jdbcType=INTEGER}, #{checkOrder,jdbcType=INTEGER},
+        #{openFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.check.dataobject.CheckConfigDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into check_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ext != null">
+                ext,
+            </if>
+            <if test="checkUser != null">
+                check_user,
+            </if>
+            <if test="checkOrder != null">
+                check_order,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ext != null">
+                #{ext,jdbcType=SMALLINT},
+            </if>
+            <if test="checkUser != null">
+                #{checkUser,jdbcType=INTEGER},
+            </if>
+            <if test="checkOrder != null">
+                #{checkOrder,jdbcType=INTEGER},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.check.dataobject.CheckConfigDO">
+        update check_config
+        <set>
+            <if test="ext != null">
+                ext = #{ext,jdbcType=SMALLINT},
+            </if>
+            <if test="checkUser != null">
+                check_user = #{checkUser,jdbcType=INTEGER},
+            </if>
+            <if test="checkOrder != null">
+                check_order = #{checkOrder,jdbcType=INTEGER},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.check.dataobject.CheckConfigDO">
+        update check_config
+        set ext         = #{ext,jdbcType=SMALLINT},
+            check_user  = #{checkUser,jdbcType=INTEGER},
+            check_order = #{checkOrder,jdbcType=INTEGER},
+            open_flag   = #{openFlag,jdbcType=SMALLINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

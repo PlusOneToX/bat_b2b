@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="CHAR" property="password"/>
+        <result column="company_type" jdbcType="SMALLINT" property="companyType"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="apply_type" jdbcType="SMALLINT" property="applyType"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="profile_status" jdbcType="SMALLINT" property="profileStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="freeze_time" jdbcType="TIMESTAMP" property="freezeTime"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="DistributorIdsDOMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorIdsDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+    <resultMap id="DistributorOneListDOMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorOneListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="CHAR" property="password"/>
+        <result column="company_type" jdbcType="SMALLINT" property="companyType"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="apply_type" jdbcType="SMALLINT" property="applyType"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="profile_status" jdbcType="SMALLINT" property="profileStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="freeze_time" jdbcType="TIMESTAMP" property="freezeTime"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="auto_delivery" jdbcType="SMALLINT" property="autoDelivery"/>
+    </resultMap>
+    <resultMap id="DistributorListDOMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="CHAR" property="password"/>
+        <result column="company_type" jdbcType="SMALLINT" property="companyType"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="apply_type" jdbcType="SMALLINT" property="applyType"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="profile_status" jdbcType="SMALLINT" property="profileStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="freeze_time" jdbcType="TIMESTAMP" property="freezeTime"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="auto_delivery" jdbcType="SMALLINT" property="autoDelivery"/>
+    </resultMap>
+    <resultMap id="DistributorNextListDOMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorNextListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="profile_status" jdbcType="SMALLINT" property="profileStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="freeze_time" jdbcType="TIMESTAMP" property="freezeTime"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="UerNextListDO"
+               type="com.bat.distributor.dao.distributor.dataobject.UerNextListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="scale_price_name" jdbcType="VARCHAR" property="scalePriceName"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+    </resultMap>
+    <resultMap id="DistributorNextDOMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorNextDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="scale_price_name" jdbcType="VARCHAR" property="scalePriceName"/>
+        <result column="scale_price_id" jdbcType="INTEGER" property="scalePriceId"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="freeze_time" jdbcType="TIMESTAMP" property="freezeTime"/>
+    </resultMap>
+
+    <resultMap id="UpperDistributorDOMap"
+               type="com.bat.distributor.dao.distributor.dataobject.UpperDistributorDO">
+        <id column="upper_distributor_id" jdbcType="INTEGER" property="upperDistributorId"/>
+        <result column="upper_distributor_name" jdbcType="VARCHAR" property="upperDistributorName"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime"/>
+        <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime"/>
+    </resultMap>
+
+    <resultMap id="DistributorPayWay"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorExtendDataDO">
+        <id column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distribution_pay_way" property="distributionPayWay"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor (name, password, company_type,
+        company_name, apply_type, apply_status,
+        profile_status, apply_time,check_time, freeze_status,
+        freeze_time, tree_node, create_time,
+        update_time)
+        values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, #{companyType,jdbcType=SMALLINT},
+        #{companyName,jdbcType=VARCHAR}, #{applyType,jdbcType=SMALLINT}, #{applyStatus,jdbcType=SMALLINT},
+        #{profileStatus,jdbcType=SMALLINT}, #{applyTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP},
+        #{freezeStatus,jdbcType=SMALLINT},
+        #{freezeTime,jdbcType=TIMESTAMP}, #{treeNode,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorDO">
+        update distributor
+        set name = #{name,jdbcType=VARCHAR},
+        password = #{password,jdbcType=CHAR},
+        apply_status = #{applyStatus,jdbcType=SMALLINT},
+        check_time = #{checkTime,jdbcType=SMALLINT},
+        company_type = #{companyType,jdbcType=SMALLINT},
+        company_name = #{companyName,jdbcType=VARCHAR},
+        <if test="profileStatus != null">
+            profile_status = #{profileStatus},
+        </if>
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="applyDistributor" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorDO">
+    update distributor
+    set apply_status = #{applyStatus,jdbcType=SMALLINT},
+    apply_time = #{applyTime,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, password, company_type, company_name, apply_type, apply_status, 
+    profile_status, apply_time,check_time, freeze_status, freeze_time, tree_node, create_time, update_time
+    from distributor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="listByIds" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, name, password, company_type, company_name, apply_type, apply_status,
+        profile_status, apply_time,check_time, freeze_status, freeze_time, tree_node, create_time, update_time
+        from distributor
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectAncestorByDescendantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select d.id, d.name, d.password, d.company_type, d.company_name, d.apply_type, d.apply_status,
+    d.profile_status, d.apply_time,d.check_time, d.freeze_status, d.freeze_time, d.tree_node, d.create_time, d.update_time
+    from distributor_tree_path dtp join distributor d on dtp.distributor_ancestor_id = d.id
+    where dtp.distributor_descendant_id = #{id,jdbcType=INTEGER} and dtp.tree_node = 1
+  </select>
+    <select id="listOneDistributor" parameterType="map" resultMap="DistributorOneListDOMap">
+        select a.id, a.name, a.company_type, a.company_name, a.apply_type, a.apply_status,
+        a.profile_status, a.apply_time,a.check_time, a.freeze_status, a.freeze_time, a.tree_node, a.create_time,
+        a.update_time,
+        c.auto_delivery
+        from distributor a join distributor_extend_data b on b.distributor_id=a.id left join distributor_business c
+        on c.distributor_id = a.id
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 5">
+                left join distributor_contacts d on d.distributor_id=a.id
+            </if>
+        </if>
+        WHERE a.tree_node = 1
+        <if test="autoDelivery != null">
+            and c.auto_delivery = #{autoDelivery}
+        </if>
+        <if test="applyType != null">
+            and a.apply_type = #{applyType}
+        </if>
+        <if test="applyStatus != null">
+            and a.apply_status = #{applyStatus}
+        </if>
+        <if test="profileStatus != null">
+            and a.profile_status = #{profileStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and a.freeze_status = #{freezeStatus}
+        </if>
+        <if test="rxShopSwitch !=null">
+            and c.rx_shop_switch = #{rxShopSwitch}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(a.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and replace(a.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 3">
+                and a.id = #{content}
+            </if>
+            <if test="contentType == 4">
+                and b.erp_no = #{content})
+            </if>
+            <if test="contentType == 5">
+                and replace(d.phone,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        order by a.update_time desc
+    </select>
+
+    <select id="listDistributor" parameterType="map" resultMap="DistributorListDOMap">
+        select a.id, a.name, a.company_type, a.company_name, a.apply_type, a.apply_status,
+        a.profile_status, a.apply_time,a.check_time, a.freeze_status, a.freeze_time, a.tree_node, a.create_time,
+        a.update_time,
+        c.auto_delivery
+        from distributor a join distributor_extend_data b on b.distributor_id=a.id join distributor_business c
+        on c.distributor_id = a.id WHERE 1=1
+        <if test="treeNode != null">
+            and a.tree_node = #{treeNode}
+        </if>
+        <if test="autoDelivery != null">
+            and c.auto_delivery = #{autoDelivery}
+        </if>
+        <if test="applyType != null">
+            and a.apply_type = #{applyType}
+        </if>
+        <if test="applyStatus != null">
+            and a.apply_status = #{applyStatus}
+        </if>
+        <if test="profileStatus != null">
+            and a.profile_status = #{profileStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and a.freeze_status = #{freezeStatus}
+        </if>
+        <if test="erpFlag!=null">
+            and b.erp_flag = #{erpFlag}
+        </if>
+        <if test="rxShopSwitch !=null">
+            and c.rx_shop_switch = #{rxShopSwitch}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(a.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and replace(a.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 3">
+                and a.id = #{content}
+            </if>
+            <if test="contentType == 4">
+                and b.erp_no = #{content})
+            </if>
+        </if>
+        order by a.update_time desc
+    </select>
+
+    <select id="listNextDistributor" parameterType="map" resultMap="DistributorNextListDOMap">
+        select a.id, a.name, a.company_name, a.apply_status,
+        a.profile_status, a.apply_time,a.check_time, a.freeze_status, a.freeze_time, a.tree_node, a.create_time,
+        a.update_time, b.name as user_name,b.phone,b.email
+        from distributor a
+        left join distributor_contacts b on b.distributor_id=a.id and b.owner_flag = 1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 4">
+                join distributor_tree_path ctp on ctp.distributor_descendant_id=a.id and ctp.tree_node=a.tree_node - 1
+            </if>
+        </if>
+        WHERE 1=1
+        <if test="treeNode == null">
+            and a.tree_node <![CDATA[ <> ]]> 1
+        </if>
+        <if test="treeNode != null">
+            and a.tree_node = #{treeNode}
+        </if>
+        <if test="applyType != null">
+            and a.apply_type = #{applyType}
+        </if>
+        <if test="applyStatus != null">
+            and a.apply_status = #{applyStatus}
+        </if>
+        <if test="profileStatus != null">
+            and a.profile_status = #{profileStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and a.freeze_status = #{freezeStatus}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(a.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and replace(a.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 3">
+                and a.id = #{content}
+            </if>
+            <if test="contentType == 4">
+                and ctp.distributor_ancestor_id in (select f.id from distributor f where replace(f.company_name,' ','')
+                like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+            <if test="contentType == 5">
+                and replace(b.phone,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        order by a.update_time desc
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, password, company_type, company_name, apply_type, apply_status, 
+    profile_status, apply_time,check_time, freeze_status, freeze_time, tree_node, create_time, update_time
+    from distributor
+  </select>
+    <update id="freezeDistributor" parameterType="map">
+      UPDATE distributor SET freeze_status = #{freezeStatus},freeze_time = #{freezeTime} where id = #{id}
+  </update>
+    <update id="updateApplyStatusById" parameterType="map">
+      UPDATE distributor SET apply_status = #{applyStatus},check_time = #{time} where id = #{id}
+  </update>
+
+    <update id="updatePassword" parameterType="map">
+      UPDATE distributor SET password = #{password},update_time = now() where id = #{id}
+  </update>
+
+    <select id="selectByName" parameterType="map" resultMap="BaseResultMap">
+    select id, name, password, company_type, company_name, apply_type, apply_status,
+    profile_status, apply_time,check_time, freeze_status, freeze_time, tree_node, create_time, update_time
+    from distributor
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+
+    <select id="listDistributorIdBySalesId" parameterType="map" resultType="java.lang.Integer">
+    select d.id
+    from distributor_business db join distributor d on d.id = db.distributor_id
+    where db.sales_id = #{salesId} and d.tree_node = 1
+  </select>
+
+    <select id="distributorIds" parameterType="map"
+            resultMap="DistributorIdsDOMap">
+        select id, name, company_name
+        from distributor
+        WHERE id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listNextDistributorByDistributorId" parameterType="map"
+            resultMap="UerNextListDO">
+        select d.id, d.name, d.company_name, d.apply_status,dc.name as user_name,dc.phone,
+        (case when dnsp.next_scale_price_id is not null then (select nsp.name from next_scale_price nsp where nsp.id =
+        dnsp.next_scale_price_id) else "默认等级价" end) as scale_price_name,d.apply_time
+        from distributor_tree_path dtp
+        join distributor d on d.id=dtp.distributor_descendant_id
+        left join distributor_contacts dc on dc.distributor_id = dtp.distributor_descendant_id and dc.owner_flag = 1
+        left join distributor_next_scale_price dnsp on dnsp.distributor_id =dtp.distributor_descendant_id
+        WHERE dtp.distributor_ancestor_id= #{distributorId} AND dtp.tree_node=1
+        <if test="applyStatus != null and applyStatus != 0">
+            and d.apply_status = #{applyStatus}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(d.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or dc.phone = #{content})
+        </if>
+        order by d.update_time desc
+    </select>
+
+    <select id="selectNextDistributorById" parameterType="java.lang.Integer" resultMap="DistributorNextDOMap">
+        select d.id, d.name, d.company_name, d.apply_status,d.apply_time,d.check_time,d.freeze_status,
+        d.freeze_time, dc.phone,dc.email,dc.name as user_name,dc.phone,
+        dnsp.next_scale_price_id as scale_price_id,
+        (case when dnsp.next_scale_price_id is not null then (select nsp.name from next_scale_price nsp where nsp.id =
+        dnsp.next_scale_price_id) else "默认等级价" end) as scale_price_name
+        from distributor d
+        join distributor_contacts dc on dc.distributor_id = d.id and dc.owner_flag = 1
+        left join distributor_next_scale_price dnsp on dnsp.distributor_id = d.id
+        WHERE d.id = #{id}
+    </select>
+
+    <select id="getUpperDistributorId" resultMap="UpperDistributorDOMap">
+        SELECT a.id upper_distributor_id,a.name upper_distributor_name,c.open_id,d.id distributor_id,d.name distributor_name,d.check_time,
+        d.apply_time
+        FROM distributor a
+        LEFT JOIN distributor_tree_path b on b.distributor_ancestor_id=a.id
+        LEFT JOIN distributor_extend_data c on c.distributor_id=a.id
+        LEFT JOIN distributor d on d.id=b.distributor_descendant_id
+        where b.distributor_descendant_id=#{distributorId} and b.tree_node=1
+    </select>
+
+    <select id="multiLevelDistributorById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT distributor_descendant_id FROM distributor_tree_path WHERE distributor_ancestor_id=#{id}
+    </select>
+
+
+    <update id="freezeMultiLevelDistributors"  parameterType="map">
+        UPDATE distributor SET freeze_status=#{freezeStatus},freeze_time = #{freezeTime} WHERE id in(
+            SELECT distributor_descendant_id FROM distributor_tree_path WHERE distributor_ancestor_id=#{id}
+        )
+    </update>
+
+    <select id="distributorPaymentWayById" parameterType="java.lang.Integer" resultMap="DistributorPayWay">
+        select distributor_id,distribution_pay_way from distributor_extend_data where distributor_id=#{distributorId}
+    </select>
+
+    <select id="queryAllSubDistributors" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select distributor_descendant_id from distributor_tree_path where distributor_ancestor_id=#{distributorId}
+    </select>
+
+    <delete id="deleteSalesTerritoryByDistributorIdList" parameterType="java.util.List">
+        delete from distributor_sales_area where distributor_id in
+        <foreach collection="subDistributorIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="inserDistributorSalesArea" parameterType="map">
+        insert into distributor_sales_area(distributor_id,sales_area_id)
+        values
+        <foreach item="item" collection="subDistributorIdList" separator=",">
+            (
+            #{item,jdbcType=INTEGER},
+            #{areaId,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

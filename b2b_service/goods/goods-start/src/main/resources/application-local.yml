@@ -1,0 +1,79 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6380
+#      password: bat2018
+#      masterName: goods-service
+### rocketmq stream消息
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2018
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者
+        goods-output:
+          destination: goods-service-topic
+          content-type: application/json
+        ### 消息消费者
+        ### 商品消息通道监听
+        goods-input:
+          destination: goods-service-topic
+          content-type: application/json
+          group: goods-input-group
+        ### 订单消息通道监听
+        goods-order-input:
+          destination: order-service-topic
+          content-type: application/json
+          group: goods-order-input-group
+        ### 平台消息通道监听
+        goods-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: goods-platform-input-group
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          goods-output:
+            producer:
+              group: goods-output-group
+          ### 商品消费者tag监听
+          goods-input:
+            consumer:
+              tags: syncAllGoodsPrice||syncAllGoodsItem||syncAllGoodsItemBox||syncAllGoodsScope||syncBrandGoodsScope||goodsItemSaleStatus
+          ### 订单消费者tag监听
+          goods-order-input:
+            consumer:
+              tags: orderGoodsSale
+          ### 订单消费者tag监听
+          goods-platform-input:
+            consumer:
+              tags: tenantDBDelete

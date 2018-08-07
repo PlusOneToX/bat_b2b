@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.nextscaleprice.NextScalePriceSpecialMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="next_scale_price_id" jdbcType="INTEGER" property="nextScalePriceId"/>
+        <result column="arithmetic_type" jdbcType="SMALLINT" property="arithmeticType"/>
+        <result column="arithmetic_num" jdbcType="DECIMAL" property="arithmeticNum"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from next_scale_price_special
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into next_scale_price_special (next_scale_price_id, arithmetic_type,
+        arithmetic_num)
+        values (#{nextScalePriceId,jdbcType=INTEGER}, #{arithmeticType,jdbcType=SMALLINT},
+        #{arithmeticNum,jdbcType=DECIMAL})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.nextscaleprice.dataobject.NextScalePriceSpecialDO">
+    update next_scale_price_special
+    set next_scale_price_id = #{nextScalePriceId,jdbcType=INTEGER},
+      arithmetic_type = #{arithmeticType,jdbcType=SMALLINT},
+      arithmetic_num = #{arithmeticNum,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, next_scale_price_id, arithmetic_type, arithmetic_num
+    from next_scale_price_special
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, next_scale_price_id, arithmetic_type, arithmetic_num
+    from next_scale_price_special
+  </select>
+
+    <select id="listByNextScalePriceId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, next_scale_price_id, arithmetic_type, arithmetic_num
+    from next_scale_price_special
+    where next_scale_price_id = #{nextScalePriceId,jdbcType=INTEGER}
+  </select>
+
+    <delete id="deleteByNextScalePriceId" parameterType="java.lang.Integer">
+    delete from next_scale_price_special
+    where next_scale_price_id = #{nextScalePriceId,jdbcType=INTEGER}
+  </delete>
+</mapper>

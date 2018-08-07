@@ -1,0 +1,1882 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsMapper">
+    <resultMap id="GoodsMapper" type="com.bat.goods.dao.goods.dataobject.GoodsDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+        <result column="introduce_en" property="introduceEn" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="sale_time" property="saleTime" jdbcType="DATE"/>
+        <result column="freeze_status" property="freezeStatus" jdbcType="SMALLINT"/>
+        <result column="freeze_time" property="freezeTime" jdbcType="DATE"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="image_url1" property="imageUrl1" jdbcType="VARCHAR"/>
+        <result column="image_url2" property="imageUrl2" jdbcType="VARCHAR"/>
+        <result column="image_url3" property="imageUrl3" jdbcType="VARCHAR"/>
+        <result column="image_url4" property="imageUrl4" jdbcType="VARCHAR"/>
+        <result column="image_url5" property="imageUrl5" jdbcType="VARCHAR"/>
+        <result column="image_url6" property="imageUrl6" jdbcType="VARCHAR"/>
+        <result column="image_url1en" property="imageUrl1en" jdbcType="VARCHAR"/>
+        <result column="image_url2en" property="imageUrl2en" jdbcType="VARCHAR"/>
+        <result column="image_url3en" property="imageUrl3en" jdbcType="VARCHAR"/>
+        <result column="image_url4en" property="imageUrl4en" jdbcType="VARCHAR"/>
+        <result column="image_url5en" property="imageUrl5en" jdbcType="VARCHAR"/>
+        <result column="image_url6en" property="imageUrl6en" jdbcType="VARCHAR"/>
+        <result column="content_url" property="contentUrl" jdbcType="VARCHAR"/>
+        <result column="content_url_en" property="contentUrlEn" jdbcType="VARCHAR"/>
+        <result column="distributor_scope" property="distributorScope" jdbcType="SMALLINT"/>
+        <result column="distributor_scope_no" property="distributorScopeNo" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="GoodsScopeMapper" type="com.bat.goods.dao.goods.dataobject.GoodsScopeDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="distributor_scope" property="distributorScope" jdbcType="SMALLINT"/>
+        <result column="distributor_scope_no" property="distributorScopeNo" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <resultMap id="GoodsListMapper" type="com.bat.goods.dao.goods.dataobject.GoodsListDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="sale_time" property="saleTime" jdbcType="DATE"/>
+        <result column="freeze_status" property="freezeStatus" jdbcType="SMALLINT"/>
+        <result column="freeze_time" property="freezeTime" jdbcType="DATE"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="GoodsListStoreMapper" type="com.bat.goods.dao.goods.dataobject.GoodsListStoreDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="freeze_status" property="freezeStatus" jdbcType="SMALLINT"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_name_en" property="itemNameEn" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_erp_id" property="itemErpId" jdbcType="INTEGER"/>
+        <result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="width" property="width" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="item_img" property="itemImg" jdbcType="VARCHAR"/>
+        <result column="moq" property="moq" jdbcType="VARCHAR"/>
+        <result column="advance_sale_flag" property="advanceSaleFlag" jdbcType="SMALLINT"/>
+        <result column="life_cycle" property="lifeCycle" jdbcType="SMALLINT"/>
+        <result column="promotion_status" property="promotionStatus" jdbcType="VARCHAR"/>
+        <result column="onway_sale_flag" property="onwaySaleFlag" jdbcType="SMALLINT"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="sale_time" property="saleTime" jdbcType="DATE"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemStatusDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemStatusDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="life_cycle" property="lifeCycle" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemSyncMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemSyncDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_erp_id" property="itemErpId" jdbcType="INTEGER"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemListMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemListDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_name_en" property="itemNameEn" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemBoxMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemBoxDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_item_id" property="goodsItemId" jdbcType="INTEGER"/>
+        <result column="box_name" property="boxName" jdbcType="VARCHAR"/>
+        <result column="box_type" property="boxType" jdbcType="VARCHAR"/>
+        <result column="box_length" property="boxLength" jdbcType="DECIMAL"/>
+        <result column="box_height" property="boxHeight" jdbcType="DECIMAL"/>
+        <result column="box_width" property="boxWidth" jdbcType="DECIMAL"/>
+        <result column="box_weight" property="boxWeight" jdbcType="DECIMAL"/>
+        <result column="box_num" property="boxNum" jdbcType="DECIMAL"/>
+        <result column="box_erp_id" property="boxErpId" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="default_flag" property="defaultFlag" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemDataMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemDataDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_item_id" property="goodsItemId" jdbcType="INTEGER"/>
+        <result column="series" property="series" jdbcType="VARCHAR"/>
+        <result column="applied_device" property="appliedDevice" jdbcType="VARCHAR"/>
+        <result column="model_en" property="modelEn" jdbcType="VARCHAR"/>
+        <result column="series_en" property="seriesEn" jdbcType="VARCHAR"/>
+        <result column="applied_device_en" property="appliedDeviceEn" jdbcType="VARCHAR"/>
+        <result column="purchase_cycle" property="purchaseCycle" jdbcType="INTEGER"/>
+        <result column="plan_strategy" property="planStrategy" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemSpecsColorMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemSpecsColorDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_item_id" property="goodsItemId" jdbcType="INTEGER"/>
+        <result column="attribute_type" property="attributeType" jdbcType="SMALLINT"/>
+        <result column="attribute_value_id" property="attributeValueId" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="GoodsItemSpecsColorListMapper"
+               type="com.bat.goods.dao.goods.dataobject.GoodsItemSpecsColorListDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_item_id" property="goodsItemId" jdbcType="INTEGER"/>
+        <result column="attribute_type" property="attributeType" jdbcType="SMALLINT"/>
+        <result column="attribute_value_id" property="attributeValueId" jdbcType="INTEGER"/>
+        <result column="attribute_value_name" property="attributeValueName" jdbcType="VARCHAR"/>
+        <result column="attribute_value_name_en" property="attributeValueNameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemScalePriceMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemScalePriceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_item_id" property="goodsItemId" jdbcType="INTEGER"/>
+        <result column="goods_item_grade_id" property="goodsItemGradeId" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="GoodsClassifyRelevanceMapper" type="com.bat.goods.dao.goods.dataobject.GoodsClassifyRelevanceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="classify_id" property="classifyId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="GoodsTagDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsTagDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemIdDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemIdDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item_erp_id" property="itemErpId" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="GoodsParamDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsParamDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="param_name_en" property="paramNameEn" jdbcType="VARCHAR"/>
+        <result column="value_id" property="valueId" jdbcType="INTEGER"/>
+        <result column="param_value_name" property="paramValueName" jdbcType="VARCHAR"/>
+        <result column="param_value_name_en" property="paramValueNameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="GoodsItemSimpleDOResultMap" type="com.bat.goods.dao.goods.dataobject.GoodsItemSimpleDO">
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="GoodsSaleDataDOResultMap" type="com.bat.goods.dao.goods.dataobject.GoodsSaleDataDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="sale_num" property="saleNum" jdbcType="INTEGER"/>
+        <result column="virtual_num" property="virtualNum" jdbcType="INTEGER"/>
+        <result column="show_type" property="showType" jdbcType="SMALLINT"/>
+    </resultMap>
+    <sql id="goods_columns">
+        id
+        ,
+        goods_name,
+        goods_name_en,
+        goods_no,
+        keywords,
+        introduce,
+        introduce_en,
+        brand_id,
+        category_id,
+        sale_status,
+        sale_time,
+        freeze_status,
+        freeze_time,
+        goods_type,
+        diy_type,
+        image_url1,
+        image_url2,
+        image_url3,
+        image_url4,
+        image_url5,
+        image_url6,
+        image_url1en,
+        image_url2en,
+        image_url3en,
+        image_url4en,
+        image_url5en,
+        image_url6en,
+        content_url,
+        content_url_en,
+        distributor_scope,
+        distributor_scope_no,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="goods_select">
+        SELECT
+        <include refid="goods_columns"/>
+        FROM goods
+    </sql>
+
+    <sql id="goods_item_columns">
+        id
+        ,
+        goods_id,
+        item_name,
+        item_name_en,
+        item_code,
+        item_erp_id,
+        bar_code,
+        sale_price,
+        cost_price,
+        weight,
+        length,
+        width,
+        height,
+        unit,
+        item_img,
+        moq,
+        advance_sale_flag,
+        life_cycle,
+        promotion_status,
+        onway_sale_flag,
+        sale_status,
+        sale_time,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="goods_item_select">
+        SELECT
+        <include refid="goods_item_columns"/>
+        FROM goods_item
+    </sql>
+
+    <sql id="goods_item_box_columns">
+        id
+        ,
+        goods_item_id,
+        box_name,
+        box_type,
+        box_length,
+        box_height,
+        box_width,
+        box_weight,
+        box_num,
+        box_erp_id,
+        sort,
+        default_flag,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="goods_item_box_select">
+        SELECT
+        <include refid="goods_item_box_columns"/>
+        FROM goods_item_box
+    </sql>
+
+    <sql id="goods_item_data_columns">
+        id
+        ,
+        goods_item_id,
+        series,
+        applied_device,
+        model_en,
+        series_en,
+        applied_device_en,
+        purchase_cycle,
+        plan_strategy
+    </sql>
+
+    <sql id="goods_item_data_select">
+        SELECT
+        <include refid="goods_item_data_columns"/>
+        FROM goods_item_data
+    </sql>
+
+    <sql id="goods_item_specs_color_columns">
+        id
+        ,
+        goods_item_id,
+        attribute_type,
+        attribute_value_id
+    </sql>
+
+    <sql id="goods_item_specs_color_select">
+        SELECT
+        <include refid="goods_item_specs_color_columns"/>
+        FROM goods_item_specs_color
+    </sql>
+
+    <sql id="goods_item_scale_price_columns">
+        id
+        ,
+        goods_id,
+        goods_item_id,
+        goods_item_grade_id,
+        price
+    </sql>
+
+    <sql id="goods_item_scale_price_select">
+        SELECT
+        <include refid="goods_item_scale_price_columns"/>
+        FROM goods_item_scale_price
+    </sql>
+
+    <insert id="createGoods" parameterType="com.bat.goods.dao.goods.dataobject.GoodsDO" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO goods(
+        <include refid="goods_columns"/>
+        ) VALUES (
+        #{id},
+        #{goodsName},
+        #{goodsNameEn},
+        #{goodsNo},
+        #{keywords},
+        #{introduce},
+        #{introduceEn},
+        #{brandId},
+        #{categoryId},
+        #{saleStatus},
+        #{saleTime},
+        #{freezeStatus},
+        #{freezeTime},
+        #{goodsType},
+        #{diyType},
+        #{imageUrl1},
+        #{imageUrl2},
+        #{imageUrl3},
+        #{imageUrl4},
+        #{imageUrl5},
+        #{imageUrl6},
+        #{imageUrl1en},
+        #{imageUrl2en},
+        #{imageUrl3en},
+        #{imageUrl4en},
+        #{imageUrl5en},
+        #{imageUrl6en},
+        #{contentUrl},
+        #{contentUrlEn},
+        #{distributorScope},
+        #{distributorScopeNo},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <insert id="createGoodsClassifyRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_classify_relevance(
+        goods_id,
+        classify_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.classifyId}
+            )
+        </foreach>
+    </insert>
+
+
+    <insert id="createGoodsScalePriceRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_scale_price_relevance(
+        goods_id,
+        scale_price_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.scalePriceId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsScalePriceRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO goods_scale_price_relevance_no(
+        goods_id,
+        scale_price_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.scalePriceId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsDepartmentRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_department_relevance(
+        goods_id,
+        department_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.departmentId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsDepartmentRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO goods_department_relevance_no(
+        goods_id,
+        department_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.departmentId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsAdminRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_admin_relevance(
+        goods_id,
+        admin_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.adminId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsAdminRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO goods_admin_relevance_no(
+        goods_id,
+        admin_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.adminId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsDistributorRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_distributor_relevance(
+        goods_id,
+        distributor_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.distributorId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsDistributorRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO goods_distributor_relevance_no(
+        goods_id,
+        distributor_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.distributorId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsTagRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_tag_relevance(
+        goods_id,
+        tag_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.tagId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsParamRelevanceList" parameterType="java.util.List">
+        INSERT INTO goods_param_relevance(
+        goods_id,
+        param_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.paramId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsItem" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.bat.goods.dao.goods.dataobject.GoodsItemDO">
+        INSERT INTO goods_item(
+        <include refid="goods_item_columns"/>
+        ) VALUES(
+        #{id},
+        #{goodsId},
+        #{itemName},
+        #{itemNameEn},
+        #{itemCode},
+        #{itemErpId},
+        #{barCode},
+        #{salePrice},
+        #{costPrice},
+        #{weight},
+        #{length},
+        #{width},
+        #{height},
+        #{unit},
+        #{itemImg},
+        #{moq},
+        #{advanceSaleFlag},
+        #{lifeCycle},
+        #{promotionStatus},
+        #{onwaySaleFlag},
+        #{saleStatus},
+        #{saleTime},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <insert id="createGoodsItemList" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO goods_item(
+        <include refid="goods_item_columns"/>
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.id},
+            #{item.goodsId},
+            #{item.itemName},
+            #{item.itemNameEn},
+            #{item.itemCode},
+            #{item.itemErpId},
+            #{item.barCode},
+            #{item.salePrice},
+            #{item.costPrice},
+            #{item.weight},
+            #{item.length},
+            #{item.width},
+            #{item.height},
+            #{item.unit},
+            #{item.itemImg},
+            #{item.moq},
+            #{item.advanceSaleFlag},
+            #{item.lifeCycle},
+            #{item.promotionStatus},
+            #{item.onwaySaleFlag},
+            #{item.saleStatus},
+            #{item.saleTime},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsItemBoxList" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.bat.goods.dao.goods.dataobject.GoodsItemBoxDO">
+        INSERT INTO goods_item_box(
+        <include refid="goods_item_box_columns"/>
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.id},
+            #{item.goodsItemId},
+            #{item.boxName},
+            #{item.boxType},
+            #{item.boxLength},
+            #{item.boxHeight},
+            #{item.boxWidth},
+            #{item.boxWeight},
+            #{item.boxNum},
+            #{item.boxErpId},
+            #{item.sort},
+            #{item.defaultFlag},
+            #{item.createTime},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsItemData" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.bat.goods.dao.goods.dataobject.GoodsItemDataDO">
+        INSERT INTO goods_item_data(
+        <include refid="goods_item_data_columns"/>
+        ) VALUES(
+        #{id},
+        #{goodsItemId},
+        #{series},
+        #{appliedDevice},
+        #{modelEn},
+        #{seriesEn},
+        #{appliedDeviceEn},
+        #{purchaseCycle},
+        #{planStrategy}
+        )
+    </insert>
+
+    <insert id="createGoodsItemSpecsColorList" parameterType="java.util.List">
+        INSERT INTO goods_item_specs_color(
+        <include refid="goods_item_specs_color_columns"/>
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.id},
+            #{item.goodsItemId},
+            #{item.attributeType},
+            #{item.attributeValueId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createGoodsItemScalePriceList" parameterType="java.util.List">
+        INSERT INTO goods_item_scale_price(
+        <include refid="goods_item_scale_price_columns"/>
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.id},
+            #{item.goodsId},
+            #{item.goodsItemId},
+            #{item.goodsItemGradeId},
+            #{item.price}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listGoods" resultMap="GoodsListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_name,
+        a.goods_name_en,
+        a.goods_no,
+        a.keywords,
+        a.sale_status,
+        a.sale_time,
+        a.freeze_status,
+        a.freeze_time,
+        a.goods_type,
+        a.diy_type,
+        a.distributor_scope,
+        a.distributor_scope_no,
+        a.create_time,
+        a.update_time,
+        a.brand_id,
+        a.category_id
+        FROM goods a where 1 = 1
+        <if test="goodsType != null">
+            and a.goods_type = #{goodsType}
+        </if>
+        <if test="saleStatus != null">
+            and a.sale_status = #{saleStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and a.freeze_status = #{freezeStatus}
+        </if>
+        <if test="classifyId != null">
+            and exists(select 1 from goods_classify_relevance gcr where gcr.goods_id=a.id and gcr.classify_id =
+            #{classifyId})
+        </if>
+        <if test="brandId != null">
+            and a.brand_id = #{brandId}
+        </if>
+        <if test="categoryId != null">
+            and a.category_id = #{categoryId}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and (replace(a.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(a.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or exists(select 1 from goods_item gi where gi.goods_id=a.id and (replace(gi.item_name,' ','') like
+                replace(concat(concat('%',#{content}),'%'),' ','') or
+                replace(gi.item_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))))
+            </if>
+            <if test="contentType == 2">
+                and a.goods_no = #{content}
+            </if>
+            <if test="contentType == 3">
+                and exists(select 1 from goods_item gi where gi.goods_id=a.id and gi.item_code = #{content})
+            </if>
+            <if test="contentType == 4">
+                and exists(select 1 from goods_item gi where gi.goods_id=a.id and gi.bar_code = #{content})
+            </if>
+        </if>
+        order by a.sale_time desc
+    </select>
+
+    <select id="listCount" resultType="int" parameterType="map">
+        select count(1) FROM goods a WHERE 1=1
+        <if test="goodsType != null">
+            and a.goods_type = #{goodsType}
+        </if>
+        <if test="saleStatus != null">
+            and a.sale_status = #{saleStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and a.freeze_status = #{freezeStatus}
+        </if>
+        <if test="classifyId != null">
+            and exists(select 1 from goods_classify_relevance gcr where gcr.goods_id=a.id and gcr.classify_id =
+            #{classifyId})
+        </if>
+        <if test="brandId != null">
+            and a.brandId = #{brandId}
+        </if>
+        <if test="categoryId != null">
+            and a.category_id = #{categoryId}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(a.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(a.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or a.goods_no = #{content}
+            or exists(select 1 from goods_item gi where gi.goods_id=a.id and (gi.item_code = #{content} or gi.bar_code =
+            #{content} or replace(gi.item_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','') or
+            replace(gi.item_name_en,'
+            ','') like replace(concat(concat('%',#{content}),'%'),' ',''))))
+        </if>
+    </select>
+
+    <select id="listGoodsItem" resultMap="GoodsItemListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_id,
+        b.goods_name,
+        b.goods_name_en,
+        b.goods_no,
+        a.item_name,
+        a.item_name_en,
+        a.item_code,
+        a.bar_code,
+        a.sale_price,
+        a.cost_price,
+        a.sale_status
+        FROM goods_item a join goods b on a.goods_id = b.id WHERE 1=1
+        <if test="goodsType != null">
+            and b.goods_type = #{goodsType}
+        </if>
+        <if test="saleStatus != null">
+            and a.sale_status = #{saleStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and b.freeze_status = #{freezeStatus}
+        </if>
+        <if test="classifyId != null">
+            and exists(select 1 from goods_classify_relevance gcr where gcr.goods_id=b.id and gcr.classify_id =
+            #{classifyId})
+        </if>
+        <if test="brandId != null">
+            and b.brand_id = #{brandId}
+        </if>
+        <if test="categoryId != null">
+            and b.category_id = #{categoryId}
+        </if>
+        <if test="itemIdList !=null and itemIdList.size()>0">
+            <foreach collection="itemIdList" open=" and ( " close=" )" separator=" or " item="itemId">
+                a.id = #{itemId}
+            </foreach>
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(b.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(b.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or a.item_code = #{content}
+            or a.bar_code = #{content}
+            or replace(a.item_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(a.item_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+        </if>
+        order by a.update_time desc
+    </select>
+
+    <select id="listGoodsItemCount" resultType="int" parameterType="map">
+        select count(1) FROM goods_item a join goods b on a.goods_id = b.id WHERE 1=1
+        <if test="goodsType != null">
+            and b.goods_type = #{goodsType}
+        </if>
+        <if test="saleStatus != null">
+            and b.sale_status = #{saleStatus}
+        </if>
+        <if test="freezeStatus != null">
+            and b.freeze_status = #{freezeStatus}
+        </if>
+        <if test="classifyId != null">
+            and exists(select 1 from goods_classify_relevance gcr where gcr.goods_id=b.id and gcr.classify_id =
+            #{classifyId})
+        </if>
+        <if test="brandId != null">
+            and b.brand_id = #{brandId})
+        </if>
+        <if test="categoryId != null">
+            and b.category_id = #{categoryId})
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(b.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(b.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or a.item_code = #{content}
+            or a.bar_code = #{content}
+            or replace(a.item_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(a.item_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+        </if>
+    </select>
+
+    <select id="getGoodsById" resultMap="GoodsMapper" parameterType="map">
+        <include refid="goods_select"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="getGoodsIdByGoodsNo" resultType="int" parameterType="map">
+        select id
+        from goods
+        WHERE goods_no = #{goodsNo}
+    </select>
+
+    <select id="getGoodsItemIdsByItemCodeOrBarCode" resultMap="GoodsItemIdDOMapper" parameterType="map">
+        select gi.id, gi.goods_id, gi.item_code, g.goods_no
+        from goods_item gi
+                 join goods g on g.id = gi.goods_id
+        WHERE gi.item_code = #{itemCodeOrBarCode}
+           or gi.bar_code = #{itemCodeOrBarCode}
+    </select>
+
+    <select id="listGoodsClassifyRelevanceId" resultType="int" parameterType="map">
+        select classify_id
+        FROM goods_classify_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsClassifyRelevanceIdBygoodsIds"
+            resultMap="GoodsClassifyRelevanceMapper" parameterType="map">
+        select * FROM goods_classify_relevance a WHERE a.goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsTagRelevanceId" resultType="int" parameterType="map">
+        select tag_id
+        FROM goods_tag_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsParamRelevanceId" resultType="int" parameterType="map">
+        select param_id
+        FROM goods_param_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsScalePriceRelevanceId" resultType="int" parameterType="map">
+        select scale_price_id
+        FROM goods_scale_price_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsScalePriceRelevanceIdNo" resultType="int" parameterType="map">
+        select scale_price_id
+        FROM goods_scale_price_relevance_no
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDepartmentRelevanceId" resultType="int" parameterType="map">
+        select department_id
+        FROM goods_department_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDepartmentRelevanceIdNo" resultType="int" parameterType="map">
+        select department_id
+        FROM goods_department_relevance_no
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsAdminRelevanceId" resultType="int" parameterType="map">
+        select admin_id
+        FROM goods_admin_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDistributorGroupRelevanceId" resultType="int" parameterType="map">
+        select distributor_group_id
+        FROM goods_distributor_group_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsAdminRelevanceIdNo" resultType="int" parameterType="map">
+        select admin_id
+        FROM goods_admin_relevance_no
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDistributorRelevanceId" resultType="int" parameterType="map">
+        select distributor_id
+        FROM goods_distributor_relevance
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsDistributorRelevanceIdNo" resultType="int" parameterType="map">
+        select distributor_id
+        FROM goods_distributor_relevance_no
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsItemByGoodsId" resultMap="GoodsItemMapper" parameterType="map">
+        <include refid="goods_item_select"/>
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsItemIdByGoodsId" resultType="int" parameterType="map">
+        select id
+        FROM goods_item
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="getGoodsItemById" resultMap="GoodsItemMapper" parameterType="map">
+        <include refid="goods_item_select"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="listGoodsItemByGoodsIds" resultMap="GoodsItemMapper" parameterType="map">
+        select gi.*
+        from goods_item gi join goods g on g.id=gi.goods_id
+        WHERE gi.goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and g.freeze_status = 1
+    </select>
+
+    <select id="listGoodsItemPage" resultMap="GoodsItemMapper" parameterType="map">
+        select gi.*
+        from goods_item gi
+                 join goods g on g.id = gi.goods_id
+        WHERE g.freeze_status = 1 limit #{start}
+            , #{count}
+    </select>
+
+    <select id="listGoodsItemSync" resultMap="GoodsItemSyncMapper" parameterType="map">
+        select gi.id, gi.goods_id, gi.item_code, gi.item_erp_id, gi.sale_price, gi.cost_price
+        from goods_item gi
+                 join goods g on g.id = gi.goods_id
+        WHERE g.freeze_status = 1 limit #{start}
+            , #{count}
+    </select>
+
+    <select id="listGoodsItemSyncByGoodsIds" resultMap="GoodsItemSyncMapper" parameterType="map">
+        select gi.id,gi.goods_id,gi.item_code,gi.item_erp_id,gi.sale_price,gi.cost_price
+        from goods_item gi join goods g on g.id=gi.goods_id
+        WHERE gi.goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and g.freeze_status = 1
+    </select>
+
+    <update id="updateListGoodsItemSync" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update goods_item
+            set sale_price = #{item.salePrice},
+            cost_price = #{item.costPrice},
+            update_time = now()
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <select id="listGoodsItemBoxByGoodsItemIds" resultMap="GoodsItemBoxMapper" parameterType="map">
+        <include refid="goods_item_box_select"/>
+        WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemBoxByGoodsItemId" resultMap="GoodsItemBoxMapper" parameterType="map">
+        <include refid="goods_item_box_select"/>
+        WHERE goods_item_id = #{goodsItemId}
+    </select>
+
+    <update id="updateGoodsItemBoxs" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update goods_item_box
+            set goods_item_id = #{item.goodsItemId},
+            box_name = #{item.boxName},
+            box_type = #{item.boxType},
+            box_length = #{item.boxLength},
+            box_height = #{item.boxHeight},
+            box_width = #{item.boxWidth},
+            box_weight = #{item.boxWeight},
+            box_num = #{item.boxNum},
+            box_erp_id = #{item.boxErpId},
+            sort = #{item.sort},
+            default_flag = #{item.defaultFlag},
+            update_time = #{item.updateTime}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <select id="listGoodsItemDataByGoodsItemIds" resultMap="GoodsItemDataMapper" parameterType="map">
+        <include refid="goods_item_data_select"/>
+        WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemSpecsColorListByGoodsItemIds" resultMap="GoodsItemSpecsColorListMapper"
+            parameterType="map">
+        select gisc.id,gisc.goods_item_id,gisc.attribute_type,gisc.attribute_value_id,av.name as attribute_value_name,
+        av.name_en as attribute_value_name_en
+        from goods_item_specs_color gisc
+        join attribute_value av on av.id=gisc.attribute_value_id
+        WHERE gisc.goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemSpecsColorListByGoodsItemId" resultMap="GoodsItemSpecsColorListMapper"
+            parameterType="map">
+        select gisc.id,
+               gisc.goods_item_id,
+               gisc.attribute_type,
+               gisc.attribute_value_id,
+               av.name    as attribute_value_name,
+               av.name_en as attribute_value_name_en
+        from goods_item_specs_color gisc
+                 join attribute_value av on av.id = gisc.attribute_value_id
+        WHERE gisc.goods_item_id = #{goodsItemId}
+    </select>
+
+    <select id="listGoodsItemScalePriceByGoodsItemIds" resultMap="GoodsItemScalePriceMapper" parameterType="map">
+        <include refid="goods_item_scale_price_select"/>
+        WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemScalePriceByGoodsItemIdsAndGoodsItemGradeId" resultMap="GoodsItemScalePriceMapper"
+            parameterType="map">
+        <include refid="goods_item_scale_price_select"/>
+        WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and goods_item_grade_id in
+        <foreach collection="goodsItemGradeIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemScalePriceByGoodsIds" resultMap="GoodsItemScalePriceMapper" parameterType="map">
+        <include refid="goods_item_scale_price_select"/>
+        WHERE goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="updateListGoodsItemScalePrice" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update goods_item_scale_price
+            set price = #{item.price}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <update id="updateGoods" parameterType="com.bat.goods.dao.goods.dataobject.GoodsDO">
+        UPDATE goods SET update_time = now()
+        ,goods_name = #{goodsName}
+        ,goods_name_en = #{goodsNameEn}
+        <if test="goodsNo != null">
+            ,goods_no = #{goodsNo}
+        </if>
+        ,keywords = #{keywords}
+        <if test="saleStatus != null">
+            ,sale_status = #{saleStatus}
+        </if>
+        <if test="saleTime != null">
+            ,sale_time = #{saleTime}
+        </if>
+        ,goods_type = #{goodsType}
+        ,diy_type = #{diyType}
+        ,introduce = #{introduce}
+        ,introduce_en = #{introduceEn}
+        ,image_url1 = #{imageUrl1}
+        ,image_url2 = #{imageUrl2}
+        ,image_url3 = #{imageUrl3}
+        ,image_url4 = #{imageUrl4}
+        ,image_url5 = #{imageUrl5}
+        ,image_url6 = #{imageUrl6}
+        ,image_url1en = #{imageUrl1en}
+        ,image_url2en = #{imageUrl2en}
+        ,image_url3en = #{imageUrl3en}
+        ,image_url4en = #{imageUrl4en}
+        ,image_url5en = #{imageUrl5en}
+        ,image_url6en = #{imageUrl6en}
+        ,content_url = #{contentUrl}
+        ,content_url_en = #{contentUrlEn}
+        ,distributor_scope = #{distributorScope}
+        ,distributor_scope_no = #{distributorScopeNo}
+        ,brand_id = #{brandId}
+        ,category_id = #{categoryId}
+        where id = #{id}
+    </update>
+
+    <update id="updateGoodsItem" parameterType="com.bat.goods.dao.goods.dataobject.GoodsItemDO">
+        UPDATE goods_item SET update_time = now()
+        <if test="itemName != null">
+            ,item_name = #{itemName}
+        </if>
+        <if test="itemNameEn != null">
+            ,item_name_en = #{itemNameEn}
+        </if>
+        <if test="itemCode != null">
+            ,item_code = #{itemCode}
+        </if>
+        <if test="itemErpId != null">
+            ,item_erp_id = #{itemErpId}
+        </if>
+        <if test="barCode != null">
+            ,bar_code = #{barCode}
+        </if>
+        <if test="salePrice != null">
+            ,sale_price = #{salePrice}
+        </if>
+        <if test="costPrice != null">
+            ,cost_price = #{costPrice}
+        </if>
+        <if test="weight != null">
+            ,weight = #{weight}
+        </if>
+        <if test="length != null">
+            ,length = #{length}
+        </if>
+        <if test="width != null">
+            ,width = #{width}
+        </if>
+        <if test="height != null">
+            ,height = #{height}
+        </if>
+        <if test="unit != null">
+            ,unit = #{unit}
+        </if>
+        <if test="itemImg != null">
+            ,item_img = #{itemImg}
+        </if>
+        <if test="moq != null">
+            ,moq = #{moq}
+        </if>
+        <if test="advanceSaleFlag != null">
+            ,advance_sale_flag = #{advanceSaleFlag}
+        </if>
+        <if test="lifeCycle != null">
+            ,life_cycle = #{lifeCycle}
+        </if>
+        <if test="onwaySaleFlag != null">
+            ,onway_sale_flag = #{onwaySaleFlag}
+        </if>
+        <if test="saleStatus != null">
+            ,sale_status = #{saleStatus}
+        </if>
+        <if test="saleTime != null">
+            ,sale_time = #{saleTime}
+        </if>
+        where id = ${id}
+    </update>
+
+    <update id="updateGoodsItemList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE goods_item SET update_time = now()
+            ,item_name = #{item.itemName}
+            ,item_name_en = #{item.itemNameEn}
+            ,item_code = #{item.itemCode}
+            ,item_erp_id = #{item.itemErpId}
+            ,bar_code = #{item.barCode}
+            ,sale_price = #{item.salePrice}
+            ,cost_price = #{item.costPrice}
+            ,weight = #{item.weight}
+            ,length = #{item.length}
+            ,width = #{item.width}
+            ,height = #{item.height}
+            ,unit = #{item.unit}
+            ,item_img = #{item.itemImg}
+            ,moq = #{item.moq}
+            ,advance_sale_flag = #{item.advanceSaleFlag}
+            ,life_cycle = #{item.lifeCycle}
+            ,onway_sale_flag = #{item.onwaySaleFlag}
+            ,sale_status = #{item.saleStatus}
+            ,sale_time = #{item.saleTime}
+            where id = ${item.id}
+        </foreach>
+    </update>
+
+    <update id="changeGoodsSaleStatusById" parameterType="map">
+        UPDATE goods
+        SET update_time = now(),
+            sale_status = #{saleStatus},
+            sale_time   = #{saleTime}
+        where id = ${id}
+    </update>
+
+    <update id="changeGoodsItemSaleStatusByGoodsId" parameterType="map">
+        UPDATE goods_item
+        SET update_time = now(),
+            sale_status = #{saleStatus}
+        where goods_id = ${goodsId}
+    </update>
+
+    <select id="listGoodsItemCountBySaleStatusNotInAndGoodsItemId" resultType="int" parameterType="map">
+        select count(1)
+        FROM goods_item
+        WHERE goods_id = (select goods_id from goods_item where id = ${goodsItemId})
+          and sale_status &lt;&gt; #{saleStatus}
+    </select>
+
+    <update id="changeGoodsItemSaleStatusById" parameterType="map">
+        UPDATE goods_item
+        SET update_time = now(),
+            sale_status = #{saleStatus}
+        where id = ${id}
+    </update>
+
+    <update id="changeGoodsItemAndGoodsSaleStatusByGoodsItemId" parameterType="map">
+        UPDATE goods_item a join goods b
+        on b.id = a.goods_id SET a.update_time = now(), a.sale_status = #{saleStatus},
+            b.update_time = now(), b.sale_status = #{saleStatus}
+        where a.id = ${goodsItemId}
+    </update>
+
+    <update id="changeGoodsFreezeStatusById" parameterType="map">
+        UPDATE goods
+        SET update_time   = now(),
+            freeze_status = #{freezeStatus}
+        where id = ${id}
+    </update>
+
+    <delete id="deleteGoods" parameterType="map">
+        DELETE
+        from goods
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteGoodsItemByGoodsId" parameterType="map">
+        DELETE
+        from goods_item
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsItemById" parameterType="map">
+        DELETE
+        from goods_item
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteGoodsClassifyRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_classify_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsScalePriceRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_scale_price_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsScalePriceRelevanceNoByGoodsId" parameterType="map">
+        DELETE
+        from goods_scale_price_relevance_no
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsDepartmentRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_department_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsDepartmentRelevanceNoByGoodsId" parameterType="map">
+        DELETE
+        from goods_department_relevance_no
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsAdminRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_admin_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsAdminRelevanceNoByGoodsId" parameterType="map">
+        DELETE
+        from goods_admin_relevance_no
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsDistributorRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_distributor_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsDistributorRelevanceNoByGoodsId" parameterType="map">
+        DELETE
+        from goods_distributor_relevance_no
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsTagRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_tag_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsParamRelevanceByGoodsId" parameterType="map">
+        DELETE
+        from goods_param_relevance
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsItemBoxByGoodsItemIds" parameterType="map">
+        DELETE from goods_item_box WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteGoodsItemDataByGoodsItemIds" parameterType="map">
+        DELETE from goods_item_data WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteGoodsItemSpecsColorByGoodsItemIds" parameterType="map">
+        DELETE from goods_item_specs_color WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteGoodsItemScalePriceByGoodsItemIds" parameterType="map">
+        DELETE from goods_item_scale_price WHERE goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteGoodsItemSpecsColorByGoodsItemId" parameterType="map">
+        DELETE
+        from goods_item_specs_color
+        WHERE goods_item_id = #{goodsItemId}
+    </delete>
+
+    <delete id="deleteGoodsMinMaxPriceByGoodsId" parameterType="map">
+        DELETE
+        from goods_min_max_price
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsPromotionPriceByGoodsId" parameterType="map">
+        DELETE
+        from goods_promotion_price
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsSaleDataByGoodsId" parameterType="map">
+        DELETE
+        from goods_sale_data
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsStockFlagByGoodsId" parameterType="map">
+        DELETE
+        from goods_stock_flag
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsStoreColumnByGoodsId" parameterType="map">
+        DELETE
+        from goods_store_column
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsStoreMobileByGoodsId" parameterType="map">
+        DELETE
+        from goods_store_mobile
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsStoreSectionByGoodsId" parameterType="map">
+        DELETE
+        from goods_store_section
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsItemScalePriceByGoodsItemId" parameterType="map">
+        DELETE
+        from goods_item_scale_price
+        WHERE goods_item_id = #{goodsItemId}
+    </delete>
+
+    <delete id="deleteGoodsItemScalePriceByGoodsId" parameterType="map">
+        DELETE
+        from goods_item_scale_price
+        WHERE goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteGoodsItemBoxByGoodsItemId" parameterType="map">
+        DELETE
+        from goods_item_box
+        WHERE goods_item_id = #{goodsItemId}
+    </delete>
+
+    <delete id="deleteGoodsItemDataByGoodsItemId" parameterType="map">
+        DELETE
+        from goods_item_data
+        WHERE goods_item_id = #{goodsItemId}
+    </delete>
+
+    <select id="listGoodsStoreColumn" resultMap="GoodsListStoreMapper" parameterType="map">
+        select g.id,
+               g.goods_name,
+               g.goods_name_en,
+               g.goods_no,
+               g.sale_status,
+               g.freeze_status,
+               g.goods_type,
+               g.diy_type,
+               gsc.sort
+        from goods_store_column gsc
+                 join goods g on g.id = gsc.goods_id
+        where gsc.column_id = #{columnId}
+        order by gsc.sort ASC
+    </select>
+    <select id="listGoodsStoreSection" resultMap="GoodsListStoreMapper" parameterType="map">
+        select g.id,
+               g.goods_name,
+               g.goods_name_en,
+               g.goods_no,
+               g.sale_status,
+               g.freeze_status,
+               g.goods_type,
+               g.diy_type,
+               gss.sort
+        from goods_store_section gss
+                 join goods g on g.id = gss.goods_id
+        where gss.section_id = #{sectionId}
+        order by gss.sort ASC
+    </select>
+
+    <select id="listGoodsStoreMobile" resultMap="GoodsListStoreMapper" parameterType="map">
+        select g.id,
+               g.goods_name,
+               g.goods_name_en,
+               g.goods_no,
+               g.sale_status,
+               g.freeze_status,
+               g.goods_type,
+               g.diy_type,
+               gsm.sort
+        from goods_store_mobile gsm
+                 join goods g on g.id = gsm.goods_id
+        where gsm.mobile_id = #{mobileId}
+          and gsm.module_type = #{moduleType}
+        order by gsm.sort ASC
+    </select>
+
+    <select id="listGoodsByClassifyIds" resultMap="GoodsListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_name,
+        a.goods_name_en,
+        a.goods_no,
+        a.keywords,
+        a.sale_status,
+        a.sale_time,
+        a.freeze_status,
+        a.freeze_time,
+        a.goods_type,
+        a.diy_type,
+        a.distributor_scope,
+        a.distributor_scope_no,
+        a.create_time,
+        a.update_time,
+        a.brand_id,
+        a.category_id
+        from goods_classify_relevance gcr
+        join goods a on a.id=gcr.goods_id WHERE a.sale_status = 3
+        <if test="classifyIds != null and classifyIds.size() > 0">
+            and gcr.classify_id in
+            <foreach collection="classifyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        group by gcr.goods_id order by a.update_time desc
+    </select>
+
+    <select id="listGoodsByIds" resultMap="GoodsListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_name,
+        a.goods_name_en,
+        a.goods_no,
+        a.keywords,
+        a.sale_status,
+        a.sale_time,
+        a.freeze_status,
+        a.freeze_time,
+        a.goods_type,
+        a.diy_type,
+        a.distributor_scope,
+        a.distributor_scope_no,
+        a.create_time,
+        a.update_time,
+        a.brand_id,
+        a.category_id
+        FROM goods a WHERE a.id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by a.update_time desc
+    </select>
+
+    <select id="listGoodsTagByGoodsId" parameterType="map" resultMap="GoodsTagDOMapper">
+        select gt.id, gt.name, gt.name_en
+        from goods_tag_relevance gtr
+                 join goods_tag gt on gt.id = gtr.tag_id
+        where gtr.goods_id = #{goodsId}
+    </select>
+
+    <select id="listGoodsTagByGoodsIds" parameterType="map" resultMap="GoodsTagDOMapper">
+        select gt.id,gtr.goods_id,gt.name,gt.name_en
+        from goods_tag_relevance gtr join goods_tag gt on gt.id = gtr.tag_id
+        where gtr.goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsParamByGoodsId" parameterType="map" resultMap="GoodsParamDOMapper">
+        select a.id,
+               a.name     as param_name,
+               a.name_en  as param_name_en,
+               av.id      as value_id,
+               av.name    as param_value_name,
+               av.name_en as
+                             param_value_name_en
+        from goods_param_relevance gpr
+                 join attribute_value av on av.id = gpr.param_id
+                 join attribute a on a.id =
+                                     av.attribute_id
+        where gpr.goods_id = #{goodsId}
+    </select>
+    <select id="listAllItem" resultMap="GoodsItemMapper">
+        select *
+        from goods_item
+    </select>
+
+    <select id="allGoodsIds" resultType="int">
+        select id
+        from goods
+    </select>
+    <select id="allGoodsScope" resultMap="GoodsScopeMapper">
+        select id, brand_id, category_id, distributor_scope, distributor_scope_no
+        from goods
+        where distributor_scope in (2, 3, 4, 5)
+           or distributor_scope_no in (2, 3, 4, 5)
+    </select>
+    <select id="listGoodsScopeByBrandId" resultMap="GoodsScopeMapper">
+        select id, brand_id, category_id, distributor_scope, distributor_scope_no
+        from goods
+        where (distributor_scope in (2, 3, 4, 5) or distributor_scope_no in (2, 3, 4, 5))
+          and brand_id = #{brandId}
+    </select>
+    <select id="listAssignByDistributorId" resultMap="GoodsItemSimpleDOResultMap">
+        SELECT
+        gi.id item_id,
+        gi.item_code,
+        gi.item_name,
+        gi.goods_id,
+        g.goods_no,
+        g.goods_name
+        FROM
+        goods_distributor_relevance gdr
+        LEFT JOIN goods g ON g.id = gdr.goods_id
+        LEFT JOIN goods_item gi ON gi.goods_id = g.id
+        WHERE
+        gdr.distributor_id = #{distributorId}
+        AND g.distributor_scope = 3
+        AND g.freeze_status =1
+        <if test="content !=null">
+            and ( g.goods_name like concat ('%',#{content},'%') or gi.item_code like concat ('%',#{content},'%') or
+            gi.item_name like concat ('%',#{content},'%') )
+        </if>
+    </select>
+
+    <select id="listByGoodsTypeAndDiyTypeAndItemIdList" resultMap="GoodsItemSimpleDOResultMap">
+        SELECT
+        gi.id item_id,
+        gi.item_code,
+        gi.item_name,
+        gi.goods_id,
+        g.goods_no,
+        g.goods_name,
+        gi.sale_price
+        FROM
+        goods g
+        LEFT JOIN goods_item gi ON gi.goods_id = g.id
+        WHERE
+        g.freeze_status =1
+        <if test="goodsType !=null">
+            and g.goods_type = #{goodsType}
+        </if>
+        <if test="diyType !=null">
+            and g.diy_type = #{diyType}
+        </if>
+        <if test="itemIdList !=null and itemIdList.size()>0">
+            <foreach collection="itemIdList" item="itemId" separator=" or " open="and (" close=" ) ">
+                gi.id = #{itemId}
+            </foreach>
+        </if>
+        <if test="content !=null">
+            and ( g.goods_name like concat ('%',#{content},'%') or gi.item_code like concat ('%',#{content},'%') or
+            gi.item_name like concat ('%',#{content},'%') )
+        </if>
+
+    </select>
+
+    <select id="listClearanceGoodsId" resultType="int">
+        select goods_id
+        FROM goods_item
+        WHERE promotion_status in ('5caebbb86c7863', '5f0c3003a00212')
+        group by goods_id
+    </select>
+
+    <select id="listGoodsSaleDataByGoodsIds" resultMap="GoodsSaleDataDOResultMap" parameterType="map">
+        select gsd.*
+        from goods_sale_data gsd where gsd.goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listLifeCycleStopGoodsItem" resultMap="GoodsItemMapper">
+        <include refid="goods_item_select"/>
+        WHERE sale_status = #{saleStatus} and life_cycle=5
+    </select>
+
+    <select id="listGoodsIdsByGoodsItemIds" resultType="java.lang.Integer">
+        SELECT
+        g.id
+        FROM
+        goods g
+        LEFT JOIN goods_item gi ON gi.goods_id = g.id
+        where
+        gi.id in
+        <foreach collection="goodsItemIds" index="index" item="goodsItemId" open="(" separator="," close=")">
+            #{goodsItemId}
+        </foreach>
+        group by g.id
+    </select>
+
+    <select id="listGoodsByIdsAndGoodsItemNotSaleStatus" resultType="java.lang.Integer">
+        SELECT
+        g.id
+        FROM
+        goods g
+        LEFT JOIN goods_item gi ON gi.goods_id = g.id
+        where
+        g.id in
+        <foreach collection="goodsIds" index="index" item="goodsId" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+        and gi.sale_status != #{saleStatus}
+        group by g.id
+    </select>
+
+    <select id="listGoodsByIdsAndGoodsItemSaleStatus" resultType="java.lang.Integer">
+        SELECT
+        g.id
+        FROM
+        goods g
+        LEFT JOIN goods_item gi ON gi.goods_id = g.id
+        where
+        g.id in
+        <foreach collection="goodsIds" index="index" item="goodsId" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+        and gi.sale_status = #{saleStatus}
+        group by g.id
+    </select>
+
+
+    <update id="updateListGoodsSaleData" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update goods_sale_data
+            set sale_num = #{item.saleNum},
+            virtual_num = #{item.virtualNum},
+            show_type = #{item.showType}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <update id="updateSaleStatusByItemIds">
+        update goods_item
+        set sale_status=#{saleStatus}
+        where id in
+        <foreach collection="goodsItemIds" index="index" item="goodsItemId" open="(" separator="," close=")">
+            #{goodsItemId}
+        </foreach>
+    </update>
+
+    <update id="updateGoodsSaleStatusByGoodsIds">
+        update goods
+        set sale_status = #{saleStatus}
+        where id in
+        <foreach collection="goodsIds" index="index" item="goodsId" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+        and freeze_status!=2
+    </update>
+
+    <insert id="createGoodsSaleDataList" parameterType="java.util.List">
+        INSERT INTO goods_sale_data(
+        goods_id,
+        sale_num,
+        virtual_num,
+        show_type
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.saleNum},
+            #{item.virtualNum},
+            #{item.showType}
+            )
+        </foreach>
+    </insert>
+
+    <select id="goodsStockFlagByGoodsIds" resultType="com.bat.goods.dao.goods.dataobject.GoodsStockFlagExistenceDO"
+            parameterType="java.util.List">
+        SELECT count(*) as skuCount,goods_id as goodsId,SUM(under_stock_flag) as stockFlagSum
+        FROM goods_stock_flag
+        WHERE goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY goods_id
+    </select>
+
+    <select id="getAllGoodsItemId" resultMap="GoodsItemIdDOMapper" parameterType="map">
+        select gi.id, gi.item_erp_id, gi.goods_id, gi.item_code, g.goods_no, gi.item_name
+        from goods_item gi
+                 join goods g on g.id = gi.goods_id
+    </select>
+
+    <select id="listGoodsItemStatusByItemIdsAndLifeCycle" resultMap="GoodsItemStatusDOMapper">
+        SELECT gi.id,gi.goods_id,gi.sale_status,gi.life_cycle FROM goods_item gi join goods g on g.id = gi.goods_id
+        where g.freeze_status = 1 and gi.id in
+        <foreach collection="itemIds" index="index" item="itemId" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+        <if test="lifeCycle != null">
+            and life_cycle = #{lifeCycle}
+        </if>
+    </select>
+
+
+    <select id="allVisibleProducts" resultType="java.lang.Integer">
+        select id
+        from goods
+        where distributor_scope = 1
+    </select>
+
+    <select id="allVisibleBrands" resultType="java.lang.Integer">
+        select id
+        from brand
+        where distributor_scope = 1
+    </select>
+
+
+    <select id="goodsAreVisible" parameterType="java.util.List" resultMap="GoodsMapper">
+        select id, distributor_scope,brand_id
+        from goods
+        where id in
+        <foreach collection="orderGoodsList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="queryRetailPriceByItemId" parameterType="java.lang.Integer" resultType="java.math.BigDecimal">
+        select price
+        from goods_item_scale_price
+        where goods_item_id = #{itemId}
+          and goods_item_grade_id = 12
+    </select>
+
+    <select id="goodsAreVisibleByDepId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select goods_id
+        from goods_department_relevance
+        where department_id = #{departmentID}
+    </select>
+
+</mapper>

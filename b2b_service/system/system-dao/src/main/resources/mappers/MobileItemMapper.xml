@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.storesetting.MobileItemMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.storesetting.dataobject.MobileItemDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mobile_id" jdbcType="INTEGER" property="mobileId"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="width_percentage" jdbcType="DECIMAL" property="widthPercentage"/>
+        <result column="jump_type" jdbcType="SMALLINT" property="jumpType"/>
+        <result column="jump_params" jdbcType="VARCHAR" property="jumpParams"/>
+        <result column="sub_sort" jdbcType="INTEGER" property="subSort"/>
+        <result column="style_type" jdbcType="SMALLINT" property="styleType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, mobile_id, image_url, width_percentage,jump_type, jump_params, sub_sort, style_type
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_mobile_item
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByModuleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_mobile_item
+        where mobile_id = #{id,jdbcType=INTEGER}
+        order by sub_sort
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from store_mobile_item
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByMobileId">
+        delete
+        from store_mobile_item
+        where mobile_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.storesetting.dataobject.MobileItemDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_mobile_item (mobile_id, image_url,width_percentage, jump_type,
+        jump_params, sub_sort, style_type
+        )
+        values (#{mobileId,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, #{widthPercentage,jdbcType=DECIMAL}, #{jumpType,jdbcType=SMALLINT},
+        #{jumpParams,jdbcType=VARCHAR}, #{subSort,jdbcType=INTEGER}, #{styleType,jdbcType=SMALLINT}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.storesetting.dataobject.MobileItemDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_mobile_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mobileId != null">
+                mobile_id,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="widthPercentage != null">
+                width_percentage,
+            </if>
+            <if test="jumpType != null">
+                jump_type,
+            </if>
+            <if test="jumpParams != null">
+                jump_params,
+            </if>
+            <if test="subSort != null">
+                sub_sort,
+            </if>
+            <if test="styleType != null">
+                style_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mobileId != null">
+                #{mobileId,jdbcType=INTEGER},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="jumpType != null">
+                #{jumpType,jdbcType=SMALLINT},
+            </if>
+            <if test="jumpParams != null">
+                #{jumpParams,jdbcType=VARCHAR},
+            </if>
+            <if test="subSort != null">
+                #{subSort,jdbcType=INTEGER},
+            </if>
+            <if test="styleType != null">
+                #{styleType,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.storesetting.dataobject.MobileItemDO">
+        update store_mobile_item
+        <set>
+            <if test="mobileId != null">
+                mobile_id = #{mobileId,jdbcType=INTEGER},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="widthPercentage != null">
+                width_percentage = #{widthPercentage,jdbcType=DECIMAL},
+            </if>
+            <if test="jumpType != null">
+                jump_type = #{jumpType,jdbcType=SMALLINT},
+            </if>
+            <if test="jumpParams != null">
+                jump_params = #{jumpParams,jdbcType=VARCHAR},
+            </if>
+            <if test="subSort != null">
+                sub_sort = #{subSort,jdbcType=INTEGER},
+            </if>
+            <if test="styleType != null">
+                style_type = #{styleType,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.storesetting.dataobject.MobileItemDO">
+        update store_mobile_item
+        set mobile_id   = #{mobileId,jdbcType=INTEGER},
+            image_url   = #{imageUrl,jdbcType=VARCHAR},
+            width_percentage = #{widthPercentage,jdbcType=DECIMAL},
+            jump_type   = #{jumpType,jdbcType=SMALLINT},
+            jump_params = #{jumpParams,jdbcType=VARCHAR},
+            sub_sort    = #{subSort,jdbcType=INTEGER},
+            style_type  = #{styleType,jdbcType=SMALLINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

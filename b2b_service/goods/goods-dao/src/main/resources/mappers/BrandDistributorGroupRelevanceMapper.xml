@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.brand.BrandDistributorGroupRelevanceMapper">
+    <resultMap id="BaseResultMap" type="com.bat.goods.dao.brand.dataobject.BrandDistributorGroupRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+        <result column="distributor_group_id" jdbcType="INTEGER" property="distributorGroupId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from brand_distributor_group_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.goods.dao.brand.dataobject.BrandDistributorGroupRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into brand_distributor_group_relevance (brand_id, distributor_group_id)
+        values (#{brandId,jdbcType=INTEGER}, #{distributorGroupId,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        INSERT INTO brand_distributor_group_relevance (brand_id, distributor_group_id) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.brandId,jdbcType=INTEGER}, #{item.distributorGroupId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.goods.dao.brand.dataobject.BrandDistributorGroupRelevanceDO">
+    update brand_distributor_group_relevance
+    set brand_id = #{brandId,jdbcType=INTEGER},
+      distributor_group_id = #{distributorGroupId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, brand_id, distributor_group_id
+    from brand_distributor_group_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, brand_id, distributor_group_id
+    from brand_distributor_group_relevance
+  </select>
+
+    <select id="listDistributorGroupIdByBrandId" resultType="int" parameterType="map">
+        select distributor_group_id FROM brand_distributor_group_relevance WHERE brand_id = #{brandId}
+    </select>
+
+    <select id="listByDistributorGroupIds" resultMap="BaseResultMap">
+        select id, brand_id, distributor_group_id
+        from brand_distributor_group_relevance
+        where distributor_group_id in
+        <foreach collection="distributorGroupIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <delete id="deleteByBrandId" parameterType="map">
+        DELETE FROM brand_distributor_group_relevance WHERE brand_id = #{brandId}
+    </delete>
+</mapper>

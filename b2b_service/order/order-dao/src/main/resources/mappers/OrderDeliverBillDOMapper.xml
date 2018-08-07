@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.deliver.OrderDeliverBillDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="distribution_id" property="distributionId" jdbcType="INTEGER"/>
+        <result column="distribution_code" property="distributionCode" jdbcType="VARCHAR"/>
+        <result column="distribution_name" property="distributionName" jdbcType="VARCHAR"/>
+        <result column="deliver_status" property="deliverStatus" jdbcType="SMALLINT"/>
+        <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR"/>
+        <result column="logistics_status" property="logisticsStatus" jdbcType="VARCHAR"/>
+        <result column="deliver_erp_no" property="deliverErpNo" jdbcType="VARCHAR"/>
+        <result column="deliver_stk_no" property="deliverStkNo" jdbcType="VARCHAR"/>
+        <result column="push" property="push" jdbcType="SMALLINT"/>
+        <result column="push_status" property="pushStatus" jdbcType="SMALLINT"/>
+        <result column="deliver_time" property="deliverTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="ListResultMap" type="com.bat.order.dao.deliver.dataobject.OrderDeliverBillListDO"
+               extends="BaseResultMap">
+        <result column="user_name" property="userName"/>
+        <result column="order_create_time" property="orderCreateTime"/>
+        <result column="order_no" property="orderNo"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, order_id, distribution_id, distribution_code, distribution_name, deliver_status, logistics_no, logistics_status,
+    deliver_erp_no, deliver_stk_no, push, push_status, deliver_time, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_deliver_bill
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_deliver_bill
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_deliver_bill (id, order_id, distribution_id,
+                                        distribution_name, distribution_code,deliver_status, logistics_no,
+                                        logistics_status, deliver_erp_no, deliver_stk_no,
+                                        push, push_status, deliver_time,
+                                        create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{distributionId,jdbcType=INTEGER},
+                #{distributionName,jdbcType=VARCHAR},#{distributionCode,jdbcType=VARCHAR}, #{deliverStatus,jdbcType=SMALLINT},
+                #{logisticsNo,jdbcType=VARCHAR},
+                #{logisticsStatus,jdbcType=VARCHAR}, #{deliverErpNo,jdbcType=VARCHAR}, #{deliverStkNo,jdbcType=VARCHAR},
+                #{push,jdbcType=SMALLINT}, #{pushStatus,jdbcType=SMALLINT}, #{deliverTime,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDO">
+        insert into order_deliver_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="distributionId != null">
+                distribution_id,
+            </if>
+            <if test="distributionCode != null">
+                distribution_code,
+            </if>
+            <if test="distributionName != null">
+                distribution_name,
+            </if>
+            <if test="deliverStatus != null">
+                deliver_status,
+            </if>
+            <if test="logisticsNo != null">
+                logistics_no,
+            </if>
+            <if test="logisticsStatus != null">
+                logistics_status,
+            </if>
+            <if test="deliverErpNo != null">
+                deliver_erp_no,
+            </if>
+            <if test="deliverStkNo != null">
+                deliver_stk_no,
+            </if>
+            <if test="push != null">
+                push,
+            </if>
+            <if test="pushStatus != null">
+                push_status,
+            </if>
+            <if test="deliverTime != null">
+                deliver_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributionId != null">
+                #{distributionId,jdbcType=INTEGER},
+            </if>
+            <if test="distributionCode != null">
+                #{distributionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionName != null">
+                #{distributionName,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverStatus != null">
+                #{deliverStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="logisticsNo != null">
+                #{logisticsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsStatus != null">
+                #{logisticsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverErpNo != null">
+                #{deliverErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverStkNo != null">
+                #{deliverStkNo,jdbcType=VARCHAR},
+            </if>
+            <if test="push != null">
+                #{push,jdbcType=SMALLINT},
+            </if>
+            <if test="pushStatus != null">
+                #{pushStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="deliverTime != null">
+                #{deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDO">
+        update order_deliver_bill
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributionId != null">
+                distribution_id = #{distributionId,jdbcType=INTEGER},
+            </if>
+            <if test="distributionCode != null">
+                distribution_code = #{distributionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionName != null">
+                distribution_name = #{distributionName,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverStatus != null">
+                deliver_status = #{deliverStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="logisticsNo != null">
+                logistics_no = #{logisticsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsStatus != null">
+                logistics_status = #{logisticsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverErpNo != null">
+                deliver_erp_no = #{deliverErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverStkNo != null">
+                deliver_stk_no = #{deliverStkNo,jdbcType=VARCHAR},
+            </if>
+            <if test="push != null">
+                push = #{push,jdbcType=SMALLINT},
+            </if>
+            <if test="pushStatus != null">
+                push_status = #{pushStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="deliverTime != null">
+                deliver_time = #{deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDO">
+        update order_deliver_bill
+        set order_id          = #{orderId,jdbcType=INTEGER},
+            distribution_id   = #{distributionId,jdbcType=INTEGER},
+            distribution_code = #{distributionCode,jdbcType=VARCHAR},
+            distribution_name = #{distributionName,jdbcType=VARCHAR},
+            deliver_status    = #{deliverStatus,jdbcType=SMALLINT},
+            logistics_no      = #{logisticsNo,jdbcType=VARCHAR},
+            logistics_status  = #{logisticsStatus,jdbcType=VARCHAR},
+            deliver_erp_no    = #{deliverErpNo,jdbcType=VARCHAR},
+            deliver_stk_no    = #{deliverStkNo,jdbcType=VARCHAR},
+            push              = #{push,jdbcType=SMALLINT},
+            push_status       = #{pushStatus,jdbcType=SMALLINT},
+            deliver_time      = #{deliverTime,jdbcType=TIMESTAMP},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="orderDeliverBillDOList" index="index" separator=" ; " item="orderDeliverBillDO">
+            update order_deliver_bill
+            set order_id = #{orderDeliverBillDO.orderId,jdbcType=INTEGER},
+            distribution_id = #{orderDeliverBillDO.distributionId,jdbcType=INTEGER},
+            distribution_code = #{orderDeliverBillDO.distributionCode,jdbcType=VARCHAR},
+            distribution_name = #{orderDeliverBillDO.distributionName,jdbcType=VARCHAR},
+            deliver_status = #{orderDeliverBillDO.deliverStatus,jdbcType=SMALLINT},
+            logistics_no = #{orderDeliverBillDO.logisticsNo,jdbcType=VARCHAR},
+            logistics_status = #{orderDeliverBillDO.logisticsStatus,jdbcType=VARCHAR},
+            deliver_erp_no = #{orderDeliverBillDO.deliverErpNo,jdbcType=VARCHAR},
+            deliver_stk_no = #{orderDeliverBillDO.deliverStkNo,jdbcType=VARCHAR},
+            push = #{orderDeliverBillDO.push,jdbcType=SMALLINT},
+            push_status = #{orderDeliverBillDO.pushStatus,jdbcType=SMALLINT},
+            deliver_time = #{orderDeliverBillDO.deliverTime,jdbcType=TIMESTAMP},
+            create_time = #{orderDeliverBillDO.createTime,jdbcType=TIMESTAMP},
+            update_time = #{orderDeliverBillDO.updateTime,jdbcType=TIMESTAMP}
+            where id = #{orderDeliverBillDO.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="listByOrderId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_deliver_bill
+        where order_id = #{orderId}
+    </select>
+
+
+    <select id="listByOrderDeliverByParam" resultMap="ListResultMap">
+        select a.id,
+        a.order_id,
+        d.order_no,
+        a.deliver_erp_no,
+        c.user_name,
+        d.create_time order_create_time,
+        a.create_time,
+        a.deliver_time,
+        a.deliver_status,
+        a.push,
+        a.push_status,
+        a.distribution_name,
+        a.logistics_no
+        from order_deliver_bill a
+        left join order_delivery c on c.order_id = a.order_id
+        left join order_info d on d.id = a.order_id
+        <where>
+            <if test="params.pushStatus!=null">
+                <if test="params.pushStatus==0">
+                    AND (a.push_status is null or a.push_status=0)
+                </if>
+                <if test="params.pushStatus==1">
+                    AND a.push_status=1
+                </if>
+            </if>
+            <if test="params.push!=null">
+                AND a.push=#{params.push}
+            </if>
+            <if test="params.id!=null">
+                AND a.id=#{params.id}
+            </if>
+            <if test="params.deliverErpNo!=null and params.deliverErpNo!=''">
+                AND a.deliver_erp_no=#{params.deliverErpNo}
+            </if>
+            <if test="params.orderNo!=null and params.orderNo!=''">
+                AND d.order_no=#{params.orderNo}
+            </if>
+            <if test="params.userName!=null and params.userName!=''">
+                AND c.user_name like CONCAT('%',#{params.userName},'%')
+            </if>
+            <if test="params.synErpFlag!=null">
+                <if test="params.synErpFlag==0">
+                    AND (a.deliver_erp_no is null or replace(a.deliver_erp_no,' ','')="")
+                </if>
+                <if test="params.synErpFlag==1">
+                    AND replace(a.deliver_erp_no,' ','') !=""
+                </if>
+            </if>
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <select id="listByDeliverErpNo" resultMap="BaseResultMap">
+     select * from order_deliver_bill where deliver_erp_no = #{deliverErpNo}
+ </select>
+    <delete id="batchDelete">
+        delete from order_deliver_bill where id in
+        <foreach collection="idList" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findNOLogisticsNoDeliverGoods" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_deliver_bill
+        where deliver_status = 2 and (logistics_no is null or logistics_no = '') and deliver_erp_no &lt;&gt; ''
+        and create_time &gt; #{date}
+    </select>
+    <select id="listByOrderIdList" resultMap="BaseResultMap">
+        select * from order_deliver_bill where order_id in
+        <foreach collection="orderIdList" separator="," open=" ( " close=")" item="orderId">
+            #{orderId}
+        </foreach>
+    </select>
+
+    <select id="getNotErpOrderDeliverBillIds" resultType="int">
+        select odb.id FROM order_deliver_bill odb join order_info oi on oi.id=odb.order_id
+        WHERE odb.deliver_erp_no is null
+        and odb.deliver_status <![CDATA[ <> ]]> 3
+        <if test="startTime != null">
+            and oi.create_time <![CDATA[ > ]]> #{startTime}
+        </if>
+    </select>
+</mapper>

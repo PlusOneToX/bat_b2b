@@ -1,0 +1,2 @@
+ALTER TABLE `warehouse` 
+ADD INDEX `open_flag`(`open_flag`);

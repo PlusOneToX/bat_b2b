@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorGoodsPromotionRelevanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorGoodsPromotionRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="goods_promotion_id" jdbcType="LONGVARCHAR" property="goodsPromotionId"/>
+    </resultMap>
+
+    <select id="listByDistributorIds" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, goods_promotion_id
+        from goods_promotion_relevance
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByGoodsPromotionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select id, distributor_id, goods_promotion_id
+        from goods_promotion_relevance
+        where goods_promotion_id = #{id}
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into goods_promotion_relevance (distributor_id, goods_promotion_id)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.goodsPromotionId,jdbcType=LONGVARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update goods_promotion_relevance
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            goods_promotion_id = #{item.goodsPromotionId,jdbcType=LONGVARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from goods_promotion_relevance
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+</mapper>

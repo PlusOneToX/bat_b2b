@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorSpecialGoodsMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorSpecialGoodsDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_item_id" jdbcType="INTEGER" property="goodsItemId"/>
+        <result column="distributor_price" jdbcType="DECIMAL" property="distributorPrice"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_special_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from distributor_special_goods
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorSpecialGoodsDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_special_goods (distributor_id, goods_id, goods_item_id,
+        distributor_price, create_time, update_time
+        )
+        values (#{distributorId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{goodsItemId,jdbcType=INTEGER},
+        #{distributorPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorSpecialGoodsDO">
+    update distributor_special_goods
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      goods_item_id = #{goodsItemId,jdbcType=INTEGER},
+      distributor_price = #{distributorPrice,jdbcType=DECIMAL},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update distributor_special_goods
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            goods_id = #{item.goodsId,jdbcType=INTEGER},
+            goods_item_id = #{item.goodsItemId,jdbcType=INTEGER},
+            distributor_price = #{item.distributorPrice,jdbcType=DECIMAL},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, goods_id, goods_item_id, distributor_price, create_time, 
+    update_time
+    from distributor_special_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="listByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, goods_id, goods_item_id, distributor_price, create_time,
+    update_time
+    from distributor_special_goods
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </select>
+    <select id="listByDistributorIdAndGoodsItemIds" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, goods_id, goods_item_id, distributor_price, create_time,
+        update_time
+        from distributor_special_goods
+        where distributor_id = #{distributorId,jdbcType=INTEGER} and goods_item_id in
+        <foreach collection="goodsItemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByDistributorIdAndGoodsIds" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, goods_id, goods_item_id, distributor_price, create_time,
+        update_time
+        from distributor_special_goods
+        where distributor_id = #{distributorId,jdbcType=INTEGER} and goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, goods_id, goods_item_id, distributor_price, create_time, 
+    update_time
+    from distributor_special_goods
+  </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        INSERT INTO distributor_special_goods(
+        distributor_id,
+        goods_id,
+        goods_item_id,
+        distributor_price,
+        create_time,
+        update_time
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.distributorId,jdbcType=INTEGER},
+            #{item.goodsId,jdbcType=INTEGER},
+            #{item.goodsItemId,jdbcType=INTEGER},
+            #{item.distributorPrice,jdbcType=DECIMAL},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_special_goods
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

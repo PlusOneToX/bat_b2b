@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsDistributorGroupRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.bat.goods.dao.goods.dataobject.GoodsDistributorGroupRelevanceDO">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+    <result column="distributor_group_id" jdbcType="INTEGER" property="distributorGroupId"/>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods_distributor_group_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.goods.dao.goods.dataobject.GoodsDistributorGroupRelevanceDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_distributor_group_relevance (goods_id, distributor_group_id)
+    values (#{goodsId,jdbcType=INTEGER}, #{distributorGroupId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertList" parameterType="java.util.List">
+    INSERT INTO goods_distributor_group_relevance (goods_id, distributor_group_id) VALUES
+    <foreach item="item" collection="list" separator=",">
+      (#{item.goodsId,jdbcType=INTEGER}, #{item.distributorGroupId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKey"
+          parameterType="com.bat.goods.dao.goods.dataobject.GoodsDistributorGroupRelevanceDO">
+    update goods_distributor_group_relevance
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      distributor_group_id = #{distributorGroupId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, goods_id, distributor_group_id
+    from goods_distributor_group_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, goods_id, distributor_group_id
+    from goods_distributor_group_relevance
+  </select>
+
+  <select id="listDistributorGroupIdByGoodsId" resultType="int" parameterType="map">
+        select distributor_group_id FROM goods_distributor_group_relevance WHERE goods_id = #{goodsId}
+    </select>
+
+  <delete id="deleteByGoodsId" parameterType="map">
+        DELETE FROM goods_distributor_group_relevance WHERE goods_id = #{goodsId}
+    </delete>
+</mapper>

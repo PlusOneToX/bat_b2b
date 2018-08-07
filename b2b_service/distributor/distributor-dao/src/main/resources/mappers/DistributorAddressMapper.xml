@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorAddressMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorAddressDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="country_id" jdbcType="INTEGER" property="countryId"/>
+        <result column="province_id" jdbcType="INTEGER" property="provinceId"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="district_id" jdbcType="INTEGER" property="districtId"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="zip_code" jdbcType="VARCHAR" property="zipCode"/>
+        <result column="address_type" jdbcType="SMALLINT" property="addressType"/>
+        <result column="default_flag" jdbcType="SMALLINT" property="defaultFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_address
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorAddressDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_address (user_name,phone, distributor_id, country_id,
+        province_id, city_id, district_id,
+        address, zip_code, address_type,
+        default_flag, create_time, update_time
+        )
+        values (#{userName,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}, #{distributorId,jdbcType=INTEGER},
+        #{countryId,jdbcType=INTEGER},
+        #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{districtId,jdbcType=INTEGER},
+        #{address,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, #{addressType,jdbcType=SMALLINT},
+        #{defaultFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorAddressDO">
+    update distributor_address
+    set user_name = #{userName,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      country_id = #{countryId,jdbcType=INTEGER},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      district_id = #{districtId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      zip_code = #{zipCode,jdbcType=VARCHAR},
+      address_type = #{addressType,jdbcType=SMALLINT},
+      default_flag = #{defaultFlag,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_name,phone, distributor_id, country_id, province_id, city_id, district_id,
+    address, zip_code, address_type, default_flag, create_time, update_time
+    from distributor_address
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="listByDistributorIdAndAddressType" parameterType="map" resultMap="BaseResultMap">
+    select id, user_name,phone, distributor_id, country_id, province_id, city_id, district_id,
+    address, zip_code, address_type, default_flag, create_time, update_time
+    from distributor_address
+    where distributor_id = #{distributorId,jdbcType=INTEGER} and address_type = #{addressType,jdbcType=SMALLINT}
+    ORDER BY default_flag desc,update_time desc
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_name,phone, distributor_id, country_id, province_id, city_id, district_id,
+    address, zip_code, address_type, default_flag, create_time, update_time
+    from distributor_address
+  </select>
+
+    <select id="listByDistributorIdAndDefaultFlag" parameterType="map" resultMap="BaseResultMap">
+    select id, user_name,phone, distributor_id, country_id, province_id, city_id, district_id,
+    address, zip_code, address_type, default_flag, create_time, update_time
+    from distributor_address
+    where distributor_id = #{distributorId,jdbcType=INTEGER} and default_flag = #{defaultFlag,jdbcType=SMALLINT}
+  </select>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_address
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

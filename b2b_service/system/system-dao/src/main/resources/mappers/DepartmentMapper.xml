@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.organization.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.organization.dataobject.DepartmentDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
+        <result column="department_name_en" jdbcType="VARCHAR" property="departmentNameEn"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="erp_department_id" jdbcType="VARCHAR" property="erpDepartmentId"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="sale_type" jdbcType="SMALLINT" property="saleType"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_id, organization_id, department_name, department_name_en, sort, erp_department_id,
+    description, sale_type, status, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPrimaryKeys" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+    <select id="getByErpDepartmentId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        where erp_department_id = #{erpDepartmentId,jdbcType=VARCHAR}
+    </select>
+    <select id="listByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        <where>
+            <if test="params.status!=null">
+                status = #{params.status}
+            </if>
+        </where>
+    </select>
+    <select id="listByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        <if test="departmentName!=null">
+            where department_name like CONCAT('%',#{departmentName,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
+    <select id="getByErpDepartmentIdAndOrganizationId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        where erp_department_id = #{erpDepartmentId,jdbcType=VARCHAR}
+        and organization_id = #{organizationId,jdbcType=INTEGER}
+    </select>
+    <select id="listByNameAndSaleType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        <where>
+            <if test="departmentName!=null">
+                and department_name like CONCAT('%',#{departmentName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="saleType!=null">
+                and sale_type = #{saleType,jdbcType=SMALLINT}
+            </if>
+        </where>
+    </select>
+    <select id="listByOrganizationId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_department
+        where organization_id = #{organizationId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sys_department
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.organization.dataobject.DepartmentDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_department (parent_id, organization_id, department_name,
+        department_name_en, sort, erp_department_id,
+        description, sale_type, status,
+        create_time, update_time)
+        values (#{parentId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR},
+        #{departmentNameEn,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{erpDepartmentId,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR}, #{saleType,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.organization.dataobject.DepartmentDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="departmentName != null">
+                department_name,
+            </if>
+            <if test="departmentNameEn != null">
+                department_name_en,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="erpDepartmentId != null">
+                erp_department_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="saleType != null">
+                sale_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentName != null">
+                #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentNameEn != null">
+                #{departmentNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="erpDepartmentId != null">
+                #{erpDepartmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="saleType != null">
+                #{saleType,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.organization.dataobject.DepartmentDO">
+        update sys_department
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentName != null">
+                department_name = #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentNameEn != null">
+                department_name_en = #{departmentNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="erpDepartmentId != null">
+                erp_department_id = #{erpDepartmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="saleType != null">
+                sale_type = #{saleType,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.organization.dataobject.DepartmentDO">
+        update sys_department
+        set parent_id          = #{parentId,jdbcType=INTEGER},
+            organization_id    = #{organizationId,jdbcType=INTEGER},
+            department_name    = #{departmentName,jdbcType=VARCHAR},
+            department_name_en = #{departmentNameEn,jdbcType=VARCHAR},
+            sort               = #{sort,jdbcType=INTEGER},
+            erp_department_id  = #{erpDepartmentId,jdbcType=VARCHAR},
+            description        = #{description,jdbcType=VARCHAR},
+            sale_type          = #{saleType,jdbcType=SMALLINT},
+            status             = #{status,jdbcType=SMALLINT},
+            create_time        = #{createTime,jdbcType=TIMESTAMP},
+            update_time        = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select * from sys_department where 1=1
+        <if test="status !=null">
+            and status = #{status,jdbcType=SMALLINT}
+        </if>
+    </select>
+</mapper>

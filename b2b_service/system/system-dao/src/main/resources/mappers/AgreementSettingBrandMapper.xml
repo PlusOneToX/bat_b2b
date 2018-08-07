@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.globalsetting.AgreementSettingBrandMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.globalsetting.dataobject.AgreementSettingBrandDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="agreement_setting_id" jdbcType="INTEGER" property="agreementSettingId"/>
+        <result column="agreement_area" jdbcType="SMALLINT" property="agreementArea"/>
+        <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, agreement_setting_id, agreement_area, brand_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_agreement_setting_brand
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByArea"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_agreement_setting_brand
+        <where>
+            <if test="agreementArea!=null">
+                and agreement_area = #{agreementArea}
+            </if>
+        </where>
+    </select>
+    <select id="getByBrandIdArea"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_agreement_setting_brand
+        <where>
+            <if test="brandId!=null">
+                and brand_id = #{brandId}
+            </if>
+            <if test="agreementArea!=null">
+                and agreement_area = #{agreementArea}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from global_agreement_setting_brand
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByAgreementSettingId">
+        delete
+        from global_agreement_setting_brand
+        where agreement_setting_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByBrandIdsAndArea">
+        delete
+        from global_agreement_setting_brand
+        <where>
+            <if test="brandId!=null and brandId.size()>0">
+                and brand_id in
+                <foreach collection="brandId" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="agreementArea!=null">
+                and agreement_area = #{agreementArea}
+            </if>
+        </where>
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.globalsetting.dataobject.AgreementSettingBrandDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into global_agreement_setting_brand (agreement_setting_id, agreement_area,
+        brand_id)
+        values (#{agreementSettingId,jdbcType=INTEGER}, #{agreementArea,jdbcType=SMALLINT},
+        #{brandId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.AgreementSettingBrandDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into global_agreement_setting_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="agreementSettingId != null">
+                agreement_setting_id,
+            </if>
+            <if test="agreementArea != null">
+                agreement_area,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="agreementSettingId != null">
+                #{agreementSettingId,jdbcType=INTEGER},
+            </if>
+            <if test="agreementArea != null">
+                #{agreementArea,jdbcType=SMALLINT},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.AgreementSettingBrandDO">
+        update global_agreement_setting_brand
+        <set>
+            <if test="agreementSettingId != null">
+                agreement_setting_id = #{agreementSettingId,jdbcType=INTEGER},
+            </if>
+            <if test="agreementArea != null">
+                agreement_area = #{agreementArea,jdbcType=SMALLINT},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.AgreementSettingBrandDO">
+        update global_agreement_setting_brand
+        set agreement_setting_id = #{agreementSettingId,jdbcType=INTEGER},
+            agreement_area       = #{agreementArea,jdbcType=SMALLINT},
+            brand_id             = #{brandId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.order.OrderGoodsExchangeCodeMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.order.dataobject.OrderGoodsExchangeCodeDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_goods_id" jdbcType="INTEGER" property="orderGoodsId"/>
+        <result column="exchange_id" jdbcType="INTEGER" property="exchangeId"/>
+        <result column="secret_code" jdbcType="VARCHAR" property="secretCode"/>
+        <result column="mail_setting" jdbcType="SMALLINT" property="mailSetting"/>
+        <result column="mail_fee" jdbcType="DECIMAL" property="mailFee"/>
+        <result column="exchange_order_id" jdbcType="INTEGER" property="exchangeOrderId"/>
+        <result column="exchange_order_goods_id" jdbcType="INTEGER" property="exchangeOrderGoodsId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_company_name" jdbcType="VARCHAR" property="distributorCompanyName"/>
+        <result column="sales_id" jdbcType="INTEGER" property="salesId"/>
+        <result column="sales_name" jdbcType="VARCHAR" property="salesName"/>
+    </resultMap>
+    <resultMap id="OrderGoodsExchangeCodeListDOResultMap" type="com.bat.order.dao.order.dataobject.OrderGoodsExchangeCodeListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="secret_code" jdbcType="VARCHAR" property="secretCode"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="exchange_order_id" jdbcType="INTEGER" property="exchangeOrderId"/>
+        <result column="order_status" jdbcType="SMALLINT" property="orderStatus"/>
+        <result column="pay_way" jdbcType="SMALLINT" property="payWay"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,order_id, order_goods_id, exchange_id, secret_code, mail_setting, mail_fee, exchange_order_id,exchange_order_goods_id,
+    distributor_id, distributor_company_name, sales_id, sales_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_exchange_code
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByOrderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_exchange_code
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <select id="getByOrderIdAndOrderGoodsId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_exchange_code
+        where order_id = #{orderId,jdbcType=INTEGER}
+        and order_goods_id = #{orderGoodsId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_goods_exchange_code
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsExchangeCodeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_goods_exchange_code (order_id,order_goods_id, exchange_id, secret_code,
+        mail_setting, mail_fee, exchange_order_id,exchange_order_goods_id,
+        distributor_id, distributor_company_name,
+        sales_id, sales_name)
+        values (#{orderId,jdbcType=INTEGER},#{orderGoodsId,jdbcType=INTEGER}, #{exchangeId,jdbcType=INTEGER},
+        #{secretCode,jdbcType=VARCHAR},
+        #{mailSetting,jdbcType=SMALLINT}, #{mailFee,jdbcType=DECIMAL},
+        #{exchangeOrderId,jdbcType=INTEGER},#{exchangeOrderGoodsId,jdbcType=INTEGER},
+        #{distributorId,jdbcType=INTEGER}, #{distributorCompanyName,jdbcType=VARCHAR},
+        #{salesId,jdbcType=INTEGER}, #{salesName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods_exchange_code (order_id,order_goods_id, exchange_id, secret_code,
+        mail_setting, mail_fee, exchange_order_id,exchange_order_goods_id,
+        distributor_id, distributor_company_name,
+        sales_id, sales_name)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.orderId,jdbcType=INTEGER},#{item.orderGoodsId,jdbcType=INTEGER},
+            #{item.exchangeId,jdbcType=INTEGER},
+            #{item.secretCode,jdbcType=VARCHAR},
+            #{item.mailSetting,jdbcType=SMALLINT}, #{item.mailFee,jdbcType=DECIMAL},
+            #{item.exchangeOrderId,jdbcType=INTEGER},#{item.exchangeOrderGoodsId,jdbcType=INTEGER},
+            #{item.distributorId,jdbcType=INTEGER}, #{item.distributorCompanyName,jdbcType=VARCHAR},
+            #{item.salesId,jdbcType=INTEGER}, #{item.salesName,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsExchangeCodeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_goods_exchange_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+            <if test="exchangeId != null">
+                exchange_id,
+            </if>
+            <if test="secretCode != null">
+                secret_code,
+            </if>
+            <if test="mailSetting != null">
+                mail_setting,
+            </if>
+            <if test="mailFee != null">
+                mail_fee,
+            </if>
+            <if test="exchangeOrderId != null">
+                exchange_order_id,
+            </if>
+            <if test="exchangeOrderGoodsId != null">
+                exchange_order_goods_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorCompanyName != null">
+                distributor_company_name,
+            </if>
+            <if test="salesId != null">
+                sales_id,
+            </if>
+            <if test="salesName != null">
+                sales_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderGoodsId != null">
+                #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeId != null">
+                #{exchangeId,jdbcType=INTEGER},
+            </if>
+            <if test="secretCode != null">
+                #{secretCode,jdbcType=VARCHAR},
+            </if>
+            <if test="mailSetting != null">
+                #{mailSetting,jdbcType=SMALLINT},
+            </if>
+            <if test="mailFee != null">
+                #{mailFee,jdbcType=DECIMAL},
+            </if>
+            <if test="exchangeOrderId != null">
+                #{exchangeOrderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorCompanyName != null">
+                #{distributorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="salesId != null">
+                #{salesId,jdbcType=INTEGER},
+            </if>
+            <if test="salesName != null">
+                #{salesName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.order.dataobject.OrderGoodsExchangeCodeDO">
+        update order_goods_exchange_code
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeId != null">
+                exchange_id = #{exchangeId,jdbcType=INTEGER},
+            </if>
+            <if test="secretCode != null">
+                secret_code = #{secretCode,jdbcType=VARCHAR},
+            </if>
+            <if test="mailSetting != null">
+                mail_setting = #{mailSetting,jdbcType=SMALLINT},
+            </if>
+            <if test="mailFee != null">
+                mail_fee = #{mailFee,jdbcType=DECIMAL},
+            </if>
+            <if test="exchangeOrderId != null">
+                exchange_order_id = #{exchangeOrderId,jdbcType=INTEGER},
+            </if>
+            <if test="exchangeOrderGoodsId != null">
+                exchange_order_goods_id = #{exchangeOrderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorCompanyName != null">
+                distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="salesId != null">
+                sales_id = #{salesId,jdbcType=INTEGER},
+            </if>
+            <if test="salesName != null">
+                sales_name = #{salesName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsExchangeCodeDO">
+        update order_goods_exchange_code
+        set order_id                 = #{orderId,jdbcType=INTEGER},
+            order_goods_id           = #{orderGoodsId,jdbcType=INTEGER},
+            exchange_id              = #{exchangeId,jdbcType=INTEGER},
+            secret_code              = #{secretCode,jdbcType=VARCHAR},
+            mail_setting             = #{mailSetting,jdbcType=SMALLINT},
+            mail_fee                 = #{mailFee,jdbcType=DECIMAL},
+            exchange_order_id        = #{exchangeOrderId,jdbcType=INTEGER},
+            exchange_order_goods_id  = #{exchangeOrderGoodsId,jdbcType=INTEGER},
+            distributor_id           = #{distributorId,jdbcType=INTEGER},
+            distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            sales_id                 = #{salesId,jdbcType=INTEGER},
+            sales_name               = #{salesName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_goods_exchange_code
+            set order_id=#{item.orderId,jdbcType=INTEGER},
+            order_goods_id = #{item.orderGoodsId,jdbcType=INTEGER},
+            exchange_id = #{item.exchangeId,jdbcType=INTEGER},
+            secret_code = #{item.secretCode,jdbcType=VARCHAR},
+            mail_setting = #{item.mailSetting,jdbcType=SMALLINT},
+            mail_fee = #{item.mailFee,jdbcType=DECIMAL},
+            exchange_order_id = #{item.exchangeOrderId,jdbcType=INTEGER},
+            exchange_order_goods_id = #{item.exchangeOrderGoodsId,jdbcType=INTEGER},
+            distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            distributor_company_name = #{item.distributorCompanyName,jdbcType=VARCHAR},
+            sales_id = #{item.salesId,jdbcType=INTEGER},
+            sales_name = #{item.salesName,jdbcType=VARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="listDOByCondition" resultMap="OrderGoodsExchangeCodeListDOResultMap">
+        SELECT
+        ogec.id,
+        odd.distributor_id,
+        odd.distributor_name,
+        ogec.order_id,
+        oi.order_no,
+        od.user_name,
+        od.mobile,
+        ogec.secret_code,
+        ogec.exchange_order_id,
+        odd.order_status,
+        odd.pay_way,
+        oi.create_time
+    FROM
+        order_goods_exchange_code ogec
+        LEFT JOIN order_info oi ON ogec.order_id = oi.id
+        LEFT JOIN order_delivery od ON od.order_id = ogec.order_id
+        LEFT JOIN order_distributor_data odd ON odd.order_id = ogec.order_id
+        AND odd.erp_flag =1
+        where 1=1
+        <if test="startTime !=null">
+            and oi.create_time &gt; = #{startTime}
+        </if>
+        <if test="endTime !=null">
+            and oi.create_time &lt;= #{endTime}
+        </if>
+        <if test="orderStatus !=null">
+            and odd.order_status = #{orderStatus}
+        </if>
+        <if test="content !=null and content !=''">
+            and (
+            ogec.secret_code like concat ('%',#{content},'%') or odd.distributor_name like concat ('%',#{content},'%') or odd.distributor_id like concat ('%',#{content},'%')
+            and oi.id like concat ('%',#{content},'%') or oi.order_no like concat ('%',#{content},'%') or od.user_name like concat ('%',#{content},'%')
+            )
+        </if>
+        order by ogec.id desc
+    </select>
+</mapper>

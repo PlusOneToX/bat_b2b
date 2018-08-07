@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsPromotionPriceMapper">
+    <resultMap id="BaseResultMap" type="com.bat.goods.dao.goods.dataobject.GoodsPromotionPriceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="special_flag" property="specialFlag" jdbcType="SMALLINT"/>
+        <result column="reduce_or_present" property="reduceOrPresent" jdbcType="SMALLINT"/>
+        <result column="group_seckill_type" property="groupSeckillType" jdbcType="SMALLINT"/>
+        <result column="scale_price_id" jdbcType="INTEGER" property="scalePriceId"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="min_price" jdbcType="DECIMAL" property="minPrice"/>
+        <result column="max_price" jdbcType="DECIMAL" property="maxPrice"/>
+        <result column="promotion_min_price" jdbcType="DECIMAL" property="promotionMinPrice"/>
+        <result column="promotion_max_price" jdbcType="DECIMAL" property="promotionMaxPrice"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods_promotion_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.goods.dao.goods.dataobject.GoodsPromotionPriceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods_promotion_price (goods_id,special_flag,reduce_or_present,group_seckill_type, scale_price_id,
+        promotion_id,
+        group_seckill_id, min_price, max_price,promotion_min_price,promotion_max_price
+        )
+        values
+        (#{goodsId,jdbcType=INTEGER},#{specialFlag,jdbcType=SMALLINT},#{reduceOrPresent,jdbcType=SMALLINT},#{groupSeckillId,jdbcType=SMALLINT},
+        #{scalePriceId,jdbcType=INTEGER},
+        #{promotionId,jdbcType=INTEGER},
+        #{groupSeckillId,jdbcType=INTEGER}, #{minPrice,jdbcType=DECIMAL},
+        #{maxPrice,jdbcType=DECIMAL},#{promotionMinPrice,jdbcType=DECIMAL}, #{promotionMaxPrice,jdbcType=DECIMAL}
+        )
+    </insert>
+
+    <insert id="insertList"
+            parameterType="java.util.List">
+        insert into goods_promotion_price (goods_id,special_flag,reduce_or_present,group_seckill_type, scale_price_id,
+        promotion_id,
+        group_seckill_id, min_price, max_price,promotion_min_price,promotion_max_price
+        )
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.specialFlag},
+            #{item.reduceOrPresent},
+            #{item.groupSeckillId},
+            #{item.scalePriceId},
+            #{item.promotionId},
+            #{item.groupSeckillId},
+            #{item.minPrice},
+            #{item.maxPrice},
+            #{item.promotionMinPrice},
+            #{item.promotionMaxPrice}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.bat.goods.dao.goods.dataobject.GoodsPromotionPriceDO">
+    update goods_promotion_price
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+        special_flag = #{specialFlag,jdbcType=SMALLINT},
+        reduce_or_present = #{reduceOrPresent,jdbcType=SMALLINT},
+        group_seckill_type = #{groupSeckillId,jdbcType=SMALLINT},
+      scale_price_id = #{scalePriceId,jdbcType=INTEGER},
+      promotion_id = #{promotionId,jdbcType=INTEGER},
+      group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+      min_price = #{minPrice,jdbcType=DECIMAL},
+      max_price = #{maxPrice,jdbcType=DECIMAL},
+      promotion_min_price = #{promotionMinPrice,jdbcType=DECIMAL},
+      promotion_max_price = #{promotionMaxPrice,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, goods_id,special_flag,reduce_or_present,group_seckill_type, scale_price_id, promotion_id, group_seckill_id, min_price, max_price,promotion_min_price,promotion_max_price
+    from goods_promotion_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, goods_id,special_flag,reduce_or_present,group_seckill_type, scale_price_id, promotion_id, group_seckill_id, min_price, max_price,promotion_min_price,promotion_max_price
+    from goods_promotion_price
+  </select>
+
+    <delete id="deleteByGoodsId" parameterType="map">
+        delete from goods_promotion_price where goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteByPromotionId" parameterType="map">
+        delete from goods_promotion_price where promotion_id = #{promotionId}
+    </delete>
+    <delete id="deleteByGroupSeckillId" parameterType="map">
+        delete from goods_promotion_price where group_seckill_id = #{groupSeckillId}
+    </delete>
+
+    <select id="listByGoodsIdsAndPromotionIds" parameterType="map" resultMap="BaseResultMap">
+        select id, goods_id,special_flag,reduce_or_present,group_seckill_type, scale_price_id, promotion_id,
+        group_seckill_id, min_price, max_price,promotion_min_price,promotion_max_price
+        from goods_promotion_price
+        where goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and promotion_id in
+        <foreach collection="promotionIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByGoodsIdsAndGroupSeckillIds" parameterType="map" resultMap="BaseResultMap">
+        select id, goods_id,special_flag,reduce_or_present,group_seckill_type, scale_price_id, promotion_id,
+        group_seckill_id, min_price, max_price,promotion_min_price,promotion_max_price
+        from goods_promotion_price
+        where goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and group_seckill_id in
+        <foreach collection="groupSeckillIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

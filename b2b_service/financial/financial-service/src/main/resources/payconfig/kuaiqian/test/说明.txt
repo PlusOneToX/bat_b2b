@@ -1,0 +1,6 @@
+测试商户号：10012140356
+证书密码：bat2018
+证书别名: test-alias
+退款密钥：H77G94MDSJC7R76H
+查询密钥：27YKWKBKHT2IZSQ4
+

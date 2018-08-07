@@ -1,0 +1,5 @@
+ALTER TABLE `shopping_cart_customer` 
+ADD COLUMN `unit` varchar(50) NULL COMMENT '数量单位名称' AFTER `bar_code`;
+
+ALTER TABLE `shopping_cart_distributor` 
+ADD COLUMN `unit` varchar(50) NULL COMMENT '数量单位名称' AFTER `bar_code`;

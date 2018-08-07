@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.stock.OrderGoodsStockDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.stock.dataobject.OrderGoodsStockDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="stock_id" property="stockId" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="lock_num" property="lockNum" jdbcType="INTEGER"/>
+        <result column="lock_type" property="lockType" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.bat.order.dao.stock.dataobject.OrderGoodsStockDO2">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_erp_no" property="orderErpNo" jdbcType="VARCHAR"/>
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="serial_number" property="serialNumber" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="stock_id" property="stockId" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="lock_num" property="lockNum" jdbcType="INTEGER"/>
+        <result column="lock_type" property="lockType" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="OrderGoodsStockDTOResultMap" type="com.bat.order.dao.stock.dataobject.OrderGoodsStockDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="stock_id" property="stockId" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="lock_num" property="lockNum" jdbcType="INTEGER"/>
+        <result column="lock_type" property="lockType" jdbcType="SMALLINT"/>
+        <result column="serial_number" property="serialNumber" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="OrderGoodsStockDTO2ResultMap" type="com.bat.order.dao.stock.dataobject.OrderGoodsStockDTO2">
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_erp_no" property="orderErpNo" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="SMALLINT"/>
+        <result column="in_stock_lock_num" property="inStockLockNum" jdbcType="INTEGER"/>
+        <result column="on_way_lock_num" property="onWayLockNum" jdbcType="INTEGER"/>
+        <result column="vmi_lock_num" property="vmiLockNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_id, order_goods_id, goods_id, item_id, stock_id, warehouse_id, lock_num, 
+    lock_type, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_stock
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderId" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_stock
+        where order_id = #{orderId}
+    </select>
+    <select id="listByOrderIds" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_stock
+        where order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="sumByWarehouseIdAndByItemIds" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_stock
+        where item_id in
+        <foreach collection="itemIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByOrderErpNos" resultMap="BaseResultMap2" parameterType="map">
+        select ogs.*,oed.order_erp_no,og.serial_number from order_goods_stock ogs join order_extend_data oed on
+        oed.order_id=ogs.order_id join order_goods og on og.id = ogs.order_goods_id
+        where oed.order_erp_no in
+        <foreach collection="orderErpNos" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_goods_stock
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteByOrderIds" parameterType="map">
+        delete from order_goods_stock
+        where order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByOrderGoodsIds" parameterType="map">
+        delete from order_goods_stock
+        where order_goods_id in
+        <foreach collection="orderGoodsIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from order_goods_stock
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByOrderId" parameterType="map">
+    delete from order_goods_stock
+    where order_id = #{orderId}
+  </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.stock.dataobject.OrderGoodsStockDO" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into order_goods_stock (id, order_id, order_goods_id, 
+      goods_id, item_id, stock_id, 
+      warehouse_id, lock_num, lock_type, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{orderGoodsId,jdbcType=INTEGER}, 
+      #{goodsId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{stockId,jdbcType=INTEGER}, 
+      #{warehouseId,jdbcType=INTEGER}, #{lockNum,jdbcType=INTEGER}, #{lockType,jdbcType=SMALLINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods_stock (id, order_id, order_goods_id,
+        goods_id, item_id, stock_id,
+        warehouse_id, lock_num, lock_type,
+        create_time, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER}, #{item.orderGoodsId,jdbcType=INTEGER},
+            #{item.goodsId,jdbcType=INTEGER}, #{item.itemId,jdbcType=INTEGER}, #{item.stockId,jdbcType=INTEGER},
+            #{item.warehouseId,jdbcType=INTEGER}, #{item.lockNum,jdbcType=INTEGER}, #{item.lockType,jdbcType=SMALLINT},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.stock.dataobject.OrderGoodsStockDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_goods_stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="stockId != null">
+                stock_id,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="lockNum != null">
+                lock_num,
+            </if>
+            <if test="lockType != null">
+                lock_type,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="stockId != null">
+                #{stockId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="lockNum != null">
+                #{lockNum,jdbcType=INTEGER},
+            </if>
+            <if test="lockType != null">
+                #{lockType,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.stock.dataobject.OrderGoodsStockDO">
+        update order_goods_stock
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="stockId != null">
+                stock_id = #{stockId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="lockNum != null">
+                lock_num = #{lockNum,jdbcType=INTEGER},
+            </if>
+            <if test="lockType != null">
+                lock_type = #{lockType,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.stock.dataobject.OrderGoodsStockDO">
+    update order_goods_stock
+    set order_id = #{orderId,jdbcType=INTEGER},
+      order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      stock_id = #{stockId,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      lock_num = #{lockNum,jdbcType=INTEGER},
+      lock_type = #{lockType,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="updateList" item="orderGoodsStock" separator=" ; ">
+            update order_goods_stock
+            set order_id = #{orderGoodsStock.orderId,jdbcType=INTEGER},
+            order_goods_id = #{orderGoodsStock.orderGoodsId,jdbcType=INTEGER},
+            goods_id = #{orderGoodsStock.goodsId,jdbcType=INTEGER},
+            item_id = #{orderGoodsStock.itemId,jdbcType=INTEGER},
+            stock_id = #{orderGoodsStock.stockId,jdbcType=INTEGER},
+            warehouse_id = #{orderGoodsStock.warehouseId,jdbcType=INTEGER},
+            lock_num = #{orderGoodsStock.lockNum,jdbcType=INTEGER},
+            lock_type = #{orderGoodsStock.lockType,jdbcType=SMALLINT},
+            update_time = now()
+            where id = #{orderGoodsStock.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="listDTOByOrderIdAndSerialNumberList" resultMap="OrderGoodsStockDTOResultMap">
+        SELECT
+        ogs.*,
+        og.serial_number
+        FROM
+        order_goods og
+        LEFT JOIN order_goods_stock ogs ON ogs.order_goods_id = og.id
+        WHERE
+        ogs.order_id = #{orderId}
+        <if test="serialNumberList !=null and serialNumberList.size()>0">
+            and og.serial_number in
+            <foreach collection="serialNumberList" item="serialNumber" separator="," open="(" close=")">
+                #{serialNumber}
+            </foreach>
+        </if>
+    </select>
+    <select id="listDTOByCondition" resultMap="OrderGoodsStockDTO2ResultMap">
+        SELECT ogs.order_goods_id,
+	( CASE ogs.lock_type WHEN 1 THEN ogs.lock_num ELSE 0 END ) in_stock_lock_num,
+	( CASE ogs.lock_type WHEN 2 THEN ogs.lock_num ELSE 0 END ) on_way_lock_num,
+	( CASE ogs.lock_type WHEN 3 THEN ogs.lock_num ELSE 0 END ) vmi_lock_num,
+	ogs.order_id,
+	oed.order_erp_no,
+	odd.order_status,
+	ogs.create_time,
+	oi.order_no
+FROM
+	order_goods_stock ogs
+	LEFT JOIN order_extend_data oed ON ogs.order_id = oed.order_id
+	LEFT JOIN order_distributor_data odd ON odd.order_id = ogs.order_id AND odd.erp_flag = 1
+	LEFT JOIN order_info oi on oi.id = ogs.order_id
+
+WHERE
+	ogs.item_id = #{itemId}  and ( (ogs.warehouse_id = #{warehouseId} and `lock_type` =1) or (ogs.warehouse_id = #{warehouseId} and `lock_type` =2) or `lock_type` =3 )
+	order by ogs.id desc
+    </select>
+    <select id="sumByWarehouseIdAndLockTypeGroupByItemId" resultMap="BaseResultMap">
+        SELECT item_id,SUM(lock_num) lock_num from order_goods_stock WHERE lock_type = #{lockType}
+        <if test="warehouseId !=null">
+            AND warehouse_id =#{warehouseId}
+        </if>
+        <if test="itemId !=null">
+            AND item_id = #{itemId}
+        </if>
+        GROUP BY item_id
+    </select>
+
+    <select id="sumByItemIds" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_stock
+        where item_id in
+        <foreach collection="itemIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="batchUpdateOrderGoodsStock" parameterType="java.util.List">
+        <foreach collection="changeOrderGoodsStockDOS" item="orderGoodsStock" separator=" ; ">
+            update order_goods_stock
+            set lock_num = #{orderGoodsStock.lockNum,jdbcType=INTEGER},
+            update_time = now()
+            where id = #{orderGoodsStock.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+</mapper>

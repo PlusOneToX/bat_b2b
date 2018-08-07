@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.platformaccount.AccountAlipayMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="erp_account_no" jdbcType="VARCHAR" property="erpAccountNo"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="bank_no" jdbcType="VARCHAR" property="bankNo"/>
+        <result column="back_type" jdbcType="SMALLINT" property="backType"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        <result column="app_public_secret" jdbcType="LONGVARCHAR" property="appPublicSecret"/>
+        <result column="app_private_secret" jdbcType="LONGVARCHAR" property="appPrivateSecret"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, organization_id, account_name,erp_account_no, app_id, bank_no, back_type, open_flag, create_time,
+    update_time
+    </sql>
+    <sql id="Blob_Column_List">
+        app_public_secret, app_private_secret
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_alipay
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByOrganizationId"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_alipay
+        <where>
+            <if test="organizationId!=null">
+                and organization_id = #{organizationId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_alipay
+        <where>
+            <if test="params.organizationId!=null">
+                and organization_id = #{params.organizationId,jdbcType=INTEGER}
+            </if>
+            <if test="params.appType">
+                and app_type = #{params.appType}
+            </if>
+            <if test="params.appId">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.accountName">
+                and account_name = #{params.accountName}
+            </if>
+            <if test="params.erpAccountNo">
+                and erp_account_no = #{params.erpAccountNo}
+            </if>
+            <if test="params.accountNo">
+                and account_no = #{params.accountNo}
+            </if>
+            <if test="params.merchanAcctId">
+                and merchan_acct_id = #{params.merchanAcctId}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from account_alipay
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_alipay (organization_id, account_name,erp_account_no, app_id,
+        bank_no, back_type, open_flag,
+        create_time, update_time, app_public_secret,
+        app_private_secret)
+        values (#{organizationId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR},#{erpAccountNo,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR},
+        #{bankNo,jdbcType=VARCHAR}, #{backType,jdbcType=SMALLINT}, #{openFlag,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{appPublicSecret,jdbcType=LONGVARCHAR},
+        #{appPrivateSecret,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_alipay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="bankNo != null">
+                bank_no,
+            </if>
+            <if test="backType != null">
+                back_type,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="appPublicSecret != null">
+                app_public_secret,
+            </if>
+            <if test="appPrivateSecret != null">
+                app_private_secret,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="backType != null">
+                #{backType,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appPublicSecret != null">
+                #{appPublicSecret,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="appPrivateSecret != null">
+                #{appPrivateSecret,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        update account_alipay
+        <set>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no = #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                bank_no = #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="backType != null">
+                back_type = #{backType,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appPublicSecret != null">
+                app_public_secret = #{appPublicSecret,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="appPrivateSecret != null">
+                app_private_secret = #{appPrivateSecret,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        update account_alipay
+        set organization_id    = #{organizationId,jdbcType=INTEGER},
+            account_name       = #{accountName,jdbcType=VARCHAR},
+            erp_account_no       = #{erpAccountNo,jdbcType=VARCHAR},
+            app_id             = #{appId,jdbcType=VARCHAR},
+            bank_no            = #{bankNo,jdbcType=VARCHAR},
+            back_type          = #{backType,jdbcType=SMALLINT},
+            open_flag          = #{openFlag,jdbcType=SMALLINT},
+            create_time        = #{createTime,jdbcType=TIMESTAMP},
+            update_time        = #{updateTime,jdbcType=TIMESTAMP},
+            app_public_secret  = #{appPublicSecret,jdbcType=LONGVARCHAR},
+            app_private_secret = #{appPrivateSecret,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountAlipayDO">
+        update account_alipay
+        set organization_id = #{organizationId,jdbcType=INTEGER},
+            account_name    = #{accountName,jdbcType=VARCHAR},
+            erp_account_no  = #{erpAccountNo,jdbcType=VARCHAR},
+            app_id          = #{appId,jdbcType=VARCHAR},
+            bank_no         = #{bankNo,jdbcType=VARCHAR},
+            back_type       = #{backType,jdbcType=SMALLINT},
+            open_flag       = #{openFlag,jdbcType=SMALLINT},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

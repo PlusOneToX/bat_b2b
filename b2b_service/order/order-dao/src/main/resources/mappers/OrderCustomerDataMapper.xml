@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.data.OrderCustomerDataMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.data.dataobject.OrderCustomerDataDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerId"/>
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
+        <result column="shop_code" jdbcType="VARCHAR" property="shopCode"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="order_status" jdbcType="SMALLINT" property="orderStatus"/>
+        <result column="pay_status" jdbcType="SMALLINT" property="payStatus"/>
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+        <result column="pay_way" jdbcType="SMALLINT" property="payWay"/>
+        <result column="customer_mode" property="customerMode" jdbcType="SMALLINT"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="cancel_remark" jdbcType="VARCHAR" property="cancelRemark"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_id, customer_id, customer_name,shop_code,shop_name, order_status, pay_status,pay_time, pay_way,customer_mode, remark,cancel_remark,
+    create_time, update_time, distributor_id, distributor_name, company_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_data
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_customer_data
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.data.dataobject.OrderCustomerDataDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_customer_data (order_id, customer_id, customer_name,shop_code,shop_name,
+        order_status, pay_status,pay_time, pay_way,
+        customer_mode, remark,cancel_remark, create_time, update_time,
+        distributor_id, distributor_name, company_name
+        )
+        values (#{orderId,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER},
+        #{customerName,jdbcType=VARCHAR},#{shopCode,jdbcType=VARCHAR},#{shopName,jdbcType=VARCHAR},
+        #{orderStatus,jdbcType=SMALLINT}, #{payStatus,jdbcType=SMALLINT},#{payTime,jdbcType=TIMESTAMP},
+        #{payWay,jdbcType=SMALLINT},#{customerMode,jdbcType=SMALLINT},
+        #{remark,jdbcType=VARCHAR},#{cancelRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.data.dataobject.OrderCustomerDataDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_customer_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="customerName != null">
+                customer_name,
+            </if>
+            <if test="shopCode != null">
+                shop_code,
+            </if>
+            <if test="shopName != null">
+                shop_name,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="payStatus != null">
+                pay_status,
+            </if>
+            <if test="payTime != null">
+                pay_time,
+            </if>
+            <if test="payWay != null">
+                pay_way,
+            </if>
+            <if test="customerMode != null">
+                customer_mode,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="cancelRemark != null">
+                cancel_remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="customerName != null">
+                #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="shopCode != null">
+                #{shopCode,jdbcType=VARCHAR},
+            </if>
+            <if test="shopName != null">
+                #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payStatus != null">
+                #{payStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payTime != null">
+                #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="payWay != null">
+                #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="customerMode != null">
+                #{customerMode,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="cancelRemark != null">
+                #{cancelRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.data.dataobject.OrderCustomerDataDO">
+        update order_customer_data
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="customerName != null">
+                customer_name = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="shopCode != null">
+                shop_code = #{shopCode,jdbcType=VARCHAR},
+            </if>
+            <if test="shopCode != null">
+                shop_code = #{shopCode,jdbcType=VARCHAR},
+            </if>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payStatus != null">
+                pay_status = #{payStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="payWay != null">
+                pay_way = #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="customerMode != null">
+                customer_mode = #{customerMode,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="cancelRemark != null">
+                cancel_remark = #{cancelRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.data.dataobject.OrderCustomerDataDO">
+        update order_customer_data
+        set order_id         = #{orderId,jdbcType=INTEGER},
+            customer_id      = #{customerId,jdbcType=INTEGER},
+            customer_name    = #{customerName,jdbcType=VARCHAR},
+            shop_code        = #{shopCode,jdbcType=VARCHAR},
+            shop_name = #{shopName,jdbcType=VARCHAR},
+            order_status     = #{orderStatus,jdbcType=SMALLINT},
+            pay_status       = #{payStatus,jdbcType=SMALLINT},
+            pay_time         = #{payTime,jdbcType=TIMESTAMP},
+            pay_way          = #{payWay,jdbcType=SMALLINT},
+            customer_mode = #{customerMode,jdbcType=SMALLINT},
+            remark           = #{remark,jdbcType=VARCHAR},
+            cancel_remark = #{cancelRemark,jdbcType=VARCHAR},
+            update_time      = now(),
+            distributor_id   = #{distributorId,jdbcType=INTEGER},
+            distributor_name = #{distributorName,jdbcType=VARCHAR},
+            company_name     = #{companyName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateOrderPayStatus" parameterType="map">
+        update order_customer_data
+        set pay_status       = #{payStatus,jdbcType=SMALLINT},
+            update_time      = now()
+        where order_id = #{orderId} and customer_id = #{customerId}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_customer_data
+            set order_id = #{item.orderId,jdbcType=INTEGER},
+            customer_id = #{item.customerId,jdbcType=INTEGER},
+            customer_name = #{item.customerName,jdbcType=VARCHAR},
+            shop_code = #{item.shopCode,jdbcType=VARCHAR},
+            shop_name = #{item.shopName,jdbcType=VARCHAR},
+            order_status = #{item.orderStatus,jdbcType=SMALLINT},
+            pay_status = #{item.payStatus,jdbcType=SMALLINT},
+            pay_time = #{item.payTime,jdbcType=TIMESTAMP},
+            pay_way = #{item.payWay,jdbcType=SMALLINT},
+            customer_mode = #{item.customerMode,jdbcType=SMALLINT},
+            remark = #{item.remark,jdbcType=VARCHAR},
+            cancel_remark = #{item.cancelRemark,jdbcType=VARCHAR},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = now(),
+            distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            distributor_name = #{item.distributorName,jdbcType=VARCHAR},
+            company_name = #{item.companyName,jdbcType=VARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <update id="cancelCustomerOrderById">
+        update order_customer_data
+        set order_status = 4
+        where order_status = 1
+          and order_id = #{id}
+    </update>
+
+    <select id="getByOrderIdAndCustomerId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_data
+        where order_id = #{orderId,jdbcType=INTEGER}
+        <if test="customerId!=null">
+            and customer_id = #{customerId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="getByOrderId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_data
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderIdsAndCustomerId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_customer_data
+        where customer_id = #{customerId,jdbcType=INTEGER}
+        and order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

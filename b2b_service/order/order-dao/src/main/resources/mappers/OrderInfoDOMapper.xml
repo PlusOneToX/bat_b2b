@@ -1,0 +1,1257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.order.OrderInfoDOMapper">
+    <!-- 代码生成器生成的对象 -->
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.order.dataobject.OrderInfoDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="deliver_status" property="deliverStatus" jdbcType="SMALLINT"/>
+        <result column="deliver_time" property="deliverTime" jdbcType="TIMESTAMP"/>
+        <result column="order_type_id" property="orderTypeId" jdbcType="INTEGER"/>
+        <result column="stock_type" property="stockType" jdbcType="SMALLINT"/>
+        <result column="sales_id" property="salesId" jdbcType="INTEGER"/>
+        <result column="sales_name" property="salesName" jdbcType="VARCHAR"/>
+        <result column="coordinator_id" property="coordinatorId" jdbcType="INTEGER"/>
+        <result column="coordinator_name" property="coordinatorName" jdbcType="VARCHAR"/>
+        <result column="organization_id" property="organizationId" jdbcType="INTEGER"/>
+        <result column="organization_erp" property="organizationErp" jdbcType="VARCHAR"/>
+        <result column="organization_name" property="organizationName" jdbcType="VARCHAR"/>
+        <result column="invoice_flag" property="invoiceFlag" jdbcType="SMALLINT"/>
+        <result column="order_source" property="orderSource" jdbcType="VARCHAR"/>
+        <result column="language" jdbcType="VARCHAR" property="language"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="OrderFactoryNoDOMap" type="com.bat.order.dao.order.dataobject.OrderFactoryNoDO">
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="order_factory_no" property="orderFactoryNo" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="OrderExcelCOResultMap" type="com.bat.order.dao.order.co.OrderExcelCO">
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <!--需要进行反射转义名称、所以使用字符串-->
+        <result column="order_type_id" property="orderTypeId" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="VARCHAR"/>
+        <result column="currency_type" property="currencyType" jdbcType="VARCHAR"/>
+        <result column="current_rates" property="currentRates" jdbcType="DECIMAL"/>
+        <result column="pay_status" property="payStatus" jdbcType="VARCHAR"/>
+        <result column="pay_way" property="payWay" jdbcType="VARCHAR"/>
+        <result column="deliver_status" property="deliverStatus" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="order_erp_no" property="orderErpNo" jdbcType="VARCHAR"/>
+        <result column="erp_outbound_no" property="erpOutboundNo" jdbcType="VARCHAR"/>
+        <result column="order_deliver_bill_id" property="orderDeliverBillId" jdbcType="INTEGER"/>
+        <result column="distributor_id" property="distributorId" jdbcType="INTEGER"/>
+        <result column="distributor_erp_id" property="distributorErpId" jdbcType="VARCHAR"/>
+        <result column="distributor_name" property="distributorName" jdbcType="VARCHAR"/>
+        <result column="sales_id" property="salesId" jdbcType="INTEGER"/>
+        <result column="sales_name" property="salesName" jdbcType="VARCHAR"/>
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR"/>
+        <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR"/>
+        <result column="distribution_name" property="distributionName" jdbcType="VARCHAR"/>
+        <result column="logistics_no" property="logisticsNo" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_count" property="itemCount" jdbcType="INTEGER"/>
+        <result column="deliver_count" property="deliverCount" jdbcType="INTEGER"/>
+        <result column="order_factory_no" property="orderFactoryNo" jdbcType="VARCHAR"/>
+        <result column="order_thirdparty_no" property="orderThirdpartyNo" jdbcType="VARCHAR"/>
+        <result column="material_name" property="materialName" jdbcType="VARCHAR"/>
+        <result column="model_name" property="modelName" jdbcType="VARCHAR"/>
+        <result column="picture_id" property="pictureId" jdbcType="INTEGER"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="actual_price" property="actualPrice" jdbcType="DECIMAL"/>
+        <result column="user_actual_price" property="userActualPrice" jdbcType="DECIMAL"/>
+        <result column="promotion_id" property="promotionId" jdbcType="INTEGER"/>
+        <result column="shop_code" property="shopCode" jdbcType="VARCHAR"/>
+        <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="AdminOrderInfoListDOMap" type="com.bat.order.dao.order.dataobject.AdminOrderInfoListDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="order_erp_no" property="orderErpNo" jdbcType="VARCHAR"/>
+        <result column="order_thirdparty_no" property="orderThirdpartyNo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="tree_node" property="treeNode" jdbcType="INTEGER"/>
+        <result column="distributor_id" property="distributorId" jdbcType="INTEGER"/>
+        <result column="distributor_name" property="distributorName" jdbcType="VARCHAR"/>
+        <result column="order_distributor_id" property="orderDistributorId" jdbcType="INTEGER"/>
+        <result column="order_distributor_name" property="orderDistributorName" jdbcType="VARCHAR"/>
+        <result column="sync_erp_distributor_id" property="syncErpDistributorId" jdbcType="INTEGER"/>
+        <result column="sync_erp_distributor_name" property="syncErpDistributorName" jdbcType="VARCHAR"/>
+        <result column="user_source" property="userSource" jdbcType="VARCHAR"/>
+        <result column="user_source_name" property="userSourceName" jdbcType="VARCHAR"/>
+        <result column="shop_code" property="shopCode" jdbcType="VARCHAR"/>
+        <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="currency_type" property="currencyType" jdbcType="VARCHAR"/>
+        <result column="current_rates" property="currentRates" jdbcType="DECIMAL"/>
+        <result column="pay_amount" property="payAmount" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="settlement_amount" property="settlementAmount" jdbcType="DECIMAL"/>
+        <result column="pay_status" property="payStatus" jdbcType="SMALLINT"/>
+        <result column="pay_way" property="payWay" jdbcType="SMALLINT"/>
+        <result column="payee" property="payee" jdbcType="VARCHAR"/>
+        <result column="order_status" property="orderStatus" jdbcType="SMALLINT"/>
+        <result column="deliver_status" property="deliverStatus" jdbcType="SMALLINT"/>
+        <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Order_Info_Column_List">
+        order_info
+        .
+        id
+        ,
+        order_info.order_no,
+        order_info.deliver_status,
+        order_info.deliver_time,
+        order_info.order_type_id,
+        order_info.stock_type,
+        order_info.sales_id,
+        order_info.sales_name,
+        order_info.coordinator_id,
+        order_info.coordinator_name,
+        order_info.organization_id,
+        order_info.organization_erp,
+        order_info.organization_name,
+        order_info.invoice_flag,
+        order_info.order_source,
+        order_info.language,
+        order_info.create_time,
+        order_info.update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Order_Info_Column_List"/>
+        from order_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.order.dataobject.OrderInfoDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into order_info (id, order_no, deliver_status,
+                                deliver_time, order_type_id, stock_type,
+                                sales_id, sales_name,
+                                coordinator_id, coordinator_name, organization_id, organization_erp, organization_name,
+                                invoice_flag,
+                                order_source, language, create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{deliverStatus,jdbcType=SMALLINT},
+                #{deliverTime,jdbcType=TIMESTAMP}, #{orderTypeId,jdbcType=INTEGER}, #{stockType,jdbcType=SMALLINT},
+                #{salesId,jdbcType=INTEGER}, #{salesName,jdbcType=VARCHAR},
+                #{coordinatorId,jdbcType=INTEGER}, #{coordinatorName,jdbcType=VARCHAR},
+                #{organizationId,jdbcType=INTEGER},
+                #{organizationErp,jdbcType=VARCHAR}, #{organizationName,jdbcType=VARCHAR},
+                #{invoiceFlag,jdbcType=SMALLINT},
+                #{orderSource,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.order.dataobject.OrderInfoDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="deliverStatus != null">
+                deliver_status,
+            </if>
+            <if test="deliverTime != null">
+                deliver_time,
+            </if>
+            <if test="orderTypeId != null">
+                order_type_id,
+            </if>
+            <if test="stockType != null">
+                stock_type,
+            </if>
+            <if test="salesId != null">
+                sales_id,
+            </if>
+            <if test="salesName != null">
+                sales_name,
+            </if>
+            <if test="coordinatorId != null">
+                coordinator_id,
+            </if>
+            <if test="coordinatorName != null">
+                coordinatorName,
+            </if>
+            <if test="organizationId != null">
+                organizationId,
+            </if>
+            <if test="organizationErp != null">
+                organizationErp,
+            </if>
+            <if test="organizationName != null">
+                organizationName,
+            </if>
+            <if test="invoiceFlag != null">
+                invoice_flag,
+            </if>
+            <if test="orderSource != null">
+                order_source,
+            </if>
+            <if test="language != null">
+                language,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverStatus != null">
+                #{deliverStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="deliverTime != null">
+                #{deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderTypeId != null">
+                #{orderTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="stockType != null">
+                #{stockType,jdbcType=SMALLINT},
+            </if>
+            <if test="salesId != null">
+                #{salesId,jdbcType=INTEGER},
+            </if>
+            <if test="salesName != null">
+                #{salesName,jdbcType=VARCHAR},
+            </if>
+            <if test="coordinatorId != null">
+                #{coordinatorId,jdbcType=INTEGER},
+            </if>
+            <if test="coordinatorName != null">
+                #{coordinatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="organizationErp != null">
+                #{organizationErp,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationName != null">
+                #{organizationName,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceFlag != null">
+                #{invoiceFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="orderSource != null">
+                #{orderSource,jdbcType=VARCHAR},
+            </if>
+            <if test="language != null">
+                #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.order.dataobject.OrderInfoDO">
+        update order_info
+        <set>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverStatus != null">
+                deliver_status = #{deliverStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="deliverTime != null">
+                deliver_time = #{deliverTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderTypeId != null">
+                order_type_id = #{orderTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="stockType != null">
+                stock_type = #{stockType,jdbcType=SMALLINT},
+            </if>
+            <if test="salesId != null">
+                sales_id = #{salesId,jdbcType=INTEGER},
+            </if>
+            <if test="salesName != null">
+                sales_name = #{salesName,jdbcType=VARCHAR},
+            </if>
+            <if test="coordinatorId != null">
+                coordinator_id = #{coordinatorId,jdbcType=INTEGER},
+            </if>
+            <if test="coordinatorName != null">
+                coordinator_name = #{coordinatorName,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="organizationErp != null">
+                organization_erp = #{organizationErp,jdbcType=VARCHAR},
+            </if>
+            <if test="organizationName != null">
+                organization_name = #{organizationName,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceFlag != null">
+                invoice_flag = #{invoiceFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="orderSource != null">
+                order_source = #{orderSource,jdbcType=VARCHAR},
+            </if>
+            <if test="language != null">
+                language = #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.order.dataobject.OrderInfoDO">
+        update order_info
+        set order_no          = #{orderNo,jdbcType=VARCHAR},
+            deliver_status    = #{deliverStatus,jdbcType=SMALLINT},
+            deliver_time      = #{deliverTime,jdbcType=TIMESTAMP},
+            order_type_id     = #{orderTypeId,jdbcType=INTEGER},
+            stock_type        = #{stockType,jdbcType=SMALLINT},
+            sales_id          = #{salesId,jdbcType=INTEGER},
+            sales_name        = #{salesName,jdbcType=VARCHAR},
+            coordinator_id    = #{coordinatorId,jdbcType=INTEGER},
+            coordinator_name  = #{coordinatorName,jdbcType=VARCHAR},
+            coordinator_id    = #{coordinatorId,jdbcType=INTEGER},
+            organization_erp  = #{organizationErp,jdbcType=VARCHAR},
+            organization_name = #{organizationName,jdbcType=VARCHAR},
+            invoice_flag      = #{invoiceFlag,jdbcType=SMALLINT},
+            order_source      = #{orderSource,jdbcType=VARCHAR},
+            language          = #{language,jdbcType=VARCHAR},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="orderInfoList" item="orderInfo" separator=" ; " index="index">
+            update order_info
+            set order_no = #{orderInfo.orderNo,jdbcType=VARCHAR},
+            deliver_status = #{orderInfo.deliverStatus,jdbcType=SMALLINT},
+            deliver_time = #{orderInfo.deliverTime,jdbcType=TIMESTAMP},
+            order_type_id = #{orderInfo.orderTypeId,jdbcType=INTEGER},
+            stock_type = #{orderInfo.stockType,jdbcType=SMALLINT},
+            sales_id = #{orderInfo.salesId,jdbcType=INTEGER},
+            sales_name = #{orderInfo.salesName,jdbcType=VARCHAR},
+            coordinator_id = #{orderInfo.coordinatorId,jdbcType=INTEGER},
+            coordinator_name = #{orderInfo.coordinatorName,jdbcType=VARCHAR},
+            coordinator_id = #{orderInfo.coordinatorId,jdbcType=INTEGER},
+            organization_erp = #{orderInfo.organizationErp,jdbcType=VARCHAR},
+            organization_name = #{orderInfo.organizationName,jdbcType=VARCHAR},
+            invoice_flag = #{orderInfo.invoiceFlag,jdbcType=SMALLINT},
+            order_source = #{orderInfo.orderSource,jdbcType=VARCHAR},
+            language = #{orderInfo.language,jdbcType=VARCHAR},
+            create_time = #{orderInfo.createTime,jdbcType=TIMESTAMP},
+            update_time = #{orderInfo.updateTime,jdbcType=TIMESTAMP}
+            where id = #{orderInfo.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <!-- 以下为自定义查询 -->
+    <select id="listByIds" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Order_Info_Column_List"/>
+        from order_info
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listAdminDistributorOrderByParams"
+            resultMap="AdminOrderInfoListDOMap">
+        SELECT odd2.order_id id,
+        oi.order_no,
+        oi.create_time,
+        od.user_name,
+        odc.pay_amount,
+        null payee,
+        oi.deliver_status,
+        <!-- ERP订单列表 -->
+        <if test="params.searchType==1">
+            odd1.tree_node,
+            odd1.currency_type,
+            odd1.current_rates,
+            odd1.pay_status,
+            odd1.pay_way,
+            odd1.order_status,
+            oed.order_erp_no,
+            oed.order_thirdparty_no,
+            odd2.distributor_id order_distributor_id,
+            odd2.distributor_name order_distributor_name,
+            odd1.distributor_id sync_erp_distributor_id,
+            odd1.distributor_name sync_erp_distributor_name
+        </if>
+        <!-- 分销订单列表 -->
+        <if test="params.searchType==2">
+            odd2.tree_node,
+            odd2.currency_type,
+            odd2.current_rates,
+            odd2.pay_status,
+            odd2.pay_way,
+            odd2.order_status,
+            odd2.distributor_id order_distributor_id,
+            odd2.distributor_name order_distributor_name
+        </if>
+        FROM order_distributor_data odd2
+        join order_info oi on oi.id = odd2.order_id
+        <!-- 1 需同步ERP订单列表，2 分销订单列表 -->
+        <if test="params.searchType==1">
+            join order_extend_data oed on oed.order_id = oi.id
+            join order_distributor_data odd1 on odd1.order_id = oi.id and odd1.erp_flag = 1
+            join order_distributor_cost odc on odc.order_id = oi.id and odc.distributor_id = odd1.distributor_id
+        </if>
+        <if test="params.searchType==2">
+            join order_distributor_cost odc on odc.order_id = oi.id and odc.distributor_id = odd2.distributor_id
+        </if>
+        join order_delivery od on od.order_id = oi.id
+        <if test="params.logisticsNo != null and params.logisticsNo != ''">
+            join order_deliver_bill odb on odb.order_id=oi.id
+        </if>
+        <where>
+            (odd2.direct_flag = 1 or EXISTS (select 1 from order_customer_data ocd where ocd.order_id = oi.id and
+            ocd.distributor_id = odd2.distributor_id))
+            <if test="params.id!=null">
+                AND oi.id = #{params.id}
+            </if>
+            <if test="params.searchType==1">
+                <if test="params.orderThirdPartyNo!=null">
+                    AND oed.order_thirdparty_no like CONCAT(#{params.orderThirdPartyNo},'%')
+                </if>
+                <if test="params.autoDelivery!=null">
+                    AND oed.auto_delivery = #{params.autoDelivery}
+                </if>
+                <if test="params.syncErpFlag!=null">
+                    <if test="params.syncErpFlag==1">
+                        AND (oed.order_erp_no is not null or oed.order_erp_no !='')
+                    </if>
+                    <if test="params.syncErpFlag==2">
+                        AND (oed.order_erp_no is null or oed.order_erp_no ='')
+                    </if>
+                </if>
+                <if test="params.orderErpNo!=null">
+                    AND oed.order_erp_no = #{params.orderErpNo}
+                </if>
+                <if test="params.orderFactoryNo!=null and params.orderFactoryNo!=''">
+                    AND oed.order_factory_no = #{params.orderFactoryNo}
+                </if>
+            </if>
+            <if test="params.stockType!=null">
+                AND oi.stock_type = #{params.stockType}
+            </if>
+            <if test="params.orderTypeId!=null">
+                AND oi.order_type_id = #{params.orderTypeId}
+            </if>
+            <if test="params.payWay!=null">
+                <if test="params.searchType==1">
+                    AND odd1.pay_way = #{params.payWay}
+                </if>
+                <if test="params.searchType==2">
+                    AND odd2.pay_way = #{params.payWay}
+                </if>
+            </if>
+            <if test="params.orderSource!=null">
+                AND oi.order_source = #{params.orderSource}
+            </if>
+            <if test="params.payStatus!=null">
+                <if test="params.searchType==1">
+                    AND odd1.pay_status in (${params.payStatus})
+                </if>
+                <if test="params.searchType==2">
+                    AND odd2.pay_status in (${params.payStatus})
+                </if>
+            </if>
+            <if test="params.orderStatus!=null">
+                <if test="params.searchType==1">
+                    AND odd1.order_status in (${params.orderStatus})
+                </if>
+                <if test="params.searchType==2">
+                    AND odd2.order_status in (${params.orderStatus})
+                </if>
+            </if>
+            <if test="params.deliverStatus!=null">
+                AND oi.deliver_status in (${params.deliverStatus})
+            </if>
+            <if test="params.frontOrderStatus!=null">
+                <if test="params.frontOrderStatus==1">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 1
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 1
+                    </if>
+                </if>
+                <if test="params.frontOrderStatus==2">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 2
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 2
+                    </if>
+                    AND (oi.deliver_status = 1 or oi.deliver_status = 2)
+                </if>
+                <if test="params.frontOrderStatus==3">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 2
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 2
+                    </if>
+                    AND oi.deliver_status = 3
+                </if>
+                <if test="params.frontOrderStatus==4">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 2
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 2
+                    </if>
+                    AND oi.deliver_status = 4
+                </if>
+                <if test="params.frontOrderStatus==5">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 4
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 4
+                    </if>
+                </if>
+                <if test="params.frontOrderStatus==6">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 5
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 5
+                    </if>
+                </if>
+                <!--出库中-->
+                <if test="params.frontOrderStatus==9">
+                    <if test="params.searchType==1">
+                        AND odd1.order_status = 2
+                    </if>
+                    <if test="params.searchType==2">
+                        AND odd2.order_status = 2
+                    </if>
+                    AND oi.deliver_status = 2
+                </if>
+            </if>
+            <if test="params.orderNo!=null">
+                AND oi.order_no = #{params.orderNo}
+            </if>
+            <if test="params.userName!=null">
+                AND od.user_name = #{params.userName}
+            </if>
+
+            <if test="params.mobile!=null and params.mobile!=''">
+                AND od.mobile = #{params.mobile}
+            </if>
+
+            <if test="params.logisticsNo!=null and params.logisticsNo!=''">
+                AND odb.logistics_no=#{params.logisticsNo}
+            </if>
+
+            <if test="params.distributorName!=null">
+                <if test="params.searchType==1">
+                    AND odd1.distributor_name like CONCAT('%',#{params.distributorName},'%')
+                </if>
+                <if test="params.searchType==2">
+                    AND odd2.distributor_name like CONCAT('%',#{params.distributorName},'%')
+                </if>
+            </if>
+            <if test="params.payAmount!=null">
+                AND odc.pay_amount = #{params.payAmount}
+            </if>
+            <if test="params.startTime != null">
+                AND oi.create_time <![CDATA[ >= ]]> #{params.startTime}
+            </if>
+            <if test="params.endTime != null">
+                AND oi.create_time <![CDATA[ <= ]]> #{params.endTime}
+            </if>
+        </where>
+        ORDER BY odd2.order_id desc
+    </select>
+    <select id="listAdminCustomerOrderByParams" resultMap="AdminOrderInfoListDOMap">
+        SELECT oi.id id,
+        oi.order_no,
+        oi.create_time,
+        ocd.distributor_id,
+        ocd.distributor_name,
+        oi.order_source user_source,
+        null user_source_name,
+        ocd.shop_code,
+        ocd.shop_name,
+        od.user_name,
+        od.mobile,
+        occ.pay_amount,
+        ocd.remark,
+        ocd.pay_way,
+        ocd.order_status,
+        oi.deliver_status
+        FROM order_info oi,
+        order_customer_data ocd,
+        order_delivery od,
+        order_customer_cost occ
+        WHERE oi.id = ocd.order_id
+        AND oi.id = od.order_id
+        AND oi.id = occ.order_id
+        <if test="params.id!=null">
+            AND oi.id = #{params.id}
+        </if>
+        <if test="params.payStatus!=null and params.payStatus!=0">
+            AND ocd.pay_status in (${params.payStatus})
+        </if>
+        <if test="params.orderStatus!=null and params.orderStatus!=0">
+            AND ocd.order_status in (${params.orderStatus})
+        </if>
+        <if test="params.deliverStatus!=null and params.deliverStatus!=0">
+            AND oi.deliver_status in (${params.deliverStatus})
+        </if>
+        <if test="params.frontOrderStatus!=null and params.frontOrderStatus!=0">
+            <if test="params.frontOrderStatus==1">
+                AND ocd.order_status = 1
+            </if>
+            <if test="params.frontOrderStatus==2">
+                AND ocd.order_status = 2
+                AND (oi.deliver_status = 1 or oi.deliver_status = 2)
+            </if>
+            <if test="params.frontOrderStatus==3">
+                AND ocd.order_status = 2
+                AND oi.deliver_status = 3
+            </if>
+            <if test="params.frontOrderStatus==4">
+                AND ocd.order_status = 2
+                AND oi.deliver_status = 4
+            </if>
+            <if test="params.frontOrderStatus==5">
+                AND ocd.order_status = 4
+            </if>
+            <if test="params.frontOrderStatus==6">
+                AND ocd.order_status = 5
+            </if>
+        </if>
+        <if test="params.shopCode!=null">
+            AND ocd.shop_code = #{params.shopCode}
+        </if>
+        <if test="params.customerId!=null">
+            AND ocd.customer_id = #{params.customerId}
+        </if>
+        <if test="params.orderNo!=null">
+            AND oi.order_no = #{params.orderNo}
+        </if>
+        <if test="params.userName!=null">
+            AND od.user_name = #{params.userName}
+        </if>
+        <if test="params.startTime != null">
+            AND oi.create_time <![CDATA[ >= ]]> #{params.startTime}
+        </if>
+        <if test="params.endTime != null">
+            AND oi.create_time <![CDATA[ <= ]]> #{params.endTime}
+        </if>
+        <if test="params.distributorName!=null">
+            AND ocd.distributor_name like CONCAT('%',#{params.distributorName},'%')
+        </if>
+        <if test="params.mobile!=null and params.mobile!=''">
+            AND od.mobile = #{params.mobile}
+        </if>
+        ORDER BY oi.id desc
+    </select>
+    <select id="listAdminExceptionOrderByParams"
+            resultMap="AdminOrderInfoListDOMap">
+        SELECT oi.id,
+        oi.order_no,
+        oi.create_time,
+        odd.distributor_id,
+        odd.distributor_name,
+        odd.currency_type,
+        odd.current_rates,
+        odc.pay_amount,
+        odc.out_trade_no,
+        odd.pay_status,
+        odd.pay_way,
+        odd.order_status,
+        oi.deliver_status
+        FROM order_info oi,
+        order_extend_data oed,
+        order_distributor_data odd,
+        order_delivery od,
+        order_distributor_cost odc
+        WHERE oi.id = oed.order_id
+        AND oi.id = odd.order_id
+        AND oi.id = od.order_id
+        AND oi.id = odc.order_id
+        AND odd.distributor_id = odc.distributor_id
+        AND odd.order_status = 2 AND odd.order_status not in (4,5)
+        <if test="params.id!=null">
+            AND oi.id = #{params.id}
+        </if>
+        <if test="params.searchType==6 or params.searchType==7 or params.searchType==8">
+            AND odd.erp_flag = 1
+        </if>
+        <if test="params.orderTypeId!=null">
+            AND oi.order_type_id = #{params.orderTypeId}
+        </if>
+        <if test="params.orderSource!=null">
+            AND oi.order_source = #{params.orderSource}
+        </if>
+        <if test="params.payWay!=null">
+            AND odd.pay_way = #{params.payWay}
+        </if>
+        <if test="params.payStatus!=null and params.payStatus!=0">
+            AND odd.pay_status = #{params.payStatus}
+        </if>
+        <if test="params.startTime!=null">
+            AND oi.create_time <![CDATA[ >= ]]> #{params.startTime}
+        </if>
+        <if test="params.endTime!=null">
+            AND oi.create_time <![CDATA[ <= ]]> #{params.endTime}
+        </if>
+        <if test="params.orderNo!=null">
+            AND oi.order_no = #{params.orderNo}
+        </if>
+        <if test="params.distributorName!=null">
+            AND odd.distributor_name like CONCAT('%',#{params.distributorName},'%')
+        </if>
+        <if test="params.errorType!=null">
+            <if test="params.errorType==1">
+                AND (oed.order_erp_no is null or oed.order_erp_no="")
+            </if>
+            <if test="params.errorType==2">
+                AND (oed.order_factory_no is null or oed.order_factory_no="")
+            </if>
+            <if test="params.errorType==3">
+                AND oi.create_time <![CDATA[ <= ]]> #{params.noDeliverTime} and oi.deliver_status=1
+            </if>
+        </if>
+        ORDER BY oi.id desc
+    </select>
+    <select id="listUserCustomerOrderByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Order_Info_Column_List"/>
+        from order_info,order_customer_data,order_type
+        where order_info.id = order_customer_data.order_id
+        and order_info.order_type_id = order_type.id
+        and order_type.erp_type = 'DIY_SYS'
+        and order_customer_data.customer_id = #{params.customerId}
+        <if test="params.payStatus!=null and params.payStatus!=0">
+            AND order_customer_data.pay_status in (${params.payStatus})
+        </if>
+        <if test="params.distributorId!=null and params.distributorId!=0">
+            AND order_customer_data.distributor_id = #{params.distributorId}
+        </if>
+        <if test="params.orderStatus!=null and params.orderStatus!=0">
+            AND order_customer_data.order_status in (${params.orderStatus})
+        </if>
+        <if test="params.deliverStatus!=null and params.deliverStatus!=0">
+            AND order_info.deliver_status in (${params.deliverStatus})
+        </if>
+        <if test="params.frontOrderStatus!=null and params.frontOrderStatus!=0">
+            <if test="params.frontOrderStatus==1">
+                AND order_customer_data.order_status = 1
+            </if>
+            <if test="params.frontOrderStatus==2">
+                AND order_customer_data.order_status = 2
+                AND (order_info.deliver_status = 1 or order_info.deliver_status = 2)
+            </if>
+            <if test="params.frontOrderStatus==3">
+                AND order_customer_data.order_status = 2
+                AND order_info.deliver_status = 3
+            </if>
+            <if test="params.frontOrderStatus==4">
+                AND order_customer_data.order_status = 2
+                AND order_info.deliver_status = 4
+            </if>
+            <if test="params.frontOrderStatus==5">
+                AND order_customer_data.order_status = 4
+            </if>
+            <if test="params.frontOrderStatus==6">
+                AND order_customer_data.order_status = 5
+            </if>
+        </if>
+        <if test="params.orderSource!=null">
+            AND order_info.order_source in
+            <foreach item="item" index="index" collection="params.orderSource.split(',')" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY order_info.create_time desc
+    </select>
+    <select id="listUserPCDistributorOrderByParams"
+            resultType="com.bat.order.dao.order.dataobject.UserDistributorOrderInfoListDO">
+        select
+        oi.id id,
+        oi.order_no orderNo,
+        oi.create_time createTime,
+        od.user_name userName,
+        oi.deliver_status deliverStatus
+        <if test="params.searchType==10">
+            ,odd.pay_way payWay,
+            odd.pay_status payStatus,
+            odd.order_status orderStatus,
+            odc.pay_amount payAmount,
+            odd.currency_type currencyType
+        </if>
+        from order_info oi,order_delivery od,order_type
+        ot
+        <if test="params.searchType==10">
+            ,order_distributor_data odd,order_distributor_cost odc
+        </if>
+        where oi.id = od.order_id
+        and oi.order_type_id = ot.id
+        <if test="params.searchType==10">
+            and oi.id = odd.order_id
+            and oi.id = odc.order_id
+            and odd.distributor_id = #{params.distributorId}
+            and odc.distributor_id = #{params.distributorId}
+        </if>
+        <if test="params.orderTypeId">
+            and oi.order_type_id = #{params.orderTypeId}
+        </if>
+        <if test="params.orderId">
+            and oi.id = #{params.orderId}
+        </if>
+        <if test="params.orderNo">
+            and oi.order_no = #{params.orderNo}
+        </if>
+        <if test="params.userName">
+            and od.user_name like CONCAT('%',#{params.userName},'%')
+        </if>
+        <if test="params.startTime!=null">
+            AND oi.create_time <![CDATA[ >= ]]> #{params.startTime}
+        </if>
+        <if test="params.endTime!=null">
+            AND oi.create_time <![CDATA[ <= ]]> #{params.endTime}
+        </if>
+        <if test="params.mobile!=null">
+            AND od.mobile = #{params.mobile}
+        </if>
+        <if test="params.phone!=null">
+            AND od.phone = #{params.phone}
+        </if>
+        <if test="params.address!=null">
+            AND od.address like CONCAT('%',#{params.address},'%')
+        </if>
+        <if test="params.searchType==10">
+            <if test="params.payStatus!=null and params.payStatus!=0">
+                AND odd.pay_status in (${params.payStatus})
+            </if>
+            <if test="params.orderStatus!=null and params.orderStatus!=0">
+                AND odd.order_status in (${params.orderStatus})
+            </if>
+            <if test="params.deliverStatus!=null and params.deliverStatus!=0">
+                AND oi.deliver_status in (${params.deliverStatus})
+            </if>
+            <if test="params.frontOrderStatus!=null and params.frontOrderStatus!=0">
+                <if test="params.frontOrderStatus==7">
+                    AND odd.order_status = 1
+                    AND odd.pay_status in (1,2) and odd.pay_way not in (3,4)
+                </if>
+                <if test="params.frontOrderStatus==1">
+                    AND odd.order_status = 1
+                    AND (odd.pay_status = 3 or odd.pay_way in (3,4))
+                </if>
+                <if test="params.frontOrderStatus==2">
+                    AND odd.order_status = 2
+                    AND (oi.deliver_status = 1 or oi.deliver_status = 2)
+                </if>
+                <if test="params.frontOrderStatus==3">
+                    AND odd.order_status = 2
+                    AND oi.deliver_status = 3
+                </if>
+                <if test="params.frontOrderStatus==4">
+                    AND odd.order_status = 2
+                    AND oi.deliver_status = 4
+                </if>
+                <if test="params.frontOrderStatus==5">
+                    AND odd.order_status = 4
+                </if>
+                <if test="params.frontOrderStatus==6">
+                    AND odd.order_status = 5
+                </if>
+                <!--出库中-->
+                <if test="params.frontOrderStatus==9">
+                    AND odd.order_status = 2 AND oi.deliver_status=2
+                </if>
+            </if>
+        </if>
+        order by oi.id DESC
+    </select>
+    <select id="listUserPCShopOrderInfoByParams"
+            resultType="com.bat.order.dao.order.dataobject.UserCustomerOrderInfoListDO">
+        select
+        oi.id id,
+        oi.order_no orderNo,
+        oi.create_time createTime,
+        od.user_name userName,
+        oi.deliver_status deliverStatus
+        <if test="params.searchType==11">
+            ,ocd.pay_way payWay,
+            ocd.pay_status payStatus,
+            ocd.order_status orderStatus,
+            oi.order_source userSource,
+            null userSourceName,
+            ocd.shop_code shopCode,
+            ocd.shop_name shopName,
+            od.mobile mobile,
+            ocd.remark remark,
+            occ.pay_amount payAmount
+        </if>
+        from order_info oi,order_delivery od,order_type
+        ot
+        <if test="params.searchType==11">
+            ,order_customer_data ocd,order_customer_cost occ
+        </if>
+        where oi.id = od.order_id
+        and oi.order_type_id = ot.id
+        and oi.id = ocd.order_id
+        <if test="params.searchType==11">
+            and oi.id = ocd.order_id
+            and oi.id = occ.order_id
+            and ocd.customer_id = occ.customer_id
+            and ocd.distributor_id = #{params.distributorId}
+        </if>
+        <if test="params.orderTypeId">
+            and oi.order_type_id = #{params.orderTypeId}
+        </if>
+        <if test="params.orderId">
+            and oi.id = #{params.orderId}
+        </if>
+        <if test="params.orderNo">
+            and oi.order_no = #{params.orderNo}
+        </if>
+        <if test="params.userName">
+            and od.user_name like CONCAT('%',#{params.userName},'%')
+        </if>
+        <if test="params.startTime!=null">
+            AND oi.create_time <![CDATA[ >= ]]> #{params.startTime}
+        </if>
+        <if test="params.endTime!=null">
+            AND oi.create_time <![CDATA[ <= ]]> #{params.endTime}
+        </if>
+        <if test="params.mobile!=null">
+            AND od.mobile = #{params.mobile}
+        </if>
+        <if test="params.phone!=null">
+            AND od.phone = #{params.phone}
+        </if>
+        <if test="params.address!=null">
+            AND od.address like CONCAT('%',#{params.address},'%')
+        </if>
+        <if test="params.searchType==11">
+            <if test="params.shopCode!=null">
+                and ocd.shop_code = #{params.shopCode}
+            </if>
+            <if test="params.shopName!=null">
+                and ocd.shop_name like CONCAT('%',#{params.shopName},'%')
+            </if>
+            <if test="params.payStatus!=null and params.payStatus!=0">
+                AND ocd.pay_status in (${params.payStatus})
+            </if>
+            <if test="params.orderStatus!=null and params.orderStatus!=0">
+                AND ocd.order_status in (${params.orderStatus})
+            </if>
+            <if test="params.deliverStatus!=null and params.deliverStatus!=0">
+                AND oi.deliver_status in (${params.deliverStatus})
+            </if>
+            <if test="params.frontOrderStatus!=null and params.frontOrderStatus!=0">
+                <if test="params.frontOrderStatus==7">
+                    AND ocd.order_status = 1
+                    AND ocd.pay_status in (1,2) and ocd.pay_way not in (3,4)
+                </if>
+                <if test="params.frontOrderStatus==1">
+                    AND ocd.order_status = 1
+                    AND (ocd.pay_status = 3 or ocd.pay_way in (3,4))
+                </if>
+                <if test="params.frontOrderStatus==2">
+                    AND ocd.order_status = 2
+                    AND (oi.deliver_status = 1 or oi.deliver_status = 2)
+                </if>
+                <if test="params.frontOrderStatus==3">
+                    AND ocd.order_status = 2
+                    AND oi.deliver_status = 3
+                </if>
+                <if test="params.frontOrderStatus==4">
+                    AND ocd.order_status = 2
+                    AND oi.deliver_status = 4
+                </if>
+                <if test="params.frontOrderStatus==5">
+                    AND ocd.order_status = 4
+                </if>
+                <if test="params.frontOrderStatus==6">
+                    AND ocd.order_status = 5
+                </if>
+            </if>
+        </if>
+        order by oi.id DESC
+    </select>
+    <select id="listUserMBDistributorOrderByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Order_Info_Column_List"/>
+        from order_info,order_distributor_data,order_type
+        where order_info.id = order_distributor_data.order_id
+        and order_info.order_type_id = order_type.id
+        <if test="params.searchType==12">
+            and order_distributor_data.distributor_id = #{params.distributorId}
+        </if>
+        <if test="params.searchType==13">
+            and order_distributor_data.distributor_ancestor_id = #{params.distributorId}
+        </if>
+        <if test="params.payStatus!=null and params.payStatus!=0">
+            AND order_distributor_data.pay_status in (${params.payStatus})
+        </if>
+        <if test="params.orderStatus!=null and params.orderStatus!=0">
+            AND order_distributor_data.order_status in (${params.orderStatus})
+        </if>
+        <if test="params.deliverStatus!=null and params.deliverStatus!=0">
+            AND order_info.deliver_status in (${params.deliverStatus})
+        </if>
+        <if test="params.frontOrderStatus!=null and params.frontOrderStatus!=0">
+            <if test="params.frontOrderStatus==7">
+                AND order_distributor_data.order_status = 1
+                AND order_distributor_data.pay_status in (1,2) and order_distributor_data.pay_way not in (3,4)
+            </if>
+            <if test="params.frontOrderStatus==1">
+                AND order_distributor_data.order_status = 1
+                AND (order_distributor_data.pay_status = 3 or order_distributor_data.pay_way in (3,4))
+            </if>
+            <if test="params.frontOrderStatus==2">
+                AND order_distributor_data.order_status = 2
+                AND (order_info.deliver_status = 1 or order_info.deliver_status = 2)
+            </if>
+            <if test="params.frontOrderStatus==3">
+                AND order_distributor_data.order_status = 2
+                AND order_info.deliver_status = 3
+            </if>
+            <if test="params.frontOrderStatus==4">
+                AND order_distributor_data.order_status = 2
+                AND order_info.deliver_status = 4
+            </if>
+            <if test="params.frontOrderStatus==5">
+                AND order_distributor_data.order_status = 4
+            </if>
+            <if test="params.frontOrderStatus==6">
+                AND order_distributor_data.order_status = 5
+            </if>
+            <!--出库中-->
+            <if test="params.frontOrderStatus==9">
+                AND order_distributor_data.order_status = 2
+                AND order_info.deliver_status = 2
+            </if>
+        </if>
+        ORDER BY order_info.create_time desc
+    </select>
+
+    <select id="countUserMBDistributorOrderByParams" resultType="int">
+        select
+        count(*)
+        from order_info,order_distributor_data,order_type
+        where order_info.id = order_distributor_data.order_id
+        and order_info.order_type_id = order_type.id
+        <if test="params.searchType==12">
+            and order_distributor_data.distributor_id = #{params.distributorId}
+        </if>
+        <if test="params.searchType==13">
+            and order_distributor_data.distributor_ancestor_id = #{params.distributorId}
+        </if>
+        <if test="params.payStatus!=null and params.payStatus!=0">
+            AND order_distributor_data.pay_status in (${params.payStatus})
+        </if>
+        <if test="params.orderStatus!=null and params.orderStatus!=0">
+            AND order_distributor_data.order_status in (${params.orderStatus})
+        </if>
+        <if test="params.deliverStatus!=null and params.deliverStatus!=0">
+            AND order_info.deliver_status in (${params.deliverStatus})
+        </if>
+        <if test="params.frontOrderStatus!=null and params.frontOrderStatus!=0">
+            <if test="params.frontOrderStatus==7">
+                AND order_distributor_data.order_status = 1
+                AND order_distributor_data.pay_status in (1,2) and order_distributor_data.pay_way not in (3,4)
+            </if>
+            <if test="params.frontOrderStatus==1">
+                AND order_distributor_data.order_status = 1
+                AND (order_distributor_data.pay_status = 3 or order_distributor_data.pay_way in (3,4))
+            </if>
+            <if test="params.frontOrderStatus==2">
+                AND order_distributor_data.order_status = 2
+                AND (order_info.deliver_status = 1 or order_info.deliver_status = 2)
+            </if>
+            <if test="params.frontOrderStatus==3">
+                AND order_distributor_data.order_status = 2
+                AND order_info.deliver_status = 3
+            </if>
+            <if test="params.frontOrderStatus==4">
+                AND order_distributor_data.order_status = 2
+                AND order_info.deliver_status = 4
+            </if>
+            <if test="params.frontOrderStatus==5">
+                AND order_distributor_data.order_status = 4
+            </if>
+            <if test="params.frontOrderStatus==6">
+                AND order_distributor_data.order_status = 5
+            </if>
+            <!--出库中-->
+            <if test="params.frontOrderStatus==9">
+                AND order_distributor_data.order_status = 2
+                AND order_info.deliver_status = 2
+            </if>
+        </if>
+    </select>
+
+    <select id="listOrderFactoryNoByFactoryCodeAndNoLogistics" resultMap="OrderFactoryNoDOMap">
+        select *
+        from order_info oi
+        join order_extend_data oed on oed.order_id = oi.id
+        join order_distributor_data odd on odd.order_id = oi.id and odd.tree_node = 1
+        where oi.deliver_status = 1
+        and odd.order_status = 2
+        and oed.factory_code is not NULL
+        and oed.factory_code = #{factoryCode}
+        and oed.order_factory_no is not null
+        <if test="startTime != null">
+            and oi.create_time <![CDATA[ > ]]> #{startTime}
+        </if>
+    </select>
+
+    <select id="getByOrderNo" resultMap="BaseResultMap">
+        select *
+        from order_info
+        where order_no = #{orderNo}
+    </select>
+    <select id="listCOByCondition" resultMap="OrderExcelCOResultMap">
+        ${sql}
+        where 1=1
+        <if test="distributorId !=null">
+            and order_distributor_data.distributor_id = #{distributorId}
+        </if>
+        <if test="orderSourceList !=null and orderSourceList.size() >0">
+            and order_info.order_source in
+            <foreach collection="orderSourceList" item="orderSource" separator="," open="(" close=")">
+                #{orderSource}
+            </foreach>
+
+        </if>
+        <if test="orderTypeIdList !=null and orderTypeIdList.size()>0">
+            and order_info.order_type_id in
+            <foreach collection="orderTypeIdList" item="orderTypeId" open="(" close=")" separator=",">
+                #{orderTypeId}
+            </foreach>
+        </if>
+        <if test="startTime !=null">
+            and order_info.create_time <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime !=null">
+            and order_info.create_time <![CDATA[ <= ]]> #{endTime}
+        </if>
+        <if test="orderStatusList !=null and orderStatusList.size()>0">
+            and order_distributor_data.order_status in
+            <foreach collection="orderStatusList" separator="," open="(" item="orderStatus" close=")">
+                #{orderStatus}
+            </foreach>
+        </if>
+        <if test="deliverStatusList !=null and deliverStatusList.size()>0">
+            and order_info.deliver_status in
+            <foreach collection="deliverStatusList" separator="," open="(" item="deliverStatus" close=")">
+                #{deliverStatus}
+            </foreach>
+        </if>
+        <if test="payStatusList !=null and payStatusList.size()>0">
+            and order_distributor_data.pay_status in
+            <foreach collection="payStatusList" separator="," open="(" item="payStatus" close=")">
+                #{payStatus}
+            </foreach>
+        </if>
+        <!--精准匹配 -->
+        <if test="itemCode !=null and itemCode !=''">
+            and order_goods.item_code =#{itemCode}
+        </if>
+        <if test="activityFlag !=null and  activityFlag">
+            and (order_goods_distributor_cost.goods_promotion_id &gt; 0 or
+            order_goods_distributor_cost.order_promotion_id &gt;0)
+        </if>
+        <if test="activityFlag !=null and  !activityFlag">
+            and (order_goods_distributor_cost.goods_promotion_id is null and
+            order_goods_distributor_cost.order_promotion_id is null)
+        </if>
+        order by order_info.id desc
+    </select>
+    <select id="listCancelOrderByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Order_Info_Column_List"/>
+        from order_info
+        <if test="params.orderStatus!=null or params.payWayNot!=null">
+            left join order_distributor_data on order_info.id = order_distributor_data.order_id
+        </if>
+        <if test="params.autoDelivery!=null">
+            left join order_extend_data on order_info.id = order_extend_data.order_id
+        </if>
+        <if test="params.countryId!=null">
+            left join order_delivery on order_info.id = order_delivery.order_id
+        </if>
+        <where>
+            <if test="params.orderStatus!=null or params.payWayNot!=null">
+                and order_distributor_data.erp_flag = 1
+                <if test="params.orderStatus!=null and params.orderStatus.size()>0">
+                    and order_distributor_data.order_status in
+                    <foreach collection="params.orderStatus" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="params.payWayNot!=null">
+                    and order_distributor_data.pay_way != #{params.payWayNot}
+                </if>
+            </if>
+            <if test="params.autoDelivery!=null">
+                and order_extend_data.auto_delivery = #{params.autoDelivery}
+            </if>
+            <if test="params.countryId!=null">
+                and order_delivery.country_id = #{params.countryId}
+            </if>
+            <if test="params.deliverStatus!=null">
+                and order_info.deliver_status = #{params.deliverStatus}
+            </if>
+            <if test="params.orderTypeIdsNot!=null and params.orderTypeIdsNot.size()>0">
+                and order_info.order_type_id not in
+                <foreach collection="params.orderTypeIdsNot" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="params.stockTypeNot!=null and params.stockTypeNot.size()>0">
+                and order_info.stock_type not in
+                <foreach collection="params.stockTypeNot" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="params.endTime!=null">
+                and order_info.create_time <![CDATA[ <= ]]> #{params.endTime}
+            </if>
+        </where>
+    </select>
+</mapper>

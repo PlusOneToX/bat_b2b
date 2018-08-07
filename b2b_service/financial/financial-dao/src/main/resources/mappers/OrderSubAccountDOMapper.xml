@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.financial.dao.subaccount.OrderSubAccountDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="transaction_id" property="transactionId" jdbcType="VARCHAR" />
+    <result column="last_transaction_id" property="lastTransactionId" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
+    <result column="max_sub_account_amount" property="maxSubAccountAmount" jdbcType="DECIMAL" />
+    <result column="profit_account" property="profitAccount" jdbcType="DECIMAL" />
+    <result column="actual_sub_account_amount" property="actualSubAccountAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="sub_mchid" property="subMchid" jdbcType="VARCHAR" />
+    <result column="sub_account_fail_flag" property="subAccountFailFlag" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="plan_time" property="planTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, distributor_name, order_id, order_no, transaction_id,last_transaction_id, shop_id,
+    shop_name, pay_amount, max_sub_account_amount, profit_account, actual_sub_account_amount, 
+    status, sub_mchid, sub_account_fail_flag, create_time, update_time, remark,plan_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_sub_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_sub_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into order_sub_account (id, distributor_id, distributor_name, 
+      order_id, order_no, transaction_id, last_transaction_id,
+      shop_id, shop_name, pay_amount, 
+      max_sub_account_amount, profit_account, actual_sub_account_amount, 
+      status, sub_mchid, sub_account_fail_flag, 
+      create_time, update_time, remark,plan_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, #{lastTransactionId,jdbcType=VARCHAR},
+      #{shopId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{payAmount,jdbcType=DECIMAL}, 
+      #{maxSubAccountAmount,jdbcType=DECIMAL}, #{profitAccount,jdbcType=DECIMAL}, #{actualSubAccountAmount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=SMALLINT}, #{subMchid,jdbcType=VARCHAR}, #{subAccountFailFlag,jdbcType=SMALLINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{planTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountDO" useGeneratedKeys="true" keyProperty="id"  >
+    insert into order_sub_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="transactionId != null" >
+        transaction_id,
+      </if>
+      <if test="lastTransactionId != null" >
+        last_transaction_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="payAmount != null" >
+        pay_amount,
+      </if>
+      <if test="maxSubAccountAmount != null" >
+        max_sub_account_amount,
+      </if>
+      <if test="profitAccount != null" >
+        profit_account,
+      </if>
+      <if test="actualSubAccountAmount != null" >
+        actual_sub_account_amount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="subMchid != null" >
+        sub_mchid,
+      </if>
+      <if test="subAccountFailFlag != null" >
+        sub_account_fail_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="planTime != null" >
+        plan_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null" >
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTransactionId != null" >
+        #{lastTransactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null" >
+        #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maxSubAccountAmount != null" >
+        #{maxSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="profitAccount != null" >
+        #{profitAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSubAccountAmount != null" >
+        #{actualSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="subMchid != null" >
+        #{subMchid,jdbcType=VARCHAR},
+      </if>
+      <if test="subAccountFailFlag != null" >
+        #{subAccountFailFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="planTime != null" >
+        #{planTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountDO" >
+    update order_sub_account
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null" >
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTransactionId != null" >
+        last_transaction_id = #{lastTransactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null" >
+        pay_amount = #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maxSubAccountAmount != null" >
+        max_sub_account_amount = #{maxSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="profitAccount != null" >
+        profit_account = #{profitAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualSubAccountAmount != null" >
+        actual_sub_account_amount = #{actualSubAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="subMchid != null" >
+        sub_mchid = #{subMchid,jdbcType=VARCHAR},
+      </if>
+      <if test="subAccountFailFlag != null" >
+        sub_account_fail_flag = #{subAccountFailFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="planTime != null" >
+        plan_time = #{planTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.subaccount.dataobject.OrderSubAccountDO" >
+    update order_sub_account
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      last_transaction_id = #{lastTransactionId,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      pay_amount = #{payAmount,jdbcType=DECIMAL},
+      max_sub_account_amount = #{maxSubAccountAmount,jdbcType=DECIMAL},
+      profit_account = #{profitAccount,jdbcType=DECIMAL},
+      actual_sub_account_amount = #{actualSubAccountAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=SMALLINT},
+      sub_mchid = #{subMchid,jdbcType=VARCHAR},
+      sub_account_fail_flag = #{subAccountFailFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      plan_time = #{planTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="pageByCondition" resultMap="BaseResultMap">
+    select * from order_sub_account where 1=1
+    <if test="distributorId !=null">
+      and distributor_id = #{distributorId,jdbcType=INTEGER}
+    </if>
+    <if test="status !=null">
+      and status = #{status,jdbcType=SMALLINT}
+    </if>
+    <if test="orderNo !=null and orderNo !=''">
+      and order_no like concat('%',#{orderNo},'%')
+    </if>
+    <if test="subAccountFailFlag !=null">
+      and sub_account_fail_flag = #{subAccountFailFlag,jdbcType=SMALLINT}
+    </if>
+    <if test="startTime !=null">
+      and create_time &gt;= #{startTime}
+    </if>
+    <if test="endTime !=null">
+      and create_time &lt;= #{endTime}
+    </if>
+    <if test="contentType !=null and content !=null and content !=''">
+      <if test="contentType == 1">
+        and distributor_name like concat('%',#{content},'%')
+      </if>
+      <if test="contentType == 2">
+        and shop_name like concat('%',#{content},'%')
+      </if>
+    </if>
+    order by create_time desc
+  </select>
+  <select id="listByTransactionId" resultMap="BaseResultMap">
+    select * from order_sub_account where  transaction_id = #{transactionId,jdbcType=VARCHAR}
+  </select>
+  <select id="getByOrderId" resultMap="BaseResultMap">
+        select * from order_sub_account where  order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="listSubAccountUsable" resultMap="BaseResultMap">
+    select * from order_sub_account where status in (1,2) and plan_time &lt;= now()
+  </select>
+</mapper>

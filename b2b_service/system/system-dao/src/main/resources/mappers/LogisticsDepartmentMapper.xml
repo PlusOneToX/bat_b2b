@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.logistics.LogisticsDepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.logistics.dataobject.LogisticsDepartmentDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="logistics_id" jdbcType="INTEGER" property="logisticsId"/>
+        <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, logistics_id, department_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_department
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByLogisticsId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM `logistics_department`
+        where logistics_id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from logistics_department
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByLogisticsId">
+        delete
+        from logistics_department
+        where logistics_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDepartmentDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_department (logistics_id, department_id)
+        values (#{logisticsId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDepartmentDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logisticsId != null">
+                logistics_id,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logisticsId != null">
+                #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDepartmentDO">
+        update logistics_department
+        <set>
+            <if test="logisticsId != null">
+                logistics_id = #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDepartmentDO">
+        update logistics_department
+        set logistics_id  = #{logisticsId,jdbcType=INTEGER},
+            department_id = #{departmentId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

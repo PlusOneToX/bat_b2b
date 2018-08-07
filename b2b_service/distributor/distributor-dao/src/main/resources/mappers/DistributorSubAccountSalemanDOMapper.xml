@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.distributor.dao.subaccount.DistributorSubAccountSalemanDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountSalemanDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="merchant_number" property="merchantNumber" jdbcType="VARCHAR" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="SubAccountSalemanPageCOResultMap" type="com.bat.distributor.dao.subaccount.co.SubAccountSalemanPageCO">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="saleman_name" property="salemanName" jdbcType="VARCHAR" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+    <result column="parent_saleman_name" property="parentSalemanName" jdbcType="VARCHAR" />
+    <result column="merchant_number" property="merchantNumber" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, name, mobile, level_id, parent_id, open_id, merchant_number, distributor_id,open_flag,
+    delete_flag, create_time, create_user_id, create_user_name, update_time, update_user_id, 
+    update_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_sub_account_saleman
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_sub_account_saleman
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountSalemanDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into distributor_sub_account_saleman (id, type, name, 
+      mobile, level_id, parent_id, 
+      open_id, merchant_number, distributor_id, open_flag,
+      delete_flag, create_time, create_user_id, 
+      create_user_name, update_time, update_user_id, 
+      update_user_name)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{levelId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
+      #{openId,jdbcType=VARCHAR}, #{merchantNumber,jdbcType=VARCHAR}, #{distributorId,jdbcType=INTEGER}, #{openFlag,jdbcType=SMALLINT},
+      #{deleteFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="batchCreate" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_saleman ( type, name,
+      mobile, level_id, parent_id,
+      open_id, merchant_number, distributor_id, open_flag,
+      delete_flag, create_time, create_user_id,
+      create_user_name, update_time, update_user_id,
+      update_user_name)
+    values
+    <foreach collection="list" separator=" , " open="(" close=")" item="saleman">
+       #{saleman.type,jdbcType=SMALLINT}, #{saleman.name,jdbcType=VARCHAR},
+      #{saleman.mobile,jdbcType=VARCHAR}, #{saleman.levelId,jdbcType=INTEGER}, #{saleman.parentId,jdbcType=INTEGER},
+      #{saleman.openId,jdbcType=VARCHAR}, #{saleman.merchantNumber,jdbcType=VARCHAR}, #{saleman.distributorId,jdbcType=INTEGER}, #{saleman.openFlag,jdbcType=SMALLINT},
+      #{saleman.deleteFlag,jdbcType=SMALLINT}, #{saleman.createTime,jdbcType=TIMESTAMP}, #{saleman.createUserId,jdbcType=INTEGER},
+      #{saleman.createUserName,jdbcType=VARCHAR}, #{saleman.updateTime,jdbcType=TIMESTAMP}, #{saleman.updateUserId,jdbcType=INTEGER},
+      #{saleman.updateUserName,jdbcType=VARCHAR}
+    </foreach>
+
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountSalemanDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_saleman
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="levelId != null" >
+        level_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="merchantNumber != null" >
+        merchant_number,
+      </if>
+      <if test="distributorId !=null">
+        distributor_id,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="levelId != null" >
+        #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNumber != null" >
+        #{merchantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId !=null">
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountSalemanDO" >
+    update distributor_sub_account_saleman
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNumber != null" >
+        merchant_number = #{merchantNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorId !=null">
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountSalemanDO" >
+    update distributor_sub_account_saleman
+    set type = #{type,jdbcType=SMALLINT},
+      name = #{name,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      level_id = #{levelId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=VARCHAR},
+      merchant_number = #{merchantNumber,jdbcType=VARCHAR},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateLevelIdNull">
+    update distributor_sub_account_saleman set level_id = null,  update_time = now(),
+      update_user_id = #{userId,jdbcType=INTEGER},
+      update_user_name = #{userName,jdbcType=VARCHAR}
+      where level_id = #{levelId,jdbcType=INTEGER} and delete_flag = 0
+  </update>
+  <select id="listCOByCondition" resultMap="SubAccountSalemanPageCOResultMap">
+    SELECT
+	dsas.id ,
+	d.`name` distributor_name,
+	dsas.`name` saleman_name,
+    dsas.level_id ,
+    dsas.parent_id ,
+    dsal.level_name,
+	dsas.type,
+	dsas.mobile,
+	dsasp.`name` parent_saleman_name,
+	dsas.merchant_number,
+    dsas.open_id,
+	dsas.open_flag,
+	dsas.create_time
+FROM
+	distributor_sub_account_saleman dsas
+	LEFT JOIN distributor d ON dsas.distributor_id = d.id
+	LEFT JOIN distributor_sub_account_saleman dsasp ON dsasp.id = dsas.parent_id
+	LEFT JOIN distributor_sub_account_level dsal ON dsas.level_id = dsal.id
+WHERE
+    1=1
+    <if test="distributorId !=null">
+      AND dsas.distributor_id=#{distributorId}
+    </if>
+    <if test="levelId !=null">
+      AND dsas.level_id=#{levelId}
+    </if>
+	<if test="content !=null and content !='' and searchType !=null and searchType == 1">
+      AND d.`name` LIKE CONCAT( '%', #{content}, '%' )
+    </if>
+    <if test="content !=null and content !='' and searchType !=null and searchType==2">
+      AND dsas.`name` LIKE CONCAT( '%', #{content}, '%' )
+    </if>
+    <if test="content !=null and content !='' and searchType !=null and searchType==3">
+      AND dsas.mobile LIKE CONCAT( '%', #{content}, '%' )
+    </if>
+     AND dsas.delete_flag = 0
+
+    order by dsas.create_time desc
+
+  </select>
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from distributor_sub_account_saleman where 1=1
+    <if test="distributorId !=null">
+     and distributor_id = #{distributorId,jdbcType=INTEGER}
+    </if>
+    <if test="levelId !=null">
+      and level_id = #{levelId,jdbcType=INTEGER}
+    </if>
+    <if test="mobile !=null and mobile !=''">
+      and  mobile = #{mobile,jdbcType=VARCHAR}
+    </if>
+    <if test="openFlag !=null">
+      and open_flag = #{openFlag,jdbcType=SMALLINT}
+    </if>
+
+    and delete_flag =0 order by create_time desc
+  </select>
+</mapper>

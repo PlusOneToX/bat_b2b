@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.globalsetting.ShopSettingMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.globalsetting.dataobject.ShopSettingDO">
+        <id column="key" jdbcType="VARCHAR" property="key"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="desc" jdbcType="VARCHAR" property="desc"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        `key`, `value`, `desc`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_shop_setting
+        where `key` = #{key,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from global_shop_setting
+        where `key` = #{key,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.globalsetting.dataobject.ShopSettingDO">
+        insert into global_shop_setting (`key`, `value`, `desc`)
+        values (#{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.globalsetting.dataobject.ShopSettingDO">
+        insert into global_shop_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="key != null">
+                `key`,
+            </if>
+            <if test="value != null">
+                `value`,
+            </if>
+            <if test="desc != null">
+                `desc`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="key != null">
+                #{key,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="desc != null">
+                #{desc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.ShopSettingDO">
+        update global_shop_setting
+        <set>
+            <if test="value != null">
+                `value` = #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="desc != null">
+                `desc` = #{desc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where `key` = #{key,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.globalsetting.dataobject.ShopSettingDO">
+        update global_shop_setting
+        set `value` = #{value,jdbcType=VARCHAR},
+            `desc`  = #{desc,jdbcType=VARCHAR}
+        where `key` = #{key,jdbcType=VARCHAR}
+    </update>
+</mapper>

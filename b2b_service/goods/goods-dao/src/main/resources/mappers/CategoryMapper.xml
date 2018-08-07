@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.category.CategoryMapper">
+    <resultMap id="CategoryMapper" type="com.bat.goods.dao.category.dataobject.CategoryDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+        <result column="thirdparty_id" property="thirdpartyId" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="distributor_scope" property="distributorScope" jdbcType="SMALLINT"/>
+        <result column="distributor_scope_no" property="distributorScopeNo" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="category_columns">
+        id,
+        name,
+        name_en,
+        thirdparty_id,
+        description,
+        open_flag,
+        sort,
+        distributor_scope,
+        distributor_scope_no,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="category_select">
+        SELECT
+        <include refid="category_columns"/>
+        FROM category
+    </sql>
+
+    <insert id="createCategory" parameterType="com.bat.goods.dao.category.dataobject.CategoryDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO category(
+        <include refid="category_columns"/>
+        ) VALUES (
+        #{id},
+        #{name},
+        #{nameEn},
+        #{thirdpartyId},
+        #{description},
+        #{openFlag},
+        #{sort},
+        #{distributorScope},
+        #{distributorScopeNo},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <select id="listCategory" resultMap="CategoryMapper" parameterType="map">
+        <include refid="category_select"/>
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listCount" resultType="int" parameterType="map">
+        select count(1) FROM category
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            WHERE name like concat(concat('%',#{content}),'%')
+        </if>
+    </select>
+
+    <select id="getById" resultMap="CategoryMapper" parameterType="map">
+        <include refid="category_select"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="listByAllDistributor" resultType="java.lang.Integer">
+        select id from category WHERE distributor_scope = 1
+    </select>
+
+    <update id="updateCategory" parameterType="com.bat.goods.dao.category.dataobject.CategoryDO"
+            useGeneratedKeys="true" keyProperty="id">
+        UPDATE category SET name_en = #{nameEn}
+        ,description = #{description}
+        ,thirdparty_id = #{thirdpartyId}
+        ,sort = #{sort}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="openFlag != null">
+            ,open_flag = #{openFlag}
+        </if>
+        <if test="sort != null">
+            ,sort = #{sort}
+        </if>
+        <if test="distributorScope != null">
+            ,distributor_scope = #{distributorScope}
+        </if>
+        <if test="distributorScopeNo != null">
+            ,distributor_scope_no = #{distributorScopeNo}
+        </if>
+        <if test="updateTime != null">
+            ,update_time = #{updateTime}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="openCategory" parameterType="map">
+        UPDATE category SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <delete id="deleteCategory" parameterType="map">
+        DELETE from category WHERE id = #{id}
+    </delete>
+
+    <!-- 品类等级关系维护 -->
+    <insert id="createCategoryScalePriceRelevanceList"
+            parameterType="java.util.List">
+        INSERT INTO category_scale_price_relevance(
+        category_id,
+        scale_price_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.category_id},
+            #{item.scale_price_id}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryScalePriceRelevanceId" resultType="int" parameterType="map">
+        select scale_price_id FROM category_scale_price_relevance WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryScalePriceRelevance" parameterType="map">
+        DELETE FROM category_scale_price_relevance WHERE category_id = #{categoryId}
+    </delete>
+
+    <insert id="createCategoryScalePriceRelevanceNoList"
+            parameterType="java.util.List">
+        INSERT INTO category_scale_price_relevance_no(
+        category_id,
+        scale_price_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.scalePriceId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryScalePriceRelevanceIdNo" resultType="int" parameterType="map">
+        select scale_price_id FROM category_scale_price_relevance_no WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryScalePriceRelevanceNo" parameterType="map">
+        DELETE FROM category_scale_price_relevance_no WHERE category_id = #{categoryId}
+    </delete>
+    <!-- 品类销售部门关系维护 -->
+    <insert id="createCategoryDepartmentRelevanceList" parameterType="java.util.List">
+        INSERT INTO category_department_relevance(
+        category_id,
+        department_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.departmentId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryDepartmentRelevanceId" resultType="int" parameterType="map">
+        select department_id FROM category_department_relevance WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryDepartmentRelevance" parameterType="map">
+        DELETE FROM category_department_relevance WHERE category_id = #{categoryId}
+    </delete>
+
+    <insert id="createCategoryDepartmentRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO category_department_relevance_no(
+        category_id,
+        department_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.departmentId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryDepartmentRelevanceIdNo" resultType="int" parameterType="map">
+        select department_id FROM category_department_relevance_no WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryDepartmentRelevanceNo" parameterType="map">
+        DELETE FROM category_department_relevance_no WHERE category_id = #{categoryId}
+    </delete>
+
+    <!-- 品类业务员关系维护 -->
+    <insert id="createCategoryAdminRelevanceList" useGeneratedKeys="true"
+            keyProperty="id" parameterType="java.util.List">
+        INSERT INTO category_admin_relevance(
+        category_id,
+        admin_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.adminId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryAdminRelevanceId" resultType="int" parameterType="map">
+        select admin_id FROM category_admin_relevance WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryAdminRelevance" parameterType="map">
+        DELETE FROM category_admin_relevance WHERE category_id = #{categoryId}
+    </delete>
+
+    <insert id="createCategoryAdminRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO category_admin_relevance_no(
+        category_id,
+        admin_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.adminId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryAdminRelevanceIdNo" resultType="int" parameterType="map">
+        select admin_id FROM category_admin_relevance_no WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryAdminRelevanceNo" parameterType="map">
+        DELETE FROM category_admin_relevance_no WHERE category_id = #{categoryId}
+    </delete>
+
+    <!-- 品类分销商关系维护 -->
+    <insert id="createCategoryDistributorRelevanceList" parameterType="java.util.List">
+        INSERT INTO category_distributor_relevance(
+        category_id,
+        distributor_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.distributorId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryDistributorRelevanceId" resultType="int" parameterType="map">
+        select distributor_id FROM category_distributor_relevance WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryDistributorRelevance" parameterType="map">
+        DELETE FROM category_distributor_relevance WHERE category_id = #{categoryId}
+    </delete>
+
+    <insert id="createCategoryDistributorRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO category_distributor_relevance_no(
+        category_id,
+        distributor_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.categoryId},
+            #{item.distributorId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listCategoryDistributorRelevanceIdNo" resultType="int" parameterType="map">
+        select distributor_id FROM category_distributor_relevance_no WHERE category_id = #{categoryId}
+    </select>
+
+    <delete id="deleteCategoryDistributorRelevanceNo" parameterType="map">
+        DELETE FROM category_distributor_relevance_no WHERE category_id = #{categoryId}
+    </delete>
+
+    <select id="getCategoryGoodsCount" resultType="int" parameterType="map">
+        select count(1) FROM goods WHERE category_id = #{categoryId}
+    </select>
+</mapper>

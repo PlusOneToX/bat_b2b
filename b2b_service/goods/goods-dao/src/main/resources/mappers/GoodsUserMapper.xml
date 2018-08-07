@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsUserMapper">
+
+    <resultMap id="GoodsBrandCategoryDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsBrandCategoryDO">
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="UserGoodsListDOMapper" type="com.bat.goods.dao.goods.dataobject.UserGoodsListDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="sale_time" property="saleTime" jdbcType="DATE"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="image_url1" property="imageUrl1" jdbcType="VARCHAR"/>
+        <result column="image_url1en" property="imageUrl1en" jdbcType="VARCHAR"/>
+        <result column="sale_num" property="saleNum" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="brand_name_en" property="brandNameEn" jdbcType="VARCHAR"/>
+        <result column="category_name_en" property="categoryNameEn" jdbcType="VARCHAR"/>
+        <result column="under_stock_flag" property="underStockFlag" jdbcType="SMALLINT"/>
+        <result column="whether_out_of_stock_in_transit" property="whetherOutOfStockInTransit" jdbcType="SMALLINT"/>
+        <result column="activity" property="activity" jdbcType="INTEGER"></result>
+        <result column="stock" property="stock" jdbcType="INTEGER"></result>
+    </resultMap>
+
+    <resultMap id="ClassifyMapper" type="com.bat.goods.dao.classify.dataobject.ClassifyDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR"/>
+        <result column="image_url_en" property="imageUrlEn" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <resultMap id="UserGoodsDOMapper" type="com.bat.goods.dao.goods.dataobject.UserGoodsDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
+        <result column="introduce_en" property="introduceEn" jdbcType="VARCHAR"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="sale_time" property="saleTime" jdbcType="DATE"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="image_url1" property="imageUrl1" jdbcType="VARCHAR"/>
+        <result column="image_url2" property="imageUrl2" jdbcType="VARCHAR"/>
+        <result column="image_url3" property="imageUrl3" jdbcType="VARCHAR"/>
+        <result column="image_url4" property="imageUrl4" jdbcType="VARCHAR"/>
+        <result column="image_url5" property="imageUrl5" jdbcType="VARCHAR"/>
+        <result column="image_url6" property="imageUrl6" jdbcType="VARCHAR"/>
+        <result column="image_url1en" property="imageUrl1en" jdbcType="VARCHAR"/>
+        <result column="image_url2en" property="imageUrl2en" jdbcType="VARCHAR"/>
+        <result column="image_url3en" property="imageUrl3en" jdbcType="VARCHAR"/>
+        <result column="image_url4en" property="imageUrl4en" jdbcType="VARCHAR"/>
+        <result column="image_url5en" property="imageUrl5en" jdbcType="VARCHAR"/>
+        <result column="image_url6en" property="imageUrl6en" jdbcType="VARCHAR"/>
+        <result column="content_url" property="contentUrl" jdbcType="VARCHAR"/>
+        <result column="content_url_en" property="contentUrlEn" jdbcType="VARCHAR"/>
+        <result column="sale_num" property="saleNum" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="brand_name_en" property="brandNameEn" jdbcType="VARCHAR"/>
+        <result column="category_name_en" property="categoryNameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="UserTagDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsTagDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="UserParamDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsParamDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="param_name_en" property="paramNameEn" jdbcType="VARCHAR"/>
+        <result column="value_id" property="valueId" jdbcType="INTEGER"/>
+        <result column="param_value_name" property="paramValueName" jdbcType="VARCHAR"/>
+        <result column="param_value_name_en" property="paramValueNameEn" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="UserGoodsItemDOMapper" type="com.bat.goods.dao.goods.dataobject.UserGoodsItemDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_name_en" property="itemNameEn" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="width" property="width" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="item_img" property="itemImg" jdbcType="VARCHAR"/>
+        <result column="moq" property="moq" jdbcType="VARCHAR"/>
+        <result column="advance_sale_flag" property="advanceSaleFlag" jdbcType="SMALLINT"/>
+        <result column="onway_sale_flag" property="onwaySaleFlag" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemScalePriceMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemScalePriceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_item_id" property="goodsItemId" jdbcType="INTEGER"/>
+        <result column="goods_item_grade_id" property="goodsItemGradeId" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="listGoodsBrandCategoryByGoodsIds" resultMap="GoodsBrandCategoryDOMapper" parameterType="map">
+        select g.id as goods_id,g.brand_id,g.category_id
+        FROM goods g WHERE
+        g.id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listUserGoodsList" parameterType="map" resultMap="UserGoodsListDOMapper">
+        select g.id, g.goods_name, g.goods_name_en, g.goods_no, g.goods_type, g.diy_type,g.sale_time, g.image_url1,
+        g.image_url1en,gsd.sale_num,b.name as brand_name,b.name_en as brand_name_en,c.name as category_name,c.name_en as
+        category_name_en,g.brand_id,g.category_id,gi.onway_sale_flag,
+        <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size()>0">
+            (case when g.id in
+            <foreach collection="promotionGroupGeckillGoodsIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            then 1
+            else 0 end) as activity,
+        </if>
+        <!--在库+在途<2就说明有一个有库存-->
+        IF(gsf.under_stock_flag+gsf.whether_out_of_stock_in_transit<![CDATA[ < ]]>2,1,0) as stock,
+
+        <!--如果在途或者在库的标识有一个为空，则返回无库存,否则就按照原有的返回-->
+        IF(gsf.under_stock_flag IS NULL ,1,gsf.under_stock_flag)
+        as under_stock_flag,
+
+        IF(gsf.whether_out_of_stock_in_transit IS NULL ,1,gsf.whether_out_of_stock_in_transit)
+        as whether_out_of_stock_in_transit
+
+        from goods_item gi join goods g on g.id = gi.goods_id
+        join brand b on b.id = g.brand_id
+        left join category c on c.id = g.category_id
+        left JOIN (SELECT goods_id,warehouse_id_arr,min(under_stock_flag) as
+        under_stock_flag,min(whether_out_of_stock_in_transit) as whether_out_of_stock_in_transit
+        FROM goods_stock_flag WHERE warehouse_id_arr = #{warehouseIdArr} GROUP BY goods_id) as gsf
+        on gsf.goods_id = gi.goods_id
+        <if test="sortType != null and sortType == 1">
+            left join goods_min_max_price gmmp on gmmp.goods_id=g.id and gmmp.scale_price_id=0
+        </if>
+        left join goods_sale_data gsd on gsd.goods_id=g.id
+        <if test=" newDate != null">
+            and g.sale_time  <![CDATA[ > ]]> #{newDate}
+        </if>
+        <if test="collectionFlag != null and collectionFlag == 1">
+            join goods_distributor_collection gdc on gdc.goods_id=g.id and gdc.distributor_id = #{distributorId}
+        </if>
+        where g.sale_status = 3
+        <!--只看有货-->
+        <if test="underStockFlag !=null ">
+            <!-- 如果是直发在途  在商品支持在途的时候就判断 在途+在库<2(有货) 否则 在库等于0-->
+            <if test="straightHairOnTheWay != null">
+                and
+                if(gi.onway_sale_flag=1,gsf.under_stock_flag + gsf.whether_out_of_stock_in_transit <![CDATA[ < ]]>
+                2,gsf.under_stock_flag=0)
+            </if>
+            <!-- 如果是非直发在途  则判断 在途+在库<2(有货) -->
+            <if test="nonStraightHairInTransit != null">
+                and gsf.under_stock_flag + gsf.whether_out_of_stock_in_transit <![CDATA[ < ]]> 2
+            </if>
+            <!-- 如果是直发非直发的非在途  则只看在库有货 -->
+            <if test="notInTransit != null">
+                and gsf.under_stock_flag=0
+            </if>
+        </if>
+        <if test="newDate != null">
+            and g.sale_time  <![CDATA[ > ]]> #{newDate}
+        </if>
+        <if test="goodsType != null">
+            and g.goods_type = #{goodsType}
+        </if>
+        <!--判断仓库-->
+        <if test="warehouseIdArr !=null and underStockFlag !=null">
+            and gsf.warehouse_id_arr = #{warehouseIdArr}
+        </if>
+        <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size()>0 and hotType!=null and hotType==1">
+            and g.id in
+            <foreach collection="promotionGroupGeckillGoodsIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="noGoodsIds != null and noGoodsIds.size()>0">
+            and g.id not in
+            <foreach collection="noGoodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(g.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.keywords,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or gi.item_code = #{content} or gi.bar_code = #{content})
+        </if>
+        and (g.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (g.distributor_scope = 0 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="categoryIds != null and categoryIds.size()>0">
+            or (g.distributor_scope = 0 and g.category_id in
+            <foreach collection="categoryIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="goodsIds != null and goodsIds.size()>0">
+            or (g.distributor_scope <![CDATA[ <> ]]> 0 and g.distributor_scope <![CDATA[ <> ]]> 1 and g.id in
+            <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        ) group by g.id order by
+        <if test="sortType == null">
+            <if test="promotionGroupGeckillGoodsIds != null">
+                activity desc,
+            </if>
+            <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                stock DESC,g.sale_time DESC
+            </if>
+            <if test="notInTransit != null">
+                <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                gsf.under_stock_flag asc,g.sale_time DESC
+            </if>
+        </if>
+
+        <if test="sortType != null">
+            <if test="sortType == 1">
+                <if test="sortWay == 1">
+                    gmmp.min_price ASC
+                </if>
+                <if test="sortWay == 2">
+                    gmmp.min_price DESC
+                </if>
+                <if test="sortWay == null">
+                    gmmp.min_price DESC
+                </if>
+                <!-- 无活动 -->
+                <if test="promotionGroupGeckillGoodsIds == null or promotionGroupGeckillGoodsIds.size() == 0">
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+                <!-- 有活动 -->
+                <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size() >0 ">
+                    <if test="promotionGroupGeckillGoodsIds != null">
+                        ,activity desc
+                    </if>
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+            </if>
+            <if test="sortType == 2">
+                <if test="sortWay == 1">
+                    gsd.sale_num ASC
+                </if>
+                <if test="sortWay == 2">
+                    gsd.sale_num DESC
+                </if>
+                <if test="sortWay == null">
+                    gsd.sale_num DESC
+                </if>
+                <!-- 无活动 -->
+                <if test="promotionGroupGeckillGoodsIds == null or promotionGroupGeckillGoodsIds.size() == 0">
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+                <!-- 有活动 -->
+                <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size() >0 ">
+                    <if test="promotionGroupGeckillGoodsIds != null">
+                        ,activity desc
+                    </if>
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+            </if>
+            <if test="sortType == 3">
+                <if test="sortWay == 1">
+                    g.sale_time ASC
+                </if>
+                <if test="sortWay == 2">
+                    g.sale_time DESC
+                </if>
+                <if test="sortWay == null">
+                    g.sale_time DESC
+                </if>
+                <!--无活动-->
+                <if test="promotionGroupGeckillGoodsIds == null or promotionGroupGeckillGoodsIds.size() == 0">
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+                <!--有活动-->
+                <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size() >0 ">
+                    <if test="promotionGroupGeckillGoodsIds != null">
+                        ,activity desc
+                    </if>
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <select id="listGoodsList" parameterType="map" resultMap="UserGoodsListDOMapper">
+        select g.id, g.goods_name, g.goods_name_en, g.goods_no, g.goods_type, g.diy_type,g.sale_time, g.image_url1,
+        g.image_url1en,gsd.sale_num,b.name as brand_name,b.name_en as brand_name_en,c.name as category_name,c.name_en as
+        category_name_en,g.brand_id,g.category_id
+        from goods_item gi join goods g on g.id = gi.goods_id
+        left join brand b on b.id = g.brand_id
+        left join category c on c.id = g.category_id
+        <if test="sortType != null and sortType == 1">
+            left join goods_min_max_price gmmp on gmmp.goods_id=g.id and gmmp.scale_price_id=0
+        </if>
+        left join goods_sale_data gsd on gsd.goods_id=g.id
+        <if test=" newDate != null">
+            and g.sale_time  <![CDATA[ > ]]> #{newDate}
+        </if>
+        <if test="collectionFlag != null and collectionFlag == 1">
+            join goods_distributor_collection gdc on gdc.goods_id=g.id and gdc.distributor_id = #{distributorId}
+        </if>
+        where g.sale_status = 3
+        <if test="noGoodsIds != null and noGoodsIds.size()>0">
+            and g.id not in
+            <foreach collection="noGoodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="newDate != null and hotType==2">
+            and g.sale_time  <![CDATA[ > ]]> #{newDate}
+        </if>
+        <if test="goodsType != null">
+            and g.goods_type = #{goodsType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(g.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.keywords,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or gi.item_code = #{content} or gi.bar_code = #{content})
+        </if>
+        group by g.id order by
+        <if test="sortType == null">
+            g.sale_time DESC
+        </if>
+        <if test="sortType != null">
+            <if test="sortType == 1">
+                <if test="sortWay == 1">
+                    gmmp.min_price ASC
+                </if>
+                <if test="sortWay == 2">
+                    gmmp.min_price DESC
+                </if>
+                <if test="sortWay == null">
+                    gmmp.min_price DESC
+                </if>
+            </if>
+            <if test="sortType == 2">
+                <if test="sortWay == 1">
+                    gsd.sale_num ASC
+                </if>
+                <if test="sortWay == 2">
+                    gsd.sale_num DESC
+                </if>
+                <if test="sortWay == null">
+                    gsd.sale_num DESC
+                </if>
+            </if>
+            <if test="sortType == 3">
+                <if test="sortWay == 1">
+                    g.sale_time ASC
+                </if>
+                <if test="sortWay == 2">
+                    g.sale_time DESC
+                </if>
+                <if test="sortWay == null">
+                    g.sale_time DESC
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <select id="listUserGoodsListByClassify" parameterType="map" resultMap="UserGoodsListDOMapper">
+        select g.id, g.goods_name, g.goods_name_en, g.goods_no, g.goods_type, g.diy_type,g.sale_time, g.image_url1,
+        g.image_url1en,gsd.sale_num,gi.onway_sale_flag,
+        <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size()>0">
+            (case when g.id in
+            <foreach collection="promotionGroupGeckillGoodsIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            then 1
+            else 0 end) as activity,
+        </if>
+        <!--在库+在途<2就说明有一个有库存-->
+        IF(gsf.under_stock_flag+gsf.whether_out_of_stock_in_transit<![CDATA[ < ]]>2,1,0) as stock,
+
+        <!--如果在途或者在库的标识有一个为空，则返回无库存,否则就按照原有的返回-->
+        IF(gsf.under_stock_flag IS NULL ,1,gsf.under_stock_flag)
+        as under_stock_flag,
+
+        IF(gsf.whether_out_of_stock_in_transit IS NULL ,1,gsf.whether_out_of_stock_in_transit)
+        as whether_out_of_stock_in_transit
+
+        from goods_classify_relevance gclr
+        join goods g on g.id=gclr.goods_id
+        join goods_item gi on gclr.goods_id=gi.goods_id
+        left join (SELECT goods_id,warehouse_id_arr,min(under_stock_flag) as
+        under_stock_flag,min(whether_out_of_stock_in_transit) as whether_out_of_stock_in_transit
+        FROM goods_stock_flag WHERE
+        warehouse_id_arr = #{warehouseIdArr} GROUP BY goods_id) as gsf
+        on gsf.goods_id = gclr.goods_id
+        <if test="sortType != null and sortType == 1">
+            left join goods_min_max_price gmmp on gmmp.goods_id=g.id and gmmp.scale_price_id=0
+        </if>
+        left join goods_sale_data gsd on gsd.goods_id=gclr.goods_id
+        where gclr.classify_id = #{classifyId} and g.sale_status = 3
+        <!--只看有货-->
+        <if test="underStockFlag !=null ">
+            <!-- 如果是直发在途  在商品支持在途的时候就判断 在途+在库<2(有货) 否则 在库等于0-->
+            <if test="straightHairOnTheWay != null">
+                and
+                if(gi.onway_sale_flag=1,gsf.under_stock_flag + gsf.whether_out_of_stock_in_transit <![CDATA[ < ]]>
+                2,gsf.under_stock_flag=0)
+            </if>
+            <!-- 如果是非直发在途  则判断 在途+在库<2(有货) -->
+            <if test="nonStraightHairInTransit != null">
+                and gsf.under_stock_flag + gsf.whether_out_of_stock_in_transit <![CDATA[ < ]]> 2
+            </if>
+            <!-- 如果是直发非直发的非在途  则只看在库有货 -->
+            <if test="notInTransit != null">
+                and gsf.under_stock_flag=0
+            </if>
+        </if>
+        <if test="newDate != null">
+            and g.sale_time  <![CDATA[ > ]]> #{newDate}
+        </if>
+        <if test="goodsType != null">
+            and g.goods_type = #{goodsType}
+        </if>
+        <!--判断仓库-->
+        <if test="warehouseIdArr !=null and underStockFlag !=null">
+            and gsf.warehouse_id_arr = #{warehouseIdArr}
+        </if>
+        <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size()>0 and hotType!=null and hotType==1">
+            and g.id in
+            <foreach collection="promotionGroupGeckillGoodsIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(g.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.keywords,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+        </if>
+        and (g.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (g.distributor_scope = 0 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="categoryIds != null and categoryIds.size()>0">
+            or (g.distributor_scope = 0 and g.category_id in
+            <foreach collection="categoryIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="goodsIds != null and goodsIds.size()>0">
+            or (g.distributor_scope <![CDATA[ <> ]]> 0 and g.distributor_scope <![CDATA[ <> ]]> 1 and g.id in
+            <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )GROUP BY g.id order by
+        <if test="sortType == null">
+            <if test="promotionGroupGeckillGoodsIds != null">
+                activity desc,
+            </if>
+            <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                stock desc,g.sale_time DESC
+            </if>
+            <if test="notInTransit != null">
+                <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                gsf.under_stock_flag asc,g.sale_time DESC
+            </if>
+        </if>
+
+        <if test="sortType != null">
+            <if test="sortType == 1">
+                <if test="sortWay == 1">
+                    gmmp.min_price ASC
+                </if>
+                <if test="sortWay == 2">
+                    gmmp.min_price DESC
+                </if>
+                <if test="sortWay == null">
+                    gmmp.min_price DESC
+                </if>
+                <!-- 无活动 -->
+                <if test="promotionGroupGeckillGoodsIds == null or promotionGroupGeckillGoodsIds.size() == 0">
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+                <!-- 有活动 -->
+                <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size() >0 ">
+                    <if test="promotionGroupGeckillGoodsIds != null">
+                        ,activity desc
+                    </if>
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+            </if>
+            <if test="sortType == 2">
+                <if test="sortWay == 1">
+                    gsd.sale_num ASC
+                </if>
+                <if test="sortWay == 2">
+                    gsd.sale_num DESC
+                </if>
+                <if test="sortWay == null">
+                    gsd.sale_num DESC
+                </if>
+                <!--无活动-->
+                <if test="promotionGroupGeckillGoodsIds == null or promotionGroupGeckillGoodsIds.size() == 0">
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+                <!--有活动-->
+                <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size() >0 ">
+                    <if test="promotionGroupGeckillGoodsIds != null">
+                        ,activity desc
+                    </if>
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+            </if>
+            <if test="sortType == 3">
+                <if test="sortWay == 1">
+                    g.sale_time ASC
+                </if>
+                <if test="sortWay == 2">
+                    g.sale_time DESC
+                </if>
+                <if test="sortWay == null">
+                    g.sale_time DESC
+                </if>
+                <!--无活动-->
+                <if test="promotionGroupGeckillGoodsIds == null or promotionGroupGeckillGoodsIds.size() == 0">
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+                <!--有活动-->
+                <if test="promotionGroupGeckillGoodsIds != null and promotionGroupGeckillGoodsIds.size() >0 ">
+                    <if test="promotionGroupGeckillGoodsIds != null">
+                        ,activity desc
+                    </if>
+                    <if test="straightHairOnTheWay != null || nonStraightHairInTransit != null">
+                        <!--如果是非直发在途 再将在途有货+在库有货进行升序排序-->
+                        <!--如果是直发在途 则将支持在途的商品进行升序排序，再将在途有货+在库有货进行升序排序-->
+                        ,gsf.under_stock_flag asc, gsf.whether_out_of_stock_in_transit asc
+                    </if>
+                    <if test="notInTransit != null">
+                        <!--如果是直发非直发的 非在途  则将在库有库存进行降序排序-->
+                        ,gsf.under_stock_flag asc
+                    </if>
+                    ,g.sale_time DESC
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <select id="listGoodsListByClassify" parameterType="map" resultMap="UserGoodsListDOMapper">
+        select g.id, g.goods_name, g.goods_name_en, g.goods_no, g.goods_type, g.diy_type,g.sale_time, g.image_url1,
+        g.image_url1en,
+        gsd.sale_num
+        from goods_classify_relevance gclr
+        join goods g on g.id=gclr.goods_id
+        <if test="sortType != null and sortType == 1">
+            left join goods_min_max_price gmmp on gmmp.goods_id=g.id and gmmp.scale_price_id=0
+        </if>
+        left join goods_sale_data gsd on gsd.goods_id=gclr.goods_id
+        where gclr.classify_id = #{classifyId} and g.sale_status = 3
+        <if test="newDate != null and hotType==2">
+            and g.sale_time  <![CDATA[ > ]]> #{newDate}
+        </if>
+        <if test="goodsType != null">
+            and g.goods_type = #{goodsType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(g.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(g.keywords,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+        </if>
+        order by
+        <if test="sortType == null">
+            g.sale_time DESC
+        </if>
+        <if test="sortType != null">
+            <if test="sortType == 1">
+                <if test="sortWay == 1">
+                    gmmp.min_price ASC
+                </if>
+                <if test="sortWay == 2">
+                    gmmp.min_price DESC
+                </if>
+                <if test="sortWay == null">
+                    gmmp.min_price DESC
+                </if>
+            </if>
+            <if test="sortType == 2">
+                <if test="sortWay == 1">
+                    gsd.sale_num ASC
+                </if>
+                <if test="sortWay == 2">
+                    gsd.sale_num DESC
+                </if>
+                <if test="sortWay == null">
+                    gsd.sale_num DESC
+                </if>
+            </if>
+            <if test="sortType == 3">
+                <if test="sortWay == 1">
+                    g.sale_time ASC
+                </if>
+                <if test="sortWay == 2">
+                    g.sale_time DESC
+                </if>
+                <if test="sortWay == null">
+                    g.sale_time DESC
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <select id="listClassifyByColumnId" parameterType="map" resultMap="ClassifyMapper">
+        select
+        c.id,c.name,c.name_en,c.sort,c.description,c.open_flag,c.parent_id,c.image_url,c.image_url_en,c.create_time,c.update_time
+        from goods_classify_relevance gcr
+        join goods_store_column gsc on gsc.goods_id = gcr.goods_id
+        join classify c on c.id = gcr.classify_id
+        <where>
+            <if test="columnId!=null">
+                gsc.column_id = #{columnId}
+            </if>
+        </where>
+        group by gcr.classify_id
+    </select>
+
+    <select id="listClassifyBySectionId" parameterType="map" resultMap="ClassifyMapper">
+        select c.id,
+               c.name,
+               c.name_en,
+               c.sort,
+               c.description,
+               c.open_flag,
+               c.parent_id,
+               c.image_url,
+               c.image_url_en,
+               c.create_time,
+               c.update_time
+        from goods_classify_relevance gcr
+                 join goods_store_section gss on gss.goods_id = gcr.goods_id
+                 join classify c on c.id = gcr.classify_id
+        where gss.section_id = #{sectionId}
+        group by gcr.classify_id
+    </select>
+
+    <select id="listClassifyByMobileId" parameterType="map" resultMap="ClassifyMapper">
+        select c.id,
+               c.name,
+               c.name_en,
+               c.sort,
+               c.description,
+               c.open_flag,
+               c.parent_id,
+               c.image_url,
+               c.image_url_en,
+               c.create_time,
+               c.update_time
+        from goods_classify_relevance gcr
+                 join goods_store_mobile gsm on gsm.goods_id = gcr.goods_id
+                 join classify c on c.id = gcr.classify_id
+        where gsm.mobile_id = #{mobileId}
+        group by gcr.classify_id
+    </select>
+
+    <select id="selectUserGoodsByGoodsId" parameterType="map" resultMap="UserGoodsDOMapper">
+        select g.id,
+               g.goods_name,
+               g.goods_name_en,
+               g.goods_no,
+               g.introduce,
+               g.introduce_en,
+               g.sale_status,
+               g.sale_time,
+               g.goods_type,
+               g.diy_type,
+               g.image_url1,
+               g.image_url2,
+               g.image_url3,
+               g.image_url4,
+               g.image_url5,
+               g.image_url6,
+               g.image_url1en,
+               g.image_url2en,
+               g.image_url3en,
+               g.image_url4en,
+               g.image_url5en,
+               g.image_url6en,
+               g.content_url,
+               g.content_url_en,
+               b.name    as brand_name,
+               b.name_en as
+                            brand_name_en,
+               c.name    as category_name,
+               c.name_en as category_name_en,
+               gsd.sale_num,
+               g.brand_id,
+               g.category_id
+        from goods g
+                 left join brand b on b.id = g.brand_id
+                 left join category c on c.id = g.category_id
+                 left join goods_sale_data gsd on gsd.goods_id = g.id
+        where g.id = #{goodsId}
+          and g.sale_status = 3
+    </select>
+
+    <select id="listUserTagByGoodsId" parameterType="map" resultMap="UserTagDOMapper">
+        select gt.id, gt.name, gt.name_en
+        from goods_tag_relevance gtr
+                 join goods_tag gt on gt.id = gtr.tag_id
+        where gtr.goods_id = #{goodsId}
+          and gt.open_flag = 1
+    </select>
+
+    <select id="listUserParamByGoodsId" parameterType="map" resultMap="UserParamDOMapper">
+        select a.id,
+               a.name     as param_name,
+               a.name_en  as param_name_en,
+               av.id      as value_id,
+               av.name    as param_value_name,
+               av.name_en as
+                             param_value_name_en
+        from goods_param_relevance gpr
+                 join attribute_value av on av.id = gpr.param_id
+                 join attribute a on a.id =
+                                     av.attribute_id
+        where gpr.goods_id = #{goodsId}
+          and a.open_flag = 1
+    </select>
+
+    <select id="listUserGoodsItemByGoodsIdAndItemId" parameterType="map" resultMap="UserGoodsItemDOMapper">
+        select
+        gi.id,gi.goods_id,gi.item_name,gi.item_name_en,gi.item_code,gi.bar_code,gi.sale_price,gi.cost_price,gi.weight,
+        gi.length,gi.width,gi.height,gi.unit,gi.item_img,gi.moq,gi.advance_sale_flag,gi.onway_sale_flag
+        from goods_item gi
+        where gi.goods_id = #{goodsId} and gi.sale_status = 3
+        <if test="itemId != null">
+            and gi.id = #{itemId}
+        </if>
+    </select>
+
+    <select id="listGoodsItemScalePriceByItemIdsAndScalePriceIds" resultMap="GoodsItemScalePriceMapper"
+            parameterType="map">
+        select id,goods_id,goods_item_id,goods_item_grade_id,price
+        FROM goods_item_scale_price WHERE goods_item_id in
+        <foreach collection="itemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and goods_item_grade_id in
+        <foreach collection="scalePriceIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemRetailPriceByItemIds" resultMap="GoodsItemScalePriceMapper"
+            parameterType="map">
+        select gisp.id,gisp.goods_id,gisp.goods_item_id,gisp.goods_item_grade_id,gisp.price
+        FROM goods_item_scale_price gisp
+        join scale_price sp on sp.id = gisp.goods_item_grade_id
+        WHERE gisp.goods_item_id in
+        <foreach collection="itemIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and sp.retail_flag = #{retailFlag}
+    </select>
+
+    <resultMap id="GoodsStockFlagMap" type="com.bat.goods.dao.stock.dataobject.GoodsStockFlagDO">
+        <result column="id" property="id"/>
+        <result column="item_id" property="itemId"></result>
+    </resultMap>
+
+
+    <select id="queryGoodsStockFlagAll" resultMap="GoodsStockFlagMap">
+        SELECT *
+        FROM goods_stock_flag
+        GROUP BY item_id
+    </select>
+
+    <select id="queryGoodsIdByItemId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select goods_id
+        from goods_item
+        where id = #{itemId}
+    </select>
+
+    <update id="updateGoodsStockFlag" parameterType="map">
+        update goods_stock_flag
+        set goods_id=#{goodsId}
+        where item_id = #{itemId}
+    </update>
+
+    <delete id="delGoodsStockFlagByIds" parameterType="java.util.List">
+        delete
+        from goods_stock_flag where id in
+        <foreach collection="delIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

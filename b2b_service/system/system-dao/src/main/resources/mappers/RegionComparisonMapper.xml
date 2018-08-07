@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.region.RegionComparisonMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.region.dataobject.RegionComparisonDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="region_id" jdbcType="INTEGER" property="regionId"/>
+        <result column="region_name" jdbcType="VARCHAR" property="regionName"/>
+        <result column="another_name" jdbcType="VARCHAR" property="anotherName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, region_id, region_name, another_name, parent_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region_comparison
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listRegionByParentIdAndAnotherName"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region_comparison
+        where parent_id = #{parentId,jdbcType=INTEGER} and another_name like CONCAT('%',#{anotherName},'%')
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from region_comparison
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.region.dataobject.RegionComparisonDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into region_comparison (region_id, region_name, another_name,
+        parent_id)
+        values (#{regionId,jdbcType=INTEGER}, #{regionName,jdbcType=VARCHAR}, #{anotherName,jdbcType=VARCHAR},
+        #{parentId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.region.dataobject.RegionComparisonDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into region_comparison
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="regionId != null">
+                region_id,
+            </if>
+            <if test="regionName != null">
+                region_name,
+            </if>
+            <if test="anotherName != null">
+                another_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="regionId != null">
+                #{regionId,jdbcType=INTEGER},
+            </if>
+            <if test="regionName != null">
+                #{regionName,jdbcType=VARCHAR},
+            </if>
+            <if test="anotherName != null">
+                #{anotherName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.region.dataobject.RegionComparisonDO">
+        update region_comparison
+        <set>
+            <if test="regionId != null">
+                region_id = #{regionId,jdbcType=INTEGER},
+            </if>
+            <if test="regionName != null">
+                region_name = #{regionName,jdbcType=VARCHAR},
+            </if>
+            <if test="anotherName != null">
+                another_name = #{anotherName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.region.dataobject.RegionComparisonDO">
+        update region_comparison
+        set region_id    = #{regionId,jdbcType=INTEGER},
+            region_name  = #{regionName,jdbcType=VARCHAR},
+            another_name = #{anotherName,jdbcType=VARCHAR},
+            parent_id    = #{parentId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

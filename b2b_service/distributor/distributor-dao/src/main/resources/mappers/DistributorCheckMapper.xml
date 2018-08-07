@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorCheckMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorCheckDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="check_user_id" jdbcType="INTEGER" property="checkUserId"/>
+        <result column="check_user_name" jdbcType="VARCHAR" property="checkUserName"/>
+        <result column="check_status" jdbcType="SMALLINT" property="checkStatus"/>
+        <result column="check_type" jdbcType="SMALLINT" property="checkType"/>
+        <result column="check_content" jdbcType="LONGVARCHAR" property="checkContent"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="DistributorCheckListMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorCheckListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="check_status" jdbcType="SMALLINT" property="checkStatus"/>
+        <result column="check_type" jdbcType="SMALLINT" property="checkType"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="erp_no" jdbcType="VARCHAR" property="erpNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorCheckDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_check (distributor_id, user_id, user_name,check_user_id, check_user_name,check_status,
+        check_type,
+        check_content,create_time,
+        update_time)
+        values (#{distributorId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},
+        #{userName,jdbcType=VARCHAR},#{checkUserId,jdbcType=INTEGER},
+        #{checkUserName,jdbcType=VARCHAR},#{checkStatus,jdbcType=SMALLINT}, #{checkType,jdbcType=SMALLINT},
+        #{checkContent,jdbcType=LONGVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorCheckDO">
+    update distributor_check
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+        user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      check_user_id = #{checkUserId,jdbcType=INTEGER},
+      check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      check_status = #{checkStatus,jdbcType=SMALLINT},
+      check_type = #{checkType,jdbcType=SMALLINT},
+      check_content = #{checkContent,jdbcType=LONGVARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id,user_id, user_name,check_user_id, check_user_name,check_status, check_type, check_content,create_time, update_time
+    from distributor_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectCheckIngByDistributorId" parameterType="map" resultMap="BaseResultMap">
+    select id, distributor_id,user_id, user_name,check_user_id, check_user_name,check_status, check_type, check_content,create_time, update_time
+    from distributor_check
+    where distributor_id = #{distributorId} and check_status = 0
+  </select>
+
+    <select id="listByUserId" parameterType="map" resultMap="DistributorCheckListMap">
+        select dc.id, dc.distributor_id,dc.user_id,dc.user_name,dc.check_status, dc.check_type,
+        dc.create_time,d.name,d.company_name,d.tree_node,ded.erp_no
+        from distributor_check dc join distributor d on d.id = dc.distributor_id
+        left join distributor_extend_data ded on ded.distributor_id = dc.distributor_id
+        where dc.user_id = #{userId}
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(d.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and replace(d.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 3">
+                and d.id = #{content}
+            </if>
+            <if test="contentType == 4">
+                and b.erp_no = #{content})
+            </if>
+            <if test="contentType == 5">
+                and replace(dc.user_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        <if test="checkStatus != null">
+            and dc.check_status = #{checkStatus}
+        </if>
+        order by dc.update_time desc
+    </select>
+    <select id="listByCheckUserId" parameterType="map" resultMap="DistributorCheckListMap">
+        select dc.id, dc.distributor_id,dc.user_id,dc.user_name,dc.check_status, dc.check_type,
+        dc.create_time,d.name,d.company_name,d.tree_node,ded.erp_no
+        from distributor_check dc join distributor d on d.id = dc.distributor_id
+        left join distributor_extend_data ded on ded.distributor_id = dc.distributor_id
+        where 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(d.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and replace(d.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 3">
+                and d.id = #{content}
+            </if>
+            <if test="contentType == 4">
+                and b.erp_no = #{content})
+            </if>
+            <if test="contentType == 5">
+                and replace(dc.user_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        <if test="checkStatus != null">
+            and dc.check_status = #{checkStatus}
+        </if>
+        <if test="labelType == 2">
+            and dc.check_user_id = #{userId}
+        </if>
+        <if test="labelType == 3">
+            and exists(select 1 from distributor_check_flow dcf where dcf.distributor_check_id = dc.id and dcf.user_id =
+            #{userId})
+        </if>
+        order by dc.update_time desc
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, user_id, user_name,check_user_id, check_user_name,check_status, check_type, check_content, create_time, update_time
+    from distributor_check
+  </select>
+</mapper>

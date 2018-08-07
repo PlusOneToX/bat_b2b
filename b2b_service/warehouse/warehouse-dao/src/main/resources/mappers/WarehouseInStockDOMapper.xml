@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.warehouse.dao.inStock.WarehouseInStockDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.warehouse.dao.inStock.dataobject.WarehouseInStockDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="item_erp_id" property="itemErpId" jdbcType="INTEGER"/>
+        <result column="num_in_warehouse" property="numInWarehouse" jdbcType="INTEGER"/>
+        <result column="num_on_way" property="numOnWay" jdbcType="INTEGER"/>
+        <result column="num_in_warehouse_lock" property="numInWarehouseLock" jdbcType="INTEGER"/>
+        <result column="num_on_way_lock" property="numOnWayLock" jdbcType="INTEGER"/>
+        <result column="num_reserved" property="numReserved" jdbcType="INTEGER"/>
+        <result column="erp_num_in_warehouse" property="erpNumInWarehouse" jdbcType="INTEGER"/>
+        <result column="erp_num_lock" property="erpNumLock" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="GoodsItemInventorySummaryCOResultMap"
+               type="com.bat.warehouse.dao.inStock.co.GoodsItemInventorySummaryCO">
+        <id column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="num_in_warehouse_sum" property="numInWarehouseSum" jdbcType="INTEGER"/>
+        <result column="num_on_way_sum" property="numOnWaySum" jdbcType="INTEGER"/>
+        <result column="num_in_warehouse_lock_sum" property="numInWarehouseLockSum" jdbcType="INTEGER"/>
+        <result column="num_on_way_lock_sum" property="numOnWayLockSum" jdbcType="INTEGER"/>
+        <result column="num_reserved_sum" property="numReservedSum" jdbcType="INTEGER"/>
+        <result column="erp_num_in_warehouse" property="erpNumInWarehouse" jdbcType="INTEGER"/>
+        <result column="erp_num_lock_sum" property="erpNumLockSum" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="GoodsItemInventoryCOResultMap" type="com.bat.warehouse.dao.inStock.co.GoodsItemInventoryCO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="num_in_warehouse" property="numInWarehouse" jdbcType="INTEGER"/>
+        <result column="num_on_way" property="numOnWay" jdbcType="INTEGER"/>
+        <result column="num_in_warehouse_lock" property="numInWarehouseLock" jdbcType="INTEGER"/>
+        <result column="num_on_way_lock" property="numOnWayLock" jdbcType="INTEGER"/>
+        <result column="num_reserved" property="numReserved" jdbcType="INTEGER"/>
+        <result column="erp_num_in_warehouse" property="erpNumInWarehouse" jdbcType="INTEGER"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_erp_id" property="itemErpId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , warehouse_id, goods_id, item_id, item_erp_id, num_in_warehouse, num_on_way, num_in_warehouse_lock, num_on_way_lock, num_reserved,
+    erp_num_in_warehouse, erp_num_lock, create_time, update_time, item_code, item_name
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse_in_stock
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from warehouse_in_stock
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.warehouse.dao.inStock.dataobject.WarehouseInStockDO" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into warehouse_in_stock (id, warehouse_id, goods_id,
+                                        item_id, item_erp_id, num_in_warehouse, num_on_way,
+                                        num_in_warehouse_lock, num_on_way_lock, num_reserved, erp_num_in_warehouse,
+                                        erp_num_lock, create_time, update_time,
+                                        item_code, item_name)
+        values (#{id,jdbcType=INTEGER}, #{warehouseId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER},
+                #{itemId,jdbcType=INTEGER}, #{itemErpId,jdbcType=INTEGER}, #{numInWarehouse,jdbcType=INTEGER},
+                #{numOnWay,jdbcType=INTEGER}, #{numInWarehouseLock,jdbcType=INTEGER}, #{numOnWayLock,jdbcType=INTEGER},
+                #{numReserved,jdbcType=INTEGER}, #{erpNumInWarehouse,jdbcType=INTEGER},
+                #{erpNumLock,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+                #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO warehouse_in_stock(
+        <include refid="Base_Column_List"/>
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.id,jdbcType=INTEGER}, #{item.warehouseId,jdbcType=INTEGER}, #{item.goodsId,jdbcType=INTEGER},
+            #{item.itemId,jdbcType=INTEGER}, #{item.itemErpId,jdbcType=INTEGER},
+            #{item.numInWarehouse,jdbcType=INTEGER},
+            #{item.numOnWay,jdbcType=INTEGER}, #{item.numInWarehouseLock,jdbcType=INTEGER},
+            #{item.numOnWayLock,jdbcType=INTEGER},
+            #{item.numReserved,jdbcType=INTEGER}, #{item.erpNumInWarehouse,jdbcType=INTEGER},
+            #{item.erpNumLock,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.itemCode,jdbcType=VARCHAR}, #{item.itemName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.warehouse.dao.inStock.dataobject.WarehouseInStockDO"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into warehouse_in_stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="itemErpId != null">
+                item_erp_id,
+            </if>
+            <if test="numInWarehouse != null">
+                num_in_warehouse,
+            </if>
+            <if test="numOnWay != null">
+                num_on_way,
+            </if>
+            <if test="numInWarehouseLock != null">
+                num_in_warehouse_lock,
+            </if>
+            <if test="numOnWayLock != null">
+                num_on_way_lock,
+            </if>
+            <if test="numReserved != null">
+                num_reserved,
+            </if>
+            <if test="erpNumInWarehouse != null">
+                erp_num_in_warehouse,
+            </if>
+            <if test="erpNumLock != null">
+                erp_num_lock,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="itemCode != null">
+                item_code,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemErpId != null">
+                #{itemErpId,jdbcType=INTEGER},
+            </if>
+            <if test="numInWarehouse != null">
+                #{numInWarehouse,jdbcType=INTEGER},
+            </if>
+            <if test="numOnWay != null">
+                #{numOnWay,jdbcType=INTEGER},
+            </if>
+            <if test="numInWarehouseLock != null">
+                #{numInWarehouseLock,jdbcType=INTEGER},
+            </if>
+            <if test="numOnWayLock != null">
+                #{numOnWayLock,jdbcType=INTEGER},
+            </if>
+            <if test="numReserved != null">
+                #{numReserved,jdbcType=INTEGER},
+            </if>
+            <if test="erpNumInWarehouse != null">
+                #{erpNumInWarehouse,jdbcType=INTEGER},
+            </if>
+            <if test="erpNumLock != null">
+                #{erpNumLock,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="itemCode != null">
+                #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.warehouse.dao.inStock.dataobject.WarehouseInStockDO">
+        update warehouse_in_stock
+        <set>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemErpId != null">
+                item_erp_id = #{itemErpId,jdbcType=INTEGER},
+            </if>
+            <if test="numInWarehouse != null">
+                num_in_warehouse = #{numInWarehouse,jdbcType=INTEGER},
+            </if>
+            <if test="numOnWay != null">
+                num_on_way = #{numOnWay,jdbcType=INTEGER},
+            </if>
+            <if test="numInWarehouseLock != null">
+                num_in_warehouse_lock = #{numInWarehouseLock,jdbcType=INTEGER},
+            </if>
+            <if test="numOnWayLock != null">
+                num_on_way_lock = #{numOnWayLock,jdbcType=INTEGER},
+            </if>
+            <if test="numReserved != null">
+                num_reserved = #{numReserved,jdbcType=INTEGER},
+            </if>
+            <if test="erpNumInWarehouse != null">
+                erp_num_in_warehouse = #{erpNumInWarehouse,jdbcType=INTEGER},
+            </if>
+            <if test="erpNumLock != null">
+                erp_num_lock = #{erpNumLock,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="itemCode != null">
+                item_code = #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                item_name = #{itemName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.warehouse.dao.inStock.dataobject.WarehouseInStockDO">
+        update warehouse_in_stock
+        set warehouse_id          = #{warehouseId,jdbcType=INTEGER},
+            goods_id              = #{goodsId,jdbcType=INTEGER},
+            item_id               = #{itemId,jdbcType=INTEGER},
+            item_erp_id           = #{itemErpId,jdbcType=INTEGER},
+            num_in_warehouse      = #{numInWarehouse,jdbcType=INTEGER},
+            num_on_way            = #{numOnWay,jdbcType=INTEGER},
+            num_in_warehouse_lock = #{numInWarehouseLock,jdbcType=INTEGER},
+            num_on_way_lock       = #{numOnWayLock,jdbcType=INTEGER},
+            num_reserved          = #{numReserved,jdbcType=INTEGER},
+            erp_num_in_warehouse  = #{erpNumInWarehouse,jdbcType=INTEGER},
+            erp_num_lock          = #{erpNumLock,jdbcType=INTEGER},
+            create_time           = #{createTime,jdbcType=TIMESTAMP},
+            update_time           = #{updateTime,jdbcType=TIMESTAMP},
+            item_code             = #{itemCode,jdbcType=VARCHAR},
+            item_name             = #{itemName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="listCOByWarehouseIdAndContent" resultMap="GoodsItemInventoryCOResultMap">
+        select
+        id,
+        item_id,
+        num_in_warehouse,
+        num_on_way,
+        num_in_warehouse_lock,
+        num_on_way_lock,
+        num_reserved,
+        erp_num_in_warehouse,
+        erp_num_lock,
+        item_code,
+        item_name,
+        item_erp_id
+        from warehouse_in_stock where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+        <if test="content !=null and content !=''">
+            AND (item_name like concat ('%',#{content},'%') or item_code like concat ('%',#{content},'%') )
+        </if>
+
+    </select>
+
+    <select id="summaryByItemIdListAndAreaIdList" resultMap="GoodsItemInventorySummaryCOResultMap">
+        SELECT
+        wis.item_id,
+        SUM( wis.num_in_warehouse ) num_in_warehouse_sum,
+        SUM( wis.num_in_warehouse_lock ) num_in_warehouse_lock_sum,
+        SUM( wis.num_on_way_lock ) num_on_way_lock_sum,
+        SUM( wis.num_reserved ) num_reserved_sum,
+        SUM( wis.erp_num_in_warehouse ) erp_num_in_warehouse
+        FROM
+        warehouse_in_stock wis
+        LEFT JOIN warehouse w ON wis.warehouse_id = w.id
+        WHERE
+
+        w.del_flag = 0
+        AND w.open_flag = 1 and wis.item_id in
+        <foreach collection="itemIdList" index="index" item="itemId" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+        <if test="areaIdList !=null and areaIdList.size()>0 ">
+            AND w.area_id in
+            <foreach collection="areaIdList" index="index" item="areaId" open="(" separator="," close=")">
+                #{areaId}
+            </foreach>
+        </if>
+        GROUP BY
+        wis.item_id
+    </select>
+    <select id="listByGoodsIdsAndWarehouseIdList" resultMap="BaseResultMap">
+        select * from warehouse_in_stock where goods_id in
+        <foreach collection="goodsIds" index="index" item="goodsId" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+        <if test="warehouseIdList !=null and warehouseIdList.size()>0">
+            and warehouse_id in
+            <foreach collection="warehouseIdList" index="index" item="warehouseId" open="(" separator="," close=")">
+                #{warehouseId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listByItemIdAndWarehouseIdList" resultMap="BaseResultMap">
+        select * from warehouse_in_stock where item_id = #{itemId}
+        <if test="warehouseIdList !=null and warehouseIdList.size()>0">
+            and warehouse_id in
+            <foreach collection="warehouseIdList" index="index" item="warehouseId" open="(" separator="," close=")">
+                #{warehouseId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="summaryByItemIdAndWarehouseIdList" resultMap="GoodsItemInventorySummaryCOResultMap">
+        SELECT
+        wis.item_id,
+        SUM( wis.num_in_warehouse ) num_in_warehouse_sum,
+        SUM( wis.num_on_way) num_on_way_sum,
+        SUM( wis.num_in_warehouse_lock ) num_in_warehouse_lock_sum,
+        SUM( wis.num_on_way_lock ) num_on_way_lock_sum,
+        SUM( wis.num_reserved ) in_stock_num_reserved_sum,
+        SUM( wis.erp_num_in_warehouse ) erp_num_in_warehouse
+        FROM
+        warehouse_in_stock wis
+        WHERE
+        wis.item_id = #{itemId}
+        <if test="warehouseIdList !=null and warehouseIdList.size()>0 ">
+            AND wis.warehouse_id in
+            <foreach collection="warehouseIdList" index="index" item="warehouseId" open="(" separator="," close=")">
+                #{warehouseId}
+            </foreach>
+        </if>
+        GROUP BY
+        wis.item_id
+    </select>
+
+    <select id="summaryByItemIdAndAreaIdList" resultMap="GoodsItemInventorySummaryCOResultMap">
+        SELECT
+        wis.item_id,
+        SUM( wis.num_in_warehouse ) num_in_warehouse_sum,
+        SUM( wis.num_in_warehouse_lock ) num_in_warehouse_lock_sum,
+        SUM( wis.num_on_way_lock ) num_on_way_lock_sum,
+        SUM( wis.num_reserved ) num_reserved_sum,
+        SUM( wis.erp_num_in_warehouse ) erp_num_in_warehouse
+        FROM
+        warehouse_in_stock wis
+        LEFT JOIN warehouse w ON wis.warehouse_id = w.id
+        WHERE
+
+        w.del_flag = 0
+        AND w.open_flag = 1 and
+        wis.item_id = #{itemId}
+        <if test="areaIdList !=null and areaIdList.size()>0 ">
+            AND w.area_id in
+            <foreach collection="areaIdList" index="index" item="areaId" open="(" separator="," close=")">
+                #{areaId}
+            </foreach>
+        </if>
+        GROUP BY
+        wis.item_id
+    </select>
+    <update id="addNumInWarehouseLockById">
+        update warehouse_in_stock
+        set num_in_warehouse_lock = num_in_warehouse_lock + #{lockNumAdd}
+        where id = #{id}
+    </update>
+    <select id="findByItemIdAndWarehouseNo" resultMap="BaseResultMap">
+        select wis.*
+        from warehouse_in_stock wis
+                 left join warehouse w on wis.warehouse_id = w.id
+        where wis.item_id = #{itemId}
+          and w.warehouse_no = #{warehouseNo}
+    </select>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse_in_stock
+        <where>
+            <if test="warehouseId !=null">
+                and warehouse_id = #{warehouseId}
+            </if>
+        </where>
+    </select>
+    <select id="getByWarehouseIdAndItemId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse_in_stock
+        where warehouse_id = #{warehouseId}
+        and item_id = #{itemId}
+    </select>
+    <select id="listByWarehouseIdListGroupByItemId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from warehouse_in_stock where 1=1
+        <if test="warehouseIdList !=null and warehouseIdList.size()>0 ">
+            AND warehouse_id in
+            <foreach collection="warehouseIdList" index="index" item="warehouseId" open="(" separator="," close=")">
+                #{warehouseId}
+            </foreach>
+            )
+        </if>
+        GROUP BY
+        item_id
+    </select>
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="updateList" item="warehouseInStockDO" separator=" ; ">
+            update warehouse_in_stock
+            set warehouse_id = #{warehouseInStockDO.warehouseId,jdbcType=INTEGER},
+            goods_id = #{warehouseInStockDO.goodsId,jdbcType=INTEGER},
+            item_id = #{warehouseInStockDO.itemId,jdbcType=INTEGER},
+            item_erp_id = #{warehouseInStockDO.itemErpId,jdbcType=INTEGER},
+            num_in_warehouse = #{warehouseInStockDO.numInWarehouse,jdbcType=INTEGER},
+            num_on_way = #{warehouseInStockDO.numOnWay,jdbcType=INTEGER},
+            num_in_warehouse_lock = #{warehouseInStockDO.numInWarehouseLock,jdbcType=INTEGER},
+            num_on_way_lock = #{warehouseInStockDO.numOnWayLock,jdbcType=INTEGER},
+            num_reserved = #{warehouseInStockDO.numReserved,jdbcType=INTEGER},
+            erp_num_in_warehouse = #{warehouseInStockDO.erpNumInWarehouse,jdbcType=INTEGER},
+            erp_num_lock = #{warehouseInStockDO.erpNumLock,jdbcType=INTEGER},
+            create_time = #{warehouseInStockDO.createTime,jdbcType=TIMESTAMP},
+            update_time = #{warehouseInStockDO.updateTime,jdbcType=TIMESTAMP},
+            item_code = #{warehouseInStockDO.itemCode,jdbcType=VARCHAR},
+            item_name = #{warehouseInStockDO.itemName,jdbcType=VARCHAR}
+            where id = #{warehouseInStockDO.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="listByItemErpIdList" resultMap="BaseResultMap">
+        select * from warehouse_in_stock where item_erp_id in
+        <foreach collection="itemErpIdList" separator=" , " open=" ( " close=")" item="itemErpId">
+            #{itemErpId}
+        </foreach>
+        group by item_erp_id
+    </select>
+
+    <select id="listByWarehouseIdAndItemCodeList" resultMap="BaseResultMap">
+        select * from warehouse_in_stock where warehouse_id in
+        <foreach collection="warehouseIdList" separator=" , " open=" ( " close=")" item="item">
+            #{item}
+        </foreach>
+        and item_code in
+        <foreach collection="itemCodeList" separator=" , " open=" ( " close=")" item="item">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByItemIdsAndWarehouseIds" resultMap="BaseResultMap">
+        select * from warehouse_in_stock
+        where warehouse_id in
+        <foreach collection="warehouseIds" index="index" item="warehouseId" open="(" separator="," close=")">
+            #{warehouseId}
+        </foreach>
+        and item_id in
+        <foreach collection="itemIds" index="index" item="itemId" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </select>
+
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from warehouse_in_stock
+        where item_id in
+        <foreach collection="itemIds" index="index" item="itemId" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+    <select id="allItemId" resultType="java.lang.Integer">
+        select item_id
+        from warehouse_in_stock
+        group by item_id
+    </select>
+
+    <select id="getNoItemInStocks" resultMap="BaseResultMap">
+        select * from warehouse_in_stock
+        <if test="itemIds !=null and itemIds.size()>0 ">
+            where item_id not in
+            <foreach collection="itemIds" index="index" item="itemId" open="(" separator="," close=")">
+                #{itemId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

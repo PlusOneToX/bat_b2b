@@ -1,0 +1,60 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6380
+#      password: bat2018
+#      masterName: system-service
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2018
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  ### rocketmq stream消息
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者
+        system-output:
+          destination: system-service-topic
+          content-type: application/json
+        ### 平台消息通道监听
+        system-platform-input:
+          destination: system-service-topic
+          content-type: application/json
+          group: goods-platform-input-group
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          system-output:
+            producer:
+              group: system-output-group
+          ### 平台消费者tag监听
+          system-platform-input:
+            consumer:
+              tags: tenantDBDelete

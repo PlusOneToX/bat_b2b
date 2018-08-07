@@ -1,0 +1,2 @@
+ALTER TABLE `distributor_db_101`.`distributor_extend_data`
+ADD COLUMN `distribution_pay_way` smallint(5) NULL DEFAULT 0 COMMENT '分销商付款方式：0默认 1.支付宝,2.微信,3.区间结算,4.线下转账,5.余额支付,6.快钱支付' AFTER `distribution_flag`;

@@ -1,0 +1,16 @@
+CREATE TABLE `store_mobile_child` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `parent_id` int(11) unsigned NOT NULL COMMENT '父级id',
+  `appoint_type` smallint(5) unsigned NOT NULL COMMENT '指定类型 1.指定分类 2.指定品牌 3.指定商品 4.全部商品',
+  `title` varchar(255) DEFAULT NULL COMMENT '分类标题',
+  `sort` int(11) unsigned DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='移动端商品子选项（只针对商品列表模块有效）';
+
+
+CREATE TABLE `store_mobile_point` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `mobile_child_id` int(11) unsigned NOT NULL COMMENT '移动端首页指定子类id',
+  `point_id` int(11) unsigned NOT NULL COMMENT '指定id(分类id或者品牌id)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='移动端首页子类品牌或者分类指定表';

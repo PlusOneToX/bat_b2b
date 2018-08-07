@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsRpcMapper">
+    <resultMap id="UserGoodsNameDOMapper" type="com.bat.goods.dao.goods.dataobject.UserGoodsNameDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemListMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemListDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_name_en" property="itemNameEn" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
+        <result column="sale_price" property="salePrice" jdbcType="DECIMAL"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="moq" property="moq" jdbcType="VARCHAR"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="brand_name_en" property="brandNameEn" jdbcType="VARCHAR"/>
+        <result column="category_name_en" property="categoryNameEn" jdbcType="VARCHAR"/>
+        <result column="brand_name_en" property="brandNameEn" jdbcType="VARCHAR"/>
+        <result column="image_url1" property="imageUrl1" jdbcType="VARCHAR"/>
+        <result column="image_url1en" property="imageUrl1en" jdbcType="VARCHAR"/>
+        <result column="item_img" property="itemImg" jdbcType="VARCHAR"/>
+        <result column="advance_sale_flag" property="advanceSaleFlag" jdbcType="SMALLINT"/>
+        <result column="onway_sale_flag" property="onwaySaleFlag" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <resultMap id="GoodsListMapper" type="com.bat.goods.dao.goods.dataobject.GoodsListDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="sale_status" property="saleStatus" jdbcType="SMALLINT"/>
+        <result column="sale_time" property="saleTime" jdbcType="DATE"/>
+        <result column="freeze_status" property="freezeStatus" jdbcType="SMALLINT"/>
+        <result column="freeze_time" property="freezeTime" jdbcType="DATE"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="UserGoodsRpcDOMapper" type="com.bat.goods.dao.goods.dataobject.UserGoodsRpcDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_name_en" property="goodsNameEn" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="image_url1" property="imageUrl1" jdbcType="VARCHAR"/>
+        <result column="image_url1en" property="imageUrl1en" jdbcType="VARCHAR"/>
+        <result column="goods_type" property="goodsType" jdbcType="SMALLINT"/>
+        <result column="diy_type" property="diyType" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <resultMap id="GoodsItemOnwaySaleFlagMapper" type="com.bat.goods.dao.goods.dataobject.GoodsItemOnwaySaleFlagDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="onway_sale_flag" property="onwaySaleFlag" jdbcType="SMALLINT"/>
+    </resultMap>
+
+    <select id="listGoodsNameByDistributorId" resultMap="UserGoodsNameDOMapper" parameterType="map">
+        select b.id,b.goods_name,b.goods_name_en from goods b
+        WHERE b.sale_status=3 and b.distributor_scope <![CDATA[ <> ]]> 0
+        <if test="goodsIds != null and goodsIds.size() > 0">
+            and (case when b.distributor_scope <![CDATA[ <> ]]> 1 then b.id in
+            <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            else 1 end)
+        </if>
+        <if test="goodsIds == null or goodsIds.size() == 0">
+            and b.distributor_scope = 1
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(b.goods_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(b.goods_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+        </if>
+        <if test="noGoodsIds != null and noGoodsIds.size() > 0">
+            and b.id not in
+            <foreach collection="noGoodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by b.update_time desc
+    </select>
+
+    <select id="listGoodsNameByItemCodes" resultMap="UserGoodsNameDOMapper" parameterType="map">
+        select b.id,b.goods_name,b.goods_name_en,gi.item_code from goods_item gi join goods b on b.id = gi.goods_id
+        where gi.item_code in
+        <foreach collection="itemCodes" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGoodsItemByIds" resultMap="GoodsItemListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_id,
+        b.goods_name,
+        b.goods_name_en,
+        b.goods_no,
+        b.goods_type,
+        b.diy_type,
+        a.item_name,
+        a.item_name_en,
+        a.item_code,
+        a.bar_code,
+        a.sale_price,
+        a.cost_price,
+        a.weight,
+        a.length,
+        a.width,
+        a.height,
+        a.sale_status,
+        a.advance_sale_flag,
+        a.onway_sale_flag,
+        b.brand_id,
+        b.category_id,
+        br.name as brand_name,
+        br.name_en as brand_name_en,
+        cg.name as category_name,
+        cg.name_en as category_name_en,
+        b.image_url1,
+        b.image_url1en,
+        a.item_img
+        FROM goods_item a
+        join goods b on a.goods_id = b.id
+        left join brand br on br.id=b.brand_id
+        left join category cg on cg.id=b.category_id
+        WHERE a.id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by b.update_time desc
+    </select>
+
+    <select id="listGoodsItemByCodes" resultMap="GoodsItemListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_id,
+        b.goods_name,
+        b.goods_name_en,
+        b.goods_no,
+        b.goods_type,
+        b.diy_type,
+        a.item_name,
+        a.item_name_en,
+        a.item_code,
+        a.bar_code,
+        a.sale_price,
+        a.cost_price,
+        a.weight,
+        a.length,
+        a.width,
+        a.height,
+        a.sale_status,
+        a.advance_sale_flag,
+        a.onway_sale_flag,
+        b.brand_id,
+        b.category_id,
+        br.name as brand_name,
+        br.name_en as brand_name_en,
+        cg.name as category_name,
+        cg.name_en as category_name_en,
+        b.image_url1,
+        b.image_url1en,
+        a.item_img
+        FROM goods_item a
+        join goods b on a.goods_id = b.id
+        left join brand br on br.id=b.brand_id
+        left join category cg on cg.id=b.category_id
+        WHERE a.item_code in
+        <foreach collection="codes" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by b.update_time desc
+    </select>
+
+    <select id="listGoodsItemByCode" resultMap="GoodsItemListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_id,
+        b.goods_name,
+        b.goods_name_en,
+        b.goods_no,
+        b.goods_type,
+        b.diy_type,
+        a.item_name,
+        a.item_name_en,
+        a.item_code,
+        a.bar_code,
+        a.sale_price,
+        a.cost_price,
+        a.weight,
+        a.length,
+        a.width,
+        a.height,
+        a.sale_status,
+        a.advance_sale_flag,
+        a.onway_sale_flag,
+        b.brand_id,
+        b.category_id,
+        br.name as brand_name,
+        br.name_en as brand_name_en,
+        cg.name as category_name,
+        cg.name_en as category_name_en,
+        b.image_url1,
+        b.image_url1en,
+        a.item_img
+        FROM goods_item a
+        join goods b on a.goods_id = b.id
+        left join brand br on br.id=b.brand_id
+        left join category cg on cg.id=b.category_id
+        WHERE a.item_code = #{code}
+    </select>
+
+    <select id="listGoodsItemOnwaySaleFlagByIds" resultMap="GoodsItemOnwaySaleFlagMapper" parameterType="map">
+        select
+        a.id,
+        a.onway_sale_flag
+        FROM goods_item a WHERE
+        <if test="ids==null or ids.size()==0">
+            a.id = null
+        </if>
+        <if test="ids!=null and ids.size()>0">
+            a.id in
+            <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listGoodsByIds" resultMap="GoodsListMapper" parameterType="map">
+        select
+        a.id,
+        a.goods_name,
+        a.goods_name_en,
+        a.goods_no,
+        a.keywords,
+        a.sale_status,
+        a.sale_time,
+        a.freeze_status,
+        a.freeze_time,
+        a.goods_type,
+        a.diy_type,
+        a.distributor_scope,
+        a.distributor_scope_no,
+        a.create_time,
+        a.update_time
+        FROM goods a WHERE a.id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
+    <select id="listDistributorGoodsItem" parameterType="map" resultMap="GoodsItemListMapper">
+        select a.id,
+        a.goods_id,
+        b.goods_name,
+        b.goods_name_en,
+        b.goods_no,
+        b.goods_type,
+        b.diy_type,
+        a.item_name,
+        a.item_name_en,
+        a.item_code,
+        a.bar_code,
+        a.sale_price,
+        a.cost_price,
+        a.weight,
+        a.length,
+        a.width,
+        a.height,
+        a.moq,
+        a.sale_status,
+        a.advance_sale_flag,
+        a.onway_sale_flag,
+        b.brand_id,
+        b.category_id,
+        br.name as brand_name,
+        br.name_en as brand_name_en,
+        cg.name as category_name,
+        cg.name_en as category_name_en,
+        b.image_url1,
+        b.image_url1en,
+        a.item_img
+        FROM goods_item a
+        join goods b on a.goods_id = b.id
+        left join brand br on br.id=b.brand_id
+        left join category cg on cg.id=b.category_id
+        left join goods_sale_data gsd on gsd.goods_id=b.id
+        where a.sale_status = 3
+        <if test="noGoodsIds != null and noGoodsIds.size()>0">
+            and b.id not in
+            <foreach collection="noGoodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="goodsIds != null and goodsIds.size()>0">
+            and b.id in
+            <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="itemIds != null and itemIds.size()>0">
+            and a.id in
+            <foreach collection="itemIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope = 0 and b.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="categoryIds != null and categoryIds.size()>0">
+            or (b.distributor_scope = 0 and b.category_id in
+            <foreach collection="categoryIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="goodsIdsScope != null and goodsIdsScope.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 0 and b.distributor_scope <![CDATA[ <> ]]> 1 and b.id in
+            <foreach collection="goodsIdsScope" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+
+    <select id="listDistributorGoods" parameterType="map" resultMap="UserGoodsRpcDOMapper">
+        select b.id,
+        b.goods_name,
+        b.goods_name_en,
+        b.goods_no,
+        b.image_url1,
+        b.image_url1en,
+        b.goods_type,
+        b.diy_type
+        from goods b
+        where b.sale_status = 3
+        <if test="noGoodsIds != null and noGoodsIds.size()>0">
+            and b.id not in
+            <foreach collection="noGoodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="goodsIds != null and goodsIds.size()>0">
+            and b.id in
+            <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="itemIds != null and itemIds.size()>0">
+            and b.id in
+            <foreach collection="itemIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope = 0 and b.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="categoryIds != null and categoryIds.size()>0">
+            or (b.distributor_scope = 0 and b.category_id in
+            <foreach collection="categoryIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        <if test="goodsIdsScope != null and goodsIdsScope.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 0 and b.distributor_scope <![CDATA[ <> ]]> 1 and b.id in
+            <foreach collection="goodsIdsScope" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+        <if test="goodsIds != null and goodsIds.size()>0">
+            ORDER BY FIELD(id,
+            <foreach collection="goodsIds" item="item" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
+    </select>
+
+    <select id="listGoodsIdByDistributorId" resultType="int" parameterType="map">
+        select gdr.goods_id FROM goods_distributor_relevance gdr join goods g on g.id=gdr.goods_id
+        join brand b on b.id=g.brand_id
+        WHERE gdr.distributor_id = #{distributorId} and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 1 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+
+    <select id="listGoodsIdByAdminId" resultType="int" parameterType="map">
+        select gar.goods_id FROM goods_admin_relevance gar join goods g on g.id=gar.goods_id
+        join brand b on b.id=g.brand_id
+        WHERE gar.admin_id = #{adminId} and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 1 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+
+    <select id="listGoodsIdByDepartmentId" resultType="int" parameterType="map">
+        select gdr.goods_id FROM goods_department_relevance gdr join goods g on g.id=gdr.goods_id
+        join brand b on b.id=g.brand_id
+        WHERE gdr.department_id = #{departmentId} and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 1 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+
+    <select id="listGoodsIdByDistributorGroupId" resultType="int" parameterType="map">
+        select gdgr.goods_id FROM goods_distributor_group_relevance gdgr join goods g on g.id=gdgr.goods_id
+        join brand b on b.id=g.brand_id
+        WHERE gdgr.distributor_group_id in
+        <foreach collection="distributorGroupIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 1 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+
+    <select id="listGoodsIdByBrandScale" resultType="int" parameterType="map">
+        select gspr.goods_id FROM goods_scale_price_relevance gspr join goods g on g.id = gspr.goods_id
+        join brand b on b.id=g.brand_id
+        WHERE gspr.scale_price_id = #{scalePriceId} and g.brand_id = #{brandId} and (b.distributor_scope = 1
+        <if test="brandIds != null and brandIds.size()>0">
+            or (b.distributor_scope <![CDATA[ <> ]]> 1 and g.brand_id in
+            <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            )
+        </if>
+        )
+    </select>
+
+</mapper>

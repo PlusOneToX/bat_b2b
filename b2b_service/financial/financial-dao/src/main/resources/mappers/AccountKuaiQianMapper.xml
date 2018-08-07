@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.platformaccount.AccountKuaiQianMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="erp_account_no" jdbcType="VARCHAR" property="erpAccountNo"/>
+        <result column="bank_no" jdbcType="VARCHAR" property="bankNo"/>
+        <result column="merchan_acct_id" jdbcType="VARCHAR" property="merchanAcctId"/>
+        <result column="sign_file_url" jdbcType="VARCHAR" property="signFileUrl"/>
+        <result column="sign_pwd" jdbcType="VARCHAR" property="signPwd"/>
+        <result column="sign_private_key" jdbcType="VARCHAR" property="signPrivateKey"/>
+        <result column="back_type" jdbcType="SMALLINT" property="backType"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        <result column="check_sign_file_url" jdbcType="LONGVARCHAR" property="checkSignFileUrl"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, organization_id, account_name,erp_account_no, bank_no, merchan_acct_id, sign_file_url, sign_pwd,
+    sign_private_key, back_type, open_flag, create_time, update_time
+    </sql>
+    <sql id="Blob_Column_List">
+        check_sign_file_url
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_kuaiqian
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByOrganizationId"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_kuaiqian
+        <where>
+            <if test="organizationId!=null">
+                and organization_id = #{organizationId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_kuaiqian
+        <where>
+            <if test="organizationId!=null">
+                and organization_id = #{organizationId,jdbcType=INTEGER}
+            </if>
+            <if test="params.accountName">
+                and account_name = #{params.accountName}
+            </if>
+            <if test="params.erpAccountNo">
+                and erp_account_no = #{params.erpAccountNo}
+            </if>
+            <if test="params.merchanAcctId">
+                and merchan_acct_id = #{params.merchanAcctId}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from account_kuaiqian
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_kuaiqian (organization_id, account_name,erp_account_no, bank_no,
+        merchan_acct_id, sign_file_url, sign_pwd,
+        sign_private_key, back_type, open_flag,
+        create_time, update_time, check_sign_file_url
+        )
+        values (#{organizationId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR},#{erpAccountNo,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR},
+        #{merchanAcctId,jdbcType=VARCHAR}, #{signFileUrl,jdbcType=VARCHAR}, #{signPwd,jdbcType=VARCHAR},
+        #{signPrivateKey,jdbcType=VARCHAR}, #{backType,jdbcType=SMALLINT}, #{openFlag,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{checkSignFileUrl,jdbcType=LONGVARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_kuaiqian
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no,
+            </if>
+            <if test="bankNo != null">
+                bank_no,
+            </if>
+            <if test="merchanAcctId != null">
+                merchan_acct_id,
+            </if>
+            <if test="signFileUrl != null">
+                sign_file_url,
+            </if>
+            <if test="signPwd != null">
+                sign_pwd,
+            </if>
+            <if test="signPrivateKey != null">
+                sign_private_key,
+            </if>
+            <if test="backType != null">
+                back_type,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="checkSignFileUrl != null">
+                check_sign_file_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="merchanAcctId != null">
+                #{merchanAcctId,jdbcType=VARCHAR},
+            </if>
+            <if test="signFileUrl != null">
+                #{signFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="signPwd != null">
+                #{signPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="signPrivateKey != null">
+                #{signPrivateKey,jdbcType=VARCHAR},
+            </if>
+            <if test="backType != null">
+                #{backType,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkSignFileUrl != null">
+                #{checkSignFileUrl,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        update account_kuaiqian
+        <set>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no = #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                bank_no = #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="merchanAcctId != null">
+                merchan_acct_id = #{merchanAcctId,jdbcType=VARCHAR},
+            </if>
+            <if test="signFileUrl != null">
+                sign_file_url = #{signFileUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="signPwd != null">
+                sign_pwd = #{signPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="signPrivateKey != null">
+                sign_private_key = #{signPrivateKey,jdbcType=VARCHAR},
+            </if>
+            <if test="backType != null">
+                back_type = #{backType,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkSignFileUrl != null">
+                check_sign_file_url = #{checkSignFileUrl,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        update account_kuaiqian
+        set organization_id     = #{organizationId,jdbcType=INTEGER},
+            account_name        = #{accountName,jdbcType=VARCHAR},
+            erp_account_no  = #{erpAccountNo,jdbcType=VARCHAR},
+            bank_no             = #{bankNo,jdbcType=VARCHAR},
+            merchan_acct_id     = #{merchanAcctId,jdbcType=VARCHAR},
+            sign_file_url       = #{signFileUrl,jdbcType=VARCHAR},
+            sign_pwd            = #{signPwd,jdbcType=VARCHAR},
+            sign_private_key    = #{signPrivateKey,jdbcType=VARCHAR},
+            back_type           = #{backType,jdbcType=SMALLINT},
+            open_flag           = #{openFlag,jdbcType=SMALLINT},
+            create_time         = #{createTime,jdbcType=TIMESTAMP},
+            update_time         = #{updateTime,jdbcType=TIMESTAMP},
+            check_sign_file_url = #{checkSignFileUrl,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountKuaiQianDO">
+        update account_kuaiqian
+        set organization_id  = #{organizationId,jdbcType=INTEGER},
+            account_name     = #{accountName,jdbcType=VARCHAR},
+            erp_account_no  = #{erpAccountNo,jdbcType=VARCHAR},
+            bank_no          = #{bankNo,jdbcType=VARCHAR},
+            merchan_acct_id  = #{merchanAcctId,jdbcType=VARCHAR},
+            sign_file_url    = #{signFileUrl,jdbcType=VARCHAR},
+            sign_pwd         = #{signPwd,jdbcType=VARCHAR},
+            sign_private_key = #{signPrivateKey,jdbcType=VARCHAR},
+            back_type        = #{backType,jdbcType=SMALLINT},
+            open_flag        = #{openFlag,jdbcType=SMALLINT},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

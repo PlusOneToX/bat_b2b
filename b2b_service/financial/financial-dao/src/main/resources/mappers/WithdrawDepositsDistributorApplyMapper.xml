@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.deposit.WithdrawDepositsDistributorApplyMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.financial.dao.deposit.dataobject.WithdrawDepositsDistributorApplyDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="withdraw_amount" jdbcType="DECIMAL" property="withdrawAmount"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="withdraw_account_type" jdbcType="SMALLINT" property="withdrawAccountType"/>
+        <result column="wx_alipay_account" jdbcType="VARCHAR" property="wxAlipayAccount"/>
+        <result column="card_no" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="payee" jdbcType="VARCHAR" property="payee"/>
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, distributor_id, distributor_name, withdraw_amount, apply_status, withdraw_account_type,
+    wx_alipay_account, card_no, payee, bank_name, remark, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from withdraw_deposits_distributor_apply
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from withdraw_deposits_distributor_apply
+        <where>
+            <if test="params.id">
+                and id = #{params.id}
+            </if>
+            <if test="params.distributorIds!=null and params.distributorIds.size()>0">
+                and distributor_id in
+                <foreach collection="params.distributorIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="params.applyStatus!=null">
+                and apply_status = #{params.applyStatus}
+            </if>
+            <if test="params.withdrawAccountType!=null">
+                and withdraw_account_type =#{params.withdrawAccountType}
+            </if>
+            <if test="params.distributorName !=null">
+                and distributor_name like CONCAT('%',#{params.distributorName},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from withdraw_deposits_distributor_apply
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteBatchByPrimaryKey">
+        delete
+        from withdraw_deposits_distributor_apply
+        <where>
+            <if test="ids!=null and ids.size()>0">
+                and id in
+                <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                    #{id,jdbcType=INTEGER}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.deposit.dataobject.WithdrawDepositsDistributorApplyDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into withdraw_deposits_distributor_apply (distributor_id, distributor_name, withdraw_amount,
+        apply_status, withdraw_account_type, wx_alipay_account,
+        card_no, payee, bank_name,
+        remark, create_time, update_time
+        )
+        values (#{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR},
+        #{withdrawAmount,jdbcType=DECIMAL},
+        #{applyStatus,jdbcType=SMALLINT}, #{withdrawAccountType,jdbcType=SMALLINT}, #{wxAlipayAccount,jdbcType=VARCHAR},
+        #{cardNo,jdbcType=VARCHAR}, #{payee,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.WithdrawDepositsDistributorApplyDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into withdraw_deposits_distributor_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="withdrawAmount != null">
+                withdraw_amount,
+            </if>
+            <if test="applyStatus != null">
+                apply_status,
+            </if>
+            <if test="withdrawAccountType != null">
+                withdraw_account_type,
+            </if>
+            <if test="wxAlipayAccount != null">
+                wx_alipay_account,
+            </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
+            <if test="payee != null">
+                payee,
+            </if>
+            <if test="bankName != null">
+                bank_name,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawAmount != null">
+                #{withdrawAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="applyStatus != null">
+                #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="withdrawAccountType != null">
+                #{withdrawAccountType,jdbcType=SMALLINT},
+            </if>
+            <if test="wxAlipayAccount != null">
+                #{wxAlipayAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="payee != null">
+                #{payee,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null">
+                #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.WithdrawDepositsDistributorApplyDO">
+        update withdraw_deposits_distributor_apply
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawAmount != null">
+                withdraw_amount = #{withdrawAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="applyStatus != null">
+                apply_status = #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="withdrawAccountType != null">
+                withdraw_account_type = #{withdrawAccountType,jdbcType=SMALLINT},
+            </if>
+            <if test="wxAlipayAccount != null">
+                wx_alipay_account = #{wxAlipayAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="payee != null">
+                payee = #{payee,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null">
+                bank_name = #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.deposit.dataobject.WithdrawDepositsDistributorApplyDO">
+        update withdraw_deposits_distributor_apply
+        set distributor_id        = #{distributorId,jdbcType=INTEGER},
+            distributor_name      = #{distributorName,jdbcType=VARCHAR},
+            withdraw_amount       = #{withdrawAmount,jdbcType=DECIMAL},
+            apply_status          = #{applyStatus,jdbcType=SMALLINT},
+            withdraw_account_type = #{withdrawAccountType,jdbcType=SMALLINT},
+            wx_alipay_account     = #{wxAlipayAccount,jdbcType=VARCHAR},
+            card_no               = #{cardNo,jdbcType=VARCHAR},
+            payee                 = #{payee,jdbcType=VARCHAR},
+            bank_name             = #{bankName,jdbcType=VARCHAR},
+            remark                = #{remark,jdbcType=VARCHAR},
+            create_time           = #{createTime,jdbcType=TIMESTAMP},
+            update_time           = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.warehouse.dao.onWay.GoodsOnWayStockDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.warehouse.dao.onWay.dataobject.GoodsOnWayStockDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="item_erp_id" property="itemErpId" jdbcType="INTEGER" />
+    <result column="num_on_way" property="numOnWay" jdbcType="INTEGER" />
+    <result column="num_lock" property="numLock" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_id, item_id, item_erp_id, num_on_way, num_lock, create_time, update_time, 
+    item_code, item_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_on_way_stock
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_on_way_stock
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.warehouse.dao.onWay.dataobject.GoodsOnWayStockDO" useGeneratedKeys="true" keyProperty="id">
+    insert into goods_on_way_stock (id, goods_id, item_id, 
+      item_erp_id, num_on_way, num_lock, 
+      create_time, update_time, item_code, 
+      item_name)
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
+      #{itemErpId,jdbcType=INTEGER}, #{numOnWay,jdbcType=INTEGER}, #{numLock,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{itemCode,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.warehouse.dao.onWay.dataobject.GoodsOnWayStockDO" useGeneratedKeys="true" keyProperty="id">
+    insert into goods_on_way_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemErpId != null" >
+        item_erp_id,
+      </if>
+      <if test="numOnWay != null" >
+        num_on_way,
+      </if>
+      <if test="numLock != null" >
+        num_lock,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="itemCode != null" >
+        item_code,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemErpId != null" >
+        #{itemErpId,jdbcType=INTEGER},
+      </if>
+      <if test="numOnWay != null" >
+        #{numOnWay,jdbcType=INTEGER},
+      </if>
+      <if test="numLock != null" >
+        #{numLock,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.warehouse.dao.onWay.dataobject.GoodsOnWayStockDO" >
+    update goods_on_way_stock
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemErpId != null" >
+        item_erp_id = #{itemErpId,jdbcType=INTEGER},
+      </if>
+      <if test="numOnWay != null" >
+        num_on_way = #{numOnWay,jdbcType=INTEGER},
+      </if>
+      <if test="numLock != null" >
+        num_lock = #{numLock,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="itemCode != null" >
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.warehouse.dao.onWay.dataobject.GoodsOnWayStockDO" >
+    update goods_on_way_stock
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_erp_id = #{itemErpId,jdbcType=INTEGER},
+      num_on_way = #{numOnWay,jdbcType=INTEGER},
+      num_lock = #{numLock,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findByItemId" resultMap="BaseResultMap">
+    select * from goods_on_way_stock where item_id = #{itemId}
+  </select>
+  <delete id="deleteByItemId">
+    delete from goods_on_way_stock where item_id = #{itemId}
+  </delete>
+<select id="listAll" resultMap="BaseResultMap">
+  select * from goods_on_way_stock
+</select>
+
+  <select id="findByItemIds" resultMap="BaseResultMap">
+    select * from goods_on_way_stock where
+    item_id in
+    <foreach collection="itemIds" index="index" item="itemId" open="(" separator="," close=")">
+      #{itemId}
+    </foreach>
+  </select>
+
+    <update id="updateList" parameterType="java.util.List">
+  <foreach collection="updateList" item="goodsOnWayStockDO" separator=" ; ">
+    update goods_on_way_stock
+    set goods_id = #{goodsOnWayStockDO.goodsId,jdbcType=INTEGER},
+    item_id = #{goodsOnWayStockDO.itemId,jdbcType=INTEGER},
+    item_erp_id = #{goodsOnWayStockDO.itemErpId,jdbcType=INTEGER},
+    num_on_way = #{goodsOnWayStockDO.numOnWay,jdbcType=INTEGER},
+    num_lock = #{goodsOnWayStockDO.numLock,jdbcType=INTEGER},
+    create_time = #{goodsOnWayStockDO.createTime,jdbcType=TIMESTAMP},
+    update_time = #{goodsOnWayStockDO.updateTime,jdbcType=TIMESTAMP},
+    item_code = #{goodsOnWayStockDO.itemCode,jdbcType=VARCHAR},
+    item_name = #{goodsOnWayStockDO.itemName,jdbcType=VARCHAR}
+    where id = #{goodsOnWayStockDO.id,jdbcType=INTEGER}
+  </foreach>
+</update>
+</mapper>

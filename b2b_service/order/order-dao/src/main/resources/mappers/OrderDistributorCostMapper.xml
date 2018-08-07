@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.cost.OrderDistributorCostMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cost.dataobject.OrderDistributorCostDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="distributor_id" property="distributorId" jdbcType="INTEGER"/>
+        <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL"/>
+        <result column="distribution_amount" property="distributionAmount" jdbcType="DECIMAL"/>
+        <result column="goods_promotion_amount" property="goodsPromotionAmount" jdbcType="DECIMAL"/>
+        <result column="order_promotion_amount" property="orderPromotionAmount" jdbcType="DECIMAL"/>
+        <result column="rebate_voucher_amount" property="rebateVoucherAmount" jdbcType="DECIMAL"/>
+        <result column="deposit_amount" property="depositAmount" jdbcType="DECIMAL"/>
+        <result column="pay_amount" property="payAmount" jdbcType="DECIMAL"/>
+        <result column="platform_amount" property="platformAmount" jdbcType="DECIMAL"/>
+        <result column="paid_amount" property="paidAmount" jdbcType="DECIMAL"/>
+        <result column="refunded_amount" property="refundedAmount" jdbcType="DECIMAL"/>
+        <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , order_id, distributor_id, goods_amount, distribution_amount, goods_promotion_amount,
+    order_promotion_amount, rebate_voucher_amount, deposit_amount, pay_amount,platform_amount, paid_amount,refunded_amount,out_trade_no, create_time,
+    update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_cost
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByOrderIdAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_cost
+        <where>
+            <if test="orderId!=null">
+                and order_id = #{orderId,jdbcType=INTEGER}
+            </if>
+            <if test="distributorId!=null">
+                and distributor_id = #{distributorId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_distributor_cost
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCostDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_distributor_cost (id, order_id, distributor_id,
+                                            goods_amount, distribution_amount, goods_promotion_amount,
+                                            order_promotion_amount, rebate_voucher_amount, deposit_amount,
+                                            pay_amount, platform_amount, paid_amount, refunded_amount, out_trade_no,
+                                            create_time,
+                                            update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER},
+                #{goodsAmount,jdbcType=DECIMAL}, #{distributionAmount,jdbcType=DECIMAL},
+                #{goodsPromotionAmount,jdbcType=DECIMAL},
+                #{orderPromotionAmount,jdbcType=DECIMAL}, #{rebateVoucherAmount,jdbcType=DECIMAL},
+                #{depositAmount,jdbcType=DECIMAL},
+                #{payAmount,jdbcType=DECIMAL}, #{platformAmount,jdbcType=DECIMAL}, #{paidAmount,jdbcType=DECIMAL},
+                #{refundedAmount,jdbcType=DECIMAL},
+                #{outTradeNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_distributor_cost (id, order_id, distributor_id,
+        goods_amount, distribution_amount, goods_promotion_amount,
+        order_promotion_amount, rebate_voucher_amount, deposit_amount,
+        pay_amount,platform_amount, paid_amount,refunded_amount,out_trade_no, create_time,
+        update_time)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER}, #{item.distributorId,jdbcType=INTEGER},
+            #{item.goodsAmount,jdbcType=DECIMAL}, #{item.distributionAmount,jdbcType=DECIMAL},
+            #{item.goodsPromotionAmount,jdbcType=DECIMAL},
+            #{item.orderPromotionAmount,jdbcType=DECIMAL},#{item.rebateVoucherAmount,jdbcType=DECIMAL},
+            #{item.depositAmount,jdbcType=DECIMAL},
+            #{item.payAmount,jdbcType=DECIMAL},#{item.platformAmount,jdbcType=DECIMAL},
+            #{item.paidAmount,jdbcType=DECIMAL},#{item.refundedAmount,jdbcType=DECIMAL},
+            #{item.outTradeNo,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCostDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_distributor_cost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="goodsAmount != null">
+                goods_amount,
+            </if>
+            <if test="distributionAmount != null">
+                distribution_amount,
+            </if>
+            <if test="goodsPromotionAmount != null">
+                goods_promotion_amount,
+            </if>
+            <if test="orderPromotionAmount != null">
+                order_promotion_amount,
+            </if>
+            <if test="rebateVoucherAmount != null">
+                rebate_voucher_amount,
+            </if>
+            <if test="depositAmount != null">
+                deposit_amount,
+            </if>
+            <if test="payAmount != null">
+                pay_amount,
+            </if>
+            <if test="platformAmount != null">
+                platformAmount,
+            </if>
+            <if test="paidAmount != null">
+                paid_amount,
+            </if>
+            <if test="refundedAmount != null">
+                refunded_amount,
+            </if>
+            <if test="outTradeNo != null">
+                out_trade_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAmount != null">
+                #{goodsAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="distributionAmount != null">
+                #{distributionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPromotionAmount != null">
+                #{goodsPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPromotionAmount != null">
+                #{orderPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="rebateVoucherAmount != null">
+                #{rebateVoucherAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="depositAmount != null">
+                #{depositAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="payAmount != null">
+                #{payAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paidAmount != null">
+                #{paidAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="platformAmount != null">
+                #{platformAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundedAmount != null">
+                #{refundedAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="outTradeNo != null">
+                #{outTradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCostDO">
+        update order_distributor_cost
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAmount != null">
+                goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="distributionAmount != null">
+                distribution_amount = #{distributionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsPromotionAmount != null">
+                goods_promotion_amount = #{goodsPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPromotionAmount != null">
+                order_promotion_amount = #{orderPromotionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="rebateVoucherAmount != null">
+                rebate_voucher_amount = #{rebateVoucherAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="depositAmount != null">
+                deposit_amount = #{depositAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="payAmount != null">
+                pay_amount = #{payAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paidAmount != null">
+                paid_amount = #{paidAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="platformAmount != null">
+                platform_amount = #{platformAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundedAmount != null">
+                refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="outTradeNo != null">
+                out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCostDO">
+        update order_distributor_cost
+        set order_id               = #{orderId,jdbcType=INTEGER},
+            distributor_id         = #{distributorId,jdbcType=INTEGER},
+            goods_amount           = #{goodsAmount,jdbcType=DECIMAL},
+            distribution_amount    = #{distributionAmount,jdbcType=DECIMAL},
+            goods_promotion_amount = #{goodsPromotionAmount,jdbcType=DECIMAL},
+            order_promotion_amount = #{orderPromotionAmount,jdbcType=DECIMAL},
+            rebate_voucher_amount  = #{rebateVoucherAmount,jdbcType=DECIMAL},
+            deposit_amount         = #{depositAmount,jdbcType=DECIMAL},
+            pay_amount             = #{payAmount,jdbcType=DECIMAL},
+            platform_amount        = #{platformAmount,jdbcType=DECIMAL},
+            refunded_amount        = #{refundedAmount,jdbcType=DECIMAL},
+            paid_amount            = #{paidAmount,jdbcType=DECIMAL},
+            out_trade_no           = #{outTradeNo,jdbcType=VARCHAR},
+            create_time            = #{createTime,jdbcType=TIMESTAMP},
+            update_time            = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateOrderRefundedAmount" parameterType="map">
+        update order_distributor_cost
+        set refunded_amount = #{refundedAmount,jdbcType=DECIMAL},
+            update_time     = now()
+        where order_id = #{orderId,jdbcType=INTEGER}
+          and distributor_id = #{distributorId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_distributor_cost
+            set order_id = #{item.orderId,jdbcType=INTEGER},
+            distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            goods_amount = #{item.goodsAmount,jdbcType=DECIMAL},
+            distribution_amount = #{item.distributionAmount,jdbcType=DECIMAL},
+            goods_promotion_amount = #{item.goodsPromotionAmount,jdbcType=DECIMAL},
+            order_promotion_amount = #{item.orderPromotionAmount,jdbcType=DECIMAL},
+            rebate_voucher_amount = #{item.rebateVoucherAmount,jdbcType=DECIMAL},
+            deposit_amount = #{item.depositAmount,jdbcType=DECIMAL},
+            pay_amount = #{item.payAmount,jdbcType=DECIMAL},
+            platform_amount = #{item.platformAmount,jdbcType=DECIMAL},
+            paid_amount = #{item.paidAmount,jdbcType=DECIMAL},
+            refunded_amount = #{item.refundedAmount,jdbcType=DECIMAL},
+            out_trade_no = #{item.outTradeNo,jdbcType=VARCHAR},
+            update_time = now()
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <select id="listByOrderIdsAndDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_cost
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        and order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByOrderIdsAndErpFlag"
+            resultMap="BaseResultMap">
+        select odc.*
+        from order_distributor_cost odc join order_distributor_data odd on odd.erp_flag = 1 and odd.order_id =
+        odc.order_id and odc.`distributor_id` = odd.`distributor_id`
+        where odc.order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByOrderIdsAndTreeNode"
+            resultMap="BaseResultMap">
+        select odc.*
+        from order_distributor_cost odc join order_distributor_data odd on odd.order_id =
+        odc.order_id
+        where odd.tree_node = #{treeNode} and odc.order_id in
+        <foreach collection="orderIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByOrderErpNo" parameterType="map"
+            resultMap="BaseResultMap">
+        select odc.*
+        from order_distributor_cost odc
+                 join order_extend_data oed on oed.order_id = odc.order_id
+        where oed.order_erp_no = #{orderErpNo}
+    </select>
+
+    <select id="listByOrderId" parameterType="map"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_cost
+        where order_id = #{orderId}
+    </select>
+
+    <select id="getErpOrderByOrderId" resultMap="BaseResultMap">
+        select a.*
+        from order_distributor_cost a
+                 left join order_distributor_data b
+                           on (a.order_id = b.order_id and a.distributor_id = b.distributor_id)
+        where a.order_id = #{orderId,jdbcType=INTEGER}
+          and b.erp_flag = 1 limit 1
+    </select>
+
+    <select id="getDirectPayInfoByOrderId" resultMap="BaseResultMap">
+        select a.*
+        from order_distributor_cost a
+                 left join order_distributor_data b
+                           on (a.order_id = b.order_id and a.distributor_id = b.distributor_id)
+        where a.order_id = #{orderId,jdbcType=INTEGER}
+          and b.direct_flag = 1
+          and b.pay_way in (1, 2, 6, 7, 8, 9)
+          and b.order_status = 1
+          and b.pay_status in (1, 2)
+    </select>
+
+    <update id="modifyPaymentVoucher" parameterType="map">
+        update order_distributor_cost
+        set out_trade_no=#{outTradeNo}
+        where order_id = #{orderId}
+          and distributor_id = #{primaryDistributorId}
+    </update>
+
+</mapper>

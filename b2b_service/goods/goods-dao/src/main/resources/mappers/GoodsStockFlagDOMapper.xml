@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.goods.dao.stock.GoodsStockFlagDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.goods.dao.stock.dataobject.GoodsStockFlagDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="warehouse_id_arr" property="warehouseIdArr" jdbcType="VARCHAR"/>
+        <result column="under_stock_flag" property="underStockFlag" jdbcType="SMALLINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , item_id, warehouse_id_arr, under_stock_flag, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from goods_stock_flag
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from goods_stock_flag
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.goods.dao.stock.dataobject.GoodsStockFlagDO">
+        insert into goods_stock_flag (id, item_id, warehouse_id_arr,
+                                      under_stock_flag, update_time, goods_id)
+        values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{warehouseIdArr,jdbcType=VARCHAR},
+                #{underStockFlag,jdbcType=SMALLINT}, #{updateTime,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=INTEGER})
+    </insert>
+    <insert id="batchCreate" useGeneratedKeys="true" keyProperty="id">
+        insert into goods_stock_flag ( item_id, warehouse_id_arr,
+        under_stock_flag,whether_out_of_stock_in_transit, update_time,goods_id)
+        values
+        <foreach collection="goodsStockFlagDOList" item="goodsStockFlag" separator=" , ">
+            ( #{goodsStockFlag.itemId,jdbcType=INTEGER}, #{goodsStockFlag.warehouseIdArr,jdbcType=VARCHAR},
+            #{goodsStockFlag.underStockFlag,jdbcType=SMALLINT},#{goodsStockFlag.whetherOutOfStockInTransit,jdbcType=SMALLINT},
+            #{goodsStockFlag.updateTime,jdbcType=TIMESTAMP},
+            #{goodsStockFlag.goodsId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.goods.dao.stock.dataobject.GoodsStockFlagDO">
+        insert into goods_stock_flag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="warehouseIdArr != null">
+                warehouse_id_arr,
+            </if>
+            <if test="underStockFlag != null">
+                under_stock_flag,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="goodsId != null">
+                goods_id
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseIdArr != null">
+                #{warehouseIdArr,jdbcType=VARCHAR},
+            </if>
+            <if test="underStockFlag != null">
+                #{underStockFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsId !=null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.goods.dao.stock.dataobject.GoodsStockFlagDO">
+        update goods_stock_flag
+        <set>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseIdArr != null">
+                warehouse_id_arr = #{warehouseIdArr,jdbcType=VARCHAR},
+            </if>
+            <if test="underStockFlag != null">
+                under_stock_flag = #{underStockFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.goods.dao.stock.dataobject.GoodsStockFlagDO">
+        update goods_stock_flag
+        set item_id          = #{itemId,jdbcType=INTEGER},
+            warehouse_id_arr = #{warehouseIdArr,jdbcType=VARCHAR},
+            under_stock_flag = #{underStockFlag,jdbcType=SMALLINT},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="updateList" item="goodsStockFlag" separator=" ; ">
+            update goods_stock_flag
+            set item_id = #{goodsStockFlag.itemId,jdbcType=INTEGER},
+            warehouse_id_arr = #{goodsStockFlag.warehouseIdArr,jdbcType=VARCHAR},
+            whether_out_of_stock_in_transit= #{goodsStockFlag.whetherOutOfStockInTransit,jdbcType=SMALLINT},
+            under_stock_flag = #{goodsStockFlag.underStockFlag,jdbcType=SMALLINT},
+            update_time = #{goodsStockFlag.updateTime,jdbcType=TIMESTAMP}
+            where id = #{goodsStockFlag.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="getByItemIdAndWarehouseIdArr" resultMap="BaseResultMap">
+        select *
+        from goods_stock_flag
+        where item_id = #{itemId,jdbcType=INTEGER}
+          and warehouse_id_arr = #{warehouseIdArr,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByItemIdList">
+        delete from goods_stock_flag where item_id in
+        <foreach collection="itemIdList" separator=" , " item="itemId" open="(" close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+    <select id="listByItemIds" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from goods_stock_flag
+        where item_id in
+        <foreach collection="itemIds" separator=" , " item="itemId" open="(" close=")">
+            #{itemId}
+        </foreach>
+    </select>
+</mapper>

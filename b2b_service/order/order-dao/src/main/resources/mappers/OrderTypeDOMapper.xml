@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.order.OrderTypeDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.order.dataobject.OrderTypeDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="erp_type" property="erpType" jdbcType="VARCHAR"/>
+        <result column="special_flag" property="specialFlag" jdbcType="SMALLINT"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="editable" property="editable" jdbcType="SMALLINT"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, `name`, erp_type,special_flag,warehouse_id,
+        `description`, editable, open_flag, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_type
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_type
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_type
+        <where>
+            <if test="name!=null">
+                and `name` like CONCAT('%',#{name},'%')
+            </if>
+            <if test="erpType!=null">
+                and erp_type like CONCAT('%',#{erpType},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_type
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.order.dataobject.OrderTypeDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into order_type (id, `name`, erp_type,special_flag,warehouse_id,
+                                `description`, editable, open_flag,
+                                create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{erpType,jdbcType=VARCHAR},#{specialFlag,jdbcType=SMALLINT},#{warehouseId,jdbcType=INTEGER},
+                #{description,jdbcType=VARCHAR}, #{editable,jdbcType=SMALLINT}, #{openFlag,jdbcType=SMALLINT},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.order.dataobject.OrderTypeDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="erpType != null">
+                erp_type,
+            </if>
+            <if test="specialFlag != null">
+                special_flag,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="editable != null">
+                editable,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="erpType != null">
+                #{erpType,jdbcType=VARCHAR},
+            </if>
+            <if test="specialFlag != null">
+                #{specialFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="editable != null">
+                #{editable,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.order.dataobject.OrderTypeDO">
+        update order_type
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="erpType != null">
+                erp_type = #{erpType,jdbcType=VARCHAR},
+            </if>
+            <if test="specialFlag != null">
+                special_flag = #{specialFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="editable != null">
+                editable = #{editable,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.order.dataobject.OrderTypeDO">
+        update order_type
+        set `name`      = #{name,jdbcType=VARCHAR},
+            erp_type    = #{erpType,jdbcType=VARCHAR},
+            special_flag = #{specialFlag,jdbcType=SMALLINT},
+            warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            `description`      = #{description,jdbcType=VARCHAR},
+            editable    = #{editable,jdbcType=SMALLINT},
+            open_flag   = #{openFlag,jdbcType=SMALLINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select * from order_type where 1=1
+        <if test="openFlag !=null">
+            and open_flag = #{openFlag,jdbcType=SMALLINT}
+        </if>
+    </select>
+    <select id="listBySpecialFlag" resultMap="BaseResultMap">
+        select * from order_type where special_flag = #{specialFlag,jdbcType=SMALLINT}
+    </select>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.cost.OrderInvoiceDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cost.dataobject.OrderInvoiceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="invoice_type" jdbcType="SMALLINT" property="invoiceType"/>
+        <result column="invoice_title_type" jdbcType="SMALLINT" property="invoiceTitleType"/>
+        <result column="taxpayer_number" jdbcType="VARCHAR" property="taxpayerNumber"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="register_address" jdbcType="VARCHAR" property="registerAddress"/>
+        <result column="register_phone" jdbcType="VARCHAR" property="registerPhone"/>
+        <result column="bank_account_name" jdbcType="VARCHAR" property="bankAccountName"/>
+        <result column="bank_account" jdbcType="VARCHAR" property="bankAccount"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_id, invoice_type, invoice_title_type, taxpayer_number, name, register_address,
+    register_phone, bank_account_name, bank_account, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_invoice
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByOrderId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_invoice
+        where order_id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_invoice
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cost.dataobject.OrderInvoiceDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into order_invoice (id, order_id, invoice_type,
+                                   invoice_title_type, taxpayer_number, name,
+                                   register_address, register_phone, bank_account_name,
+                                   bank_account, create_time, update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{invoiceType,jdbcType=SMALLINT},
+                #{invoiceTitleType,jdbcType=SMALLINT}, #{taxpayerNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{registerAddress,jdbcType=VARCHAR}, #{registerPhone,jdbcType=VARCHAR},
+                #{bankAccountName,jdbcType=VARCHAR},
+                #{bankAccount,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cost.dataobject.OrderInvoiceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_invoice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="invoiceType != null">
+                invoice_type,
+            </if>
+            <if test="invoiceTitleType != null">
+                invoice_title_type,
+            </if>
+            <if test="taxpayerNumber != null">
+                taxpayer_number,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="registerAddress != null">
+                register_address,
+            </if>
+            <if test="registerPhone != null">
+                register_phone,
+            </if>
+            <if test="bankAccountName != null">
+                bank_account_name,
+            </if>
+            <if test="bankAccount != null">
+                bank_account,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="invoiceType != null">
+                #{invoiceType,jdbcType=SMALLINT},
+            </if>
+            <if test="invoiceTitleType != null">
+                #{invoiceTitleType,jdbcType=SMALLINT},
+            </if>
+            <if test="taxpayerNumber != null">
+                #{taxpayerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="registerAddress != null">
+                #{registerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="registerPhone != null">
+                #{registerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccountName != null">
+                #{bankAccountName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccount != null">
+                #{bankAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.cost.dataobject.OrderInvoiceDO">
+        update order_invoice
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="invoiceType != null">
+                invoice_type = #{invoiceType,jdbcType=SMALLINT},
+            </if>
+            <if test="invoiceTitleType != null">
+                invoice_title_type = #{invoiceTitleType,jdbcType=SMALLINT},
+            </if>
+            <if test="taxpayerNumber != null">
+                taxpayer_number = #{taxpayerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="registerAddress != null">
+                register_address = #{registerAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="registerPhone != null">
+                register_phone = #{registerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccountName != null">
+                bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccount != null">
+                bank_account = #{bankAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cost.dataobject.OrderInvoiceDO">
+        update order_invoice
+        set order_id           = #{orderId,jdbcType=INTEGER},
+            invoice_type       = #{invoiceType,jdbcType=SMALLINT},
+            invoice_title_type = #{invoiceTitleType,jdbcType=SMALLINT},
+            taxpayer_number    = #{taxpayerNumber,jdbcType=VARCHAR},
+            name               = #{name,jdbcType=VARCHAR},
+            register_address   = #{registerAddress,jdbcType=VARCHAR},
+            register_phone     = #{registerPhone,jdbcType=VARCHAR},
+            bank_account_name  = #{bankAccountName,jdbcType=VARCHAR},
+            bank_account       = #{bankAccount,jdbcType=VARCHAR},
+            create_time        = #{createTime,jdbcType=TIMESTAMP},
+            update_time        = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

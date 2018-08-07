@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.deliver.OrderDeliverBillDetailDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDetailDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_deliver_bill_id" property="orderDeliverBillId" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_goods_id" property="orderGoodsId" jdbcType="INTEGER"/>
+        <result column="serial_number" property="serialNumber" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="INTEGER"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="bar_code" property="barCode" jdbcType="VARCHAR"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER"/>
+        <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_deliver_bill_id, order_id, order_goods_id, serial_number, goods_id, goods_no,
+    goods_name, item_id, item_code, bar_code ,item_name, count, warehouse_id, warehouse_name, create_time,
+    update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_deliver_bill_detail
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByOrderDeliverBillId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_deliver_bill_detail
+        where order_deliver_bill_id = #{orderDeliverBillId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getByOrderGoodsId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_deliver_bill_detail
+        where order_goods_id = #{orderGoodsId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from order_deliver_bill_detail
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDetailDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_deliver_bill_detail (id, order_deliver_bill_id, order_id,
+                                               order_goods_id, serial_number, goods_id,
+                                               goods_no, goods_name, item_id,
+                                               item_code, bar_code, item_name, count,
+                                               warehouse_id, warehouse_name, create_time,
+                                               update_time)
+        values (#{id,jdbcType=INTEGER}, #{orderDeliverBillId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER},
+                #{orderGoodsId,jdbcType=INTEGER}, #{serialNumber,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER},
+                #{goodsNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER},
+                #{itemCode,jdbcType=VARCHAR}, #{barCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR},
+                #{count,jdbcType=INTEGER},
+                #{warehouseId,jdbcType=INTEGER}, #{warehouseName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDetailDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_deliver_bill_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderDeliverBillId != null">
+                order_deliver_bill_id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsNo != null">
+                goods_no,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="itemCode != null">
+                item_code,
+            </if>
+            <if test="barCode != null">
+                bar_code,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id,
+            </if>
+            <if test="warehouseName != null">
+                warehouse_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderDeliverBillId != null">
+                #{orderDeliverBillId,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsNo != null">
+                #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCode != null">
+                #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="barCode != null">
+                #{barCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseId != null">
+                #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseName != null">
+                #{warehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDetailDO">
+        update order_deliver_bill_detail
+        <set>
+            <if test="orderDeliverBillId != null">
+                order_deliver_bill_id = #{orderDeliverBillId,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderGoodsId != null">
+                order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsNo != null">
+                goods_no = #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCode != null">
+                item_code = #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="barCode != null">
+                bar_code = #{barCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                item_name = #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseId != null">
+                warehouse_id = #{warehouseId,jdbcType=INTEGER},
+            </if>
+            <if test="warehouseName != null">
+                warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.deliver.dataobject.OrderDeliverBillDetailDO">
+        update order_deliver_bill_detail
+        set order_deliver_bill_id = #{orderDeliverBillId,jdbcType=INTEGER},
+            order_id              = #{orderId,jdbcType=INTEGER},
+            order_goods_id        = #{orderGoodsId,jdbcType=INTEGER},
+            serial_number         = #{serialNumber,jdbcType=INTEGER},
+            goods_id              = #{goodsId,jdbcType=INTEGER},
+            goods_no              = #{goodsNo,jdbcType=VARCHAR},
+            goods_name            = #{goodsName,jdbcType=VARCHAR},
+            item_id               = #{itemId,jdbcType=INTEGER},
+            item_code             = #{itemCode,jdbcType=VARCHAR},
+            bar_code              = #{barCode,jdbcType=VARCHAR},
+            item_name             = #{itemName,jdbcType=VARCHAR},
+            count                 = #{count,jdbcType=INTEGER},
+            warehouse_id          = #{warehouseId,jdbcType=INTEGER},
+            warehouse_name        = #{warehouseName,jdbcType=VARCHAR},
+            create_time           = #{createTime,jdbcType=TIMESTAMP},
+            update_time           = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteByOrderDeliverBillIds">
+        delete from order_deliver_bill_detail where
+        order_deliver_bill_id in
+        <foreach collection="orderDeliverBillIdList" open=" ( " close=" )" separator="," item="orderDeliverBillId">
+            #{orderDeliverBillId}
+        </foreach>
+    </delete>
+    <select id="listByOrderDeliverBillIdList" resultMap="BaseResultMap">
+        select * from order_deliver_bill_detail where order_deliver_bill_id in
+        <foreach collection="orderDeliverBillIdList" item="orderDeliverBillId" open=" ( " close=")" separator=" , ">
+            #{orderDeliverBillId}
+        </foreach>
+
+    </select>
+    <select id="listByOrderGoodsId" resultMap="BaseResultMap">
+        select * from order_deliver_bill_detail where order_goods_id = #{orderGoodsId,jdbcType=INTEGER}
+    </select>
+    <select id="listMorethenCreateTime" resultMap="BaseResultMap">
+        SELECT *   FROM
+        (
+        SELECT odbd.`id` ,odbd.order_goods_id,
+        SUM(ifnull(odbd.`count`,0) ) count ,og.deliver_count
+        FROM `order_goods` og LEFT JOIN `order_deliver_bill_detail` odbd on og.`id` = odbd.`order_goods_id`
+        WHERE og.`create_time` &gt; '2018-08-01 00:00:00'
+        GROUP BY og.`id`
+        ORDER BY og.`id` DESC
+        ) t WHERE t.deliver_count &lt; t.count
+    </select>
+    <select id="listByOrderIdList" resultMap="BaseResultMap">
+        select * from order_deliver_bill_detail where order_id
+        in
+        <foreach collection="orderIdList" open=" (" item="orderId" close=")" separator=",">
+            #{orderId}
+        </foreach>
+        order by order_id asc
+    </select>
+</mapper>

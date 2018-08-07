@@ -1,0 +1,28 @@
+CREATE TABLE `dy_platform` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `platform` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '平台编码',
+  `type` smallint(5) unsigned NOT NULL COMMENT '平台类型：1小程序',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抖音平台名称',
+  `app_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抖音平台appid',
+  `app_secret` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '抖音平台密钥',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `platform_app_id` (`app_id`,`platform`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='分销商抖音平台配置表';
+
+CREATE TABLE `dy_platform_distributor` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `dy_platform_id` int(10) unsigned NOT NULL COMMENT '抖音平台id',
+  `distributor_id` int(10) unsigned NOT NULL COMMENT '分销商ID',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名(登录名)',
+  `company_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司名',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `distributor_id` (`distributor_id`) USING BTREE,
+  KEY `dy_platform_id` (`dy_platform_id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='分销商抖音平台关联关系表';
+
+INSERT INTO `dy_platform`(`platform`, `type`, `name`, `app_id`, `app_secret`, `create_time`, `update_time`) VALUES ('GF60006', 1, '抖音', 'tt754703faea7f02c301', '4a2d8e69f24aea64abdca00a4a8863ebaace17e9', '2018-04-23 14:04:58', '2018-05-23 14:05:02');
+
+
+INSERT INTO `dy_platform_distributor`( `dy_platform_id`, `distributor_id`, `name`, `company_name`) VALUES ( 1, 2601, '抖音', '抖音');

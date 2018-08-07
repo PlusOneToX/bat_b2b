@@ -1,0 +1,2 @@
+dubboContextFilterProvider=com.bat.financial.filter.DubboProviderContextFilter
+dubboContextFilterConsumer=com.bat.financial.filter.DubboConsumerContextFilter

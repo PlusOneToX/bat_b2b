@@ -1,0 +1,48 @@
+ALTER TABLE `classify` 
+ADD COLUMN `recommend_flag` smallint(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否推荐分类 0否 1是' AFTER `update_time`;
+
+ALTER TABLE `classify` 
+ADD COLUMN `applet_name` varchar(50) NULL COMMENT '小程序分类名称' AFTER `recommend_flag`;
+
+CREATE TABLE `classify_banner_relevance` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `classify_id` int(10) unsigned DEFAULT NULL COMMENT '分类id',
+  `img_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '轮播图地址',
+  `jump_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '跳转地址',
+  `sort` smallint(5) unsigned DEFAULT NULL COMMENT '排序',
+  `recommend_flag` smallint(5) unsigned DEFAULT '0' COMMENT '是否推荐轮播图 0否 1是',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='分类轮播图关系表';
+
+
+ALTER TABLE `goods_store_mobile` 
+ADD COLUMN `module_type`  varchar(50) NULL COMMENT '小程序分类名称';
+
+ALTER TABLE `goods_min_max_price` 
+ADD INDEX(`goods_id`),
+ADD INDEX `scale_price_id_key`(`scale_price_id`);
+
+ALTER TABLE `goods` 
+ADD INDEX `sale_time`(`sale_time`),
+ADD INDEX `goods_type`(`goods_type`),
+ADD INDEX `category_id`(`category_id`),
+ADD INDEX `goods_name`(`goods_name`),
+ADD INDEX `goods_name_en`(`goods_name_en`),
+ADD INDEX `keywords`(`keywords`),
+ADD INDEX `brand_id`(`brand_id`);
+
+ALTER TABLE `goods_sale_data` 
+ADD INDEX `sale_num`(`sale_num`);
+
+ALTER TABLE `goods_stock_flag` 
+ADD INDEX `warehouse_id_arr`(`warehouse_id_arr`);
+
+ALTER TABLE `goods_distributor_collection` 
+ADD INDEX `goods_id`(`goods_id`),
+ADD INDEX `distributor_id`(`distributor_id`);
+
+ALTER TABLE `goods_item` 
+ADD INDEX `bar_code`(`bar_code`);
+
+ALTER TABLE `goods_item` 
+ADD INDEX `item_code`(`item_code`);

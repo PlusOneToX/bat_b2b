@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.region.RegionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.region.dataobject.RegionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="region_name" jdbcType="VARCHAR" property="regionName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="level" jdbcType="SMALLINT" property="level"/>
+        <result column="have_next" jdbcType="CHAR" property="haveNext"/>
+        <result column="region_name_en" jdbcType="VARCHAR" property="regionNameEn"/>
+        <result column="erp_code" jdbcType="VARCHAR" property="erpCode"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , region_name, parent_id, `level`, have_next, region_name_en, erp_code, open_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getChinaRegion" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByParentId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region
+        where parent_id = #{parentId,jdbcType=INTEGER}
+        and open_flag = 1
+    </select>
+    <select id="listByParentIdAndRegionName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region
+        where parent_id = #{parentId,jdbcType=INTEGER} and (region_name like CONCAT('%',#{regionName},'%') or
+        region_name_en like CONCAT('%',#{regionName},'%'))
+        and open_flag = 1
+    </select>
+    <select id="listRegionByLevelAndRegionName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from region
+        where level = #{level,jdbcType=INTEGER} and region_name like CONCAT('%',#{regionName},'%')
+        and open_flag = 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from region
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.region.dataobject.RegionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into region (region_name, parent_id, `level`, have_next,
+        region_name_en, erp_code, open_flag)
+        values (#{regionName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{level,jdbcType=SMALLINT},
+        #{haveNext,jdbcType=CHAR},
+        #{regionNameEn,jdbcType=VARCHAR}, #{erpCode,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.region.dataobject.RegionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="regionName != null">
+                region_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="level != null">
+                `level`,
+            </if>
+            <if test="haveNext != null">
+                have_next,
+            </if>
+            <if test="regionNameEn != null">
+                region_name_en,
+            </if>
+            <if test="erpCode != null">
+                erp_code,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="regionName != null">
+                #{regionName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=SMALLINT},
+            </if>
+            <if test="haveNext != null">
+                #{haveNext,jdbcType=CHAR},
+            </if>
+            <if test="regionNameEn != null">
+                #{regionNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="erpCode != null">
+                #{erpCode,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.region.dataobject.RegionDO">
+        update region
+        <set>
+            <if test="regionName != null">
+                region_name = #{regionName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                `level` = #{level,jdbcType=SMALLINT},
+            </if>
+            <if test="haveNext != null">
+                have_next = #{haveNext,jdbcType=CHAR},
+            </if>
+            <if test="regionNameEn != null">
+                region_name_en = #{regionNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="erpCode != null">
+                erpCode = #{erpCode,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                openFlag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.region.dataobject.RegionDO">
+        update region
+        set region_name    = #{regionName,jdbcType=VARCHAR},
+            parent_id      = #{parentId,jdbcType=INTEGER},
+            `level`        = #{level,jdbcType=SMALLINT},
+            have_next      = #{haveNext,jdbcType=CHAR},
+            region_name_en = #{regionNameEn,jdbcType=VARCHAR},
+            erpCode        = #{erpCode,jdbcType=VARCHAR},
+            openFlag       = #{openFlag,jdbcType=SMALLINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.platformaccount.AccountWxMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="erp_account_no" jdbcType="VARCHAR" property="erpAccountNo"/>
+        <result column="bank_no" jdbcType="VARCHAR" property="bankNo"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="serial_number" jdbcType="CHAR" property="serialNumber"/>
+        <result column="certificate_invalid_time" jdbcType="TIMESTAMP" property="certificateInvalidTime"/>
+        <result column="account_no" jdbcType="VARCHAR" property="accountNo"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_type" jdbcType="SMALLINT" property="appType"/>
+        <result column="back_type" jdbcType="SMALLINT" property="backType"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        <result column="apiclient_key" jdbcType="LONGVARCHAR" property="apiclientKey"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, organization_id, account_name,erp_account_no, bank_no, app_id, serial_number, certificate_invalid_time,
+    account_no, app_key, app_type, back_type, open_flag, version, create_time, update_time
+    </sql>
+    <sql id="Blob_Column_List">
+        apiclient_key
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_wx
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getAccountByOrganizationAndAppType"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_wx
+        <where>
+            <if test="organizationId!=null">
+                and organization_id = #{organizationId,jdbcType=INTEGER}
+            </if>
+            <if test="appType!=null">
+                and app_type = #{appType,jdbcType=SMALLINT}
+            </if>
+        </where>
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_wx
+        <where>
+            <if test="params.organizationId!=null">
+                and organization_id = #{params.organizationId,jdbcType=INTEGER}
+            </if>
+            <if test="params.appType">
+                and app_type = #{params.appType}
+            </if>
+            <if test="params.appId">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.accountName">
+                and account_name = #{params.accountName}
+            </if>
+            <if test="params.erpAccountNo">
+                and erp_account_no = #{params.erpAccountNo}
+            </if>
+            <if test="params.accountNo">
+                and account_no = #{params.accountNo}
+            </if>
+            <if test="params.merchanAcctId">
+                and merchan_acct_id = #{params.merchanAcctId}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="getByDistributorIdAndAppType"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_wx
+        <where>
+            <if test="organizationId!=null">
+                and organization_id = #{organizationId,jdbcType=INTEGER}
+            </if>
+            <if test="appType!=null">
+                and app_type = #{appType}
+            </if>
+            and open_flag = 1
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from account_wx
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_wx (organization_id, account_name,erp_account_no, bank_no,
+        app_id, apiclient_key,serial_number, certificate_invalid_time,
+        account_no, app_key, app_type,
+        back_type, open_flag, version, create_time,
+        update_time)
+        values (#{organizationId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR},#{erpAccountNo,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR},
+        #{appId,jdbcType=VARCHAR}, #{apiclientKey,jdbcType=LONGVARCHAR}, #{serialNumber,jdbcType=CHAR},
+        #{certificateInvalidTime,jdbcType=TIMESTAMP},
+        #{accountNo,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{appType,jdbcType=SMALLINT},
+        #{backType,jdbcType=SMALLINT}, #{openFlag,jdbcType=SMALLINT}, #{version,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_wx
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no,
+            </if>
+            <if test="bankNo != null">
+                bank_no,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="apiclientKey != null">
+                apiclient_key,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="certificateInvalidTime != null">
+                certificate_invalid_time,
+            </if>
+            <if test="accountNo != null">
+                account_no,
+            </if>
+            <if test="appKey != null">
+                app_key,
+            </if>
+            <if test="appType != null">
+                app_type,
+            </if>
+            <if test="backType != null">
+                back_type,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="apiclientKey != null">
+                #{apiclientKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=CHAR},
+            </if>
+            <if test="certificateInvalidTime != null">
+                #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountNo != null">
+                #{accountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appType != null">
+                #{appType,jdbcType=SMALLINT},
+            </if>
+            <if test="backType != null">
+                #{backType,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        update account_wx
+        <set>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no = #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                bank_no = #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="apiclientKey != null">
+                apiclient_key = #{apiclientKey,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=CHAR},
+            </if>
+            <if test="certificateInvalidTime != null">
+                certificate_invalid_time = #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountNo != null">
+                account_no = #{accountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                app_key = #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appType != null">
+                app_type = #{appType,jdbcType=SMALLINT},
+            </if>
+            <if test="backType != null">
+                back_type = #{backType,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        update account_wx
+        set organization_id          = #{organizationId,jdbcType=INTEGER},
+            account_name             = #{accountName,jdbcType=VARCHAR},
+            erp_account_no  = #{erpAccountNo,jdbcType=VARCHAR},
+            bank_no                  = #{bankNo,jdbcType=VARCHAR},
+            app_id                   = #{appId,jdbcType=VARCHAR},
+            apiclient_key            = #{apiclientKey,jdbcType=LONGVARCHAR},
+            serial_number            = #{serialNumber,jdbcType=CHAR},
+            certificate_invalid_time = #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            account_no               = #{accountNo,jdbcType=VARCHAR},
+            app_key                  = #{appKey,jdbcType=VARCHAR},
+            app_type                 = #{appType,jdbcType=SMALLINT},
+            back_type                = #{backType,jdbcType=SMALLINT},
+            open_flag                = #{openFlag,jdbcType=SMALLINT},
+            version                  = #{version,jdbcType=VARCHAR},
+            create_time              = #{createTime,jdbcType=TIMESTAMP},
+            update_time              = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountWxDO">
+        update account_wx
+        set organization_id          = #{organizationId,jdbcType=INTEGER},
+            account_name             = #{accountName,jdbcType=VARCHAR},
+            erp_account_no  = #{erpAccountNo,jdbcType=VARCHAR},
+            bank_no                  = #{bankNo,jdbcType=VARCHAR},
+            app_id                   = #{appId,jdbcType=VARCHAR},
+            apiclient_key            = #{apiclientKey,jdbcType=LONGVARCHAR},
+            serial_number            = #{serialNumber,jdbcType=CHAR},
+            certificate_invalid_time = #{certificateInvalidTime,jdbcType=TIMESTAMP},
+            account_no               = #{accountNo,jdbcType=VARCHAR},
+            app_key                  = #{appKey,jdbcType=VARCHAR},
+            app_type                 = #{appType,jdbcType=SMALLINT},
+            back_type                = #{backType,jdbcType=SMALLINT},
+            open_flag                = #{openFlag,jdbcType=SMALLINT},
+            version                  = #{version,jdbcType=VARCHAR},
+            create_time              = #{createTime,jdbcType=TIMESTAMP},
+            update_time              = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

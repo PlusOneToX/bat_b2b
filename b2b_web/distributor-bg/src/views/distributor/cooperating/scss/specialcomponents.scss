@@ -1,0 +1,37 @@
+.check-goods {
+	background-color: #fff;
+	height: 100%;
+	.nav-bar {
+    padding: 0px 10px 14px 16px;
+    .nav-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .nav-list-sear {
+        .box-search{
+            width: 170px;
+          }
+          .btn-box {
+            position: relative;
+            top: -1px;
+        }
+      }
+    }
+	}
+	.amendMessage {
+		border-top: 1px solid #dcdcdc; border-bottom: 1px solid #dcdcdc;padding-bottom: 20px;font-weight: 700;
+		.title {
+			margin-top: 10px;
+			padding: 30px;
+			padding-left: 60px;
+			padding-right: 60px;
+			text-align: center;
+		}
+	}
+	.header-row {
+		@include table-header-color;
+	}
+	.foot-btn {
+		margin-top:50px;
+	}
+}

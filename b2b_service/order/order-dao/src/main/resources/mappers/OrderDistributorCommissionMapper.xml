@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.cost.OrderDistributorCommissionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cost.dataobject.OrderDistributorCommissionDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="distributor_ancestor_id" property="distributorAncestorId" jdbcType="INTEGER"/>
+        <result column="distributor_descendant_id" property="distributorDescendantId" jdbcType="INTEGER"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="order_ancestor_price" property="orderAncestorPrice" jdbcType="DECIMAL"/>
+        <result column="order_descendant_price" property="orderDescendantPrice" jdbcType="DECIMAL"/>
+        <result column="commission_type" property="commissionType" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_id, distributor_ancestor_id, distributor_descendant_id, amount, order_ancestor_price, 
+    order_descendant_price, commission_type, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_distributor_commission
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_distributor_commission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCommissionDO"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into order_distributor_commission (id, order_id, distributor_ancestor_id, 
+      distributor_descendant_id, amount, order_ancestor_price, 
+      order_descendant_price, commission_type,
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{distributorAncestorId,jdbcType=INTEGER}, 
+      #{distributorDescendantId,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, #{orderAncestorPrice,jdbcType=DECIMAL}, 
+      #{orderDescendantPrice,jdbcType=DECIMAL}, #{commissionType,jdbcType=SMALLINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_distributor_commission (id, order_id, distributor_ancestor_id,
+        distributor_descendant_id, amount, order_ancestor_price,
+        order_descendant_price, commission_type,
+        create_time, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER},
+            #{item.distributorAncestorId,jdbcType=INTEGER},
+            #{item.distributorDescendantId,jdbcType=INTEGER}, #{item.amount,jdbcType=DECIMAL},
+            #{item.orderAncestorPrice,jdbcType=DECIMAL},
+            #{item.orderDescendantPrice,jdbcType=DECIMAL}, #{item.commissionType,jdbcType=SMALLINT},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCommissionDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into order_distributor_commission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="distributorAncestorId != null">
+                distributor_ancestor_id,
+            </if>
+            <if test="distributorDescendantId != null">
+                distributor_descendant_id,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="orderAncestorPrice != null">
+                order_ancestor_price,
+            </if>
+            <if test="orderDescendantPrice != null">
+                order_descendant_price,
+            </if>
+            <if test="commissionType != null">
+                commission_type,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorId != null">
+                #{distributorAncestorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorDescendantId != null">
+                #{distributorDescendantId,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAncestorPrice != null">
+                #{orderAncestorPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="orderDescendantPrice != null">
+                #{orderDescendantPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionType != null">
+                #{commissionType,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCommissionDO">
+        update order_distributor_commission
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorId != null">
+                distributor_ancestor_id = #{distributorAncestorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorDescendantId != null">
+                distributor_descendant_id = #{distributorDescendantId,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAncestorPrice != null">
+                order_ancestor_price = #{orderAncestorPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="orderDescendantPrice != null">
+                order_descendant_price = #{orderDescendantPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionType != null">
+                commission_type = #{commissionType,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cost.dataobject.OrderDistributorCommissionDO">
+    update order_distributor_commission
+    set order_id = #{orderId,jdbcType=INTEGER},
+      distributor_ancestor_id = #{distributorAncestorId,jdbcType=INTEGER},
+      distributor_descendant_id = #{distributorDescendantId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      order_ancestor_price = #{orderAncestorPrice,jdbcType=DECIMAL},
+      order_descendant_price = #{orderDescendantPrice,jdbcType=DECIMAL},
+      commission_type = #{commissionType,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

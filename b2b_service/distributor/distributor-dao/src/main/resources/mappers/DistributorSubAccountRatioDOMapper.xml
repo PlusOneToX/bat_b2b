@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.distributor.dao.subaccount.DistributorSubAccountRatioDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountRatioDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sub_account_config_id" property="subAccountConfigId" jdbcType="INTEGER" />
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="SubAccountLevelRatioCOResultMap" type="com.bat.distributor.dao.subaccount.co.SubAccountLevelRatioCO">
+    <result column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sub_account_config_id, level_id, ratio, delete_flag, create_time, create_user_id, 
+    create_user_name, update_time, update_user_id, update_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_sub_account_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_sub_account_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountRatioDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_ratio (id, sub_account_config_id, level_id, 
+      ratio, delete_flag, create_time, 
+      create_user_id, create_user_name, update_time, 
+      update_user_id, update_user_name)
+    values (#{id,jdbcType=INTEGER}, #{subAccountConfigId,jdbcType=INTEGER}, #{levelId,jdbcType=INTEGER}, 
+      #{ratio,jdbcType=DECIMAL}, #{deleteFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="batchCreate"  useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_ratio (sub_account_config_id, level_id,
+      ratio, delete_flag, create_time,
+      create_user_id, create_user_name, update_time,
+      update_user_id, update_user_name)
+    values
+    <foreach collection="ratioList" item="ratio" separator=" , " >
+      ( #{ratio.subAccountConfigId,jdbcType=INTEGER}, #{ratio.levelId,jdbcType=INTEGER},
+      #{ratio.ratio,jdbcType=DECIMAL}, #{ratio.deleteFlag,jdbcType=SMALLINT}, #{ratio.createTime,jdbcType=TIMESTAMP},
+      #{ratio.createUserId,jdbcType=INTEGER}, #{ratio.createUserName,jdbcType=VARCHAR}, #{ratio.updateTime,jdbcType=TIMESTAMP},
+      #{ratio.updateUserId,jdbcType=INTEGER}, #{ratio.updateUserName,jdbcType=VARCHAR})
+
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountRatioDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_ratio
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="subAccountConfigId != null" >
+        sub_account_config_id,
+      </if>
+      <if test="levelId != null" >
+        level_id,
+      </if>
+      <if test="ratio != null" >
+        ratio,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="subAccountConfigId != null" >
+        #{subAccountConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="levelId != null" >
+        #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="ratio != null" >
+        #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountRatioDO" >
+    update distributor_sub_account_ratio
+    <set >
+      <if test="subAccountConfigId != null" >
+        sub_account_config_id = #{subAccountConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="levelId != null" >
+        level_id = #{levelId,jdbcType=INTEGER},
+      </if>
+      <if test="ratio != null" >
+        ratio = #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountRatioDO" >
+    update distributor_sub_account_ratio
+    set sub_account_config_id = #{subAccountConfigId,jdbcType=INTEGER},
+      level_id = #{levelId,jdbcType=INTEGER},
+      ratio = #{ratio,jdbcType=DECIMAL},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate" parameterType="java.util.List">
+    <foreach collection="updateList" item="ratio" separator=" ; " >
+      update distributor_sub_account_ratio
+      set sub_account_config_id = #{ratio.subAccountConfigId,jdbcType=INTEGER},
+      level_id = #{ratio.levelId,jdbcType=INTEGER},
+      ratio = #{ratio.ratio,jdbcType=DECIMAL},
+      delete_flag = #{ratio.deleteFlag,jdbcType=SMALLINT},
+      create_time = #{ratio.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{ratio.createUserId,jdbcType=INTEGER},
+      create_user_name = #{ratio.createUserName,jdbcType=VARCHAR},
+      update_time = #{ratio.updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{ratio.updateUserId,jdbcType=INTEGER},
+      update_user_name = #{ratio.updateUserName,jdbcType=VARCHAR}
+      where id = #{ratio.id,jdbcType=INTEGER}
+    </foreach>
+</update>
+  <select id="listBySubAccountConfigId" resultMap="BaseResultMap">
+    select * from distributor_sub_account_ratio where sub_account_config_id = #{subAccountConfigId,jdbcType=INTEGER} and delete_flag = 0
+  </select>
+  <select id="listLevelRatioBySubAccountConfigId" resultMap="SubAccountLevelRatioCOResultMap">
+    SELECT
+        dsar.level_id,
+        dsal.level_name,
+        dsar.ratio
+    FROM
+        distributor_sub_account_ratio dsar
+        LEFT JOIN distributor_sub_account_level dsal ON dsal.id = dsar.level_id
+    WHERE
+        dsar.sub_account_config_id = #{subAccountConfigId}
+        AND dsar.delete_flag = 0
+    ORDER BY
+        dsal.sequence
+  </select>
+  <update id="deleteByLevelId">
+    update distributor_sub_account_ratio set delete_flag =1,update_time = now(),update_user_id = #{userId},update_user_name = #{userName}
+    where level_id = #{levelId} and delete_flag=0
+  </update>
+  <select id="listBySubAccountConfigIdOrderByLevelSequenceAsc" resultMap="BaseResultMap">
+    SELECT
+	dsar.*
+FROM
+	distributor_sub_account_ratio dsar
+	LEFT JOIN distributor_sub_account_level dsal ON dsar.level_id = dsal.id
+WHERE
+	dsar.sub_account_config_id = #{subAccountConfigId}
+	AND dsar.delete_flag = 0
+ORDER BY
+	dsal.sequence
+  </select>
+
+</mapper>

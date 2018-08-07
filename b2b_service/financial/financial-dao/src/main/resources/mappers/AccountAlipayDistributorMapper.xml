@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.distributoraccount.AccountAlipayDistributorMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="distributor_company_name" jdbcType="VARCHAR" property="distributorCompanyName"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        <result column="app_public_secret" jdbcType="LONGVARCHAR" property="appPublicSecret"/>
+        <result column="app_private_secret" jdbcType="LONGVARCHAR" property="appPrivateSecret"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , distributor_id,distributor_name,distributor_company_name,account_name, app_id, create_time, update_time
+    </sql>
+    <sql id="Blob_Column_List">
+        app_public_secret
+        , app_private_secret
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_alipay_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByDistributorId"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_alipay_distributor
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_alipay_distributor
+        <where>
+            <if test="params.appId!=null">
+                and app_id = #{params.appId}
+            </if>
+            <if test="params.accountName!=null">
+                and account_name like CONCAT('%',#{params.accountName},'%')
+            </if>
+            <if test="params.distributorName!=null">
+                and distributor_name like CONCAT('%',#{params.distributorName},'%')
+            </if>
+            <if test="params.distributorCompanyName!=null">
+                and distributor_company_name like CONCAT('%',#{params.distributorCompanyName},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="listByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_alipay_distributor
+        <where>
+            <if test="ids!=null and ids.size()>0">
+                and id in
+                <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <select id="listByAppId"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from account_alipay_distributor
+        <where>
+            and app_id = #{appId}
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from account_alipay_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByAppid">
+        delete
+        from account_alipay_distributor
+        where app_id = #{appId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByDistributorIds">
+        delete
+        from account_alipay_distributor
+        <where>
+            <if test="distributorIds!=null and distributorIds.size()>0">
+                and distributor_id in
+                <foreach collection="distributorIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <insert id="insert"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_alipay_distributor (distributor_id, distributor_name, distributor_company_name,
+        account_name, app_id,
+        create_time, update_time, app_public_secret,
+        app_private_secret)
+        values (#{distributorId,jdbcType=INTEGER},
+        #{distributorName,jdbcType=VARCHAR},#{distributorCompanyName,jdbcType=VARCHAR},#{accountName,jdbcType=VARCHAR},
+        #{appId,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{appPublicSecret,jdbcType=LONGVARCHAR},
+        #{appPrivateSecret,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertBatch">
+        insert into account_alipay_distributor (distributor_id, distributor_name, distributor_company_name,
+        account_name, app_id,
+        create_time, update_time, app_public_secret,
+        app_private_secret)
+        values
+        <foreach collection="dos" index="index" item="item" separator=",">
+            (#{item.distributorId,jdbcType=INTEGER},
+            #{item.distributorName,jdbcType=VARCHAR},#{item.distributorCompanyName,jdbcType=VARCHAR},#{item.accountName,jdbcType=VARCHAR},
+            #{item.appId,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.appPublicSecret,jdbcType=LONGVARCHAR},
+            #{item.appPrivateSecret,jdbcType=LONGVARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_alipay_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name
+            </if>
+            <if test="distributorCompanyName != null">
+                distributor_company_name
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="appPublicSecret != null">
+                app_public_secret,
+            </if>
+            <if test="appPrivateSecret != null">
+                app_private_secret,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorCompanyName != null">
+                #{distributorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appPublicSecret != null">
+                #{appPublicSecret,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="appPrivateSecret != null">
+                #{appPrivateSecret,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        update account_alipay_distributor
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorCompanyName != null">
+                distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="appPublicSecret != null">
+                app_public_secret = #{appPublicSecret,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="appPrivateSecret != null">
+                app_private_secret = #{appPrivateSecret,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        update account_alipay_distributor
+        set distributor_id           = #{distributorId,jdbcType=INTEGER},
+            account_name             = #{accountName,jdbcType=VARCHAR},
+            distributor_name         = #{distributorName,jdbcType=VARCHAR},
+            distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            app_id                   = #{appId,jdbcType=VARCHAR},
+            create_time              = #{createTime,jdbcType=TIMESTAMP},
+            update_time              = #{updateTime,jdbcType=TIMESTAMP},
+            app_public_secret        = #{appPublicSecret,jdbcType=LONGVARCHAR},
+            app_private_secret       = #{appPrivateSecret,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.distributoraccount.dataobject.AccountAlipayDistributorDO">
+        update account_alipay_distributor
+        set distributor_id           = #{distributorId,jdbcType=INTEGER},
+            account_name             = #{accountName,jdbcType=VARCHAR},
+            distributor_name         = #{distributorName,jdbcType=VARCHAR},
+            distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+            app_id                   = #{appId,jdbcType=VARCHAR},
+            create_time              = #{createTime,jdbcType=TIMESTAMP},
+            update_time              = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

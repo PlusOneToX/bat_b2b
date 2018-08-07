@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorContactsMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorContactsDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="sex" jdbcType="SMALLINT" property="sex"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="owner_flag" jdbcType="SMALLINT" property="ownerFlag"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_contacts
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from distributor_contacts
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorContactsDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_contacts (distributor_id, name, password,
+        sex, phone, email,owner_flag,
+        role_id, create_time, update_time,open_id,freeze_status
+        )
+        values (#{distributorId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{sex,jdbcType=SMALLINT}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},#{ownerFlag,jdbcType=SMALLINT},
+        #{roleId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}
+        ,#{freezeStatus,jdbcType=SMALLINT}
+        )
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorContactsDO">
+    update distributor_contacts
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=SMALLINT},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      owner_flag = #{ownerFlag,jdbcType=SMALLINT},
+      role_id = #{roleId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      freeze_status=#{freezeStatus,jdbcType=SMALLINT},
+      open_id = #{openId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update distributor_contacts
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            name = #{item.name,jdbcType=VARCHAR},
+            password = #{item.password,jdbcType=VARCHAR},
+            sex = #{item.sex,jdbcType=SMALLINT},
+            phone = #{item.phone,jdbcType=VARCHAR},
+            email = #{item.email,jdbcType=VARCHAR},
+            owner_flag = #{item.ownerFlag,jdbcType=SMALLINT},
+            role_id = #{item.roleId,jdbcType=INTEGER},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+            freeze_status=#{item.freezeStatus,jdbcType=SMALLINT},
+            <!-- 每次都要清除openId-->
+            open_id =null
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, name, password, sex, phone, email,owner_flag, role_id, create_time,
+    update_time,open_id,freeze_status
+    from distributor_contacts
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="listByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, name, password, sex, phone, email,owner_flag, role_id, create_time,
+    update_time,open_id,freeze_status
+    from distributor_contacts
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, name, password, sex, phone, email,owner_flag, role_id, create_time,
+    update_time,open_id,freeze_status
+    from distributor_contacts
+  </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        INSERT INTO distributor_contacts(
+        distributor_id,
+        name,
+        password,
+        sex,
+        phone,
+        email,
+        owner_flag,
+        role_id,
+        create_time,
+        update_time,
+        open_id,
+        freeze_status
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.distributorId,jdbcType=INTEGER},
+            #{item.name,jdbcType=VARCHAR},
+            #{item.password,jdbcType=VARCHAR},
+            #{item.sex,jdbcType=SMALLINT},
+            #{item.phone,jdbcType=VARCHAR},
+            #{item.email,jdbcType=VARCHAR},
+            #{item.ownerFlag,jdbcType=SMALLINT},
+            #{item.roleId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.openId,jdbcType=VARCHAR},
+            #{item.freezeStatus,jdbcType=SMALLINT}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectByPhoneOrEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, distributor_id, name, password, sex, phone, email,owner_flag, role_id, create_time,
+    update_time,open_id, freeze_status
+    from distributor_contacts
+    where phone = #{phoneOrEmail,jdbcType=VARCHAR} or email = #{phoneOrEmail,jdbcType=VARCHAR}
+  </select>
+
+    <select id="selectByDistributorIdAndOwnerFlag" parameterType="map" resultMap="BaseResultMap">
+    select id, distributor_id, name, password, sex, phone, email,owner_flag, role_id, create_time,
+    update_time,open_id,freeze_status
+    from distributor_contacts
+    where distributor_id = #{distributorId} and owner_flag = #{ownerFlag}
+  </select>
+
+    <update id="updatePassword" parameterType="map">
+      UPDATE distributor_contacts SET password = #{password},update_time = now() where id = #{id}
+  </update>
+    <select id="listByOpenIdAndFreezeStatus" resultMap="BaseResultMap">
+        select * from distributor_contacts where open_id=#{openId,jdbcType=VARCHAR} and  freeze_status=#{freezeStatus,jdbcType=SMALLINT} order by freeze_status
+    </select>
+
+    <select id="queryWhetherToFreeze" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select freeze_status from distributor where id=#{distributorId}
+    </select>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_contacts
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

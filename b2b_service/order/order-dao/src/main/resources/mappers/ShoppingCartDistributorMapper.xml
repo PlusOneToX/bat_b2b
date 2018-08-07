@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.cart.ShoppingCartDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.cart.dataobject.ShoppingCartDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_no" jdbcType="VARCHAR" property="goodsNo"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode"/>
+        <result column="bar_code" jdbcType="VARCHAR" property="barCode"/>
+        <result column="item_name" jdbcType="VARCHAR" property="itemName"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="specs_name" jdbcType="VARCHAR" property="specsName"/>
+        <result column="color_name" jdbcType="VARCHAR" property="colorName"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="width" property="width" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="goods_type" jdbcType="SMALLINT" property="goodsType"/>
+        <result column="diy_type" jdbcType="SMALLINT" property="diyType"/>
+        <result column="item_type" jdbcType="SMALLINT" property="itemType"/>
+        <result column="goods_promotion_id" jdbcType="INTEGER" property="goodsPromotionId"/>
+        <result column="order_promotion_id" jdbcType="INTEGER" property="orderPromotionId"/>
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="item_count" jdbcType="INTEGER" property="itemCount"/>
+        <result column="language" jdbcType="VARCHAR" property="language"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, distributor_id, goods_id, goods_no, goods_name, item_id, item_code,bar_code, item_name,image_url,specs_name,color_name,weight,length,width,height,
+    goods_type, diy_type,item_type, goods_promotion_id, order_promotion_id, group_seckill_id, open_flag,language,
+    item_count, create_time, update_time,unit
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping_cart_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByMap" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping_cart_distributor
+        where item_id = #{itemId}
+        and distributor_id = #{distributorId}
+        <if test="goodsPromotionId != null">
+            and goods_promotion_id = #{goodsPromotionId}
+        </if>
+        <if test="orderPromotionId != null">
+            and order_promotion_id = #{orderPromotionId}
+        </if>
+        <if test="groupSeckillId != null">
+            and group_seckill_id = #{groupSeckillId}
+        </if>
+        <if test="itemType != null">
+            and item_type = #{itemType}
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shopping_cart_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into shopping_cart_distributor (distributor_id, goods_id, goods_no,
+        goods_name, item_id, item_code,bar_code,
+        item_name,image_url, goods_type, diy_type ,item_type,specs_name,color_name,weight,length,width,height,
+        goods_promotion_id, order_promotion_id, group_seckill_id,
+        open_flag,language, item_count, create_time,
+        update_time,unit)
+        values (#{distributorId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{goodsNo,jdbcType=VARCHAR},
+        #{goodsName,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER},
+        #{itemCode,jdbcType=VARCHAR},#{barCode,jdbcType=VARCHAR},
+        #{itemName,jdbcType=VARCHAR},#{imageUrl,jdbcType=VARCHAR}, #{goodsType,jdbcType=SMALLINT},
+        #{diyType,jdbcType=SMALLINT},
+        #{itemType,jdbcType=SMALLINT},#{specsName,jdbcType=VARCHAR},#{colorName,jdbcType=VARCHAR},
+        #{weight,jdbcType=DECIMAL}, #{length,jdbcType=DECIMAL}, #{width,jdbcType=DECIMAL}, #{height,jdbcType=DECIMAL},
+        #{goodsPromotionId,jdbcType=INTEGER}, #{orderPromotionId,jdbcType=INTEGER}, #{groupSeckillId,jdbcType=INTEGER},
+        #{openFlag,jdbcType=SMALLINT},#{language,jdbcType=VARCHAR}, #{itemCount,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},#{unit,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into shopping_cart_distributor (distributor_id, goods_id, goods_no,
+            goods_name, item_id, item_code,bar_code,
+            item_name,image_url, goods_type, diy_type ,item_type,specs_name,color_name,weight,length,width,height,
+            goods_promotion_id, order_promotion_id, group_seckill_id,
+            open_flag,language, item_count, create_time,
+            update_time,unit)
+            values (#{item.distributorId,jdbcType=INTEGER}, #{item.goodsId,jdbcType=INTEGER},
+            #{item.goodsNo,jdbcType=VARCHAR},
+            #{item.goodsName,jdbcType=VARCHAR}, #{item.itemId,jdbcType=INTEGER},
+            #{item.itemCode,jdbcType=VARCHAR},#{item.barCode,jdbcType=VARCHAR},
+            #{item.itemName,jdbcType=VARCHAR},#{item.imageUrl,jdbcType=VARCHAR}, #{item.goodsType,jdbcType=SMALLINT},
+            #{item.diyType,jdbcType=SMALLINT},
+            #{item.itemType,jdbcType=SMALLINT},#{item.specsName,jdbcType=VARCHAR},#{item.colorName,jdbcType=VARCHAR},
+            #{item.weight,jdbcType=DECIMAL}, #{item.length,jdbcType=DECIMAL}, #{item.width,jdbcType=DECIMAL},
+            #{item.height,jdbcType=DECIMAL},
+            #{item.goodsPromotionId,jdbcType=INTEGER}, #{item.orderPromotionId,jdbcType=INTEGER},
+            #{item.groupSeckillId,jdbcType=INTEGER},
+            #{item.openFlag,jdbcType=SMALLINT},#{language,jdbcType=VARCHAR}, #{item.itemCount,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},#{unit,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into shopping_cart_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsNo != null">
+                goods_no,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="itemCode != null">
+                item_code,
+            </if>
+            <if test="barCode != null">
+                bar_code,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="specsName != null">
+                specs_name,
+            </if>
+            <if test="colorName != null">
+                color_name,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="length != null">
+                length,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="goodsType != null">
+                goods_type,
+            </if>
+            <if test="diyType != null">
+                diy_type,
+            </if>
+            <if test="itemType != null">
+                item_type,
+            </if>
+            <if test="goodsPromotionId != null">
+                goods_promotion_id,
+            </if>
+            <if test="orderPromotionId != null">
+                order_promotion_id,
+            </if>
+            <if test="groupSeckillId != null">
+                group_seckill_id,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="language != null">
+                language,
+            </if>
+            <if test="itemCount != null">
+                item_count,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsNo != null">
+                #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCode != null">
+                #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="specsName != null">
+                #{specsName,jdbcType=VARCHAR},
+            </if>
+            <if test="colorName != null">
+                #{colorName,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=DECIMAL},
+            </if>
+            <if test="length != null">
+                #{length,jdbcType=DECIMAL},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=DECIMAL},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsType != null">
+                #{goodsType,jdbcType=SMALLINT},
+            </if>
+            <if test="diyType != null">
+                #{diyType,jdbcType=SMALLINT},
+            </if>
+            <if test="itemType != null">
+                #{itemType,jdbcType=SMALLINT},
+            </if>
+            <if test="goodsPromotionId != null">
+                #{goodsPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="orderPromotionId != null">
+                #{orderPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="groupSeckillId != null">
+                #{groupSeckillId,jdbcType=INTEGER},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="language != null">
+                #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="itemCount != null">
+                #{itemCount,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDistributorDO">
+        update shopping_cart_distributor
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsNo != null">
+                goods_no = #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="itemCode != null">
+                item_code = #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="barCode != null">
+                bar_code = #{barCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                item_name = #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="specsName != null">
+                specs_name = #{specsName,jdbcType=VARCHAR},
+            </if>
+            <if test="colorName != null">
+                color_name = #{colorName,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=DECIMAL},
+            </if>
+            <if test="length != null">
+                length = #{length,jdbcType=DECIMAL},
+            </if>
+            <if test="width != null">
+                width = #{width,jdbcType=DECIMAL},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsType != null">
+                goods_type = #{goodsType,jdbcType=SMALLINT},
+            </if>
+            <if test="diyType != null">
+                diy_type = #{diyType,jdbcType=SMALLINT},
+            </if>
+            <if test="itemType != null">
+                item_type = #{itemType,jdbcType=SMALLINT},
+            </if>
+            <if test="goodsPromotionId != null">
+                goods_promotion_id = #{goodsPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="orderPromotionId != null">
+                order_promotion_id = #{orderPromotionId,jdbcType=INTEGER},
+            </if>
+            <if test="groupSeckillId != null">
+                group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="itemCount != null">
+                item_count = #{itemCount,jdbcType=INTEGER},
+            </if>
+            <if test="language != null">
+                language = #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.cart.dataobject.ShoppingCartDistributorDO">
+    update shopping_cart_distributor
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      goods_no = #{goodsNo,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      bar_code = #{barCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      specs_name = #{specsName,jdbcType=VARCHAR},
+      color_name = #{colorName,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      length = #{length,jdbcType=DECIMAL},
+      width = #{width,jdbcType=DECIMAL},
+      height = #{height,jdbcType=DECIMAL},
+      goods_type = #{goodsType,jdbcType=SMALLINT},
+      diy_type = #{diyType,jdbcType=SMALLINT},
+      item_type = #{itemType,jdbcType=SMALLINT},
+      goods_promotion_id = #{goodsPromotionId,jdbcType=INTEGER},
+      order_promotion_id = #{orderPromotionId,jdbcType=INTEGER},
+      group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      item_count = #{itemCount,jdbcType=INTEGER},
+      language = #{language,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      unit = #{unit,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update shopping_cart_distributor
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            goods_id = #{item.goodsId,jdbcType=INTEGER},
+            goods_no = #{item.goodsNo,jdbcType=VARCHAR},
+            goods_name = #{item.goodsName,jdbcType=VARCHAR},
+            item_id = #{item.itemId,jdbcType=INTEGER},
+            item_code = #{item.itemCode,jdbcType=VARCHAR},
+            bar_code = #{item.barCode,jdbcType=VARCHAR},
+            item_name = #{item.itemName,jdbcType=VARCHAR},
+            image_url = #{item.imageUrl,jdbcType=VARCHAR},
+            specs_name = #{item.specsName,jdbcType=VARCHAR},
+            color_name = #{item.colorName,jdbcType=VARCHAR},
+            weight = #{item.weight,jdbcType=DECIMAL},
+            length = #{item.length,jdbcType=DECIMAL},
+            width = #{item.width,jdbcType=DECIMAL},
+            height = #{item.height,jdbcType=DECIMAL},
+            goods_type = #{item.goodsType,jdbcType=SMALLINT},
+            diy_type = #{item.diyType,jdbcType=SMALLINT},
+            item_type = #{item.itemType,jdbcType=SMALLINT},
+            goods_promotion_id = #{item.goodsPromotionId,jdbcType=INTEGER},
+            order_promotion_id = #{item.orderPromotionId,jdbcType=INTEGER},
+            group_seckill_id = #{item.groupSeckillId,jdbcType=INTEGER},
+            open_flag = #{item.openFlag,jdbcType=SMALLINT},
+            item_count = #{item.itemCount,jdbcType=INTEGER},
+            language = #{item.language,jdbcType=VARCHAR},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+            unit = #{item.unit,jdbcType=VARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from shopping_cart_distributor
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="map">
+    update shopping_cart_distributor
+    set goods_promotion_id = #{goodsPromotionId,jdbcType=INTEGER},
+      order_promotion_id = #{orderPromotionId,jdbcType=INTEGER},
+      group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+      item_count = #{itemCount,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="listByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shopping_cart_distributor
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+
+
+    <update id="updateListOpenFlag" parameterType="map">
+        update shopping_cart_distributor
+        set open_flag = #{openFlag}
+        where goods_id in
+        <foreach collection="goodsIds" index="index" item="goodsId" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </update>
+
+    <update id="updateListOpenFlagByItemIds" parameterType="map">
+        update shopping_cart_distributor
+        set open_flag = #{openFlag}
+        where item_id in
+        <foreach collection="itemIds" index="index" item="itemId" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </update>
+</mapper>

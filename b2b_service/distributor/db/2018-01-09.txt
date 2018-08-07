@@ -1,0 +1,2 @@
+ALTER TABLE `sys_platform_api` 
+MODIFY COLUMN `api_type` smallint(5) UNSIGNED NOT NULL COMMENT '事务类型: 1为物流信息推送，2为订单信息推送，3 定制信息推送，4 获取定制价格  5、订单编号回传（bat手动触发失败日志、回传单号回第三方）6、取消订单进行回传 若后期有扩展，会进行追加' AFTER `sys_platform_id`;

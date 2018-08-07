@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorBusinessMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorBusinessDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="sales_id" jdbcType="INTEGER" property="salesId"/>
+        <result column="coordinator_id" jdbcType="INTEGER" property="coordinatorId"/>
+        <result column="distributor_group_ids" jdbcType="LONGVARCHAR" property="distributorGroupIds"/>
+        <result column="distributor_category_id" jdbcType="INTEGER" property="distributorCategoryId"/>
+        <result column="auto_delivery" jdbcType="SMALLINT" property="autoDelivery"/>
+        <result column="can_export_price" jdbcType="SMALLINT" property="canExportPrice"/>
+        <result column="promotion_scope" jdbcType="SMALLINT" property="promotionScope"/>
+        <result column="promotion_types" jdbcType="VARCHAR" property="promotionTypes"/>
+        <result column="rx_shop_switch" jdbcType="SMALLINT" property="rxShopSwitch"/>
+        <result column="logistics_sms_switch" jdbcType="SMALLINT" property="logisticsSmsSwitch"/>
+        <result column="on_way_flag" jdbcType="SMALLINT" property="onWayFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="DistributorNameMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorNameDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_business
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorBusinessDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_business (distributor_id, sales_id,coordinator_id, distributor_group_ids,
+        distributor_category_id, auto_delivery, can_export_price,
+        promotion_scope, promotion_types, rx_shop_switch,
+        logistics_sms_switch, on_way_flag, create_time,
+        update_time)
+        values (#{distributorId,jdbcType=INTEGER}, #{salesId,jdbcType=INTEGER}, #{coordinatorId,jdbcType=INTEGER},
+        #{distributorGroupIds,jdbcType=LONGVARCHAR},
+        #{distributorCategoryId,jdbcType=INTEGER}, #{autoDelivery,jdbcType=SMALLINT},
+        #{canExportPrice,jdbcType=SMALLINT},
+        #{promotionScope,jdbcType=SMALLINT}, #{promotionTypes,jdbcType=VARCHAR}, #{rxShopSwitch,jdbcType=SMALLINT},
+        #{logisticsSmsSwitch,jdbcType=SMALLINT}, #{onWayFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorBusinessDO">
+    update distributor_business
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      sales_id = #{salesId,jdbcType=INTEGER},
+      coordinator_id = #{coordinatorId,jdbcType=INTEGER},
+      distributor_group_ids = #{distributorGroupIds,jdbcType=LONGVARCHAR},
+      distributor_category_id = #{distributorCategoryId,jdbcType=INTEGER},
+      auto_delivery = #{autoDelivery,jdbcType=SMALLINT},
+      can_export_price = #{canExportPrice,jdbcType=SMALLINT},
+      promotion_scope = #{promotionScope,jdbcType=SMALLINT},
+      promotion_types = #{promotionTypes,jdbcType=VARCHAR},
+      rx_shop_switch = #{rxShopSwitch,jdbcType=SMALLINT},
+      logistics_sms_switch = #{logisticsSmsSwitch,jdbcType=SMALLINT},
+      on_way_flag = #{onWayFlag,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from distributor_business
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from distributor_business
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from distributor_business
+  </select>
+
+    <select id="listIdBySalesIdsAndOneTreeNode" resultType="int" parameterType="map">
+        select db.distributor_id FROM distributor_business db join distributor d on d.id=db.distributor_id and
+        d.tree_node=1
+        WHERE db.sales_id in
+        <foreach collection="salesIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listDistributorNameBySalesIdAndOneTreeNode"
+            resultMap="DistributorNameMap" parameterType="map">
+        select db.distributor_id id,d.name,d.company_name  FROM distributor_business db join distributor d on d.id=db.distributor_id and
+        d.tree_node=1
+        WHERE db.sales_id in
+        <foreach collection="salesIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listIdByDistributorGroupIdsAndOneTreeNode" resultType="int" parameterType="map">
+        select db.distributor_id FROM distributor_business db
+        join distributor d on d.id=db.distributor_id and d.tree_node=1
+        WHERE 1=1 and (
+        <foreach collection="distributorGroupIds" separator=" or " item="distributorGroupId">
+            db.distributor_group_ids like CONCAT('%',#{distributorGroupId},'%')
+        </foreach>
+        )
+    </select>
+
+    <select id="listNameByDistributorGroupIdsAndOneTreeNode"
+            resultMap="DistributorNameMap"  parameterType="map">
+        select db.distributor_id id,d.name,d.company_name FROM distributor_business db join distributor d on d.id=db.distributor_id and
+        d.tree_node=1
+        WHERE 1=1 and (
+        <foreach collection="distributorGroupIds" separator=" or " item="distributorGroupId">
+            db.distributor_group_ids like CONCAT('%',#{distributorGroupId},'%')
+        </foreach>
+        )
+    </select>
+
+    <select id="listIdBySalesIds" resultType="int" parameterType="map">
+        select db.distributor_id FROM distributor_business db
+        WHERE db.sales_id in
+        <foreach collection="salesIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_business
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+
+</mapper>

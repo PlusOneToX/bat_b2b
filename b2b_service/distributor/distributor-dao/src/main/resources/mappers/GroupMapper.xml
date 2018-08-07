@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.group.GroupMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.group.dataobject.GroupDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="erp_group_no" jdbcType="VARCHAR" property="erpGroupNo"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="group_columns">
+        id,
+        name,
+        description,
+        erp_group_no,
+        open_flag,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="group_select">
+        SELECT
+        <include refid="group_columns"/>
+        FROM distributor_group
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.group.dataobject.GroupDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_group (name, description, erp_group_no,
+        open_flag, create_time, update_time
+        )
+        values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{erpGroupNo,jdbcType=VARCHAR},
+        #{openFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.group.dataobject.GroupDO">
+    update distributor_group
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      erp_group_no = #{erpGroupNo,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, description, erp_group_no, open_flag, create_time, update_time
+    from distributor_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, description, erp_group_no, open_flag, create_time, update_time
+    from distributor_group
+  </select>
+
+    <select id="listByDistributorIds" parameterType="map" resultMap="BaseResultMap">
+        select id, name, description, erp_group_no, open_flag, create_time, update_time
+        from distributor_group
+        where id in
+        <foreach collection="distributorGroupIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="openGroup" parameterType="map">
+        UPDATE distributor_group SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <select id="getGroupDistributorIds" resultType="int" parameterType="map">
+        select distributor_id FROM distributor_business WHERE distributor_group_ids like CONCAT('%',#{groupId},'%')
+    </select>
+
+    <select id="listGroup" resultMap="BaseResultMap" parameterType="map">
+        <include refid="group_select"/>
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by update_time desc
+    </select>
+</mapper>

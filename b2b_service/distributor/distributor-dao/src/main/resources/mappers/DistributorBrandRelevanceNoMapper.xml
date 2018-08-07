@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorBrandRelevanceNoMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.distributor.dao.distributor.dataobject.DistributorBrandRelevanceNoDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="brand_ids" jdbcType="LONGVARCHAR" property="brandIds"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_brand_relevance_no
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorBrandRelevanceNoDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_brand_relevance_no (distributor_id, brand_ids)
+        values (#{distributorId,jdbcType=INTEGER}, #{brandIds,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorBrandRelevanceNoDO">
+    update distributor_brand_relevance_no
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      brand_ids = #{brandIds,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, brand_ids
+    from distributor_brand_relevance_no
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, brand_ids
+    from distributor_brand_relevance_no
+  </select>
+
+    <select id="selectByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, brand_ids
+    from distributor_brand_relevance_no
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </select>
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_brand_relevance_no
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insertList"
+            parameterType="java.util.List">
+        insert into distributor_brand_relevance_no (distributor_id, brand_ids)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.brandIds,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,48 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+logs
+arthas-output
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+/.idea
+/logs
+/*.iml
+/warehouse-api/target
+/warehouse-api/warehouse-api.iml
+/warehouse-starter/warehouse-starter.iml
+/warehouse-starter/target
+/warehouse-dao/warehouse-dao.iml
+/warehouse-dao/target
+/warehouse-manager/target
+/warehouse-manager/warehouse-manager.iml
+/warehouse-service/target
+/warehouse-service/warehouse-service.iml
+/warehouse-web/target
+/warehouse-web/warehouse-web.iml

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.platform.WxPlatformMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.platform.dataobject.WxPlatformDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="type" jdbcType="SMALLINT" property="type"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_platform
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.platform.dataobject.WxPlatformDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into wx_platform (platform, type, name,
+        app_id, app_secret, create_time,
+        update_time)
+        values (#{platform,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR},
+        #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.platform.dataobject.WxPlatformDO">
+    update wx_platform
+    set platform = #{platform,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      name = #{name,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      app_secret = #{appSecret,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, platform, type, name, app_id, app_secret, create_time, update_time
+    from wx_platform
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, platform, type, name, app_id, app_secret, create_time, update_time
+    from wx_platform
+  </select>
+
+    <select id="listWxPlatform" resultMap="BaseResultMap" parameterType="map">
+        <if test="(@org.apache.commons.lang3.StringUtils@isNotBlank(content) and contentType != null and contentType == 2) or distributorId != null">
+            select wp.id, wp.platform, wp.type, wp.name, wp.app_id, wp.app_secret, wp.create_time, wp.update_time from
+            wx_platform_distributor wpd
+            join wx_platform wp on wp.id = wpd.wx_platform_id WHERE 1=1
+            <if test="type != null">
+                and wp.type = #{type}
+            </if>
+            <if test="distributorId != null">
+                and wpd.distributor_id = #{distributorId}
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+                and (wpd.name like concat(concat('%',#{content}),'%')
+                or wpd.company_name like concat(concat('%',#{content}),'%'))
+            </if>
+            group by wp.id order by wp.update_time desc
+        </if>
+        <if test="(@org.apache.commons.lang3.StringUtils@isNotBlank(content) and (contentType == null or contentType == 1)) or (@org.apache.commons.lang3.StringUtils@isBlank(content) and distributorId == null)">
+            select wp.id, wp.platform, wp.type, wp.name, wp.app_id, wp.app_secret, wp.create_time, wp.update_time
+            from wx_platform wp WHERE 1=1
+            <if test="type != null">
+                and wp.type = #{type}
+            </if>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+                and wp.name like concat(concat('%',#{content}),'%')
+            </if>
+            order by wp.update_time desc
+        </if>
+    </select>
+
+    <select id="listWxPlatformByDistributorId" resultMap="BaseResultMap" parameterType="map">
+        select wp.id, wp.platform, wp.type, wp.name, wp.app_id, wp.app_secret, wp.create_time, wp.update_time
+        from wx_platform_distributor wpd
+        join wx_platform wp on wp.id = wpd.wx_platform_id WHERE 1=1
+        <if test="type != null">
+            and wp.type = #{type}
+        </if>
+        <if test="distributorId != null">
+            and wpd.distributor_id = #{distributorId}
+        </if>
+        group by wp.id order by wp.update_time desc
+    </select>
+
+    <select id="selectByDistributorIdAndPlatformAndAppIdAndType" parameterType="map" resultMap="BaseResultMap">
+    select wp.id, wp.platform, wp.type, wp.name, wp.app_id, wp.app_secret, wp.create_time, wp.update_time
+    from wx_platform_distributor wpd join wx_platform wp on wp.id = wpd.wx_platform_id
+    where wpd.distributor_id = #{distributorId} and wp.platform = #{platform} and wp.app_id = #{appId} and wp.type = #{type}
+  </select>
+    <select id="getByAppId" resultMap="BaseResultMap">
+    select * from wx_platform where  app_id = #{appId} limit 1
+    </select>
+    <select id="listByDistributorIdAndType" resultMap="BaseResultMap">
+        SELECT wp.* from wx_platform_distributor wpd LEFT JOIN wx_platform wp on wpd.wx_platform_id = wp.id
+        WHERE wpd.distributor_id=#{distributorId}
+        <if test="type !=null">
+            AND wp.type=#{type}
+        </if>
+    </select>
+    <select id="listDistributorWxPlatform" resultMap="BaseResultMap">
+        SELECT wp.* from wx_platform_distributor wpd LEFT JOIN wx_platform wp on wpd.wx_platform_id = wp.id
+        WHERE wpd.distributor_id=#{distributorId}
+        <if test="type !=null">
+            AND wp.type=#{type}
+        </if>
+        <if test="appId !=null">
+            and wp.app_id = #{appId}
+        </if>
+
+    </select>
+</mapper>

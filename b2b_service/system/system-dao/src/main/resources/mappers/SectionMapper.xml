@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.storesetting.SectionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.storesetting.dataobject.SectionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="title_en" jdbcType="VARCHAR" property="titleEn"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="release_status" jdbcType="SMALLINT" property="releaseStatus"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="extension_url" jdbcType="VARCHAR" property="extensionUrl"/>
+        <result column="image_url_en" jdbcType="VARCHAR" property="imageUrlEn"/>
+        <result column="extension_url_en" jdbcType="VARCHAR" property="extensionUrlEn"/>
+        <result column="style_type" jdbcType="SMALLINT" property="styleType"/>
+        <result column="style_type_en" jdbcType="SMALLINT" property="styleTypeEn"/>
+        <result column="section_area" jdbcType="SMALLINT" property="sectionArea"/>
+        <result column="style_url" jdbcType="VARCHAR" property="styleUrl"/>
+        <result column="style_extension_url" jdbcType="VARCHAR" property="styleExtensionUrl"/>
+        <result column="style_url1" jdbcType="VARCHAR" property="styleUrl1"/>
+        <result column="style_extension_url1" jdbcType="VARCHAR" property="styleExtensionUrl1"/>
+        <result column="style_url2" jdbcType="VARCHAR" property="styleUrl2"/>
+        <result column="style_extension_url2" jdbcType="VARCHAR" property="styleExtensionUrl2"/>
+        <result column="style_url3" jdbcType="VARCHAR" property="styleUrl3"/>
+        <result column="style_extension_url3" jdbcType="VARCHAR" property="styleExtensionUrl3"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, title, title_en, sort, release_status, image_url, extension_url, image_url_en,
+    extension_url_en, style_type, style_type_en, section_area, style_url, style_extension_url, 
+    style_url1, style_extension_url1, style_url2, style_extension_url2, style_url3, style_extension_url3, 
+    create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_section
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_section
+        <where>
+            <if test="params.releaseStatus!=null">
+                AND release_status = #{params.releaseStatus}
+            </if>
+        </where>
+        order by sort
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from store_section
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.storesetting.dataobject.SectionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_section (title, title_en, sort,
+        release_status, image_url, extension_url,
+        image_url_en, extension_url_en, style_type,
+        style_type_en, section_area, style_url,
+        style_extension_url, style_url1, style_extension_url1,
+        style_url2, style_extension_url2, style_url3,
+        style_extension_url3, create_time, update_time
+        )
+        values (#{title,jdbcType=VARCHAR}, #{titleEn,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
+        #{releaseStatus,jdbcType=SMALLINT}, #{imageUrl,jdbcType=VARCHAR}, #{extensionUrl,jdbcType=VARCHAR},
+        #{imageUrlEn,jdbcType=VARCHAR}, #{extensionUrlEn,jdbcType=VARCHAR}, #{styleType,jdbcType=SMALLINT},
+        #{styleTypeEn,jdbcType=SMALLINT}, #{sectionArea,jdbcType=SMALLINT}, #{styleUrl,jdbcType=VARCHAR},
+        #{styleExtensionUrl,jdbcType=VARCHAR}, #{styleUrl1,jdbcType=VARCHAR}, #{styleExtensionUrl1,jdbcType=VARCHAR},
+        #{styleUrl2,jdbcType=VARCHAR}, #{styleExtensionUrl2,jdbcType=VARCHAR}, #{styleUrl3,jdbcType=VARCHAR},
+        #{styleExtensionUrl3,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.storesetting.dataobject.SectionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_section
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="titleEn != null">
+                title_en,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="releaseStatus != null">
+                release_status,
+            </if>
+            <if test="imageUrl != null">
+                image_url,
+            </if>
+            <if test="extensionUrl != null">
+                extension_url,
+            </if>
+            <if test="imageUrlEn != null">
+                image_url_en,
+            </if>
+            <if test="extensionUrlEn != null">
+                extension_url_en,
+            </if>
+            <if test="styleType != null">
+                style_type,
+            </if>
+            <if test="styleTypeEn != null">
+                style_type_en,
+            </if>
+            <if test="sectionArea != null">
+                section_area,
+            </if>
+            <if test="styleUrl != null">
+                style_url,
+            </if>
+            <if test="styleExtensionUrl != null">
+                style_extension_url,
+            </if>
+            <if test="styleUrl1 != null">
+                style_url1,
+            </if>
+            <if test="styleExtensionUrl1 != null">
+                style_extension_url1,
+            </if>
+            <if test="styleUrl2 != null">
+                style_url2,
+            </if>
+            <if test="styleExtensionUrl2 != null">
+                style_extension_url2,
+            </if>
+            <if test="styleUrl3 != null">
+                style_url3,
+            </if>
+            <if test="styleExtensionUrl3 != null">
+                style_extension_url3,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleEn != null">
+                #{titleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="releaseStatus != null">
+                #{releaseStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="extensionUrl != null">
+                #{extensionUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrlEn != null">
+                #{imageUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="extensionUrlEn != null">
+                #{extensionUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="styleType != null">
+                #{styleType,jdbcType=SMALLINT},
+            </if>
+            <if test="styleTypeEn != null">
+                #{styleTypeEn,jdbcType=SMALLINT},
+            </if>
+            <if test="sectionArea != null">
+                #{sectionArea,jdbcType=SMALLINT},
+            </if>
+            <if test="styleUrl != null">
+                #{styleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl != null">
+                #{styleExtensionUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="styleUrl1 != null">
+                #{styleUrl1,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl1 != null">
+                #{styleExtensionUrl1,jdbcType=VARCHAR},
+            </if>
+            <if test="styleUrl2 != null">
+                #{styleUrl2,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl2 != null">
+                #{styleExtensionUrl2,jdbcType=VARCHAR},
+            </if>
+            <if test="styleUrl3 != null">
+                #{styleUrl3,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl3 != null">
+                #{styleExtensionUrl3,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.storesetting.dataobject.SectionDO">
+        update store_section
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleEn != null">
+                title_en = #{titleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="releaseStatus != null">
+                release_status = #{releaseStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="extensionUrl != null">
+                extension_url = #{extensionUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="imageUrlEn != null">
+                image_url_en = #{imageUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="extensionUrlEn != null">
+                extension_url_en = #{extensionUrlEn,jdbcType=VARCHAR},
+            </if>
+            <if test="styleType != null">
+                style_type = #{styleType,jdbcType=SMALLINT},
+            </if>
+            <if test="styleTypeEn != null">
+                style_type_en = #{styleTypeEn,jdbcType=SMALLINT},
+            </if>
+            <if test="sectionArea != null">
+                section_area = #{sectionArea,jdbcType=SMALLINT},
+            </if>
+            <if test="styleUrl != null">
+                style_url = #{styleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl != null">
+                style_extension_url = #{styleExtensionUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="styleUrl1 != null">
+                style_url1 = #{styleUrl1,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl1 != null">
+                style_extension_url1 = #{styleExtensionUrl1,jdbcType=VARCHAR},
+            </if>
+            <if test="styleUrl2 != null">
+                style_url2 = #{styleUrl2,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl2 != null">
+                style_extension_url2 = #{styleExtensionUrl2,jdbcType=VARCHAR},
+            </if>
+            <if test="styleUrl3 != null">
+                style_url3 = #{styleUrl3,jdbcType=VARCHAR},
+            </if>
+            <if test="styleExtensionUrl3 != null">
+                style_extension_url3 = #{styleExtensionUrl3,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.storesetting.dataobject.SectionDO">
+        update store_section
+        set title                = #{title,jdbcType=VARCHAR},
+            title_en             = #{titleEn,jdbcType=VARCHAR},
+            sort                 = #{sort,jdbcType=INTEGER},
+            release_status       = #{releaseStatus,jdbcType=SMALLINT},
+            image_url            = #{imageUrl,jdbcType=VARCHAR},
+            extension_url        = #{extensionUrl,jdbcType=VARCHAR},
+            image_url_en         = #{imageUrlEn,jdbcType=VARCHAR},
+            extension_url_en     = #{extensionUrlEn,jdbcType=VARCHAR},
+            style_type           = #{styleType,jdbcType=SMALLINT},
+            style_type_en        = #{styleTypeEn,jdbcType=SMALLINT},
+            section_area         = #{sectionArea,jdbcType=SMALLINT},
+            style_url            = #{styleUrl,jdbcType=VARCHAR},
+            style_extension_url  = #{styleExtensionUrl,jdbcType=VARCHAR},
+            style_url1           = #{styleUrl1,jdbcType=VARCHAR},
+            style_extension_url1 = #{styleExtensionUrl1,jdbcType=VARCHAR},
+            style_url2           = #{styleUrl2,jdbcType=VARCHAR},
+            style_extension_url2 = #{styleExtensionUrl2,jdbcType=VARCHAR},
+            style_url3           = #{styleUrl3,jdbcType=VARCHAR},
+            style_extension_url3 = #{styleExtensionUrl3,jdbcType=VARCHAR},
+            create_time          = #{createTime,jdbcType=TIMESTAMP},
+            update_time          = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.platform.AlipayPlatformMapper">
+  <resultMap id="BaseResultMap" type="com.bat.distributor.dao.platform.dataobject.AlipayPlatformDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="app_private_key" jdbcType="LONGVARCHAR" property="appPrivateKey" />
+    <result column="app_public_key" jdbcType="LONGVARCHAR" property="appPublicKey" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from alipay_platform
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.distributor.dao.platform.dataobject.AlipayPlatformDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alipay_platform (platform, type, name, 
+      app_id, create_time, update_time, 
+      app_private_key, app_public_key)
+    values (#{platform,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, 
+      #{appId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{appPrivateKey,jdbcType=LONGVARCHAR}, #{appPublicKey,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.platform.dataobject.AlipayPlatformDO">
+    update alipay_platform
+    set platform = #{platform,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      name = #{name,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      app_private_key = #{appPrivateKey,jdbcType=LONGVARCHAR},
+      app_public_key = #{appPublicKey,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, platform, type, name, app_id, create_time, update_time, app_private_key, 
+    app_public_key
+    from alipay_platform
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, platform, type, name, app_id, create_time, update_time, app_private_key, 
+    app_public_key
+    from alipay_platform
+  </select>
+    <select id="selectByDistributorIdAndPlatformAndAppIdAndType" resultMap="BaseResultMap">
+      select ap.id, ap.platform, ap.type, ap.name, ap.app_id, ap.app_private_key, ap.app_public_key, ap.create_time, ap.update_time
+      from alipay_platform_distributor apd join alipay_platform ap on ap.id = apd.alipay_platform_id
+      where apd.distributor_id = #{distributorId} and ap.platform = #{platform} and ap.app_id = #{appId} and ap.type = #{type}
+    </select>
+</mapper>

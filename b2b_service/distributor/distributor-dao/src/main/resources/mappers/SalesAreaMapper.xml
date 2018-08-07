@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.salesarea.SalesAreaMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.salesarea.dataobject.SalesAreaDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="sales_area_columns">
+        id,
+        name,
+        description,
+        open_flag,
+        create_time,
+        update_time
+    </sql>
+
+    <sql id="sales_area_select">
+        SELECT
+        <include refid="sales_area_columns"/>
+        FROM sales_area
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sales_area
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.salesarea.dataobject.SalesAreaDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sales_area (name, description, open_flag,
+        create_time, update_time)
+        values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.salesarea.dataobject.SalesAreaDO">
+    update sales_area
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, description, open_flag, create_time, update_time
+    from sales_area
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="listSalesAreaByIds" parameterType="map" resultMap="BaseResultMap">
+        select id, name, description, open_flag, create_time, update_time
+        from sales_area
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, description, open_flag, create_time, update_time
+    from sales_area
+  </select>
+
+    <update id="openSalesArea" parameterType="map">
+        UPDATE sales_area SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <select id="getSalesAreaDistributorsCount" resultType="int" parameterType="map">
+        select count(1) FROM distributor_sales_area WHERE sales_area_id = #{salesAreaId}
+    </select>
+
+    <select id="listSalesArea" resultMap="BaseResultMap" parameterType="map">
+        <include refid="sales_area_select"/>
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by update_time desc
+    </select>
+</mapper>

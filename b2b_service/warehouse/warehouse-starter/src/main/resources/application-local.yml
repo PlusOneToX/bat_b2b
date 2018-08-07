@@ -1,0 +1,85 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6380
+#      password: bat2018
+#      masterName: warehouse-service
+### rocketmq stream消息
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2018
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者
+        warehouse-output:
+          destination: warehouse-service-topic
+          content-type: application/json
+        ## 订单消息消费通道
+        warehouse-order-input:
+          destination: order-service-topic
+          content-type: application/json
+          group: warehouse-order-input-group
+        ## 第三方消息消费通道
+        warehouse-third-input:
+          destination: thirdparty-service-topic
+          content-type: application/json
+          group: warehouse-third-input-group
+        ## 仓库消息通道监听
+        warehouse-input:
+          destination: warehouse-service-topic
+          content-type: application/json
+          group: warehouse-input-group
+        ### 平台消息通道监听
+        warehouse-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: warehouse-platform-input-group
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          warehouse-output:
+            producer:
+              group: warehouse-output-group
+          warehouse-order-input:
+            consumer:
+              tags: orderUnLockStock
+          warehouse-third-input:
+            consumer:
+              tags: syncErpStockToB2B
+          ## 仓库消费者tags监听
+          warehouse-input:
+            consumer:
+              tags: dealwithGoodsUnderStockFlag||initGoodsStock||changeGoodsStock||freshItemUnderStockFlag
+          ### 平台消费者tag监听
+          warehouse-platform-input:
+            consumer:
+              tags: tenantDBDelete

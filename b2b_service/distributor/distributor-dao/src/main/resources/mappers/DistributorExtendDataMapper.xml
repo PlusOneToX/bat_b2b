@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorExtendDataMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorExtendDataDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="cert_no" jdbcType="VARCHAR" property="certNo"/>
+        <result column="comment" jdbcType="VARCHAR" property="comment"/>
+        <result column="language" jdbcType="VARCHAR" property="language"/>
+        <result column="currency_type" jdbcType="VARCHAR" property="currencyType"/>
+        <result column="distribution_flag" jdbcType="SMALLINT" property="distributionFlag"/>
+        <result column="distribution_auto_flag" jdbcType="SMALLINT" property="distributionAutoFlag"/>
+        <result column="distribution_mode" jdbcType="SMALLINT" property="distributionMode"/>
+        <result column="distribution_pay_way" jdbcType="SMALLINT" property="distributionPayWay"/>
+        <result column="customer_flag" jdbcType="SMALLINT" property="customerFlag"/>
+        <result column="customer_mode" jdbcType="SMALLINT" property="customerMode"/>
+        <result column="distribution_promotion_flag" jdbcType="SMALLINT" property="distributionPromotionFlag"/>
+        <result column="distribution_qr_url" jdbcType="VARCHAR" property="distributionQrUrl"/>
+        <result column="erp_flag" jdbcType="SMALLINT" property="erpFlag"/>
+        <result column="erp_balance_flag" jdbcType="SMALLINT" property="erpBalanceFlag"/>
+        <result column="erp_id" jdbcType="INTEGER" property="erpId"/>
+        <result column="erp_no" jdbcType="VARCHAR" property="erpNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="sub_account_flag" jdbcType="SMALLINT" property="subAccountFlag"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from distributor_extend_data
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorExtendDataDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_extend_data
+        (distributor_id,cert_no,comment,language,currency_type,distribution_flag,distribution_mode,distribution_auto_flag,customer_flag,customer_mode,distribution_promotion_flag,distribution_qr_url,
+        erp_flag,erp_balance_flag, erp_id,
+        erp_no, create_time, update_time,sub_account_flag,open_id
+        )
+        values
+        (#{distributorId,jdbcType=INTEGER},#{certNo,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR},#{language,jdbcType=VARCHAR},#{currencyType,jdbcType=VARCHAR},
+        #{distributionFlag,jdbcType=SMALLINT},#{distributionMode,jdbcType=SMALLINT},#{distributionAutoFlag,jdbcType=SMALLINT},#{customerMode,jdbcType=SMALLINT},
+        #{customerFlag,jdbcType=SMALLINT},#{distributionPromotionFlag,jdbcType=SMALLINT},#{distributionQrUrl,jdbcType=VARCHAR},#{erpFlag,jdbcType=SMALLINT},
+        #{erpBalanceFlag,jdbcType=SMALLINT},#{erpId,jdbcType=INTEGER},
+        #{erpNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},#{subAccountFlag,jdbcType=SMALLINT},
+        #{openId,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorExtendDataDO">
+        update distributor_extend_data
+        set distributor_id              = #{distributorId,jdbcType=INTEGER},
+            cert_no                     = #{certNo,jdbcType=VARCHAR},
+            comment                     = #{comment,jdbcType=VARCHAR},
+            distribution_flag           = #{distributionFlag,jdbcType=SMALLINT},
+            distribution_mode           = #{distributionMode,jdbcType=SMALLINT},
+            distribution_pay_way        = #{distributionPayWay,jdbcType=SMALLINT},
+            distribution_auto_flag      = #{distributionAutoFlag,jdbcType=SMALLINT},
+            customer_flag               = #{customerFlag,jdbcType=SMALLINT},
+            customer_mode               = #{customerMode,jdbcType=SMALLINT},
+            distribution_promotion_flag = #{distributionPromotionFlag,jdbcType=SMALLINT},
+            distribution_qr_url         = #{distributionQrUrl,jdbcType=VARCHAR},
+            erp_flag                    = #{erpFlag,jdbcType=SMALLINT},
+            erp_balance_flag            = #{erpBalanceFlag,jdbcType=SMALLINT},
+            erp_id                      = #{erpId,jdbcType=INTEGER},
+            erp_no                      = #{erpNo,jdbcType=VARCHAR},
+            update_time                 = #{updateTime,jdbcType=TIMESTAMP},
+            sub_account_flag=#{subAccountFlag,jdbcType=SMALLINT},
+            open_id=#{openId}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id,
+               distributor_id,
+               cert_no,
+               distribution_flag,
+               distribution_mode,
+               distribution_auto_flag,
+               customer_flag,
+               customer_mode,
+               distribution_promotion_flag,
+               distribution_qr_url,
+               erp_flag,
+               erp_balance_flag,
+               erp_id,
+               erp_no,
+               comment, language, currency_type, create_time, update_time,
+            sub_account_flag, open_id
+        from distributor_extend_data
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByDistributorId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id,
+               distributor_id,
+               cert_no,
+               distribution_flag,
+               distribution_mode,
+               distribution_pay_way,
+               distribution_auto_flag,
+               customer_flag,
+               customer_mode,
+               distribution_promotion_flag,
+               distribution_qr_url,
+               erp_flag,
+               erp_balance_flag,
+               erp_id,
+               erp_no,
+               comment, language, currency_type, create_time, update_time,
+            sub_account_flag, open_id
+        from distributor_extend_data
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByDistributorIds" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id,
+        distributor_id,
+        cert_no,
+        distribution_flag,
+        distribution_mode,
+        distribution_auto_flag,
+        customer_flag,
+        customer_mode,
+        distribution_promotion_flag,
+        distribution_qr_url,
+        erp_flag,
+        erp_balance_flag,
+        erp_id,
+        erp_no,
+        comment, language, currency_type, create_time,
+        update_time, sub_account_flag, open_id
+        from distributor_extend_data
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listAvailableByErpNos" resultMap="BaseResultMap">
+        select distributor_extend_data.id,
+        distributor_extend_data.distributor_id,
+        distributor_extend_data.distribution_flag,
+        distributor_extend_data.distribution_mode,
+        distributor_extend_data.distribution_auto_flag,
+        distributor_extend_data.customer_flag,
+        distributor_extend_data.customer_mode,
+        distributor_extend_data.distribution_promotion_flag,
+        distributor_extend_data.distribution_qr_url,
+        distributor_extend_data.cert_no,
+        distributor_extend_data.erp_flag,
+        distributor_extend_data.erp_balance_flag,
+        distributor_extend_data.erp_id,
+        distributor_extend_data.erp_no,
+        distributor_extend_data.comment,
+        distributor_extend_data.language,
+        distributor_extend_data.currency_type,
+        distributor_extend_data.create_time,
+        distributor_extend_data.update_time,
+        distributor_extend_data.sub_account_flag,
+        distributor_extend_data.open_id
+        from distributor_extend_data,distributor
+        where distributor_extend_data.distributor_id = distributor.id and distributor_extend_data.erp_no in
+        <foreach collection="erpNos" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and distributor.freeze_status = 1
+        and distributor.profile_status = 2
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               distributor_id,
+               distribution_flag,
+               distribution_mode,
+               distribution_auto_flag,
+               customer_flag,
+               customer_mode,
+               distribution_promotion_flag,
+               distribution_qr_url,
+               cert_no,
+               erp_flag,
+               erp_balance_flag,
+               erp_id,
+               erp_no,
+               comment, language, currency_type, create_time, update_time
+                , sub_account_flag, open_id
+        from distributor_extend_data
+    </select>
+    <update id="updateLanguageAndCurrencyType"
+            parameterType="map">
+        update distributor_extend_data
+        set language      = #{language,jdbcType=VARCHAR},
+            currency_type = #{currencyType,jdbcType=VARCHAR},
+            update_time   = #{updateTime,jdbcType=TIMESTAMP}
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateDistributionQrUrlByDistributorId"
+            parameterType="map">
+        update distributor_extend_data
+        set distribution_qr_url = #{distributionQrUrl,jdbcType=VARCHAR}
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_extend_data
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

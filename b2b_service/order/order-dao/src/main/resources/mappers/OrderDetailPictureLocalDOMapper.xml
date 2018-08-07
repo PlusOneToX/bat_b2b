@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.order.dao.local.OrderDetailPictureLocalDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.order.dao.local.dataobject.OrderDetailPictureLocalDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="order_goods_diy_id" property="orderGoodsDiyId" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="generate_image_url" property="generateImageUrl" jdbcType="VARCHAR" />
+    <result column="label_url" property="labelUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="root_path" property="rootPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, order_goods_diy_id, image_url, generate_image_url, label_url, create_time, 
+    update_time, root_path
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_detail_picture_local
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_detail_picture_local
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.order.dao.local.dataobject.OrderDetailPictureLocalDO" useGeneratedKeys="true" keyProperty="id">
+    insert into order_detail_picture_local (id, order_id, order_goods_diy_id, 
+      image_url, generate_image_url, label_url, 
+      create_time, update_time, root_path
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{orderGoodsDiyId,jdbcType=INTEGER}, 
+      #{imageUrl,jdbcType=VARCHAR}, #{generateImageUrl,jdbcType=VARCHAR}, #{labelUrl,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{rootPath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="createList" useGeneratedKeys="true" keyProperty="id">
+     insert into order_detail_picture_local (order_id, order_goods_diy_id,
+      image_url, generate_image_url, label_url,
+      create_time, update_time, root_path
+      )
+    values
+    <foreach collection="createList" item="local" separator=" , ">
+      (
+      #{local.orderId,jdbcType=INTEGER}, #{local.orderGoodsDiyId,jdbcType=INTEGER},
+      #{local.imageUrl,jdbcType=VARCHAR}, #{local.generateImageUrl,jdbcType=VARCHAR}, #{local.labelUrl,jdbcType=VARCHAR},
+      #{local.createTime,jdbcType=TIMESTAMP}, #{local.updateTime,jdbcType=TIMESTAMP}, #{local.rootPath,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.order.dao.local.dataobject.OrderDetailPictureLocalDO" useGeneratedKeys="true" keyProperty="id">
+    insert into order_detail_picture_local
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderGoodsDiyId != null" >
+        order_goods_diy_id,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="generateImageUrl != null" >
+        generate_image_url,
+      </if>
+      <if test="labelUrl != null" >
+        label_url,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="rootPath != null" >
+        root_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderGoodsDiyId != null" >
+        #{orderGoodsDiyId,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="generateImageUrl != null" >
+        #{generateImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="labelUrl != null" >
+        #{labelUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rootPath != null" >
+        #{rootPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.local.dataobject.OrderDetailPictureLocalDO" >
+    update order_detail_picture_local
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderGoodsDiyId != null" >
+        order_goods_diy_id = #{orderGoodsDiyId,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="generateImageUrl != null" >
+        generate_image_url = #{generateImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="labelUrl != null" >
+        label_url = #{labelUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rootPath != null" >
+        root_path = #{rootPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.local.dataobject.OrderDetailPictureLocalDO" >
+    update order_detail_picture_local
+    set order_id = #{orderId,jdbcType=INTEGER},
+      order_goods_diy_id = #{orderGoodsDiyId,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      generate_image_url = #{generateImageUrl,jdbcType=VARCHAR},
+      label_url = #{labelUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      root_path = #{rootPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate" parameterType="java.util.List" >
+    <foreach collection="updateList" item="local" separator=" ; ">
+      update order_detail_picture_local
+      set order_id = #{local.orderId,jdbcType=INTEGER},
+      order_goods_diy_id = #{local.orderGoodsDiyId,jdbcType=INTEGER},
+      image_url = #{local.imageUrl,jdbcType=VARCHAR},
+      generate_image_url = #{local.generateImageUrl,jdbcType=VARCHAR},
+      label_url = #{local.labelUrl,jdbcType=VARCHAR},
+      create_time = #{local.createTime,jdbcType=TIMESTAMP},
+      update_time = #{local.updateTime,jdbcType=TIMESTAMP},
+      root_path = #{local.rootPath,jdbcType=VARCHAR}
+      where id = #{local.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <select id="getByOrderGoodsDiyId" resultMap="BaseResultMap">
+    select * from order_detail_picture_local where order_goods_diy_id = #{orderGoodsDiyId,jdbcType=INTEGER}
+  </select>
+
+  <select id="listByOrderId" resultMap="BaseResultMap">
+    select * from order_detail_picture_local where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,161 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6380
+#      password: bat2018
+#      masterName: order-service
+#kdn config
+kdn:
+  EBusinessID: 
+  AppKey: 
+  ReqURL: http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx
+oss:
+  excel:
+    user-import-order: 
+    admin-import-order: 
+### rocketmq stream消息
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2018
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者（一般性服务）
+        order-output:
+          destination: order-service-topic
+          content-type: application/json
+        ### 消息生产者（erp同步服务）
+        order-erp-output:
+          destination: order-service-erp-topic
+          content-type: application/json
+        ### 消息生产者（erp柔性出库单同步服务）
+        order-erp-purchase-output:
+          destination: order-service-erp-purchase-topic
+          content-type: application/json
+        ### 消息生产者（工厂同步服务）
+        order-factory-output:
+          destination: order-service-factory-topic
+          content-type: application/json
+        ### 消息生产者（客户同步服务）
+        order-customer-output:
+          destination: order-service-customer-topic
+          content-type: application/json
+        ### 消息生产者（订阅消息,例如微信小程序消息推送）
+        order-sub-output:
+          destination: order-service-sub-topic
+          content-type: application/json
+        ### 消息消费者
+        ### 订单消息通道监听
+        order-input:
+          destination: order-service-topic
+          content-type: application/json
+          group: order-input-group
+        ### 财务消息通道监听
+        order-financial-input:
+          destination: financial-service-topic
+          content-type: application/json
+          group: order-financial-input-group
+        ### 分销商消息通道监听
+        order-distributor-input:
+          destination: distributor-service-topic
+          content-type: application/json
+          group: order-distributor-input-group
+        ### 第三方消息通道监听
+        order-third-input:
+          destination: third-service-topic
+          content-type: application/json
+          group: order-third-input-group
+        ### 仓库消息通道监听
+        order-warehouse-input:
+          destination: warehouse-service-topic
+          content-type: application/json
+          group: order-warehouse-input-group
+        ### 平台消息通道监听
+        order-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: order-platform-input-group
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置（一般性）
+          order-output:
+            producer:
+              group: order-output-group
+              sync: true
+          ### 生产者配置（erp同步）
+          order-erp-output:
+            producer:
+              group: order-erp-output-group
+              sync: true
+          ### 生产者配置（erp柔性出库单同步）
+          order-erp-purchase-output:
+            producer:
+              group: order-erp-purchase-output-group
+              sync: true
+          ### 生产者配置（工厂同步）
+          order-factory-output:
+            producer:
+              group: order-factory-output-group
+              sync: true
+          ### 生产者配置（第三方客户同步）
+          order-customer-output:
+            producer:
+              group: order-customer-output-group
+              sync: true
+          ### 生产者配置（订阅消息,例如微信小程序消息推送）
+          order-sub-output:
+            producer:
+              group: order-sub-output-group
+              sync: true
+          ### 订单消费者tag监听
+          order-input:
+            consumer:
+              tags: orderTreeNodeData||orderTimerPowerOffD||orderTimerPowerOffC||orderChangeCost
+          ### 财务消费者tag监听
+          order-financial-input:
+            consumer:
+              tags: orderPay
+          ### 分销商消费者tag监听
+          order-distributor-input:
+            consumer:
+              tags: distributorNameChange
+          ### 第三方消费者tag监听
+          order-third-input:
+            consumer:
+              tags:
+          ### 仓库消费者tag监听
+          order-warehouse-input:
+            consumer:
+              tags: orderGoodsStockUnLock||unLockByOrderErpNoLine
+          ### 平台消费者tag监听
+          order-platform-input:
+            consumer:
+              tags: tenantDBDelete

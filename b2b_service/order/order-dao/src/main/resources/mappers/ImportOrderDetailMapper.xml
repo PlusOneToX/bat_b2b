@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.importOrder.ImportOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.bat.order.dao.importOrder.dataobject.ImportOrderDetailDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="import_order_goods_id" jdbcType="INTEGER" property="importOrderGoodsId" />
+    <result column="import_order_id" jdbcType="INTEGER" property="importOrderId" />
+    <result column="material_id" jdbcType="INTEGER" property="materialId" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="model_name" jdbcType="VARCHAR" property="modelName" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="picture_id" jdbcType="INTEGER" property="pictureId" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="generate_image" jdbcType="VARCHAR" property="generateImage" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, import_order_goods_id, import_order_id, material_id, material_name, model_id, 
+    model_name, brand_id, brand_name, picture_id, category_id, generate_image, image
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from import_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from import_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDetailDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into import_order_detail (import_order_goods_id, import_order_id, 
+      material_id, material_name, model_id, 
+      model_name, brand_id, brand_name, 
+      picture_id, category_id, generate_image, 
+      image)
+    values (#{importOrderGoodsId,jdbcType=INTEGER}, #{importOrderId,jdbcType=INTEGER}, 
+      #{materialId,jdbcType=INTEGER}, #{materialName,jdbcType=VARCHAR}, #{modelId,jdbcType=INTEGER}, 
+      #{modelName,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, #{brandName,jdbcType=VARCHAR}, 
+      #{pictureId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{generateImage,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDetailDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into import_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="importOrderGoodsId != null">
+        import_order_goods_id,
+      </if>
+      <if test="importOrderId != null">
+        import_order_id,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="materialName != null">
+        material_name,
+      </if>
+      <if test="modelId != null">
+        model_id,
+      </if>
+      <if test="modelName != null">
+        model_name,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="pictureId != null">
+        picture_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="generateImage != null">
+        generate_image,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="importOrderGoodsId != null">
+        #{importOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="importOrderId != null">
+        #{importOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelId != null">
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="modelName != null">
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureId != null">
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="generateImage != null">
+        #{generateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDetailDO">
+    update import_order_detail
+    <set>
+      <if test="importOrderGoodsId != null">
+        import_order_goods_id = #{importOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="importOrderId != null">
+        import_order_id = #{importOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="materialName != null">
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelId != null">
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="modelName != null">
+        model_name = #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureId != null">
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="generateImage != null">
+        generate_image = #{generateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.importOrder.dataobject.ImportOrderDetailDO">
+    update import_order_detail
+    set import_order_goods_id = #{importOrderGoodsId,jdbcType=INTEGER},
+      import_order_id = #{importOrderId,jdbcType=INTEGER},
+      material_id = #{materialId,jdbcType=INTEGER},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      model_id = #{modelId,jdbcType=INTEGER},
+      model_name = #{modelName,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=INTEGER},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      picture_id = #{pictureId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      generate_image = #{generateImage,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

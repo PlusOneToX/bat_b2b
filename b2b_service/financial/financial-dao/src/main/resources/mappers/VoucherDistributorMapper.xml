@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.voucher.VoucherDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.voucher.dataobject.VoucherDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="pay_way" jdbcType="SMALLINT" property="payWay"/>
+        <result column="out_trade_no" jdbcType="INTEGER" property="outTradeNo"/>
+        <result column="customer_flag" jdbcType="SMALLINT" property="customerFlag"/>
+        <result column="currency_type" jdbcType="VARCHAR" property="currencyType"/>
+        <result column="business_type" jdbcType="SMALLINT" property="businessType"/>
+        <result column="business_id" jdbcType="VARCHAR" property="businessId"/>
+        <result column="voucher_status" jdbcType="SMALLINT" property="voucherStatus"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="voucher_erp_no" jdbcType="VARCHAR" property="voucherErpNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        voucher_distributor.id, voucher_distributor.distributor_id, voucher_distributor.distributor_name, voucher_distributor.company_name, voucher_distributor.amount, voucher_distributor.pay_way, voucher_distributor.out_trade_no,
+    voucher_distributor.customer_flag,voucher_distributor.currency_type, voucher_distributor.business_type, voucher_distributor.business_id, voucher_distributor.voucher_status, voucher_distributor.remark, voucher_distributor.voucher_erp_no,
+    voucher_distributor.create_time, voucher_distributor.update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from voucher_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from voucher_distributor
+        <where>
+            <if test="params.id!=null">
+                and voucher_distributor.id = #{params.id}
+            </if>
+            <if test="params.outTradeNo!=null">
+                and voucher_distributor.out_trade_no = #{params.outTradeNo}
+            </if>
+            <if test="params.voucherStatus!=null">
+                and voucher_distributor.voucher_status = #{params.voucherStatus}
+            </if>
+            <if test="params.payWay!=null">
+                and voucher_distributor.pay_way = #{params.payWay}
+            </if>
+            <if test="params.businessType!=null">
+                and voucher_distributor.business_type = #{params.businessType}
+            </if>
+            <if test="params.businessId!=null">
+                and FIND_IN_SET(#{params.businessId,jdbcType=VARCHAR},business_id)
+            </if>
+            <if test="params.syncErpFlag!=null">
+                <if test="params.syncErpFlag==0">
+                    and voucher_distributor.voucher_erp_no is null
+                </if>
+                <if test="params.syncErpFlag==1">
+                    and voucher_distributor.voucher_erp_no is not null
+                </if>
+            </if>
+            <if test="params.startTime!=null">
+                and voucher_distributor.create_time &gt;= #{params.startTime}
+            </if>
+            <if test="params.endTime!=null">
+                and voucher_distributor.create_time &lt;= #{params.endTime}
+            </if>
+            <if test="params.voucherErpNo!=null">
+                and voucher_distributor.voucher_erp_no = #{params.voucherErpNo}
+            </if>
+            <if test="params.distributorName!=null">
+                and voucher_distributor.distributor_name like CONCAT('%',#{params.distributorName},'%')
+            </if>
+        </where>
+        order by voucher_distributor.update_time desc
+    </select>
+    <select id="listVoucherByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from voucher_distributor
+        <where>
+            <if test="voucherIds!=null and voucherIds.size()>0">
+                and voucher_distributor.id in
+                <foreach collection="voucherIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from voucher_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.voucher.dataobject.VoucherDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into voucher_distributor (distributor_id, distributor_name, company_name,
+        amount, pay_way, out_trade_no,customer_flag,
+        currency_type, business_type, business_id,
+        voucher_status, remark, voucher_erp_no,
+        create_time, update_time)
+        values (#{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
+        #{amount,jdbcType=DECIMAL}, #{payWay,jdbcType=SMALLINT},
+        #{outTradeNo,jdbcType=INTEGER},#{customerFlag,jdbcType=SMALLINT},
+        #{currencyType,jdbcType=VARCHAR}, #{businessType,jdbcType=SMALLINT}, #{businessId,jdbcType=VARCHAR},
+        #{voucherStatus,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR}, #{voucherErpNo,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.voucher.dataobject.VoucherDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into voucher_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="payWay != null">
+                pay_way,
+            </if>
+            <if test="outTradeNo != null">
+                out_trade_no,
+            </if>
+            <if test="customerFlag">
+                customer_flag,
+            </if>
+            <if test="currencyType != null">
+                currency_type,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="businessId != null">
+                business_id,
+            </if>
+            <if test="voucherStatus != null">
+                voucher_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="voucherErpNo != null">
+                voucher_erp_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="payWay != null">
+                #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="outTradeNo != null">
+                #{outTradeNo,jdbcType=INTEGER},
+            </if>
+            <if test="currencyType != null">
+                #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                #{businessId,jdbcType=VARCHAR},
+            </if>
+            <if test="voucherStatus != null">
+                #{voucherStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="voucherErpNo != null">
+                #{voucherErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.voucher.dataobject.VoucherDistributorDO">
+        update voucher_distributor
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="payWay != null">
+                pay_way = #{payWay,jdbcType=SMALLINT},
+            </if>
+            <if test="outTradeNo != null">
+                out_trade_no = #{outTradeNo,jdbcType=INTEGER},
+            </if>
+            <if test="customerFlag">
+                customer_flag = #{customerFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="currencyType != null">
+                currency_type = #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                business_id = #{businessId,jdbcType=VARCHAR},
+            </if>
+            <if test="voucherStatus != null">
+                voucher_status = #{voucherStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="voucherErpNo != null">
+                voucher_erp_no = #{voucherErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.voucher.dataobject.VoucherDistributorDO">
+        update voucher_distributor
+        set distributor_id   = #{distributorId,jdbcType=INTEGER},
+            distributor_name = #{distributorName,jdbcType=VARCHAR},
+            company_name     = #{companyName,jdbcType=VARCHAR},
+            amount           = #{amount,jdbcType=DECIMAL},
+            pay_way          = #{payWay,jdbcType=SMALLINT},
+            out_trade_no     = #{outTradeNo,jdbcType=INTEGER},
+            customer_flag    = #{customerFlag,jdbcType=SMALLINT},
+            currency_type    = #{currencyType,jdbcType=VARCHAR},
+            business_type    = #{businessType,jdbcType=SMALLINT},
+            business_id      = #{businessId,jdbcType=VARCHAR},
+            voucher_status   = #{voucherStatus,jdbcType=SMALLINT},
+            remark           = #{remark,jdbcType=VARCHAR},
+            voucher_erp_no   = #{voucherErpNo,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

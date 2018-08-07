@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.globalsetting.FactorySettingOrderInvalidMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.globalsetting.dataobject.FactorySettingOrderInvalidDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="order_source" jdbcType="INTEGER" property="orderSource"/>
+        <result column="invalid" jdbcType="INTEGER" property="invalid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, order_source, invalid
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_factory_setting_order_invalid
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_factory_setting_order_invalid
+    </select>
+    <select id="getByOrderSource"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from global_factory_setting_order_invalid
+        where order_source = #{orderSource,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from global_factory_setting_order_invalid
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteAll">
+        delete
+        from global_factory_setting_order_invalid
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.globalsetting.dataobject.FactorySettingOrderInvalidDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into global_factory_setting_order_invalid (name, order_source, invalid
+        )
+        values (#{name,jdbcType=VARCHAR}, #{orderSource,jdbcType=INTEGER}, #{invalid,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.FactorySettingOrderInvalidDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into global_factory_setting_order_invalid
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="orderSource != null">
+                order_source,
+            </if>
+            <if test="invalid != null">
+                invalid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="orderSource != null">
+                #{orderSource,jdbcType=INTEGER},
+            </if>
+            <if test="invalid != null">
+                #{invalid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.FactorySettingOrderInvalidDO">
+        update global_factory_setting_order_invalid
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="orderSource != null">
+                order_source = #{orderSource,jdbcType=INTEGER},
+            </if>
+            <if test="invalid != null">
+                invalid = #{invalid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.system.dao.globalsetting.dataobject.FactorySettingOrderInvalidDO">
+        update global_factory_setting_order_invalid
+        set name         = #{name,jdbcType=VARCHAR},
+            order_source = #{orderSource,jdbcType=INTEGER},
+            invalid      = #{invalid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

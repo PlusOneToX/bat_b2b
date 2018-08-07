@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.logistics.LogisticsThirdMappingMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.logistics.dataobject.LogisticsThirdMappingDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="logistics_id" jdbcType="INTEGER" property="logisticsId"/>
+        <result column="third_type" jdbcType="SMALLINT" property="thirdType"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="third_delivery_no" jdbcType="VARCHAR" property="thirdDeliveryNo"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, logistics_id, third_type, status, third_delivery_no, remark
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_third_mapping
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getThirdLogisticsByThirdTypeAndLogisticsId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics_third_mapping
+        where logistics_id = #{logisticsId,jdbcType=INTEGER}
+        and third_type = #{thirdType,jdbcType=SMALLINT}
+        and `status` != 0
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from logistics_third_mapping
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsThirdMappingDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_third_mapping (logistics_id, third_type, status,
+        third_delivery_no, remark)
+        values (#{logisticsId,jdbcType=INTEGER}, #{thirdType,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT},
+        #{thirdDeliveryNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsThirdMappingDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics_third_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logisticsId != null">
+                logistics_id,
+            </if>
+            <if test="thirdType != null">
+                third_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="thirdDeliveryNo != null">
+                third_delivery_no,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logisticsId != null">
+                #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="thirdType != null">
+                #{thirdType,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="thirdDeliveryNo != null">
+                #{thirdDeliveryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.logistics.dataobject.LogisticsThirdMappingDO">
+        update logistics_third_mapping
+        <set>
+            <if test="logisticsId != null">
+                logistics_id = #{logisticsId,jdbcType=INTEGER},
+            </if>
+            <if test="thirdType != null">
+                third_type = #{thirdType,jdbcType=SMALLINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="thirdDeliveryNo != null">
+                third_delivery_no = #{thirdDeliveryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsThirdMappingDO">
+        update logistics_third_mapping
+        set logistics_id      = #{logisticsId,jdbcType=INTEGER},
+            third_type        = #{thirdType,jdbcType=SMALLINT},
+            status            = #{status,jdbcType=SMALLINT},
+            third_delivery_no = #{thirdDeliveryNo,jdbcType=VARCHAR},
+            remark            = #{remark,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

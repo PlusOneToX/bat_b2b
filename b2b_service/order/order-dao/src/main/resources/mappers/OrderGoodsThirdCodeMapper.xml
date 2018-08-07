@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.order.dao.order.OrderGoodsThirdCodeMapper">
+    <resultMap id="BaseResultMap" type="com.bat.order.dao.order.dataobject.OrderGoodsThirdCodeDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="order_goods_id" jdbcType="INTEGER" property="orderGoodsId"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="write_off_flag" jdbcType="SMALLINT" property="writeOffFlag"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_goods_id, order_id, code, write_off_flag, distributor_id, platform
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_third_code
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findByCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_goods_third_code
+        where code = #{code}
+    </select>
+
+    <select id="listDeliverByWriteOff" resultMap="BaseResultMap">
+        select a.id, a.order_goods_id, a.order_id, a.code,a.write_off_flag,a.distributor_id, a.platform
+        from order_goods_third_code a
+        left join order_info b on a.order_id=b.id
+        where b.deliver_status=4
+        <if test="writeOffFlag != null">
+            and a.write_off_flag=#{writeOffFlag}
+        </if>
+        and b.create_time &lt;= DATE_SUB(now(), INTERVAL 2 DAY)
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_goods_third_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsThirdCodeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_goods_third_code (order_goods_id, order_id, code,
+        write_off_flag, distributor_id, platform
+        )
+        values (#{item.orderGoodsId,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER}, #{item.code,jdbcType=VARCHAR},
+        #{item.writeOffFlag,jdbcType=SMALLINT}, #{item.distributorId,jdbcType=INTEGER},
+        #{item.platform,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into order_goods_third_code (order_goods_id, order_id, code,
+        write_off_flag, distributor_id, platform)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.orderGoodsId,jdbcType=INTEGER}, #{item.orderId,jdbcType=INTEGER}, #{item.code,jdbcType=VARCHAR},
+            #{item.writeOffFlag,jdbcType=SMALLINT}, #{item.distributorId,jdbcType=INTEGER}, #{item.platform,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsThirdCodeDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_goods_third_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderGoodsId != null">
+                order_goods_id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="writeOffFlag != null">
+                write_off_flag,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderGoodsId != null">
+                #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="writeOffFlag != null">
+                #{writeOffFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.order.dao.order.dataobject.OrderGoodsThirdCodeDO">
+        update order_goods_third_code
+        <set>
+            <if test="orderGoodsId != null">
+                order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="writeOffFlag != null">
+                write_off_flag = #{writeOffFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.order.dao.order.dataobject.OrderGoodsThirdCodeDO">
+    update order_goods_third_code
+    set order_goods_id = #{orderGoodsId,jdbcType=INTEGER},
+        order_id = #{orderId,jdbcType=INTEGER},
+        code = #{code,jdbcType=VARCHAR},
+        write_off_flag = #{writeOffFlag,jdbcType=SMALLINT},
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+        platform = #{platform,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="listUpdateWriteOff" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update order_goods_third_code
+            set write_off_flag = #{item.writeOffFlag,jdbcType=SMALLINT}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+</mapper>

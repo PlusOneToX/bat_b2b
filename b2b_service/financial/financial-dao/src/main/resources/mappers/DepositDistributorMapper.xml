@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.deposit.DepositDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.deposit.dataobject.DepositDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="erp_distributor_id" jdbcType="VARCHAR" property="erpDistributorId"/>
+        <result column="tree_node" jdbcType="INTEGER" property="treeNode"/>
+        <result column="distributor_ancestor_id" jdbcType="INTEGER" property="distributorAncestorId"/>
+        <result column="distributor_ancestor_name" jdbcType="VARCHAR" property="distributorAncestorName"/>
+        <result column="account_balance" jdbcType="DECIMAL" property="accountBalance"/>
+        <result column="account_available" jdbcType="DECIMAL" property="accountAvailable"/>
+        <result column="freezing_amount" jdbcType="DECIMAL" property="freezingAmount"/>
+        <result column="recharge_amount" jdbcType="DECIMAL" property="rechargeAmount"/>
+        <result column="commission_amount" jdbcType="DECIMAL" property="commissionAmount"/>
+        <result column="withdraw_amount" jdbcType="DECIMAL" property="withdrawAmount"/>
+        <result column="consumer_amount" jdbcType="DECIMAL" property="consumerAmount"/>
+        <result column="refund_amount" jdbcType="DECIMAL" property="refundAmount"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, distributor_id, distributor_name, erp_distributor_id, tree_node, distributor_ancestor_id,
+    distributor_ancestor_name, account_balance, account_available, freezing_amount, recharge_amount, 
+    commission_amount, withdraw_amount, consumer_amount, refund_amount, create_time, 
+    update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getByDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor
+        <where>
+            <if test="params.distributorIds!=null and params.distributorIds.size()>0">
+                and distributor_id in
+                <foreach collection="params.distributorIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="params.erpDistributorIs!=null and params.erpDistributorIs.size()>0">
+                and erp_distributor_id in
+                <foreach collection="params.erpDistributorIs" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="params.distributorName!=null">
+                and distributor_name like CONCAT("%",#{params.distributorName},"%")
+            </if>
+            <if test="params.distributorAncestorName!=null">
+                and distributor_ancestor_name like CONCAT("%",#{params.distributorAncestorName},"%")
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="getByErpDistributorId"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from deposit_distributor
+        where erp_distributor_id = #{erpDistributorId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from deposit_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deposit_distributor (distributor_id, distributor_name, erp_distributor_id,
+        tree_node, distributor_ancestor_id, distributor_ancestor_name,
+        account_balance, account_available, freezing_amount,
+        recharge_amount, commission_amount, withdraw_amount,
+        consumer_amount, refund_amount, create_time,
+        update_time)
+        values (#{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR},
+        #{erpDistributorId,jdbcType=VARCHAR},
+        #{treeNode,jdbcType=INTEGER}, #{distributorAncestorId,jdbcType=INTEGER},
+        #{distributorAncestorName,jdbcType=VARCHAR},
+        #{accountBalance,jdbcType=DECIMAL}, #{accountAvailable,jdbcType=DECIMAL}, #{freezingAmount,jdbcType=DECIMAL},
+        #{rechargeAmount,jdbcType=DECIMAL}, #{commissionAmount,jdbcType=DECIMAL}, #{withdrawAmount,jdbcType=DECIMAL},
+        #{consumerAmount,jdbcType=DECIMAL}, #{refundAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deposit_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="erpDistributorId != null">
+                erp_distributor_id,
+            </if>
+            <if test="treeNode != null">
+                tree_node,
+            </if>
+            <if test="distributorAncestorId != null">
+                distributor_ancestor_id,
+            </if>
+            <if test="distributorAncestorName != null">
+                distributor_ancestor_name,
+            </if>
+            <if test="accountBalance != null">
+                account_balance,
+            </if>
+            <if test="accountAvailable != null">
+                account_available,
+            </if>
+            <if test="freezingAmount != null">
+                freezing_amount,
+            </if>
+            <if test="rechargeAmount != null">
+                recharge_amount,
+            </if>
+            <if test="commissionAmount != null">
+                commission_amount,
+            </if>
+            <if test="withdrawAmount != null">
+                withdraw_amount,
+            </if>
+            <if test="consumerAmount != null">
+                consumer_amount,
+            </if>
+            <if test="refundAmount != null">
+                refund_amount,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpDistributorId != null">
+                #{erpDistributorId,jdbcType=VARCHAR},
+            </if>
+            <if test="treeNode != null">
+                #{treeNode,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorId != null">
+                #{distributorAncestorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorName != null">
+                #{distributorAncestorName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountBalance != null">
+                #{accountBalance,jdbcType=DECIMAL},
+            </if>
+            <if test="accountAvailable != null">
+                #{accountAvailable,jdbcType=DECIMAL},
+            </if>
+            <if test="freezingAmount != null">
+                #{freezingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="rechargeAmount != null">
+                #{rechargeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionAmount != null">
+                #{commissionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawAmount != null">
+                #{withdrawAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="consumerAmount != null">
+                #{consumerAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundAmount != null">
+                #{refundAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch">
+        INSERT INTO deposit_distributor (distributor_id, distributor_name, erp_distributor_id,
+        tree_node, distributor_ancestor_id, distributor_ancestor_name,
+        account_balance, account_available, freezing_amount,
+        recharge_amount, commission_amount, withdraw_amount,
+        consumer_amount, refund_amount, create_time,
+        update_time)
+        values
+        <foreach collection="dos" index="index" item="item" separator=",">
+            (#{item.distributorId,jdbcType=INTEGER}, #{item.distributorName,jdbcType=VARCHAR},
+            #{item.erpDistributorId,jdbcType=VARCHAR},
+            #{item.treeNode,jdbcType=INTEGER}, #{item.distributorAncestorId,jdbcType=INTEGER},
+            #{item.distributorAncestorName,jdbcType=VARCHAR},
+            #{item.accountBalance,jdbcType=DECIMAL}, #{item.accountAvailable,jdbcType=DECIMAL},
+            #{item.freezingAmount,jdbcType=DECIMAL},
+            #{item.rechargeAmount,jdbcType=DECIMAL}, #{item.commissionAmount,jdbcType=DECIMAL},
+            #{item.withdrawAmount,jdbcType=DECIMAL},
+            #{item.consumerAmount,jdbcType=DECIMAL}, #{item.refundAmount,jdbcType=DECIMAL},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorDO">
+        update deposit_distributor
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpDistributorId != null">
+                erp_distributor_id = #{erpDistributorId,jdbcType=VARCHAR},
+            </if>
+            <if test="treeNode != null">
+                tree_node = #{treeNode,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorId != null">
+                distributor_ancestor_id = #{distributorAncestorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorAncestorName != null">
+                distributor_ancestor_name = #{distributorAncestorName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountBalance != null">
+                account_balance = #{accountBalance,jdbcType=DECIMAL},
+            </if>
+            <if test="accountAvailable != null">
+                account_available = #{accountAvailable,jdbcType=DECIMAL},
+            </if>
+            <if test="freezingAmount != null">
+                freezing_amount = #{freezingAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="rechargeAmount != null">
+                recharge_amount = #{rechargeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionAmount != null">
+                commission_amount = #{commissionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawAmount != null">
+                withdraw_amount = #{withdrawAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="consumerAmount != null">
+                consumer_amount = #{consumerAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.deposit.dataobject.DepositDistributorDO">
+        update deposit_distributor
+        set distributor_id            = #{distributorId,jdbcType=INTEGER},
+            distributor_name          = #{distributorName,jdbcType=VARCHAR},
+            erp_distributor_id        = #{erpDistributorId,jdbcType=VARCHAR},
+            tree_node                 = #{treeNode,jdbcType=INTEGER},
+            distributor_ancestor_id   = #{distributorAncestorId,jdbcType=INTEGER},
+            distributor_ancestor_name = #{distributorAncestorName,jdbcType=VARCHAR},
+            account_balance           = #{accountBalance,jdbcType=DECIMAL},
+            account_available         = #{accountAvailable,jdbcType=DECIMAL},
+            freezing_amount           = #{freezingAmount,jdbcType=DECIMAL},
+            recharge_amount           = #{rechargeAmount,jdbcType=DECIMAL},
+            commission_amount         = #{commissionAmount,jdbcType=DECIMAL},
+            withdraw_amount           = #{withdrawAmount,jdbcType=DECIMAL},
+            consumer_amount           = #{consumerAmount,jdbcType=DECIMAL},
+            refund_amount             = #{refundAmount,jdbcType=DECIMAL},
+            create_time               = #{createTime,jdbcType=TIMESTAMP},
+            update_time               = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateBatchByPrimaryKey">
+        update deposit_distributor
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="account_balance = case" suffix="end,">
+                <foreach collection="depositDistributor" item="i" index="index">
+                    <if test="i.accountBalance!=null">
+                        when id = #{i.id} then #{i.accountBalance}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix=" account_available = case" suffix="end,">
+                <foreach collection="depositDistributor" item="i" index="index">
+                    <if test="i.accountAvailable!=null">
+                        when id = #{i.id} then #{i.accountAvailable}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        <if test="depositDistributor!=null and depositDistributor.size()>0">
+            where id in
+            <foreach collection="depositDistributor" open="(" close=")" separator="," item="i" index="index">
+                #{i.id}
+            </foreach>
+        </if>
+    </update>
+</mapper>

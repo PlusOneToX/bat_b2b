@@ -1,0 +1,713 @@
+//sidebar
+$menuBg:#304156;
+$subMenuBg:#1f2d3d;
+$menuHover:#001528;
+// 背景颜色
+$bg:#f5f7fa;
+$table-header-bg:#e7fafb; // 表头背景色
+$lineHight: 40px;
+$lakeBlue: rgb(33, 184, 203); // 搜索按钮颜色 // 顶部导航条颜色 
+$browseBlue: #4BA8EB; // 浏览按钮颜色
+$pullOffBlue: #bfbfbf; // 下架按钮颜色
+$freezeBlue: #fab42d; // 解冻按钮颜色
+$tableaddBlue: #4BA8EB; // 表格添加按钮颜色
+$deleteBlue: #E8574F; // 表格删除按钮颜色
+$tableColor: rgb(180, 180, 180);
+// .el-step__icon-inner[class*=el-icon]:not(.is-status){ // icon物流图标大小
+//     font-size: 16px !important;
+// }
+.el-dialog {
+    margin-top: 11vh !important;
+}
+
+.el-step__description.is-finish {
+    // icon第一行文字颜色
+    color: $lakeBlue;
+}
+
+.el-step__head.is-finish {
+    // icon第一个icon的颜色
+    color: $lakeBlue;
+    border-color: $lakeBlue;
+}
+
+.el-table td,
+.el-table th {
+    // table表格的大小
+    padding: 8px 0;
+}
+
+.el-input.is-disabled .el-input__inner {
+    background-color: #f9f9f9;
+    color: #808080;
+    opacity: 1;
+}
+
+.el-input--mini .el-input__inner {
+    line-height: 20px !important;
+    -ms-line-height: 20px !important;
+}
+
+.el-tabs__nav {
+    margin-left: 30px;
+}
+
+.extend .el-tabs__nav {
+    margin-left: 0px !important;
+}
+
+.el-tabs--border-card>.el-tabs__content {
+    padding: 0px !important;
+}
+
+.asmd {
+    color: $lakeBlue;
+    font-weight: bolder;
+}
+
+.el-table--enable-row-transition .el-table__body td {
+    // 表格的td
+    color: #333;
+}
+
+.el-table__body tr.hover-row>td {
+    // 表格选中hover色系
+    background-color: #f5fdfd !important;
+}
+
+// 导航栏文字
+.el-tabs__item:hover,
+.el-tabs__item.is-active {
+    color: $lakeBlue !important;
+}
+
+// 导航栏底部
+.el-tabs__active-bar {
+    background-color: $lakeBlue !important
+}
+
+.el-dialog__body {
+    padding: 20px 20px;
+}
+
+.tableCenter {
+    // 表格居中
+    text-align: center;
+}
+
+.el-tooltip__popper {
+    max-width: 80%
+}
+
+// 顶部搜索按钮部分（原色，移入，点击，聚焦）
+.mini-search-btn {
+    // mini大小的button
+    background-color: $lakeBlue !important;
+    border: 1px solid $lakeBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: $lakeBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-search-btn:hover {
+    background-color: $lakeBlue !important;
+    opacity: 0.6;
+    color: white;
+    border-color: $lakeBlue;
+}
+
+.mini-search-btn:active {
+    background-color: $lakeBlue !important;
+    color: white;
+    border-color: $lakeBlue;
+}
+
+.mini-search-btn:focus {
+    border-color: $lakeBlue;
+}
+
+// 表格浏览按钮部分（原色，移入，点击，聚焦）
+.mini-browse-btn {
+    // mini大小的button
+    background-color: $browseBlue !important;
+    border: 1px solid $browseBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: $browseBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-browse-btn:hover {
+    background-color: $browseBlue !important;
+    opacity: 0.6;
+    color: white;
+    border-color: $browseBlue;
+}
+
+.mini-browse-btn:active {
+    background-color: $browseBlue !important;
+    color: white;
+    border-color: $browseBlue;
+}
+
+.mini-browse-btn:focus {
+    border-color: $browseBlue;
+}
+
+.mini-pulloff-btn {
+    // 表格下架按钮部分（原色，移入，点击，聚焦）// mini大小的button
+    background-color: $pullOffBlue !important;
+    border: 1px solid $pullOffBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: $pullOffBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-pulloff-btn:hover {
+    background-color: $pullOffBlue !important;
+    opacity: 0.6;
+    color: white;
+    border-color: $pullOffBlue;
+}
+
+.mini-pulloff-btn:active {
+    background-color: $pullOffBlue !important;
+    color: white;
+    border-color: $pullOffBlue;
+}
+
+.mini-pulloff-btn:focus {
+    border-color: $pullOffBlue;
+}
+
+.mini-add-btn {
+    // 顶部添加按钮部分（原色，移入，点击，聚焦）
+    background-color: #fff;
+    border: 1px solid #fff;
+    padding: 5px;
+    font-size: 12px;
+    color: $lakeBlue;
+    border-color: #fff;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-add-btn:hover {
+    color: $lakeBlue !important;
+    background-color: #fff !important;
+    opacity: 0.9;
+}
+
+.mini-add-btn:active {
+    color: $lakeBlue;
+}
+
+.mini-add-btn:focus {
+    border-color: #fff;
+    color: $lakeBlue;
+}
+
+.mini-delete-btn {
+    // 表格删除按钮部分（原色，移入，点击，聚焦）
+    background-color: $deleteBlue !important;
+    border: 1px solid $deleteBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: $deleteBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-delete-btn:hover {
+    background-color: $deleteBlue !important;
+    opacity: 0.6;
+    color: white;
+    border-color: $deleteBlue;
+}
+
+.mini-delete-btn:active {
+    background-color: $deleteBlue !important;
+    color: white;
+    border-color: $deleteBlue;
+}
+
+.mini-delete-btn:focus {
+    border-color: $deleteBlue;
+}
+
+.mini-freeze-btn {
+    // 表格解冻,取消，停用按钮部分（原色，移入，点击，聚焦）// mini大小的button
+    background-color: $freezeBlue !important;
+    border: 1px solid $freezeBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: $freezeBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-freeze-btn:hover {
+    background-color: $freezeBlue !important;
+    opacity: 0.6;
+    color: white;
+    border-color: $freezeBlue;
+}
+
+.mini-freeze-btn:active {
+    background-color: $freezeBlue !important;
+    color: white;
+    border-color: $freezeBlue;
+}
+
+.mini-freeze-btn:focus {
+    border-color: $freezeBlue;
+}
+
+.mini-tableadd-btn {
+    // 表格添加按钮部分（原色，移入，点击，聚焦）// mini大小的button
+    background-color: $tableaddBlue !important;
+    border: 1px solid $tableaddBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: $tableaddBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-tableadd-btn:hover {
+    background-color: $tableaddBlue !important;
+    opacity: 0.6;
+    color: white;
+    border-color: $tableaddBlue;
+}
+
+.mini-tableadd-btn:active {
+    background-color: $tableaddBlue !important;
+    color: white;
+    border-color: $tableaddBlue;
+}
+
+.mini-tableadd-btn:focus {
+    border-color: $tableaddBlue;
+}
+
+.mini-back-btn {
+    // 顶部返回按钮部分（原色，移入，点击，聚焦）
+    background-color: #fff;
+    border: 1px solid #fff;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: $lakeBlue;
+    border-color: #fff;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-back-btn:hover {
+    color: $lakeBlue !important;
+    background-color: #fff !important;
+    opacity: 0.9;
+}
+
+.mini-back-btn:active {
+    color: $lakeBlue !important;
+}
+
+.mini-back-btn:focus {
+    border-color: #fff !important;
+    color: $lakeBlue !important;
+}
+
+.mini-batch-btn {
+    // 顶部批量操作按钮部分（原色，移入，点击，聚焦）// mini大小的button
+    border: 1px solid rgb(33, 184, 203) !important;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: $lakeBlue;
+    border-color: #b3d8ff;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-batch-btn:hover {
+    background-color: $lakeBlue;
+    color: white !important;
+}
+
+.mini-batch-btn:active {
+    background-color: $lakeBlue;
+    color: white !important;
+}
+
+.place-holder {
+    // 提示语
+    color: #ccc;
+    font-size: 12px;
+}
+
+.text-center.title {
+    // 订单部分详情页面公共样式
+    padding-top: 25px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    border-top: 1px solid #dcdcdc;
+}
+
+.box-width {
+    // 订单部分select，input公共宽度
+    width: 174px;
+}
+
+.mini-delete-btn {
+    // 搜索按钮 // mini大小的button
+    background-color: $deleteBlue;
+    border: 1px solid #FF4500;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white;
+    border-color: #FAEBD7;
+}
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+    // 审批列表头部ridio-button
+    color: #fff;
+    background-color: $lakeBlue !important;
+    border-color: $lakeBlue !important;
+}
+
+.el-radio-button__inner:hover {
+    color: #fff !important;
+    background-color: $lakeBlue !important;
+    border-color: $lakeBlue !important;
+}
+
+.el-radio-button__inner:active {
+    color: #fff !important;
+}
+
+.el-radio-button__inner:focus {
+    color: #fff !important;
+}
+
+.el-button--primary {
+    // 仓库商品库存列表button样式
+    color: #fff;
+    background-color: $lakeBlue !important;
+    border-color: $lakeBlue !important;
+}
+
+.el-button:focus,
+.el-button:hover {
+    color: #fff;
+    background-color: $lakeBlue;
+}
+
+.el-button--primary:active {
+    color: #fff;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    // 分页控件样式
+    background-color: $lakeBlue !important;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+    // 单选radio圆框
+    border: $lakeBlue !important;
+    background: $lakeBlue !important;
+}
+
+.el-radio__inner:hover {
+    border-color: $lakeBlue !important;
+}
+
+.el-radio__input.is-checked+.el-radio__label {
+    // 单选框的字
+    color: $lakeBlue
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    // 复选框勾选
+    background-color: $lakeBlue !important;
+    border-color: $lakeBlue !important;
+}
+
+.el-checkbox__inner:hover {
+    // 复选框移入
+    border-color: $lakeBlue !important;
+}
+
+.el-checkbox__input.is-checked+.el-checkbox__label {
+    // 复选框的文字
+    color: $lakeBlue !important;
+}
+
+.mini-approve-btn {
+    // 审批配置按钮部分（原色，移入，点击，聚焦） // mini大小的button
+    border: 1px solid $lakeBlue;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: $lakeBlue !important;
+    border-color: $lakeBlue;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-delete-btn:hover {
+    background-color: $deleteBlue;
+    opacity: 0.6;
+    color: white
+}
+
+.mini-delete-btn:active {
+    background-color: $deleteBlue;
+    color: white;
+}
+
+.mini-approve-btn:hover {
+    background-color: #fff !important;
+    color: $lakeBlue !important;
+    border-color: $lakeBlue;
+}
+
+.mini-approve-btn:active {
+    background-color: #fff !important;
+    color: $lakeBlue !important;
+    border-color: $lakeBlue;
+}
+
+.mini-approve-btn:focus {
+    background-color: #fff !important;
+    color: $lakeBlue !important;
+    border-color: $lakeBlue;
+}
+
+.tip-left {
+    // 左标
+    padding: 0px 10px;
+    border-radius: 4px;
+    border-left: 5px solid $lakeBlue;
+    margin-left: 30px;
+}
+
+.el-table__header tr,
+.el-table__header th {
+    padding: 0;
+    height: 35px;
+}
+.header-row th{
+    background-color: #e7fafb;
+    height: 35px;
+    color: #333;
+}
+
+.el-table th div {
+    line-height: 20px;
+}
+
+.el-table .cell div {
+    padding-right: 10px;
+    overflow: visible;
+    text-overflow: ellipsis;
+}
+
+.mini-present-btn {
+    background-color: #fab42d !important;
+    border: 1px solid #fab42d;
+    padding: 7px 15px;
+    font-size: 12px;
+    color: white !important;
+    border-color: #fab42d;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border-radius: 4px;
+}
+
+.mini-present-btn:hover {
+    background-color: #fab42d !important;
+    opacity: 0.6;
+    color: white;
+    border-color: #fab42d;
+}
+
+.mini-present-btn:active {
+    background-color: #fab42d !important;
+    color: white;
+    border-color: #fab42d;
+}
+
+.mini-present-btn:focus {
+    border-color: #fab42d;
+}
+
+div.mce-edit-area {
+    background: #FFF;
+    filter: none;
+    max-height: 400px;
+    overflow:auto;
+}

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.distributor.dao.electricity.DistributorElectricityRelationMappingDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.distributor.dao.electricity.dataobject.DistributorElectricityRelationMappingDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="seller_nick" property="sellerNick" jdbcType="VARCHAR" />
+    <result column="erp_shop_name" property="erpShopName" jdbcType="VARCHAR" />
+    <result column="order_source_id" property="orderSourceId" jdbcType="VARCHAR" />
+    <result column="e_platfrom" property="ePlatfrom" jdbcType="VARCHAR" />
+    <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+    <result column="secret" property="secret" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="session_key" property="sessionKey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, distributor_name, seller_nick, erp_shop_name, order_source_id, 
+    e_platfrom, app_key, secret, url, session_key
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_electricity_relation_mapping
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_electricity_relation_mapping
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.distributor.dao.electricity.dataobject.DistributorElectricityRelationMappingDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_electricity_relation_mapping (id, distributor_id, distributor_name, 
+      seller_nick, erp_shop_name, order_source_id, 
+      e_platfrom, app_key, secret, 
+      url, session_key)
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, 
+      #{sellerNick,jdbcType=VARCHAR}, #{erpShopName,jdbcType=VARCHAR}, #{orderSourceId,jdbcType=VARCHAR},
+      #{ePlatfrom,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{secret,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{sessionKey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.distributor.dao.electricity.dataobject.DistributorElectricityRelationMappingDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_electricity_relation_mapping
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="sellerNick != null" >
+        seller_nick,
+      </if>
+      <if test="erpShopName != null" >
+        erp_shop_name,
+      </if>
+      <if test="orderSourceId != null" >
+        order_source_id,
+      </if>
+      <if test="ePlatfrom != null" >
+        e_platfrom,
+      </if>
+      <if test="appKey != null" >
+        app_key,
+      </if>
+      <if test="secret != null" >
+        secret,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="sessionKey != null" >
+        session_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerNick != null" >
+        #{sellerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="erpShopName != null" >
+        #{erpShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSourceId != null" >
+        #{orderSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="ePlatfrom != null" >
+        #{ePlatfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="appKey != null" >
+        #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="secret != null" >
+        #{secret,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionKey != null" >
+        #{sessionKey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.distributor.dao.electricity.dataobject.DistributorElectricityRelationMappingDO" >
+    update distributor_electricity_relation_mapping
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerNick != null" >
+        seller_nick = #{sellerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="erpShopName != null" >
+        erp_shop_name = #{erpShopName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSourceId != null" >
+        order_source_id = #{orderSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="ePlatfrom != null" >
+        e_platfrom = #{ePlatfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="appKey != null" >
+        app_key = #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="secret != null" >
+        secret = #{secret,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionKey != null" >
+        session_key = #{sessionKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.electricity.dataobject.DistributorElectricityRelationMappingDO" >
+    update distributor_electricity_relation_mapping
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      seller_nick = #{sellerNick,jdbcType=VARCHAR},
+      erp_shop_name = #{erpShopName,jdbcType=VARCHAR},
+      order_source_id = #{orderSourceId,jdbcType=VARCHAR},
+      e_platfrom = #{ePlatfrom,jdbcType=VARCHAR},
+      app_key = #{appKey,jdbcType=VARCHAR},
+      secret = #{secret,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      session_key = #{sessionKey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getBySellerNick" resultMap="BaseResultMap">
+    select * from distributor_electricity_relation_mapping where seller_nick = #{sellerNick,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getByDistributorIdAndSellerNick" resultMap="BaseResultMap">
+    select * from distributor_electricity_relation_mapping
+    <where>
+      <if test="distributorId != null">
+        and distributor_id=#{distributorId,jdbcType=INTEGER}
+      </if>
+      <if test="sellerNick != null and sellerNick!=''">
+        and seller_nick = #{sellerNick,jdbcType=VARCHAR}
+      </if>
+    </where>
+    limit 1
+  </select>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select * from distributor_electricity_relation_mapping
+  </select>
+
+
+</mapper>

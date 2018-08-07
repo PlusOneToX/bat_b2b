@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.refund.RefundDistributorMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.refund.dataobject.RefundDistributorDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="refund_way" jdbcType="SMALLINT" property="refundWay"/>
+        <result column="out_refund_no" jdbcType="VARCHAR" property="outRefundNo"/>
+        <result column="customer_flag" jdbcType="SMALLINT" property="customerFlag"/>
+        <result column="currency_type" jdbcType="VARCHAR" property="currencyType"/>
+        <result column="business_type" jdbcType="SMALLINT" property="businessType"/>
+        <result column="business_id" jdbcType="VARCHAR" property="businessId"/>
+        <result column="refund_status" jdbcType="SMALLINT" property="refundStatus"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="refund_erp_no" jdbcType="VARCHAR" property="refundErpNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, distributor_id, distributor_name, company_name, amount, refund_way, out_refund_no,
+    customer_flag, currency_type, business_type, business_id, refund_status, remark,
+    refund_erp_no, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from refund_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from refund_distributor
+        <where>
+            <if test="params.refundStatus">
+                and refund_status =#{params.refundStatus}
+            </if>
+            <if test="params.refundWay">
+                and refund_way =#{params.refundWay}
+            </if>
+            <if test="params.outRefundNo">
+                and out_refund_no =#{params.outRefundNo}
+            </if>
+            <if test="params.distributorName">
+                and distributor_name like CONCAT('%',#{params.distributorName},'%')
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from refund_distributor
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.refund.dataobject.RefundDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into refund_distributor (distributor_id, distributor_name, company_name,
+        amount, refund_way, out_refund_no,
+        customer_flag, currency_type, business_type,
+        business_id, refund_status, remark,
+        refund_erp_no, create_time, update_time
+        )
+        values (#{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
+        #{amount,jdbcType=DECIMAL}, #{refundWay,jdbcType=SMALLINT}, #{outRefundNo,jdbcType=VARCHAR},
+        #{customerFlag,jdbcType=SMALLINT}, #{currencyType,jdbcType=VARCHAR}, #{businessType,jdbcType=SMALLINT},
+        #{businessId,jdbcType=VARCHAR}, #{refundStatus,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR},
+        #{refundErpNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.refund.dataobject.RefundDistributorDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into refund_distributor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="refundWay != null">
+                refund_way,
+            </if>
+            <if test="outRefundNo != null">
+                out_refund_no,
+            </if>
+            <if test="customerFlag != null">
+                customer_flag,
+            </if>
+            <if test="currencyType != null">
+                currency_type,
+            </if>
+            <if test="businessType != null">
+                business_type,
+            </if>
+            <if test="businessId != null">
+                business_id,
+            </if>
+            <if test="refundStatus != null">
+                refund_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="refundErpNo != null">
+                refund_erp_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundWay != null">
+                #{refundWay,jdbcType=SMALLINT},
+            </if>
+            <if test="outRefundNo != null">
+                #{outRefundNo,jdbcType=VARCHAR},
+            </if>
+            <if test="customerFlag != null">
+                #{customerFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="currencyType != null">
+                #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                #{businessType,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                #{businessId,jdbcType=VARCHAR},
+            </if>
+            <if test="refundStatus != null">
+                #{refundStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="refundErpNo != null">
+                #{refundErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.refund.dataobject.RefundDistributorDO">
+        update refund_distributor
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="refundWay != null">
+                refund_way = #{refundWay,jdbcType=SMALLINT},
+            </if>
+            <if test="outRefundNo != null">
+                out_refund_no = #{outRefundNo,jdbcType=VARCHAR},
+            </if>
+            <if test="customerFlag != null">
+                customer_flag = #{customerFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="currencyType != null">
+                currency_type = #{currencyType,jdbcType=VARCHAR},
+            </if>
+            <if test="businessType != null">
+                business_type = #{businessType,jdbcType=SMALLINT},
+            </if>
+            <if test="businessId != null">
+                business_id = #{businessId,jdbcType=VARCHAR},
+            </if>
+            <if test="refundStatus != null">
+                refund_status = #{refundStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="refundErpNo != null">
+                refund_erp_no = #{refundErpNo,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.refund.dataobject.RefundDistributorDO">
+        update refund_distributor
+        set distributor_id   = #{distributorId,jdbcType=INTEGER},
+            distributor_name = #{distributorName,jdbcType=VARCHAR},
+            company_name     = #{companyName,jdbcType=VARCHAR},
+            amount           = #{amount,jdbcType=DECIMAL},
+            refund_way       = #{refundWay,jdbcType=SMALLINT},
+            out_refund_no    = #{outRefundNo,jdbcType=VARCHAR},
+            customer_flag    = #{customerFlag,jdbcType=SMALLINT},
+            currency_type    = #{currencyType,jdbcType=VARCHAR},
+            business_type    = #{businessType,jdbcType=SMALLINT},
+            business_id      = #{businessId,jdbcType=VARCHAR},
+            refund_status    = #{refundStatus,jdbcType=SMALLINT},
+            remark           = #{remark,jdbcType=VARCHAR},
+            refund_erp_no    = #{refundErpNo,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

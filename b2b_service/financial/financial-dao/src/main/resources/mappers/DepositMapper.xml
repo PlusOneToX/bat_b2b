@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.deposit.DepositMapper">
+  <resultMap id="BaseResultMap" type="com.bat.financial.dao.deposit.dataobject.DepositDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="is_show_prestore" jdbcType="TINYINT" property="isShowPrestore" />
+    <result column="is_open_online_topup" jdbcType="TINYINT" property="isOpenOnlineTopup" />
+    <result column="online_min_amount" jdbcType="REAL" property="onlineMinAmount" />
+    <result column="is_open_offline_topup" jdbcType="TINYINT" property="isOpenOfflineTopup" />
+    <result column="is_open_withdrawal" jdbcType="TINYINT" property="isOpenWithdrawal" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, is_show_prestore, is_open_online_topup, online_min_amount, is_open_offline_topup, 
+    is_open_withdrawal, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from deposit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from deposit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into deposit (is_show_prestore, is_open_online_topup, 
+      online_min_amount, is_open_offline_topup, is_open_withdrawal, 
+      create_time, update_time)
+    values (#{isShowPrestore,jdbcType=TINYINT}, #{isOpenOnlineTopup,jdbcType=TINYINT}, 
+      #{onlineMinAmount,jdbcType=REAL}, #{isOpenOfflineTopup,jdbcType=TINYINT}, #{isOpenWithdrawal,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into deposit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="isShowPrestore != null">
+        is_show_prestore,
+      </if>
+      <if test="isOpenOnlineTopup != null">
+        is_open_online_topup,
+      </if>
+      <if test="onlineMinAmount != null">
+        online_min_amount,
+      </if>
+      <if test="isOpenOfflineTopup != null">
+        is_open_offline_topup,
+      </if>
+      <if test="isOpenWithdrawal != null">
+        is_open_withdrawal,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="isShowPrestore != null">
+        #{isShowPrestore,jdbcType=TINYINT},
+      </if>
+      <if test="isOpenOnlineTopup != null">
+        #{isOpenOnlineTopup,jdbcType=TINYINT},
+      </if>
+      <if test="onlineMinAmount != null">
+        #{onlineMinAmount,jdbcType=REAL},
+      </if>
+      <if test="isOpenOfflineTopup != null">
+        #{isOpenOfflineTopup,jdbcType=TINYINT},
+      </if>
+      <if test="isOpenWithdrawal != null">
+        #{isOpenWithdrawal,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDO">
+    update deposit
+    <set>
+      <if test="isShowPrestore != null">
+        is_show_prestore = #{isShowPrestore,jdbcType=TINYINT},
+      </if>
+      <if test="isOpenOnlineTopup != null">
+        is_open_online_topup = #{isOpenOnlineTopup,jdbcType=TINYINT},
+      </if>
+      <if test="onlineMinAmount != null">
+        online_min_amount = #{onlineMinAmount,jdbcType=REAL},
+      </if>
+      <if test="isOpenOfflineTopup != null">
+        is_open_offline_topup = #{isOpenOfflineTopup,jdbcType=TINYINT},
+      </if>
+      <if test="isOpenWithdrawal != null">
+        is_open_withdrawal = #{isOpenWithdrawal,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.deposit.dataobject.DepositDO">
+    update deposit
+    set is_show_prestore = #{isShowPrestore,jdbcType=TINYINT},
+      is_open_online_topup = #{isOpenOnlineTopup,jdbcType=TINYINT},
+      online_min_amount = #{onlineMinAmount,jdbcType=REAL},
+      is_open_offline_topup = #{isOpenOfflineTopup,jdbcType=TINYINT},
+      is_open_withdrawal = #{isOpenWithdrawal,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

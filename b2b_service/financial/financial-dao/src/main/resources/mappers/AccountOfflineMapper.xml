@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.platformaccount.AccountOfflineMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.platformaccount.dataobject.AccountOfflineDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="organization_id" jdbcType="INTEGER" property="organizationId"/>
+        <result column="currency_code" jdbcType="VARCHAR" property="currencyCode"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="erp_account_no" jdbcType="VARCHAR" property="erpAccountNo"/>
+        <result column="bank_no" jdbcType="VARCHAR" property="bankNo"/>
+        <result column="card_no" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName"/>
+        <result column="bank_addr" jdbcType="VARCHAR" property="bankAddr"/>
+        <result column="open_flag" jdbcType="SMALLINT" property="openFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, organization_id, currency_code, account_name,erp_account_no, bank_no, card_no, bank_name, bank_addr,
+    open_flag, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_offline
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_offline
+        <where>
+            <if test="params.organizationId!=null">
+                and organization_id = #{params.organizationId,jdbcType=INTEGER}
+            </if>
+            <if test="params.erpAccountNo">
+                and erp_account_no like CONCAT('%',#{params.accountName},'%')
+            </if>
+            <if test="params.accountName">
+                and account_name like CONCAT('%',#{params.erpAccountNo},'%')
+            </if>
+            <if test="params.bankName">
+                and bank_name like CONCAT('%',#{params.bankName},'%')
+            </if>
+            <if test="params.cardNo">
+                and card_no = #{params.cardNo}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+    <select id="getAccountByOrganization"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account_offline
+        <where>
+            <if test="organizationId!=null">
+                and organization_id = #{organizationId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from account_offline
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountOfflineDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_offline (organization_id, currency_code, account_name,erp_account_no,
+        bank_no, card_no, bank_name,
+        bank_addr, open_flag, create_time,
+        update_time)
+        values (#{organizationId,jdbcType=INTEGER}, #{currencyCode,jdbcType=VARCHAR},
+        #{accountName,jdbcType=VARCHAR},#{erpAccountNo,jdbcType=VARCHAR},
+        #{bankNo,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR},
+        #{bankAddr,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountOfflineDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into account_offline
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                organization_id,
+            </if>
+            <if test="currencyCode != null">
+                currency_code,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no,
+            </if>
+            <if test="bankNo != null">
+                bank_no,
+            </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
+            <if test="bankName != null">
+                bank_name,
+            </if>
+            <if test="bankAddr != null">
+                bank_addr,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="currencyCode != null">
+                #{currencyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null">
+                #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAddr != null">
+                #{bankAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountOfflineDO">
+        update account_offline
+        <set>
+            <if test="organizationId != null">
+                organization_id = #{organizationId,jdbcType=INTEGER},
+            </if>
+            <if test="currencyCode != null">
+                currency_code = #{currencyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="erpAccountNo != null">
+                erp_account_no = #{erpAccountNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                bank_no = #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null">
+                bank_name = #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAddr != null">
+                bank_addr = #{bankAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.financial.dao.platformaccount.dataobject.AccountOfflineDO">
+        update account_offline
+        set organization_id = #{organizationId,jdbcType=INTEGER},
+            currency_code   = #{currencyCode,jdbcType=VARCHAR},
+            account_name    = #{accountName,jdbcType=VARCHAR},
+            erp_account_no = #{erpAccountNo,jdbcType=VARCHAR},
+            bank_no         = #{bankNo,jdbcType=VARCHAR},
+            card_no         = #{cardNo,jdbcType=VARCHAR},
+            bank_name       = #{bankName,jdbcType=VARCHAR},
+            bank_addr       = #{bankAddr,jdbcType=VARCHAR},
+            open_flag       = #{openFlag,jdbcType=SMALLINT},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

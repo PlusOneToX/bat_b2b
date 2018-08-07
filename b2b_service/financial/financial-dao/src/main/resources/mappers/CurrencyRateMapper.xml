@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.financial.dao.basesetting.CurrencyRateMapper">
+    <resultMap id="BaseResultMap" type="com.bat.financial.dao.basesetting.dataobject.CurrencyRateDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="exchange_rate" jdbcType="DECIMAL" property="exchangeRate"/>
+        <result column="reverse_ex_rate" jdbcType="DECIMAL" property="reverseExRate"/>
+        <result column="cy_forid" jdbcType="VARCHAR" property="cyForid"/>
+        <result column="cy_toid" jdbcType="VARCHAR" property="cyToid"/>
+        <result column="beg_date" jdbcType="TIMESTAMP" property="begDate"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, exchange_rate, reverse_ex_rate, cy_forid, cy_toid, beg_date, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from currency_rate
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from currency_rate
+        order by beg_date desc
+    </select>
+    <select id="getByBegDate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from currency_rate
+        where beg_date = #{begDate}
+    </select>
+    <select id="getCurrencyRateByForToCurrencyCode"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from currency_rate
+        where cy_toid = #{toCurrencyCode}
+        and cy_forid = #{forCurrencyCode}
+        and beg_date &lt; NOW()
+        ORDER BY beg_date desc limit 1
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from currency_rate
+        <where>
+            <if test="params.id!=null">
+                and id = #{params.id}
+            </if>
+            <if test="params.cyForid!=null">
+                and cy_forid = #{params.cyForid}
+            </if>
+            <if test="params.cyToid!=null">
+                and cy_toid = #{params.cyToid}
+            </if>
+        </where>
+        and beg_date &lt; NOW()
+        ORDER BY beg_date desc limit 1
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from currency_rate
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.financial.dao.basesetting.dataobject.CurrencyRateDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into currency_rate (exchange_rate, reverse_ex_rate, cy_forid,
+        cy_toid, beg_date, create_time,
+        update_time)
+        values (#{exchangeRate,jdbcType=DECIMAL}, #{reverseExRate,jdbcType=DECIMAL}, #{cyForid,jdbcType=VARCHAR},
+        #{cyToid,jdbcType=VARCHAR}, #{begDate,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.financial.dao.basesetting.dataobject.CurrencyRateDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into currency_rate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="exchangeRate != null">
+                exchange_rate,
+            </if>
+            <if test="reverseExRate != null">
+                reverse_ex_rate,
+            </if>
+            <if test="cyForid != null">
+                cy_forid,
+            </if>
+            <if test="cyToid != null">
+                cy_toid,
+            </if>
+            <if test="begDate != null">
+                beg_date,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="exchangeRate != null">
+                #{exchangeRate,jdbcType=DECIMAL},
+            </if>
+            <if test="reverseExRate != null">
+                #{reverseExRate,jdbcType=DECIMAL},
+            </if>
+            <if test="cyForid != null">
+                #{cyForid,jdbcType=VARCHAR},
+            </if>
+            <if test="cyToid != null">
+                #{cyToid,jdbcType=VARCHAR},
+            </if>
+            <if test="begDate != null">
+                #{begDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.financial.dao.basesetting.dataobject.CurrencyRateDO">
+        update currency_rate
+        <set>
+            <if test="exchangeRate != null">
+                exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+            </if>
+            <if test="reverseExRate != null">
+                reverse_ex_rate = #{reverseExRate,jdbcType=DECIMAL},
+            </if>
+            <if test="cyForid != null">
+                cy_forid = #{cyForid,jdbcType=VARCHAR},
+            </if>
+            <if test="cyToid != null">
+                cy_toid = #{cyToid,jdbcType=VARCHAR},
+            </if>
+            <if test="begDate != null">
+                beg_date = #{begDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.financial.dao.basesetting.dataobject.CurrencyRateDO">
+        update currency_rate
+        set exchange_rate   = #{exchangeRate,jdbcType=DECIMAL},
+            reverse_ex_rate = #{reverseExRate,jdbcType=DECIMAL},
+            cy_forid        = #{cyForid,jdbcType=VARCHAR},
+            cy_toid         = #{cyToid,jdbcType=VARCHAR},
+            beg_date        = #{begDate,jdbcType=TIMESTAMP},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

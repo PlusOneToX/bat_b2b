@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsMinMaxPriceMapper">
+    <resultMap id="GoodsMinMaxPriceDOMapper" type="com.bat.goods.dao.goods.dataobject.GoodsMinMaxPriceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="scale_price_id" property="scalePriceId" jdbcType="INTEGER"/>
+        <result column="min_price" property="minPrice" jdbcType="DECIMAL"/>
+        <result column="max_price" property="maxPrice" jdbcType="DECIMAL"/>
+    </resultMap>
+
+
+    <insert id="createList"
+            parameterType="java.util.List">
+        insert into goods_min_max_price (goods_id, scale_price_id,min_price,max_price)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.goodsId},
+            #{item.scalePriceId},
+            #{item.minPrice},
+            #{item.maxPrice}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update goods_min_max_price
+            set goods_id = #{item.goodsId},
+            scale_price_id = #{item.scalePriceId},
+            min_price = #{item.minPrice},
+            max_price = #{item.maxPrice}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <delete id="deleteByGoodsId" parameterType="map">
+        delete from goods_min_max_price where goods_id = #{goodsId}
+    </delete>
+
+    <select id="listByGoodsIdsAndScalePriceIds" resultMap="GoodsMinMaxPriceDOMapper" parameterType="map">
+        select id,goods_id,scale_price_id,min_price,max_price
+        FROM goods_min_max_price where goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and scale_price_id in
+        <foreach collection="scalePriceIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByGoodsIdsAndScalePrice" resultMap="GoodsMinMaxPriceDOMapper" parameterType="map">
+        select id,goods_id,scale_price_id,min_price,max_price
+        FROM goods_min_max_price where goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and scale_price_id <![CDATA[ <> ]]> 0 and scale_price_id is not null
+    </select>
+
+</mapper>

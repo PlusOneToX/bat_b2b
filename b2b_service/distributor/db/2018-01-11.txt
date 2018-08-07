@@ -1,0 +1,2 @@
+ALTER TABLE `distributor_business` 
+CHANGE COLUMN `distributor_group_id` `distributor_group_ids` text NULL COMMENT '分销商分组ids' AFTER `sales_id`

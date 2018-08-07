@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.bat</groupId>
+        <artifactId>financial</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>financial-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>release</id>
+            <name>maven-releases</name>
+            <url>http://127.0.0.1:8071/repository/maven-releases/</url>
+        </repository>
+    </repositories>
+
+    <!-- <repositories>
+         <repository>
+             <id>dubboapi</id>
+             <name>dubboapi-public</name>
+             <url>http://127.0.0.1:8071/repository/dubboapi-public/</url>
+             <releases>
+                 <enabled>true</enabled>
+             </releases>
+             <snapshots>
+                 <enabled>true</enabled>
+                 <updatePolicy>always</updatePolicy>
+             </snapshots>
+         </repository>
+     </repositories>-->
+    <dependencies>
+        <dependency>
+            <groupId>com.bat</groupId>
+            <artifactId>financial-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bat</groupId>
+            <artifactId>financial-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bat</groupId>
+            <artifactId>financial-manager</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--
+             微信支付官方 SDK 受 XXE(XML External Entity Injection，简称 XXE) 漏洞影响在 Github 下架了
+             微信目前仅提供：微信支付 APIv3 Apache HttpClient装饰器（decorator）（后续会有官方sdk）
+         -->
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-apache-httpclient</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+        <!-- 微信支付 V2版api 微信主推V3 V2不知道什么时候放弃，目前柔性三方全部为V2，无法直接切换 -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.wxpay</groupId>-->
+        <!--            <artifactId>wxpay-sdk</artifactId>-->
+        <!--            <version>0.0.3</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.bat.tencent</groupId>-->
+        <!--            <artifactId>wxpay-sdk</artifactId>-->
+        <!--            <scope>system</scope>-->
+        <!--            <version>1.0.0</version>-->
+        <!--            <systemPath>${project.basedir}/src/main/resources/lib/wxpay-sdk-3.0.9.jar-->
+        <!--            </systemPath>-->
+        <!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-easysdk -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-easysdk</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.22.75.ALL</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.wxpay</groupId>
+            <artifactId>wxpay-sdk</artifactId>
+            <version>3.0.9</version>
+            <scope>system</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+            <systemPath>${project.basedir}/src/main/resources/lib/wxpay-sdk-3.0.9.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.bat</groupId>
+            <artifactId>dubboapi-financial</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bat</groupId>
+            <artifactId>dubboapi-platform</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <!-- 私服地址的 微信支付 -->
+        <!-- <dependency>
+                <groupId>com.github.wxpay</groupId>
+                <artifactId>wxpay-sdk</artifactId>
+                <version>3.0.9</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>-->
+    </dependencies>
+</project>

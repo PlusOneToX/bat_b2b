@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.user.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.user.dataobject.MenuDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="service" jdbcType="VARCHAR" property="service"/>
+        <result column="service_en" jdbcType="VARCHAR" property="serviceEn"/>
+        <result column="module" jdbcType="VARCHAR" property="module"/>
+        <result column="module_en" jdbcType="VARCHAR" property="moduleEn"/>
+        <result column="menu" jdbcType="VARCHAR" property="menu"/>
+        <result column="menu_en" jdbcType="VARCHAR" property="menuEn"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, service, service_en, module, module_en, menu, menu_en, sort, status
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listMenuAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        order by sort
+    </select>
+    <select id="listManagerAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        order by service ,module,menu
+    </select>
+    <select id="getByMenuEn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        where menu_en = #{menuEn,jdbcType=VARCHAR}
+    </select>
+    <select id="listByPrimaryKeys" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu
+        <where>
+            <if test="ids!=null and ids.size()>0">
+                and id in
+                <foreach collection="ids" open="(" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from sys_menu
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.user.dataobject.MenuDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_menu (service, service_en, module,
+        module_en, menu, menu_en,
+        sort, status)
+        values (#{service,jdbcType=VARCHAR}, #{serviceEn,jdbcType=VARCHAR}, #{module,jdbcType=VARCHAR},
+        #{moduleEn,jdbcType=VARCHAR}, #{menu,jdbcType=VARCHAR}, #{menuEn,jdbcType=VARCHAR},
+        #{sort,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.user.dataobject.MenuDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="service != null">
+                service,
+            </if>
+            <if test="serviceEn != null">
+                service_en,
+            </if>
+            <if test="module != null">
+                module,
+            </if>
+            <if test="moduleEn != null">
+                module_en,
+            </if>
+            <if test="menu != null">
+                menu,
+            </if>
+            <if test="menuEn != null">
+                menu_en,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="service != null">
+                #{service,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceEn != null">
+                #{serviceEn,jdbcType=VARCHAR},
+            </if>
+            <if test="module != null">
+                #{module,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleEn != null">
+                #{moduleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="menu != null">
+                #{menu,jdbcType=VARCHAR},
+            </if>
+            <if test="menuEn != null">
+                #{menuEn,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.user.dataobject.MenuDO">
+        update sys_menu
+        <set>
+            <if test="service != null">
+                service = #{service,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceEn != null">
+                service_en = #{serviceEn,jdbcType=VARCHAR},
+            </if>
+            <if test="module != null">
+                module = #{module,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleEn != null">
+                module_en = #{moduleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="menu != null">
+                menu = #{menu,jdbcType=VARCHAR},
+            </if>
+            <if test="menuEn != null">
+                menu_en = #{menuEn,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.user.dataobject.MenuDO">
+        update sys_menu
+        set service    = #{service,jdbcType=VARCHAR},
+            service_en = #{serviceEn,jdbcType=VARCHAR},
+            module     = #{module,jdbcType=VARCHAR},
+            module_en  = #{moduleEn,jdbcType=VARCHAR},
+            menu       = #{menu,jdbcType=VARCHAR},
+            menu_en    = #{menuEn,jdbcType=VARCHAR},
+            sort       = #{sort,jdbcType=INTEGER},
+            status     = #{status,jdbcType=SMALLINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

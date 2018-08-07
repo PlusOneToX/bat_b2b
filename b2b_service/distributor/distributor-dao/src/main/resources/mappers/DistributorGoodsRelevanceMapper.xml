@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.distributor.dao.distributor.DistributorGoodsRelevanceMapper">
+    <resultMap id="BaseResultMap" type="com.bat.distributor.dao.distributor.dataobject.DistributorGoodsRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="goods_ids" jdbcType="LONGVARCHAR" property="goodsIds"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from distributor_goods_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorGoodsRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into distributor_goods_relevance (distributor_id, goods_ids)
+        values (#{distributorId,jdbcType=INTEGER}, #{goodsIds,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.distributor.dao.distributor.dataobject.DistributorGoodsRelevanceDO">
+    update distributor_goods_relevance
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      goods_ids = #{goodsIds,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, distributor_id, goods_ids
+    from distributor_goods_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, distributor_id, goods_ids
+    from distributor_goods_relevance
+  </select>
+
+    <delete id="deleteByDistributorId" parameterType="java.lang.Integer">
+    delete from distributor_goods_relevance
+    where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+
+    <select id="listByDistributorIds" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, goods_ids
+        from distributor_goods_relevance
+        where distributor_id in
+        <foreach collection="distributorIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectByDistributorId" parameterType="map" resultMap="BaseResultMap">
+        select id, distributor_id, goods_ids
+        from distributor_goods_relevance
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+    </select>
+    <select id="listByGoodsId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select id, distributor_id, goods_ids
+        from distributor_goods_relevance
+        where goods_ids like concat(concat('%',#{goodsId}),'%')
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into distributor_goods_relevance (distributor_id, goods_ids)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.distributorId,jdbcType=INTEGER},
+            #{item.goodsIds,jdbcType=LONGVARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update distributor_goods_relevance
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            goods_ids = #{item.goodsIds,jdbcType=LONGVARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <delete id="deleteByIds" parameterType="map">
+        delete from distributor_goods_relevance
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

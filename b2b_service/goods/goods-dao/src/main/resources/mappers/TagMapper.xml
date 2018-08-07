@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.tag.TagMapper">
+    <resultMap id="TagMapper" type="com.bat.goods.dao.tag.dataobject.TagDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="tag_columns">
+        id,
+        name,
+        name_en,
+        open_flag,
+        sort,
+        create_time,
+        update_time
+    </sql>
+
+    <resultMap id="TagListMapper" type="com.bat.goods.dao.goods.dataobject.GoodsTagDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="tag_select">
+        SELECT
+        <include refid="tag_columns"/>
+        FROM goods_tag
+    </sql>
+
+    <insert id="createTag" parameterType="com.bat.goods.dao.tag.dataobject.TagDO" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO goods_tag(
+        <include refid="tag_columns"/>
+        ) VALUES (
+        #{id},
+        #{name},
+        #{nameEn},
+        #{openFlag},
+        #{sort},
+        #{createTime},
+        #{updateTime}
+        )
+    </insert>
+
+    <select id="listTag" resultMap="TagMapper" parameterType="map">
+        <include refid="tag_select"/>
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listCount" resultType="int" parameterType="map">
+        select count(1) FROM goods_tag
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            WHERE name like concat(concat('%',#{content}),'%')
+        </if>
+    </select>
+
+    <select id="getById" resultMap="TagMapper" parameterType="map">
+        <include refid="tag_select"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <update id="updateTag" parameterType="com.bat.goods.dao.tag.dataobject.TagDO">
+        UPDATE goods_tag SET name_en = #{nameEn}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="openFlag != null">
+            ,open_flag = #{openFlag}
+        </if>
+        <if test="sort != null">
+            ,sort = #{sort}
+        </if>
+        <if test="updateTime != null">
+            ,update_time = #{updateTime}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="openTag" parameterType="map">
+        UPDATE goods_tag SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <delete id="deleteTag" parameterType="map">
+        DELETE FROM goods_tag WHERE id = #{id}
+    </delete>
+
+    <select id="getTagGoodsCount" resultType="int" parameterType="map">
+        select count(1) FROM goods_tag_relevance WHERE tag_id = #{tagId}
+    </select>
+
+    <select id="listByGoodsIds" resultMap="TagListMapper">
+        SELECT
+         a.id,
+        a.name,
+        a.name_en,
+        b.goods_id
+        FROM goods_tag a
+        left join goods_tag_relevance b on b.tag_id=a.id
+        where
+        b.goods_id in
+        <foreach collection="goodsIds" item="goodsId" open="(" close=")" separator=",">
+            #{goodsId}
+        </foreach>
+        and a.open_flag=1
+        order by a.sort
+    </select>
+
+</mapper>

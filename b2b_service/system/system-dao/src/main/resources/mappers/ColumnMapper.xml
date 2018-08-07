@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.storesetting.ColumnMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.storesetting.dataobject.ColumnDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="title_en" jdbcType="VARCHAR" property="titleEn"/>
+        <result column="banner_img" jdbcType="VARCHAR" property="bannerImg"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="release_status" jdbcType="SMALLINT" property="releaseStatus"/>
+        <result column="column_area" jdbcType="SMALLINT" property="columnArea"/>
+        <result column="distributor_scope" jdbcType="SMALLINT" property="distributorScope"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, title, title_en, banner_img, sort, release_status, column_area, distributor_scope, create_time,
+    update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_column
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_column
+        <where>
+            <if test="params.releaseStatus!=null">
+                AND release_status = #{params.releaseStatus}
+            </if>
+        </where>
+        order by sort,create_time
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from store_column
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_column (title, title_en, banner_img, sort,
+        release_status, column_area, distributor_scope,
+        create_time, update_time)
+        values (#{title,jdbcType=VARCHAR}, #{titleEn,jdbcType=VARCHAR}, #{bannerImg,jdbcType=VARCHAR},
+        #{sort,jdbcType=INTEGER},
+        #{releaseStatus,jdbcType=SMALLINT}, #{columnArea,jdbcType=SMALLINT}, #{distributorScope,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into store_column
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="titleEn != null">
+                title_en,
+            </if>
+            <if test="bannerImg != null">
+                banner_img,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="releaseStatus != null">
+                release_status,
+            </if>
+            <if test="columnArea != null">
+                column_area,
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleEn != null">
+                #{titleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerImg != null">
+                #{bannerImg,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="releaseStatus != null">
+                #{releaseStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="columnArea != null">
+                #{columnArea,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDO">
+        update store_column
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="titleEn != null">
+                title_en = #{titleEn,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerImg != null">
+                banner_img = #{bannerImg,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="releaseStatus != null">
+                release_status = #{releaseStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="columnArea != null">
+                column_area = #{columnArea,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.storesetting.dataobject.ColumnDO">
+        update store_column
+        set title             = #{title,jdbcType=VARCHAR},
+            title_en          = #{titleEn,jdbcType=VARCHAR},
+            banner_img        = #{bannerImg,jdbcType=VARCHAR},
+            sort              = #{sort,jdbcType=INTEGER},
+            release_status    = #{releaseStatus,jdbcType=SMALLINT},
+            column_area       = #{columnArea,jdbcType=SMALLINT},
+            distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

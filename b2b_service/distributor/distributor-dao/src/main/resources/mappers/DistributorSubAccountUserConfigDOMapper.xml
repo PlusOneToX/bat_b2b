@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.distributor.dao.subaccount.DistributorSubAccountUserConfigDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountUserConfigDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="amount_type" property="amountType" jdbcType="SMALLINT" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="SubAccountUserConfigCOResultMap" type="com.bat.distributor.dao.subaccount.co.SubAccountUserConfigCO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="amount_type" property="amountType" jdbcType="SMALLINT" />
+    <collection property="levelRatioList" column="{subAccountConfigId=id}" select="com.bat.distributor.dao.subaccount.DistributorSubAccountRatioDOMapper.listLevelRatioBySubAccountConfigId"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, name, amount_type, delete_flag, create_time, create_user_id, 
+    create_user_name, update_time, update_user_id, update_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_sub_account_user_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_sub_account_user_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountUserConfigDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_user_config (id, distributor_id, name, 
+      amount_type, delete_flag, create_time, 
+      create_user_id, create_user_name, update_time, 
+      update_user_id, update_user_name)
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{amountType,jdbcType=SMALLINT}, #{deleteFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountUserConfigDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_sub_account_user_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="amountType != null" >
+        amount_type,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="amountType != null" >
+        #{amountType,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountUserConfigDO" >
+    update distributor_sub_account_user_config
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="amountType != null" >
+        amount_type = #{amountType,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.distributor.dao.subaccount.dataobject.DistributorSubAccountUserConfigDO" >
+    update distributor_sub_account_user_config
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      amount_type = #{amountType,jdbcType=SMALLINT},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listCOByDistributorId" resultMap="SubAccountUserConfigCOResultMap">
+    select id ,name,amount_type from distributor_sub_account_user_config where distributor_id = #{distributorId,jdbcType=INTEGER}
+    and delete_flag = 0
+    order by create_time desc
+  </select>
+  <select id="listCOByCondition" resultMap="SubAccountUserConfigCOResultMap">
+    SELECT
+        dsauc.id,
+        d.`name` distributor_name,
+        dsauc.`name`,
+        dsauc.amount_type
+    FROM
+        distributor_sub_account_user_config dsauc
+        LEFT JOIN distributor d ON d.id = dsauc.distributor_id
+    WHERE
+        dsauc.delete_flag = 0 
+        <if test="searchType !=null and searchType ==1">
+          and  d.`name` LIKE CONCAT( '%', #{content}, '%' )
+        </if>
+        <if test="searchType !=null and searchType ==2">
+           AND dsauc.`name` LIKE CONCAT( '%', #{content}, '%' )
+        </if>
+       <if test="idList !=null and idList.size()>0">
+         and dsauc.id in 
+         <foreach collection="idList" separator="," item="id" open="(" close=")">
+           #{id}
+         </foreach>
+       </if>
+    ORDER BY
+        dsauc.id DESC
+  </select>
+
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from distributor_sub_account_user_config where 1=1
+    <if test="distributorId !=null">
+      and distributor_id = #{distributorId}
+    </if>
+    and delete_flag = 0
+    order by id desc
+  </select>
+
+</mapper>

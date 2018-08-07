@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.goods.GoodsDistributorCollectionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.goods.dao.goods.dataobject.GoodsDistributorCollectionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods_distributor_collection
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.goods.dao.goods.dataobject.GoodsDistributorCollectionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into goods_distributor_collection (goods_id, distributor_id, create_time
+        )
+        values (#{goodsId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.goods.dao.goods.dataobject.GoodsDistributorCollectionDO">
+    update goods_distributor_collection
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, goods_id, distributor_id, create_time
+    from goods_distributor_collection
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, goods_id, distributor_id, create_time
+    from goods_distributor_collection
+  </select>
+
+    <select id="listByGoodsIdsAndDistributorId" resultType="java.lang.Integer">
+        select goods_id
+        from goods_distributor_collection
+        where distributor_id = #{distributorId,jdbcType=INTEGER} and goods_id in
+        <foreach collection="goodsIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByGoodsIdAndDistributorId" resultType="java.lang.Integer">
+        select goods_id
+        from goods_distributor_collection
+        where distributor_id = #{distributorId,jdbcType=INTEGER} and goods_id = #{goodsId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByMap" parameterType="map">
+        delete from goods_distributor_collection
+        where distributor_id = #{distributorId,jdbcType=INTEGER}
+        <if test="goodsId != null">
+            and goods_id = #{goodsId,jdbcType=INTEGER}
+        </if>
+    </delete>
+
+    <delete id="deleteByGoodsId" parameterType="map">
+    delete from goods_distributor_collection
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+
+</mapper>

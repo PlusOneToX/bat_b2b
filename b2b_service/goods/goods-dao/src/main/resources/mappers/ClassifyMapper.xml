@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.goods.dao.classify.ClassifyMapper">
+    <resultMap id="ClassifyMapper" type="com.bat.goods.dao.classify.dataobject.ClassifyDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_en" property="nameEn" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR"/>
+        <result column="image_url_en" property="imageUrlEn" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="recommend_flag" property="recommendFlag" jdbcType="SMALLINT"/>
+        <result column="applet_name" property="appletName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="classify_columns">
+        id,
+        name,
+        name_en,
+        sort,
+        description,
+        open_flag,
+        parent_id,
+        image_url,
+        image_url_en,
+        create_time,
+        update_time,
+        recommend_flag,
+        applet_name
+    </sql>
+
+    <sql id="classify_select">
+        SELECT
+        <include refid="classify_columns"/>
+        FROM classify
+    </sql>
+
+    <insert id="createClassify" parameterType="com.bat.goods.dao.classify.dataobject.ClassifyDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO classify(
+        <include refid="classify_columns"/>
+        ) VALUES (
+        #{id},
+        #{name},
+        #{nameEn},
+        #{sort},
+        #{description},
+        #{openFlag},
+        #{parentId},
+        #{imageUrl},
+        #{imageUrlEn},
+        #{createTime},
+        #{updateTime},
+        #{recommendFlag},
+        #{appletName}
+        )
+    </insert>
+
+    <select id="listClassify" resultMap="ClassifyMapper" parameterType="map">
+        <include refid="classify_select"/>
+        WHERE parent_id = 0
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and name like concat(concat('%',#{content}),'%')
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listClassifyByParentId" resultMap="ClassifyMapper" parameterType="map">
+        <include refid="classify_select"/>
+        WHERE 1=1
+        <if test="parentId == 0">
+            and (parent_id = #{parentId} or parent_id is NULL)
+        </if>
+        <if test="parentId != 0">
+            and parent_id = #{parentId}
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listSubClassifyByClassifyIds" resultMap="ClassifyMapper" parameterType="map">
+        <include refid="classify_select"/>
+        WHERE 1=1
+        <if test="classifyIds != null and classifyIds.size() > 0">
+            and parent_id in
+            <foreach collection="classifyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listSubClassify" resultMap="ClassifyMapper" parameterType="map">
+        <include refid="classify_select"/>
+        WHERE parent_id = #{classifyId}
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort asc,update_time desc
+    </select>
+
+    <select id="listCount" resultType="int" parameterType="map">
+        select count(1) FROM classify
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            WHERE name like concat(concat('%',#{content}),'%')
+        </if>
+    </select>
+
+    <select id="getById" resultMap="ClassifyMapper" parameterType="map">
+        <include refid="classify_select"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <update id="updateClassify" parameterType="com.bat.goods.dao.classify.dataobject.ClassifyDO">
+        UPDATE classify SET name_en = #{nameEn}
+        ,description = #{description}
+        ,parent_id = #{parentId}
+        ,image_url = #{imageUrl}
+        ,image_url_en = #{imageUrlEn}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="sort != null">
+            ,sort = #{sort}
+        </if>
+        <if test="openFlag != null">
+            ,open_flag = #{openFlag}
+        </if>
+        <if test="updateTime != null">
+            ,update_time = #{updateTime}
+        </if>
+        <if test="recommendFlag != null">
+            ,recommend_flag = #{recommendFlag}
+        </if>
+        <if test="appletName != null and appletName!=''">
+            ,applet_name = #{appletName}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="openClassify" parameterType="map">
+        UPDATE classify SET open_flag = #{openFlag} where id = #{id}
+    </update>
+
+    <update id="updateRecommendByIds">
+        UPDATE classify SET recommend_flag = 1 where 1=1
+        <if test="classifyIds != null and classifyIds.size() > 0">
+            and id in
+            <foreach collection="classifyIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </update>
+
+    <delete id="deleteClassify" parameterType="map">
+        DELETE from classify WHERE id = #{id}
+    </delete>
+
+    <update id="closeAllRecommend">
+         UPDATE classify SET recommend_flag = 0
+    </update>
+
+    <select id="getSubClassifyCount" resultType="int" parameterType="map">
+        select count(1) FROM classify WHERE parent_id = #{classifyId}
+    </select>
+
+    <select id="getClassifyGoodsCount" resultType="int" parameterType="map">
+        select count(1) FROM goods_classify_relevance WHERE classify_id = #{classifyId}
+    </select>
+
+
+    <select id="listRecommend" resultMap="ClassifyMapper">
+        <include refid="classify_select"/>
+        WHERE recommend_flag=1
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        order by sort
+    </select>
+
+    <select id="listByIds" resultMap="ClassifyMapper">
+        <include refid="classify_select"/>
+        WHERE 1=1
+        <if test="classifyIds != null and classifyIds.size() > 0">
+            and id in
+            <foreach collection="classifyIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

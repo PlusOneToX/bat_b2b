@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.system.dao.logistics.LogisticsMapper">
+    <resultMap id="BaseResultMap" type="com.bat.system.dao.logistics.dataobject.LogisticsDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="enable" jdbcType="SMALLINT" property="enable"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="logistics_erp_id" jdbcType="VARCHAR" property="logisticsErpId"/>
+        <result column="billing_method" jdbcType="SMALLINT" property="billingMethod"/>
+        <result column="first_weight" jdbcType="DOUBLE" property="firstWeight"/>
+        <result column="first_volume" jdbcType="DOUBLE" property="firstVolume"/>
+        <result column="additional_weight" jdbcType="DOUBLE" property="additionalWeight"/>
+        <result column="additional_volume" jdbcType="DOUBLE" property="additionalVolume"/>
+        <result column="min_weight" jdbcType="DOUBLE" property="minWeight"/>
+        <result column="min_volume" jdbcType="DOUBLE" property="minVolume"/>
+        <result column="max_weight" jdbcType="DOUBLE" property="maxWeight"/>
+        <result column="max_volume" jdbcType="DOUBLE" property="maxVolume"/>
+        <result column="min_cost" jdbcType="DOUBLE" property="minCost"/>
+        <result column="use_range" jdbcType="SMALLINT" property="useRange"/>
+        <result column="logistics_factory_id" jdbcType="VARCHAR" property="logisticsFactoryId"/>
+        <result column="logistics_kdn_code" jdbcType="VARCHAR" property="logisticsKdnCode"/>
+        <result column="logistics_kdn_name" jdbcType="VARCHAR" property="logisticsKdnName"/>
+        <result column="appoint_area_flag" jdbcType="SMALLINT" property="appointAreaFlag"/>
+        <result column="distributor_scope" jdbcType="SMALLINT" property="distributorScope"/>
+        <result column="manufactors" jdbcType="VARCHAR" property="manufactors"/>
+        <result column="website" jdbcType="VARCHAR" property="website"/>
+        <result column="material_id" jdbcType="VARCHAR" property="materialId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMapExtend" type="com.bat.system.dao.logistics.dataobject.LogisticsDOExtend"
+               extends="BaseResultMap">
+        <id column="sub_id" jdbcType="INTEGER" property="subId"/>
+        <result column="logistics_id" jdbcType="INTEGER" property="logisticsId"/>
+        <result column="first_weight_cost" jdbcType="DOUBLE" property="firstWeightCost"/>
+        <result column="first_volume_cost" jdbcType="DOUBLE" property="firstVolumeCost"/>
+        <result column="additional_weight_cost" jdbcType="DOUBLE" property="additionalWeightCost"/>
+        <result column="additional_volume_cost" jdbcType="DOUBLE" property="additionalVolumeCost"/>
+        <result column="default_flag" jdbcType="SMALLINT" property="defaultFlag"/>
+        <result column="formula_flag" jdbcType="SMALLINT" property="formulaFlag"/>
+        <result column="formula" jdbcType="VARCHAR" property="formula"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="group_id" jdbcType="VARCHAR" property="groupId"/>
+        <result column="country_id" jdbcType="INTEGER" property="countryId"/>
+        <result column="province_id" jdbcType="INTEGER" property="provinceId"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="district_id" jdbcType="INTEGER" property="districtId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        logistics.id, logistics.name, logistics.sort, logistics.enable, logistics.description,
+        logistics.logistics_erp_id, logistics.billing_method, logistics.first_weight,
+        logistics.first_volume, logistics.additional_weight, logistics.additional_volume, logistics.min_weight,
+        logistics.min_volume, logistics.max_weight,
+        logistics.max_volume, logistics.min_cost, logistics.use_range, logistics.logistics_factory_id,
+        logistics.logistics_kdn_code,
+        logistics.logistics_kdn_name, logistics.appoint_area_flag, logistics.distributor_scope, logistics.manufactors,
+        logistics.website,logistics.material_id,
+        logistics.create_time, logistics.update_time
+    </sql>
+    <sql id="Base_Column_List_Extend">
+        logistics_area.id as sub_id, logistics_area.logistics_id, logistics_area.first_weight_cost,
+        logistics_area.first_volume_cost, logistics_area.additional_weight_cost,logistics_area.additional_volume_cost,
+        logistics_area.default_flag, logistics_area.formula_flag, logistics_area.formula,
+         logistics_area.group_id, logistics_area.country_id,
+        logistics_area.province_id, logistics_area.city_id, logistics_area.district_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from logistics
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectExtendByParams" parameterType="map" resultMap="BaseResultMapExtend">
+        select * from (
+        SELECT
+        <include refid="Base_Column_List"/>
+        <if test="countryId!=null or provinceId!=null or cityId!=null">
+            ,
+            <include refid="Base_Column_List_Extend"/>
+        </if>
+        FROM
+        <if test="countryId!=null or provinceId!=null or cityId!=null">
+            logistics_area,
+        </if>
+        (SELECT
+        <include refid="Base_Column_List"/>
+        FROM logistics
+        WHERE CASE
+        logistics.distributor_scope
+        WHEN 1 THEN 1
+        WHEN 2 THEN 1
+        WHEN 3 THEN 1
+        <if test="departmentId!=null">
+            WHEN 4 THEN EXISTS(SELECT 1 FROM logistics_department where logistics_id = logistics.id and department_id =
+            #{departmentId})
+        </if>
+        <if test="departmentId==null">
+            WHEN 4 THEN 1
+        </if>
+        <if test="userId!=null">
+            WHEN 5 THEN EXISTS(SELECT 1 FROM logistics_user where logistics_id = logistics.id and user_id = #{userId})
+        </if>
+        <if test="userId==null">
+            WHEN 5 THEN 1
+        </if>
+        <if test="distributorId!=null">
+            WHEN 6 THEN EXISTS(SELECT 1 FROM logistics_distributor where logistics_id = logistics.id and distributor_id
+            = #{distributorId})
+        </if>
+        <if test="distributorId == null">
+            WHEN 6 THEN 1
+        </if>
+        END) logistics
+        <where>
+            <if test="enable!=null">
+                and logistics.`enable` = #{enable}
+            </if>
+            <if test="logisticsId!=null">
+                and logistics.id = #{logisticsId}
+            </if>
+            <if test="billingMethod!=null">
+                and logistics.billing_method = #{billingMethod}
+            </if>
+            <if test="name!=null">
+                and `name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="manufactors!=null">
+                and `manufactors` like CONCAT('%',#{manufactors,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="logisticsKdnCode!=null">
+                and `logistics_kdn_code` = #{logisticsKdnCode}
+            </if>
+            <if test="logisticsErpId!=null">
+                and logistics_erp_id = #{logisticsErpId}
+            </if>
+            <if test="logisticsFactoryId!=null">
+                and logistics_factory_id = #{logisticsFactoryId}
+            </if>
+            <if test="useRange!=null">
+                <if test="useRange==1">
+                    and use_range in (1,3)
+                </if>
+                <!-- 定制商品 -->
+                <if test="useRange==2 or useRange==3">
+                    and use_range in (2,3)
+                    <!-- 两个变量一个意思 -->
+                    <if test="manufactors!=null">
+                        and FIND_IN_SET(#{manufactors},logistics.manufactors)
+                    </if>
+                </if>
+            </if>
+            <if test="countryId!=null or provinceId!=null or cityId!=null">
+                and logistics.id = logistics_area.logistics_id
+                <if test="countryId!=null">
+                    and (logistics_area.country_id = #{countryId} or logistics_area.country_id = 0 or
+                    logistics_area.country_id is null)
+                </if>
+                <if test="provinceId!=null">
+                    and (logistics_area.province_id = #{provinceId} or logistics_area.province_id = 0 or
+                    logistics_area.province_id is null)
+                </if>
+                <if test="cityId!=null">
+                    and (logistics_area.city_id = #{cityId} or logistics_area.city_id = 0 or logistics_area.city_id is
+                    null)
+                </if>
+            </if>
+        </where>
+        <if test="countryId!=null or provinceId!=null or cityId!=null">
+            GROUP BY logistics_area.group_id
+            ORDER BY
+            logistics_area.country_id DESC
+        </if>
+        ) logistics group by logistics.id
+        order by logistics.sort
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from logistics
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics (name, sort, enable,
+        description, logistics_erp_id, billing_method,
+        first_weight, first_volume, additional_weight,
+        additional_volume, min_weight, min_volume,
+        max_weight, max_volume, min_cost,
+        use_range, logistics_factory_id, logistics_kdn_code,
+        logistics_kdn_name, appoint_area_flag,
+        distributor_scope, manufactors, website,material_id,
+        create_time, update_time)
+        values (#{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{enable,jdbcType=SMALLINT},
+        #{description,jdbcType=VARCHAR}, #{logisticsErpId,jdbcType=VARCHAR}, #{billingMethod,jdbcType=SMALLINT},
+        #{firstWeight,jdbcType=DOUBLE}, #{firstVolume,jdbcType=DOUBLE}, #{additionalWeight,jdbcType=DOUBLE},
+        #{additionalVolume,jdbcType=DOUBLE}, #{minWeight,jdbcType=DOUBLE}, #{minVolume,jdbcType=DOUBLE},
+        #{maxWeight,jdbcType=DOUBLE}, #{maxVolume,jdbcType=DOUBLE}, #{minCost,jdbcType=DOUBLE},
+        #{useRange,jdbcType=SMALLINT}, #{logisticsFactoryId,jdbcType=VARCHAR},
+        #{logisticsKdnCode,jdbcType=VARCHAR},
+        #{logisticsKdnName,jdbcType=VARCHAR}, #{appointAreaFlag,jdbcType=SMALLINT},
+        #{distributorScope,jdbcType=SMALLINT}, #{manufactors,jdbcType=VARCHAR},
+        #{website,jdbcType=VARCHAR},#{materialId,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into logistics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="logisticsErpId != null">
+                logistics_erp_id,
+            </if>
+            <if test="billingMethod != null">
+                billing_method,
+            </if>
+            <if test="firstWeight != null">
+                first_weight,
+            </if>
+            <if test="firstVolume != null">
+                first_volume,
+            </if>
+            <if test="additionalWeight != null">
+                additional_weight,
+            </if>
+            <if test="additionalVolume != null">
+                additional_volume,
+            </if>
+            <if test="minWeight != null">
+                min_weight,
+            </if>
+            <if test="minVolume != null">
+                min_volume,
+            </if>
+            <if test="maxWeight != null">
+                max_weight,
+            </if>
+            <if test="maxVolume != null">
+                max_volume,
+            </if>
+            <if test="minCost != null">
+                min_cost,
+            </if>
+            <if test="useRange != null">
+                use_range,
+            </if>
+            <if test="logisticsFactoryId != null">
+                logistics_factory_id,
+            </if>
+            <if test="logisticsKdnCode != null">
+                logistics_kdn_code,
+            </if>
+            <if test="logisticsKdnName != null">
+                logistics_kdn_name,
+            </if>
+            <if test="appointAreaFlag != null">
+                appoint_area_flag,
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope,
+            </if>
+            <if test="manufactors != null">
+                manufactors,
+            </if>
+            <if test="website != null">
+                website,
+            </if>
+            <if test="materialId != null">
+                material_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=SMALLINT},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsErpId != null">
+                #{logisticsErpId,jdbcType=VARCHAR},
+            </if>
+            <if test="billingMethod != null">
+                #{billingMethod,jdbcType=SMALLINT},
+            </if>
+            <if test="firstWeight != null">
+                #{firstWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="firstVolume != null">
+                #{firstVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalWeight != null">
+                #{additionalWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalVolume != null">
+                #{additionalVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="minWeight != null">
+                #{minWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="minVolume != null">
+                #{minVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="maxWeight != null">
+                #{maxWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="maxVolume != null">
+                #{maxVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="minCost != null">
+                #{minCost,jdbcType=DOUBLE},
+            </if>
+            <if test="useRange != null">
+                #{useRange,jdbcType=SMALLINT},
+            </if>
+            <if test="logisticsFactoryId != null">
+                #{logisticsFactoryId,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsKdnCode != null">
+                #{logisticsKdnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsKdnName != null">
+                #{logisticsKdnName,jdbcType=VARCHAR},
+            </if>
+            <if test="appointAreaFlag != null">
+                #{appointAreaFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="manufactors != null">
+                #{manufactors,jdbcType=VARCHAR},
+            </if>
+            <if test="website != null">
+                #{website,jdbcType=VARCHAR},
+            </if>
+            <if test="material_id != null">
+                #{materialId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDO">
+        update logistics
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=SMALLINT},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsErpId != null">
+                logistics_erp_id = #{logisticsErpId,jdbcType=VARCHAR},
+            </if>
+            <if test="billingMethod != null">
+                billing_method = #{billingMethod,jdbcType=SMALLINT},
+            </if>
+            <if test="firstWeight != null">
+                first_weight = #{firstWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="firstVolume != null">
+                first_volume = #{firstVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalWeight != null">
+                additional_weight = #{additionalWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="additionalVolume != null">
+                additional_volume = #{additionalVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="minWeight != null">
+                min_weight = #{minWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="minVolume != null">
+                min_volume = #{minVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="maxWeight != null">
+                max_weight = #{maxWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="maxVolume != null">
+                max_volume = #{maxVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="minCost != null">
+                min_cost = #{minCost,jdbcType=DOUBLE},
+            </if>
+            <if test="useRange != null">
+                use_range = #{useRange,jdbcType=SMALLINT},
+            </if>
+            <if test="logisticsFactoryId != null">
+                logistics_factory_id = #{logisticsFactoryId,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsKdnCode != null">
+                logistics_kdn_code = #{logisticsKdnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsKdnName != null">
+                logistics_kdn_name = #{logisticsKdnName,jdbcType=VARCHAR},
+            </if>
+            <if test="appointAreaFlag != null">
+                appoint_area_flag = #{appointAreaFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="manufactors != null">
+                manufactors = #{manufactors,jdbcType=VARCHAR},
+            </if>
+            <if test="website != null">
+                website = #{website,jdbcType=VARCHAR},
+            </if>
+            <if test="materialId != null">
+                material_id = #{materialId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.system.dao.logistics.dataobject.LogisticsDO">
+        update logistics
+        set name                 = #{name,jdbcType=VARCHAR},
+            sort                 = #{sort,jdbcType=INTEGER},
+            enable               = #{enable,jdbcType=SMALLINT},
+            description          = #{description,jdbcType=VARCHAR},
+            logistics_erp_id     = #{logisticsErpId,jdbcType=VARCHAR},
+            billing_method       = #{billingMethod,jdbcType=SMALLINT},
+            first_weight         = #{firstWeight,jdbcType=DOUBLE},
+            first_volume         = #{firstVolume,jdbcType=DOUBLE},
+            additional_weight    = #{additionalWeight,jdbcType=DOUBLE},
+            additional_volume    = #{additionalVolume,jdbcType=DOUBLE},
+            min_weight           = #{minWeight,jdbcType=DOUBLE},
+            min_volume           = #{minVolume,jdbcType=DOUBLE},
+            max_weight           = #{maxWeight,jdbcType=DOUBLE},
+            max_volume           = #{maxVolume,jdbcType=DOUBLE},
+            min_cost             = #{minCost,jdbcType=DOUBLE},
+            use_range            = #{useRange,jdbcType=SMALLINT},
+            logistics_factory_id = #{logisticsFactoryId,jdbcType=VARCHAR},
+            logistics_kdn_code   = #{logisticsKdnCode,jdbcType=VARCHAR},
+            logistics_kdn_name   = #{logisticsKdnName,jdbcType=VARCHAR},
+            appoint_area_flag    = #{appointAreaFlag,jdbcType=SMALLINT},
+            distributor_scope    = #{distributorScope,jdbcType=SMALLINT},
+            manufactors          = #{manufactors,jdbcType=VARCHAR},
+            website              = #{website,jdbcType=VARCHAR},
+            material_id          =#{materialId,jdbcType=VARCHAR},
+            create_time          = #{createTime,jdbcType=TIMESTAMP},
+            update_time          = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
