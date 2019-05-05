@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.quanyi.dao.ThirdQuanyiLogMapper">
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="third_quanyi_id" jdbcType="INTEGER" property="thirdQuanyiId" />
+    <result column="direction" jdbcType="SMALLINT" property="direction" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="operator_user_type" jdbcType="SMALLINT" property="operatorUserType" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <result column="operate_type" jdbcType="SMALLINT" property="operateType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    <result column="header" jdbcType="LONGVARCHAR" property="header" />
+    <result column="param" jdbcType="LONGVARCHAR" property="param" />
+    <result column="response" jdbcType="LONGVARCHAR" property="response" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, third_quanyi_id, direction, url, operator_user_type, operator_id, operator_name,
+    operate_type, remark, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    header, param, response
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from third_quanyi_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="listByThirdQuanyiId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from third_quanyi_log
+    where third_quanyi_id=#{thirdQuanyiId}
+    order by create_time desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from third_quanyi_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into third_quanyi_log (third_quanyi_id, direction, url,
+    operator_user_type, operator_id, operator_name,
+    operate_type, remark, create_time,
+    header, param, response
+    )
+    values (#{thirdQuanyiId,jdbcType=INTEGER}, #{direction,jdbcType=SMALLINT}, #{url,jdbcType=VARCHAR},
+    #{operatorUserType,jdbcType=SMALLINT}, #{operatorId,jdbcType=INTEGER}, #{operatorName,jdbcType=VARCHAR},
+    #{operateType,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{header,jdbcType=LONGVARCHAR}, #{param,jdbcType=LONGVARCHAR}, #{response,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into third_quanyi_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="thirdQuanyiId != null">
+        third_quanyi_id,
+      </if>
+      <if test="direction != null">
+        direction,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="operatorUserType != null">
+        operator_user_type,
+      </if>
+      <if test="operatorId != null">
+        operator_id,
+      </if>
+      <if test="operatorName != null">
+        operator_name,
+      </if>
+      <if test="operateType != null">
+        operate_type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="header != null">
+        header,
+      </if>
+      <if test="param != null">
+        param,
+      </if>
+      <if test="response != null">
+        response,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="thirdQuanyiId != null">
+        #{thirdQuanyiId,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=SMALLINT},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorUserType != null">
+        #{operatorUserType,jdbcType=SMALLINT},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="operatorName != null">
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null">
+        #{operateType,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="header != null">
+        #{header,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null">
+        #{param,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="response != null">
+        #{response,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    update third_quanyi_log
+    <set>
+      <if test="thirdQuanyiId != null">
+        third_quanyi_id = #{thirdQuanyiId,jdbcType=INTEGER},
+      </if>
+      <if test="direction != null">
+        direction = #{direction,jdbcType=SMALLINT},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorUserType != null">
+        operator_user_type = #{operatorUserType,jdbcType=SMALLINT},
+      </if>
+      <if test="operatorId != null">
+        operator_id = #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="operatorName != null">
+        operator_name = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null">
+        operate_type = #{operateType,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="header != null">
+        header = #{header,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="param != null">
+        param = #{param,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="response != null">
+        response = #{response,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    update third_quanyi_log
+    set third_quanyi_id = #{thirdQuanyiId,jdbcType=INTEGER},
+      direction = #{direction,jdbcType=SMALLINT},
+      url = #{url,jdbcType=VARCHAR},
+      operator_user_type = #{operatorUserType,jdbcType=SMALLINT},
+      operator_id = #{operatorId,jdbcType=INTEGER},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      operate_type = #{operateType,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      header = #{header,jdbcType=LONGVARCHAR},
+      param = #{param,jdbcType=LONGVARCHAR},
+      response = #{response,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiLogDO">
+    update third_quanyi_log
+    set third_quanyi_id = #{thirdQuanyiId,jdbcType=INTEGER},
+      direction = #{direction,jdbcType=SMALLINT},
+      url = #{url,jdbcType=VARCHAR},
+      operator_user_type = #{operatorUserType,jdbcType=SMALLINT},
+      operator_id = #{operatorId,jdbcType=INTEGER},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      operate_type = #{operateType,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.groupseckill.GroupSeckillMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="group_seckill_desc" jdbcType="VARCHAR" property="groupSeckillDesc"/>
+        <result column="group_seckill_type" jdbcType="SMALLINT" property="groupSeckillType"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="group_seckill_status" jdbcType="SMALLINT" property="groupSeckillStatus"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="advance_flag" jdbcType="SMALLINT" property="advanceFlag"/>
+        <result column="distributor_scope" jdbcType="SMALLINT" property="distributorScope"/>
+        <result column="distributor_scope_no" jdbcType="SMALLINT" property="distributorScopeNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="GroupSeckillTypeGoodsDOMap"
+               type="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillTypeGoodsDO">
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="group_seckill_type" jdbcType="SMALLINT" property="groupSeckillType"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="goods_no" jdbcType="VARCHAR" property="goodsNo"/>
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode"/>
+        <result column="group_seckill_price" jdbcType="DECIMAL" property="groupSeckillPrice"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, group_seckill_desc, group_seckill_type, start_time, end_time, apply_status, 
+    group_seckill_status, sort, advance_flag, distributor_scope, distributor_scope_no, 
+    create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from group_seckill
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listGroupSeckill" parameterType="map" resultMap="BaseResultMap">
+        select gs.id, gs.name, gs.group_seckill_desc, gs.group_seckill_type, gs.start_time, gs.end_time,
+        gs.apply_status,
+        gs.group_seckill_status, gs.sort, gs.advance_flag, gs.distributor_scope, gs.distributor_scope_no,
+        gs.create_time, gs.update_time
+        from group_seckill gs
+        where 1 = 1
+        <if test="applyStatus != null">
+            and gs.apply_status = #{applyStatus}
+        </if>
+        <if test="groupSeckillStatus != null">
+            and gs.group_seckill_status = #{groupSeckillStatus}
+        </if>
+        <if test="groupSeckillType != null">
+            and gs.group_seckill_type = #{groupSeckillType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(gs.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        order by gs.sort asc,gs.update_time desc
+    </select>
+
+    <select id="listGroupSeckillByIds" parameterType="map" resultMap="BaseResultMap">
+        select gs.id, gs.name, gs.group_seckill_desc, gs.group_seckill_type, gs.start_time, gs.end_time,
+        gs.apply_status,
+        gs.group_seckill_status, gs.sort, gs.advance_flag, gs.distributor_scope, gs.distributor_scope_no,
+        gs.create_time, gs.update_time
+        from group_seckill gs
+        where gs.id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listGroupSeckillByGoods" parameterType="map" resultMap="BaseResultMap">
+        select gs.id, gs.name, gs.group_seckill_desc, gs.group_seckill_type, gs.start_time, gs.end_time,
+        gs.apply_status,
+        gs.group_seckill_status, gs.sort, gs.advance_flag, gs.distributor_scope, gs.distributor_scope_no,
+        gs.create_time, gs.update_time
+        from group_seckill_goods gsg join group_seckill gs on gs.id = gsg.group_seckill_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and gs.apply_status = #{applyStatus}
+        </if>
+        <if test="groupSeckillStatus != null">
+            and gs.group_seckill_status = #{groupSeckillStatus}
+        </if>
+        <if test="groupSeckillType != null">
+            and gs.group_seckill_type = #{groupSeckillType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 3">
+                and gsg.item_code = #{content}
+            </if>
+        </if>
+        group by gsg.group_seckill_id order by gs.update_time desc
+    </select>
+    <select id="listGroupSeckillByDistributorName" parameterType="map" resultMap="BaseResultMap">
+        select gs.id, gs.name, gs.group_seckill_desc, gs.group_seckill_type, gs.start_time, gs.end_time,
+        gs.apply_status,
+        gs.group_seckill_status, gs.sort, gs.advance_flag, gs.distributor_scope, gs.distributor_scope_no,
+        gs.create_time, gs.update_time
+        from group_seckill_distributor_relevance dr join group_seckill gs on gs.id = dr.group_seckill_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and gs.apply_status = #{applyStatus}
+        </if>
+        <if test="groupSeckillStatus != null">
+            and gs.group_seckill_status = #{groupSeckillStatus}
+        </if>
+        <if test="groupSeckillType != null">
+            and gs.group_seckill_type = #{groupSeckillType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 4">
+                and (replace(dr.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(dr.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+        </if>
+        order by gs.sort asc,gs.update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from group_seckill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into group_seckill (name, group_seckill_desc, group_seckill_type,
+        start_time, end_time, apply_status,
+        group_seckill_status, sort, advance_flag,
+        distributor_scope, distributor_scope_no,
+        create_time, update_time)
+        values (#{name,jdbcType=VARCHAR}, #{groupSeckillDesc,jdbcType=VARCHAR}, #{groupSeckillType,jdbcType=SMALLINT},
+        #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{applyStatus,jdbcType=SMALLINT},
+        #{groupSeckillStatus,jdbcType=SMALLINT}, #{sort,jdbcType=INTEGER}, #{advanceFlag,jdbcType=SMALLINT},
+        #{distributorScope,jdbcType=SMALLINT}, #{distributorScopeNo,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into group_seckill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="groupSeckillDesc != null">
+                group_seckill_desc,
+            </if>
+            <if test="groupSeckillType != null">
+                group_seckill_type,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="applyStatus != null">
+                apply_status,
+            </if>
+            <if test="groupSeckillStatus != null">
+                group_seckill_status,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="advanceFlag != null">
+                advance_flag,
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope,
+            </if>
+            <if test="distributorScopeNo != null">
+                distributor_scope_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="groupSeckillDesc != null">
+                #{groupSeckillDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="groupSeckillType != null">
+                #{groupSeckillType,jdbcType=SMALLINT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyStatus != null">
+                #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="groupSeckillStatus != null">
+                #{groupSeckillStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="advanceFlag != null">
+                #{advanceFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScopeNo != null">
+                #{distributorScopeNo,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDO">
+        update group_seckill
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="groupSeckillDesc != null">
+                group_seckill_desc = #{groupSeckillDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="groupSeckillType != null">
+                group_seckill_type = #{groupSeckillType,jdbcType=SMALLINT},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="applyStatus != null">
+                apply_status = #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="groupSeckillStatus != null">
+                group_seckill_status = #{groupSeckillStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="advanceFlag != null">
+                advance_flag = #{advanceFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScopeNo != null">
+                distributor_scope_no = #{distributorScopeNo,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDO">
+    update group_seckill
+    set name = #{name,jdbcType=VARCHAR},
+      group_seckill_desc = #{groupSeckillDesc,jdbcType=VARCHAR},
+      group_seckill_type = #{groupSeckillType,jdbcType=SMALLINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      apply_status = #{applyStatus,jdbcType=SMALLINT},
+      group_seckill_status = #{groupSeckillStatus,jdbcType=SMALLINT},
+      sort = #{sort,jdbcType=INTEGER},
+      advance_flag = #{advanceFlag,jdbcType=SMALLINT},
+      distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+      distributor_scope_no = #{distributorScopeNo,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateListGroupSeckillStatus" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update group_seckill set group_seckill_status = #{item.groupSeckillStatus},update_time=#{item.updateTime}
+            where id = #{item.id}
+            and group_seckill_status <![CDATA[ <> ]]> 4 and group_seckill_status <![CDATA[ <> ]]> 3
+        </foreach>
+    </update>
+
+    <update id="updateGroupSeckillSort" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update group_seckill set sort = #{item.sort},update_time=#{item.updateTime}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <select id="listGroupSeckillTypeGoodsByGroupSeckillIds" parameterType="map" resultMap="GroupSeckillTypeGoodsDOMap">
+        select gsg.group_seckill_id,gs.group_seckill_type, gsg.goods_id, gsg.item_id,
+        gsg.goods_no,gsg.item_code,gsg.group_seckill_price
+        from group_seckill_goods gsg join group_seckill gs on gs.id = gsg.group_seckill_id
+        where gsg.group_seckill_id in
+        <foreach collection="groupSeckillIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listGroupSeckillByTime" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from group_seckill
+        where apply_status = 2 and (group_seckill_status = 0 or group_seckill_status = 1)
+        and (start_time <![CDATA[ <= ]]> #{time} or end_time <![CDATA[ <= ]]> #{time})
+    </select>
+
+    <select id="listIdByAllDistributor" resultType="java.lang.Integer">
+        select id from group_seckill where group_seckill_status = 1 and distributor_scope = 1
+    </select>
+
+    <select id="listIdByDistributorId" resultType="java.lang.Integer" parameterType="map">
+        select gsdr.group_seckill_id from group_seckill_distributor_relevance gsdr join group_seckill gs on gs.id = gsdr.group_seckill_id
+        where gs.apply_status = 2 and gs.group_seckill_status in (0,1,2) and gsdr.distributor_id = #{distributorId}
+    </select>
+
+    <select id="listIdByScalePriceId" resultType="java.lang.Integer" parameterType="map">
+        select gsspr.group_seckill_id from group_seckill_scale_price_relevance gsspr join group_seckill gs on gs.id = gsspr.group_seckill_id
+        where gs.apply_status = 2 and gs.group_seckill_status in (0,1,2) and gsspr.scale_price_id = #{scalePriceId}
+    </select>
+
+    <select id="listIdBySalesId" resultType="java.lang.Integer" parameterType="map">
+        select gsar.group_seckill_id from group_seckill_admin_relevance gsar join group_seckill gs on gs.id = gsar.group_seckill_id
+        where gs.apply_status = 2 and gs.group_seckill_status in (0,1,2) and gsar.admin_id = #{salesId}
+    </select>
+
+    <select id="listIdByDepartmentId" resultType="java.lang.Integer" parameterType="map">
+        select gsdr.group_seckill_id from group_seckill_department_relevance gsdr join group_seckill gs on gs.id = gsdr.group_seckill_id
+        where gs.apply_status = 2 and gs.group_seckill_status in (0,1,2) and gsdr.department_id = #{departmentId}
+    </select>
+</mapper>

@@ -1,0 +1,2 @@
+dubboContextFilterProvider=com.bat.promotion.filter.DubboProviderContextFilter
+dubboContextFilterConsumer=com.bat.promotion.filter.DubboConsumerContextFilter

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantSmsTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsTemplateDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="platform_tenant_sms_id" jdbcType="INTEGER" property="platformTenantSmsId" />
+    <result column="template_type" jdbcType="SMALLINT" property="templateType" />
+    <result column="template_code" jdbcType="VARCHAR" property="templateCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, platform_tenant_sms_id, template_type, template_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from platform_tenant_sms_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="listByPlatformTenantSmsId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from platform_tenant_sms_template
+      where platform_tenant_sms_id = #{platformTenantSmsId}
+    </select>
+
+  <select id="selectByPlatformTenantSmsIdAndTemplateType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from platform_tenant_sms_template
+    where platform_tenant_sms_id = #{platformTenantSmsId} and template_type=#{templateType}
+  </select>
+
+  <select id="listByPlatformTenantSmsIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from platform_tenant_sms_template
+    where platform_tenant_sms_id
+    in
+    <foreach collection="platformTenantSmsIds" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_sms_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsTemplateDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into platform_tenant_sms_template (platform_tenant_sms_id, template_type, 
+      template_code)
+    values (#{platformTenantSmsId,jdbcType=INTEGER}, #{templateType,jdbcType=SMALLINT}, 
+      #{templateCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsTemplateDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into platform_tenant_sms_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="platformTenantSmsId != null">
+        platform_tenant_sms_id,
+      </if>
+      <if test="templateType != null">
+        template_type,
+      </if>
+      <if test="templateCode != null">
+        template_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="platformTenantSmsId != null">
+        #{platformTenantSmsId,jdbcType=INTEGER},
+      </if>
+      <if test="templateType != null">
+        #{templateType,jdbcType=SMALLINT},
+      </if>
+      <if test="templateCode != null">
+        #{templateCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsTemplateDO">
+    update platform_tenant_sms_template
+    <set>
+      <if test="platformTenantSmsId != null">
+        platform_tenant_sms_id = #{platformTenantSmsId,jdbcType=INTEGER},
+      </if>
+      <if test="templateType != null">
+        template_type = #{templateType,jdbcType=SMALLINT},
+      </if>
+      <if test="templateCode != null">
+        template_code = #{templateCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsTemplateDO">
+    update platform_tenant_sms_template
+    set platform_tenant_sms_id = #{platformTenantSmsId,jdbcType=INTEGER},
+      template_type = #{templateType,jdbcType=SMALLINT},
+      template_code = #{templateCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

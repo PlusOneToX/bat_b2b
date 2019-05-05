@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.msgcenter.dao.MsgCenterWechatTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterWechatTemplateDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="channel" jdbcType="SMALLINT" property="channel" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="template_id" jdbcType="VARCHAR" property="templateId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, channel, type, template_id, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from msg_center_wechat_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from msg_center_wechat_template
+  </select>
+
+  <select id="selectByType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from msg_center_wechat_template
+    where type=#{type}
+  </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from msg_center_wechat_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteAll">
+     delete from msg_center_wechat_template
+     where id > 0
+  </delete>
+
+  <insert id="insert" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterWechatTemplateDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_wechat_template (channel, type, template_id, 
+      remark, create_time)
+    values (#{channel,jdbcType=SMALLINT}, #{type,jdbcType=SMALLINT}, #{templateId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertList" parameterType="java.util.List">
+    insert into msg_center_wechat_template (channel, type, template_id,
+    remark, create_time)
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.channel,jdbcType=SMALLINT}, #{item.type,jdbcType=SMALLINT}, #{item.templateId,jdbcType=VARCHAR},
+      #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterWechatTemplateDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_wechat_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="channel != null">
+        #{channel,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterWechatTemplateDO">
+    update msg_center_wechat_template
+    <set>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterWechatTemplateDO">
+    update msg_center_wechat_template
+    set channel = #{channel,jdbcType=SMALLINT},
+      type = #{type,jdbcType=SMALLINT},
+      template_id = #{templateId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

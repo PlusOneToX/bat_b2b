@@ -1,0 +1,52 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: r-bp1bmhbto8cna52cqwpd.redis.rds.aliyuncs.com
+#      port: 6379
+#      password: bat2019
+#      masterName: goods-service
+### rocketmq stream消息
+spring:
+  redis:
+    host: bat2019
+    port: 6379
+    database: 1
+    password: bat2019
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者
+        platform-output:
+          destination: platform-service-topic
+          content-type: application/json
+      ### 消息消费者
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          platform-output:
+            producer:
+              group: platform-output-group

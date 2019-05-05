@@ -1,0 +1,142 @@
+{
+  "id": "2908631",
+  "name": "B2B小程序改版",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "26200225",
+      "name": "icon_selected01",
+      "font_class": "icon_selected01",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "25358975",
+      "name": "icon_selected_def",
+      "font_class": "icon_selected_def",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "25358976",
+      "name": "icon_zy",
+      "font_class": "icon_zy",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "25359133",
+      "name": "icon_selected",
+      "font_class": "icon_selected",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "25358934",
+      "name": "icon_my_ waitok",
+      "font_class": "a-icon_my_waitok",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "25358936",
+      "name": "icon_my_cargo",
+      "font_class": "icon_my_cargo",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "25358937",
+      "name": "icon_my_waitdeliver",
+      "font_class": "icon_my_waitdeliver",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "25358938",
+      "name": "icon_my_shipped",
+      "font_class": "icon_my_shipped",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "25358940",
+      "name": "icon_my_ waitpayment",
+      "font_class": "a-icon_my_waitpayment",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "25353807",
+      "name": "tab_to_class",
+      "font_class": "tab_to_class",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "25353808",
+      "name": "tab_to_home",
+      "font_class": "tab_to_home",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "25353809",
+      "name": "tab_to_shopping",
+      "font_class": "tab_to_shopping",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "25353810",
+      "name": "tab_to_home_pre",
+      "font_class": "tab_to_home_pre",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "25353811",
+      "name": "tab_to_my_pre",
+      "font_class": "tab_to_my_pre",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "25353812",
+      "name": "tab_to_class_pre",
+      "font_class": "tab_to_class_pre",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "25353813",
+      "name": "tab_to_my",
+      "font_class": "tab_to_my",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "25353814",
+      "name": "tab_to_shoppingp_pre",
+      "font_class": "tab_to_shoppingp_pre",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "25353815",
+      "name": "tab_to_speed_pre",
+      "font_class": "tab_to_speed_pre",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "25353816",
+      "name": "tab_to_speed",
+      "font_class": "tab_to_speed",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    }
+  ]
+}

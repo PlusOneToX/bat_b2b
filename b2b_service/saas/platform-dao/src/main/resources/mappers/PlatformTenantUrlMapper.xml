@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantUrlMapper">
+    <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantUrlDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo"/>
+        <result column="url_type" jdbcType="SMALLINT" property="urlType"/>
+        <result column="host" jdbcType="VARCHAR" property="host"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, tenant_id, tenant_no, url_type,host,url, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="all" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+    </select>
+
+    <select id="listByTenantId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+        where tenant_id = #{tenantId}
+    </select>
+
+    <select id="listByhost" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+        where host = #{host}
+    </select>
+
+    <select id="selectByTenantIdAndUrlType"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+        where tenant_id = #{tenantId} and url_type=#{urlType}
+    </select>
+
+    <select id="selectByTenantNoAndUrlType"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+        where tenant_no = #{tenantNo} and url_type=#{urlType}
+    </select>
+
+    <select id="listByHostAndUrlType"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_url
+        where host = #{host} and url_type=#{urlType}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_url
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantUrlDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_url (tenant_id, tenant_no, url_type,host,
+        url, create_time, update_time
+        )
+        values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR},
+        #{urlType,jdbcType=SMALLINT},#{host,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantUrlDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_url
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="tenantNo != null">
+                tenant_no,
+            </if>
+            <if test="urlType != null">
+                url_type,
+            </if>
+            <if test="host != null">
+                host,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="urlType != null">
+                #{urlType,jdbcType=SMALLINT},
+            </if>
+            <if test="host != null">
+                #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantUrlDO">
+        update platform_tenant_url
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                tenant_no = #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="urlType != null">
+                url_type = #{urlType,jdbcType=SMALLINT},
+            </if>
+            <if test="host != null">
+                host = #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantUrlDO">
+    update platform_tenant_url
+    set tenant_id = #{tenantId,jdbcType=INTEGER},
+      tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      url_type = #{urlType,jdbcType=SMALLINT},
+      host = #{host,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

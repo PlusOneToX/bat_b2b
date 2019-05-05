@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bat</groupId>
+    <artifactId>dubboapi</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <modules>
+        <module>dubboapi-goods</module>
+        <module>dubboapi-distributor</module>
+        <module>dubboapi-warehouse</module>
+        <module>dubboapi-system</module>
+        <module>dubboapi-gateway</module>
+        <module>dubboapi-thirdparty</module>
+        <module>dubboapi-promotion</module>
+        <module>dubboapi-flexible</module>
+        <module>dubboapi-order</module>
+        <module>dubboapi-financial</module>
+        <module>dubboapi-platform</module>
+    </modules>
+
+
+</project>

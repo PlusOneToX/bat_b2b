@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.thirdparty.alibaba.taobao.dao.TaobaoTradeDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoTradeDO" >
+    <id column="tid" property="tid" jdbcType="BIGINT" />
+    <result column="payment" property="payment" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="buyer_nick" property="buyerNick" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="new_presell" property="newPresell" jdbcType="CHAR" />
+    <result column="you_xiang" property="youXiang" jdbcType="CHAR" />
+    <result column="buyer_open_uid" property="buyerOpenUid" jdbcType="VARCHAR" />
+    <result column="post_fee" property="postFee" jdbcType="VARCHAR" />
+    <result column="seller_nick" property="sellerNick" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="receiver_mobile" property="receiverMobile" jdbcType="CHAR" />
+    <result column="receiver_zip" property="receiverZip" jdbcType="CHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="receiver_state" property="receiverState" jdbcType="VARCHAR" />
+    <result column="receiver_town" property="receiverTown" jdbcType="VARCHAR" />
+    <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR" />
+    <result column="receiver_district" property="receiverDistrict" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tid, payment, status, type, buyer_nick, created, pay_time, new_presell, you_xiang, 
+    buyer_open_uid, post_fee, seller_nick, receiver_name, receiver_phone, receiver_mobile, 
+    receiver_zip, receiver_address, receiver_state, receiver_town, receiver_city, receiver_district
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from taobao_trade
+    where tid = #{tid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from taobao_trade
+    where tid = #{tid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoTradeDO" >
+    insert into taobao_trade (tid, payment, status, 
+      type, buyer_nick, created, 
+      pay_time, new_presell, you_xiang, 
+      buyer_open_uid, post_fee, seller_nick, 
+      receiver_name, receiver_phone, receiver_mobile, 
+      receiver_zip, receiver_address, receiver_state, 
+      receiver_town, receiver_city, receiver_district
+      )
+    values (#{tid,jdbcType=BIGINT}, #{payment,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{buyerNick,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{newPresell,jdbcType=CHAR}, #{youXiang,jdbcType=CHAR}, 
+      #{buyerOpenUid,jdbcType=VARCHAR}, #{postFee,jdbcType=VARCHAR}, #{sellerNick,jdbcType=VARCHAR}, 
+      #{receiverName,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=CHAR}, 
+      #{receiverZip,jdbcType=CHAR}, #{receiverAddress,jdbcType=VARCHAR}, #{receiverState,jdbcType=VARCHAR}, 
+      #{receiverTown,jdbcType=VARCHAR}, #{receiverCity,jdbcType=VARCHAR}, #{receiverDistrict,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoTradeDO" >
+    insert into taobao_trade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tid != null" >
+        tid,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="buyerNick != null" >
+        buyer_nick,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="newPresell != null" >
+        new_presell,
+      </if>
+      <if test="youXiang != null" >
+        you_xiang,
+      </if>
+      <if test="buyerOpenUid != null" >
+        buyer_open_uid,
+      </if>
+      <if test="postFee != null" >
+        post_fee,
+      </if>
+      <if test="sellerNick != null" >
+        seller_nick,
+      </if>
+      <if test="receiverName != null" >
+        receiver_name,
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone,
+      </if>
+      <if test="receiverMobile != null" >
+        receiver_mobile,
+      </if>
+      <if test="receiverZip != null" >
+        receiver_zip,
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address,
+      </if>
+      <if test="receiverState != null" >
+        receiver_state,
+      </if>
+      <if test="receiverTown != null" >
+        receiver_town,
+      </if>
+      <if test="receiverCity != null" >
+        receiver_city,
+      </if>
+      <if test="receiverDistrict != null" >
+        receiver_district,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tid != null" >
+        #{tid,jdbcType=BIGINT},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerNick != null" >
+        #{buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPresell != null" >
+        #{newPresell,jdbcType=CHAR},
+      </if>
+      <if test="youXiang != null" >
+        #{youXiang,jdbcType=CHAR},
+      </if>
+      <if test="buyerOpenUid != null" >
+        #{buyerOpenUid,jdbcType=VARCHAR},
+      </if>
+      <if test="postFee != null" >
+        #{postFee,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerNick != null" >
+        #{sellerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null" >
+        #{receiverMobile,jdbcType=CHAR},
+      </if>
+      <if test="receiverZip != null" >
+        #{receiverZip,jdbcType=CHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverState != null" >
+        #{receiverState,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverTown != null" >
+        #{receiverTown,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCity != null" >
+        #{receiverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverDistrict != null" >
+        #{receiverDistrict,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoTradeDO" >
+    update taobao_trade
+    <set >
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerNick != null" >
+        buyer_nick = #{buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPresell != null" >
+        new_presell = #{newPresell,jdbcType=CHAR},
+      </if>
+      <if test="youXiang != null" >
+        you_xiang = #{youXiang,jdbcType=CHAR},
+      </if>
+      <if test="buyerOpenUid != null" >
+        buyer_open_uid = #{buyerOpenUid,jdbcType=VARCHAR},
+      </if>
+      <if test="postFee != null" >
+        post_fee = #{postFee,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerNick != null" >
+        seller_nick = #{sellerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null" >
+        receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null" >
+        receiver_mobile = #{receiverMobile,jdbcType=CHAR},
+      </if>
+      <if test="receiverZip != null" >
+        receiver_zip = #{receiverZip,jdbcType=CHAR},
+      </if>
+      <if test="receiverAddress != null" >
+        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverState != null" >
+        receiver_state = #{receiverState,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverTown != null" >
+        receiver_town = #{receiverTown,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverCity != null" >
+        receiver_city = #{receiverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverDistrict != null" >
+        receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tid = #{tid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoTradeDO" >
+    update taobao_trade
+    set payment = #{payment,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      buyer_nick = #{buyerNick,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      new_presell = #{newPresell,jdbcType=CHAR},
+      you_xiang = #{youXiang,jdbcType=CHAR},
+      buyer_open_uid = #{buyerOpenUid,jdbcType=VARCHAR},
+      post_fee = #{postFee,jdbcType=VARCHAR},
+      seller_nick = #{sellerNick,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      receiver_mobile = #{receiverMobile,jdbcType=CHAR},
+      receiver_zip = #{receiverZip,jdbcType=CHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      receiver_state = #{receiverState,jdbcType=VARCHAR},
+      receiver_town = #{receiverTown,jdbcType=VARCHAR},
+      receiver_city = #{receiverCity,jdbcType=VARCHAR},
+      receiver_district = #{receiverDistrict,jdbcType=VARCHAR}
+    where tid = #{tid,jdbcType=BIGINT}
+  </update>
+
+  <select id="findBySellerNickAndStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from taobao_trade
+    where seller_nick = #{sellerNick} and status=#{name}
+  </select>
+
+</mapper>

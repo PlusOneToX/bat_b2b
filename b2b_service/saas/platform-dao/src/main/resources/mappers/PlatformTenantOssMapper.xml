@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantOssMapper">
+  <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantOssDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+    <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo" />
+    <result column="oss_type" jdbcType="SMALLINT" property="ossType" />
+    <result column="endpoint" jdbcType="VARCHAR" property="endpoint" />
+    <result column="access_key_id" jdbcType="VARCHAR" property="accessKeyId" />
+    <result column="access_key_secret" jdbcType="VARCHAR" property="accessKeySecret" />
+    <result column="bucket" jdbcType="VARCHAR" property="bucket" />
+    <result column="base_http" jdbcType="VARCHAR" property="baseHttp" />
+    <result column="role_arn" jdbcType="VARCHAR" property="roleArn" />
+    <result column="region_id" jdbcType="VARCHAR" property="regionId" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="policy" jdbcType="VARCHAR" property="policy" />
+    <result column="distributor_oss_folder" jdbcType="VARCHAR" property="distributorOssFolder" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tenant_id, tenant_no, oss_type, endpoint, access_key_id, access_key_secret, bucket, 
+    base_http, role_arn, region_id, region, policy, distributor_oss_folder, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from platform_tenant_oss
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="findByTenantIdAndOssType" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from platform_tenant_oss
+      where tenant_id =#{tenantId} and oss_type=#{ossType}
+    </select>
+
+  <select id="listByTenantId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from platform_tenant_oss
+    where tenant_id =#{tenantId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_oss
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantOssDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into platform_tenant_oss (tenant_id, tenant_no, oss_type, 
+      endpoint, access_key_id, access_key_secret, 
+      bucket, base_http, role_arn, 
+      region_id, region, policy, 
+      distributor_oss_folder, create_time, update_time
+      )
+    values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR}, #{ossType,jdbcType=SMALLINT}, 
+      #{endpoint,jdbcType=VARCHAR}, #{accessKeyId,jdbcType=VARCHAR}, #{accessKeySecret,jdbcType=VARCHAR}, 
+      #{bucket,jdbcType=VARCHAR}, #{baseHttp,jdbcType=VARCHAR}, #{roleArn,jdbcType=VARCHAR}, 
+      #{regionId,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{policy,jdbcType=VARCHAR}, 
+      #{distributorOssFolder,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantOssDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into platform_tenant_oss
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tenantId != null">
+        tenant_id,
+      </if>
+      <if test="tenantNo != null">
+        tenant_no,
+      </if>
+      <if test="ossType != null">
+        oss_type,
+      </if>
+      <if test="endpoint != null">
+        endpoint,
+      </if>
+      <if test="accessKeyId != null">
+        access_key_id,
+      </if>
+      <if test="accessKeySecret != null">
+        access_key_secret,
+      </if>
+      <if test="bucket != null">
+        bucket,
+      </if>
+      <if test="baseHttp != null">
+        base_http,
+      </if>
+      <if test="roleArn != null">
+        role_arn,
+      </if>
+      <if test="regionId != null">
+        region_id,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="policy != null">
+        policy,
+      </if>
+      <if test="distributorOssFolder != null">
+        distributor_oss_folder,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=INTEGER},
+      </if>
+      <if test="tenantNo != null">
+        #{tenantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ossType != null">
+        #{ossType,jdbcType=SMALLINT},
+      </if>
+      <if test="endpoint != null">
+        #{endpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeyId != null">
+        #{accessKeyId,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeySecret != null">
+        #{accessKeySecret,jdbcType=VARCHAR},
+      </if>
+      <if test="bucket != null">
+        #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="baseHttp != null">
+        #{baseHttp,jdbcType=VARCHAR},
+      </if>
+      <if test="roleArn != null">
+        #{roleArn,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null">
+        #{regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="policy != null">
+        #{policy,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorOssFolder != null">
+        #{distributorOssFolder,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantOssDO">
+    update platform_tenant_oss
+    <set>
+      <if test="tenantId != null">
+        tenant_id = #{tenantId,jdbcType=INTEGER},
+      </if>
+      <if test="tenantNo != null">
+        tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ossType != null">
+        oss_type = #{ossType,jdbcType=SMALLINT},
+      </if>
+      <if test="endpoint != null">
+        endpoint = #{endpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeyId != null">
+        access_key_id = #{accessKeyId,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeySecret != null">
+        access_key_secret = #{accessKeySecret,jdbcType=VARCHAR},
+      </if>
+      <if test="bucket != null">
+        bucket = #{bucket,jdbcType=VARCHAR},
+      </if>
+      <if test="baseHttp != null">
+        base_http = #{baseHttp,jdbcType=VARCHAR},
+      </if>
+      <if test="roleArn != null">
+        role_arn = #{roleArn,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null">
+        region_id = #{regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="policy != null">
+        policy = #{policy,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorOssFolder != null">
+        distributor_oss_folder = #{distributorOssFolder,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantOssDO">
+    update platform_tenant_oss
+    set tenant_id = #{tenantId,jdbcType=INTEGER},
+      tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      oss_type = #{ossType,jdbcType=SMALLINT},
+      endpoint = #{endpoint,jdbcType=VARCHAR},
+      access_key_id = #{accessKeyId,jdbcType=VARCHAR},
+      access_key_secret = #{accessKeySecret,jdbcType=VARCHAR},
+      bucket = #{bucket,jdbcType=VARCHAR},
+      base_http = #{baseHttp,jdbcType=VARCHAR},
+      role_arn = #{roleArn,jdbcType=VARCHAR},
+      region_id = #{regionId,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      policy = #{policy,jdbcType=VARCHAR},
+      distributor_oss_folder = #{distributorOssFolder,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.msgcenter.dao.MsgCenterLogMapper">
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="center_id" jdbcType="INTEGER" property="centerId" />
+    <result column="channel" jdbcType="SMALLINT" property="channel" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="mini_link" jdbcType="VARCHAR" property="miniLink" />
+    <result column="pc_link" jdbcType="VARCHAR" property="pcLink" />
+    <result column="push_switch" jdbcType="SMALLINT" property="pushSwitch" />
+    <result column="push_flag" jdbcType="SMALLINT" property="pushFlag" />
+    <result column="read_flag" jdbcType="SMALLINT" property="readFlag" />
+    <result column="push_terminal" jdbcType="SMALLINT" property="pushTerminal" />
+    <result column="msg_type" jdbcType="SMALLINT" property="msgType" />
+    <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
+    <result column="to_username" jdbcType="VARCHAR" property="toUsername" />
+    <result column="user_type" jdbcType="SMALLINT" property="userType" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="read_time" jdbcType="TIMESTAMP" property="readTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="mini_body" jdbcType="LONGVARCHAR" property="miniBody" />
+    <result column="send_fail_error" jdbcType="LONGVARCHAR" property="sendFailError" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, center_id, channel, title, mini_link, pc_link, push_switch, push_flag, read_flag,
+    push_terminal, msg_type, to_user_id, to_username, user_type, open_id, mobile, phone,
+    create_time, read_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content, mini_body,send_fail_error
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from msg_center_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="listByParams" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from msg_center_log
+    <where>
+      <if test="params.pushFlag!=null">
+        AND push_flag = #{params.pushFlag}
+      </if>
+      <if test="params.startTime!=null">
+        AND create_time &gt;= #{params.startTime}
+      </if>
+      <if test="params.endTime!=null">
+        AND create_time &lt;= #{params.endTime}
+      </if>
+      <if test="params.username!=null and params.username!=''">
+        AND to_username LIKE CONCAT( '%', #{params.username}, '%' )
+      </if>
+      <if test="params.mobile!=null and params.mobile!=''">
+        AND (mobile LIKE CONCAT( '%', #{params.mobile}, '%' ) or phone LIKE CONCAT( '%', #{params.mobile}, '%' ))
+      </if>
+      <if test="params.userId!=null">
+        AND to_user_id = #{params.userId}
+      </if>
+      <if test="params.userType!=null">
+        AND user_type = #{params.userType}
+      </if>
+    </where>
+    <if test="params.sortType==null">
+      order by create_time desc
+    </if>
+    <if test="params.sortType!=null and params.sortType==1">
+      order by read_flag,create_time desc
+    </if>
+  </select>
+
+  <select id="countByParams" resultType="java.lang.Integer">
+    select
+    count(*)
+    from msg_center_log
+    <where>
+      <if test="params.userId!=null">
+        AND to_user_id = #{params.userId}
+      </if>
+      <if test="params.userType!=null">
+        AND user_type = #{params.userType}
+      </if>
+      <if test="params.readFlag!=null">
+        AND read_flag = #{params.readFlag}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from msg_center_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_log (center_id, channel, title,
+    mini_link, pc_link, push_switch,
+    push_flag, read_flag, push_terminal,
+    msg_type, to_user_id, to_username,
+    user_type, open_id, mobile,
+    phone, create_time, read_time,
+    update_time, content, mini_body,
+    send_fail_error
+    )
+    values (#{centerId,jdbcType=INTEGER}, #{channel,jdbcType=SMALLINT}, #{title,jdbcType=VARCHAR},
+    #{miniLink,jdbcType=VARCHAR}, #{pcLink,jdbcType=VARCHAR}, #{pushSwitch,jdbcType=SMALLINT},
+    #{pushFlag,jdbcType=SMALLINT}, #{readFlag,jdbcType=SMALLINT}, #{pushTerminal,jdbcType=SMALLINT},
+    #{msgType,jdbcType=SMALLINT}, #{toUserId,jdbcType=INTEGER}, #{toUsername,jdbcType=VARCHAR},
+    #{userType,jdbcType=SMALLINT}, #{openId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+    #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{readTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}, #{miniBody,jdbcType=LONGVARCHAR},
+    #{sendFailError,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="centerId != null">
+        center_id,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="miniLink != null">
+        mini_link,
+      </if>
+      <if test="pcLink != null">
+        pc_link,
+      </if>
+      <if test="pushSwitch != null">
+        push_switch,
+      </if>
+      <if test="pushFlag != null">
+        push_flag,
+      </if>
+      <if test="readFlag != null">
+        read_flag,
+      </if>
+      <if test="pushTerminal != null">
+        push_terminal,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
+      </if>
+      <if test="toUsername != null">
+        to_username,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="readTime != null">
+        read_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="miniBody != null">
+        mini_body,
+      </if>
+      <if test="sendFailError != null">
+        send_fail_error,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="centerId != null">
+        #{centerId,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="miniLink != null">
+        #{miniLink,jdbcType=VARCHAR},
+      </if>
+      <if test="pcLink != null">
+        #{pcLink,jdbcType=VARCHAR},
+      </if>
+      <if test="pushSwitch != null">
+        #{pushSwitch,jdbcType=SMALLINT},
+      </if>
+      <if test="pushFlag != null">
+        #{pushFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="readFlag != null">
+        #{readFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="pushTerminal != null">
+        #{pushTerminal,jdbcType=SMALLINT},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=SMALLINT},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="toUsername != null">
+        #{toUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=SMALLINT},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readTime != null">
+        #{readTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="miniBody != null">
+        #{miniBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sendFailError != null">
+        #{sendFailError,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    update msg_center_log
+    <set>
+      <if test="centerId != null">
+        center_id = #{centerId,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="miniLink != null">
+        mini_link = #{miniLink,jdbcType=VARCHAR},
+      </if>
+      <if test="pcLink != null">
+        pc_link = #{pcLink,jdbcType=VARCHAR},
+      </if>
+      <if test="pushSwitch != null">
+        push_switch = #{pushSwitch,jdbcType=SMALLINT},
+      </if>
+      <if test="pushFlag != null">
+        push_flag = #{pushFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="readFlag != null">
+        read_flag = #{readFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="pushTerminal != null">
+        push_terminal = #{pushTerminal,jdbcType=SMALLINT},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=SMALLINT},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="toUsername != null">
+        to_username = #{toUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=SMALLINT},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readTime != null">
+        read_time = #{readTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="miniBody != null">
+        mini_body = #{miniBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sendFailError != null">
+        send_fail_error = #{sendFailError,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    update msg_center_log
+    set center_id = #{centerId,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=SMALLINT},
+      title = #{title,jdbcType=VARCHAR},
+      mini_link = #{miniLink,jdbcType=VARCHAR},
+      pc_link = #{pcLink,jdbcType=VARCHAR},
+      push_switch = #{pushSwitch,jdbcType=SMALLINT},
+      push_flag = #{pushFlag,jdbcType=SMALLINT},
+      read_flag = #{readFlag,jdbcType=SMALLINT},
+      push_terminal = #{pushTerminal,jdbcType=SMALLINT},
+      msg_type = #{msgType,jdbcType=SMALLINT},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
+      to_username = #{toUsername,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=SMALLINT},
+      open_id = #{openId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      read_time = #{readTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR},
+      mini_body = #{miniBody,jdbcType=LONGVARCHAR},
+      send_fail_error = #{sendFailError,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterLogDO">
+    update msg_center_log
+    set center_id = #{centerId,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=SMALLINT},
+      title = #{title,jdbcType=VARCHAR},
+      mini_link = #{miniLink,jdbcType=VARCHAR},
+      pc_link = #{pcLink,jdbcType=VARCHAR},
+      push_switch = #{pushSwitch,jdbcType=SMALLINT},
+      push_flag = #{pushFlag,jdbcType=SMALLINT},
+      read_flag = #{readFlag,jdbcType=SMALLINT},
+      push_terminal = #{pushTerminal,jdbcType=SMALLINT},
+      msg_type = #{msgType,jdbcType=SMALLINT},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
+      to_username = #{toUsername,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=SMALLINT},
+      open_id = #{openId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      read_time = #{readTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="readAll">
+    update msg_center_log set read_flag=1, read_time = #{date},update_time = #{date}
+    where to_user_id=#{userId} and user_type=#{userType}
+  </update>
+
+
+  <insert id="insertList" parameterType="java.util.List">
+    insert into msg_center_log
+    (center_id, channel, title,
+    mini_link, pc_link, push_switch,
+    push_flag, read_flag, push_terminal,
+    msg_type, to_user_id, to_username,
+    user_type, open_id, mobile,
+    phone, create_time, read_time,
+    update_time, content, mini_body,
+    send_fail_error
+    ) VALUES
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.centerId,jdbcType=INTEGER}, #{item.channel,jdbcType=SMALLINT}, #{item.title,jdbcType=VARCHAR},
+      #{item.miniLink,jdbcType=VARCHAR}, #{item.pcLink,jdbcType=VARCHAR}, #{item.pushSwitch,jdbcType=SMALLINT},
+      #{item.pushFlag,jdbcType=SMALLINT}, #{item.readFlag,jdbcType=SMALLINT}, #{item.pushTerminal,jdbcType=SMALLINT},
+      #{item.msgType,jdbcType=SMALLINT}, #{item.toUserId,jdbcType=INTEGER}, #{item.toUsername,jdbcType=VARCHAR},
+      #{item.userType,jdbcType=SMALLINT}, #{item.openId,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR},
+      #{item.phone,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.readTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP}, #{item.content,jdbcType=LONGVARCHAR}, #{item.miniBody,jdbcType=LONGVARCHAR},
+      #{item.sendFailError,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

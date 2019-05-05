@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantDBMapper">
+    <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantDBDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo"/>
+        <result column="model_type" jdbcType="SMALLINT" property="modelType"/>
+        <result column="db_type" jdbcType="SMALLINT" property="dbType"/>
+        <result column="source_type" jdbcType="SMALLINT" property="sourceType"/>
+        <result column="table_flag" jdbcType="SMALLINT" property="tableFlag"/>
+        <result column="db_base_url" jdbcType="VARCHAR" property="dbBaseUrl"/>
+        <result column="db_name" jdbcType="VARCHAR" property="dbName"/>
+        <result column="db_url" jdbcType="VARCHAR" property="dbUrl"/>
+        <result column="host" jdbcType="VARCHAR" property="host"/>
+        <result column="port" jdbcType="VARCHAR" property="port"/>
+        <result column="nosql_database" jdbcType="VARCHAR" property="nosqlDatabase"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, tenant_id, tenant_no, model_type, db_type,source_type,table_flag,db_base_url, db_name, db_url, host, port,
+    nosql_database, user_name, password, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_db
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByDbName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_db
+        where db_name = #{dbName}
+    </select>
+
+    <select id="selectByTenantNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_db
+        where tenant_no = #{tenantNo}
+    </select>
+
+    <select id="selectByTenantIdAndModelType"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_db
+        where tenant_id = #{tenantId} and model_type = #{modelType}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_db
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDBDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_db (tenant_id, tenant_no, model_type,
+        db_type,source_type,table_flag,db_base_url, db_name, db_url,
+        host, port, nosql_database,
+        user_name, password, create_time,
+        update_time)
+        values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR}, #{modelType,jdbcType=SMALLINT},
+        #{dbType,jdbcType=SMALLINT},#{sourceType,jdbcType=SMALLINT},#{tableFlag,jdbcType=SMALLINT},#{dbBaseUrl,jdbcType=VARCHAR},
+        #{dbName,jdbcType=VARCHAR}, #{dbUrl,jdbcType=VARCHAR},
+        #{host,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, #{nosqlDatabase,jdbcType=VARCHAR},
+        #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        INSERT INTO platform_tenant_db(
+        tenant_id, tenant_no, model_type,
+        db_type,source_type,table_flag,db_base_url, db_name, db_url,
+        host, port, nosql_database,
+        user_name, password, create_time,
+        update_time
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.tenantId,jdbcType=INTEGER}, #{item.tenantNo,jdbcType=VARCHAR}, #{item.modelType,jdbcType=SMALLINT},
+            #{item.dbType,jdbcType=SMALLINT},#{item.sourceType,jdbcType=SMALLINT},#{item.tableFlag,jdbcType=SMALLINT},
+            #{item.dbBaseUrl,jdbcType=VARCHAR},
+            #{item.dbName,jdbcType=VARCHAR}, #{item.dbUrl,jdbcType=VARCHAR},
+            #{item.host,jdbcType=VARCHAR}, #{item.port,jdbcType=VARCHAR},
+            #{item.nosqlDatabase,jdbcType=VARCHAR},
+            #{item.userName,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDBDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_db
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="tenantNo != null">
+                tenant_no,
+            </if>
+            <if test="modelType != null">
+                model_type,
+            </if>
+            <if test="dbType != null">
+                db_type,
+            </if>
+            <if test="sourceType != null">
+                source_type,
+            </if>
+            <if test="tableFlag != null">
+                table_flag,
+            </if>
+            <if test="dbBaseUrl != null">
+                db_base_url,
+            </if>
+            <if test="dbName != null">
+                db_name,
+            </if>
+            <if test="dbUrl != null">
+                db_url,
+            </if>
+            <if test="host != null">
+                host,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="nosqlDatabase != null">
+                nosql_database,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="modelType != null">
+                #{modelType,jdbcType=SMALLINT},
+            </if>
+            <if test="dbType != null">
+                #{dbType,jdbcType=SMALLINT},
+            </if>
+            <if test="sourceType != null">
+                #{sourceType,jdbcType=SMALLINT},
+            </if>
+            <if test="tableFlag != null">
+                #{tableFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="dbBaseUrl != null">
+                #{dbBaseUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="dbName != null">
+                #{dbName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbUrl != null">
+                #{dbUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="host != null">
+                #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=VARCHAR},
+            </if>
+            <if test="nosqlDatabase != null">
+                #{nosql_database,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDBDO">
+        update platform_tenant_db
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                tenant_no = #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="modelType != null">
+                model_type = #{modelType,jdbcType=SMALLINT},
+            </if>
+            <if test="dbType != null">
+                db_type = #{dbType,jdbcType=SMALLINT},
+            </if>
+            <if test="sourceType != null">
+                source_type = #{sourceType,jdbcType=SMALLINT},
+            </if>
+            <if test="tableFlag != null">
+                table_flag = #{tableFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="dbBaseUrl != null">
+                db_base_url = #{dbBaseUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="dbName != null">
+                db_name = #{dbName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbUrl != null">
+                db_url = #{dbUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="host != null">
+                host = #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=VARCHAR},
+            </if>
+            <if test="nosqlDatabase != null">
+                nosql_database = #{nosqlDatabase,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDBDO">
+    update platform_tenant_db
+    set tenant_id = #{tenantId,jdbcType=INTEGER},
+      tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      model_type = #{modelType,jdbcType=SMALLINT},
+      db_type = #{dbType,jdbcType=SMALLINT},
+      source_type = #{sourceType,jdbcType=SMALLINT},
+      table_flag = #{tableFlag,jdbcType=SMALLINT},
+      db_base_url = #{dbBaseUrl,jdbcType=VARCHAR},
+      db_name = #{dbName,jdbcType=VARCHAR},
+      db_url = #{dbUrl,jdbcType=VARCHAR},
+      host = #{host,jdbcType=VARCHAR},
+      port = #{port,jdbcType=VARCHAR},
+      nosql_database = #{nosqlDatabase,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update platform_tenant_db
+            set tenant_id = #{item.tenantId,jdbcType=INTEGER},
+            tenant_no = #{item.tenantNo,jdbcType=VARCHAR},
+            model_type = #{item.modelType,jdbcType=SMALLINT},
+            db_type = #{item.dbType,jdbcType=SMALLINT},
+            source_type = #{item.sourceType,jdbcType=SMALLINT},
+            table_flag = #{item.tableFlag,jdbcType=SMALLINT},
+            db_base_url = #{item.dbBaseUrl,jdbcType=VARCHAR},
+            db_name = #{item.dbName,jdbcType=VARCHAR},
+            db_url = #{item.dbUrl,jdbcType=VARCHAR},
+            host = #{item.host,jdbcType=VARCHAR},
+            port = #{item.port,jdbcType=VARCHAR},
+            nosql_database = #{item.nosqlDatabase,jdbcType=VARCHAR},
+            user_name = #{item.userName,jdbcType=VARCHAR},
+            password = #{item.password,jdbcType=VARCHAR},
+            update_time = now()
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <select id="listTenantDBByModelType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_db
+        where model_type = #{modelType,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByTenantId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_db
+        where tenant_id = #{tenantId}
+    </select>
+</mapper>

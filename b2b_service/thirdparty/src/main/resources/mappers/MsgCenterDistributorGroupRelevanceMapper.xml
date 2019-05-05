@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.msgcenter.dao.MsgCenterDistributorGroupRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDistributorGroupRelevanceDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="center_id" jdbcType="INTEGER" property="centerId" />
+    <result column="distributor_group_id" jdbcType="INTEGER" property="distributorGroupId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, center_id, distributor_group_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from msg_center_distributor_group_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="listDistributorGroupIdByCenterId" resultType="java.lang.Integer">
+      select
+      distributor_group_id
+      from msg_center_distributor_group_relevance
+      where center_id = #{centerId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from msg_center_distributor_group_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDistributorGroupRelevanceDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_distributor_group_relevance (center_id, distributor_group_id)
+    values (#{centerId,jdbcType=INTEGER}, #{distributorGroupId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDistributorGroupRelevanceDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_distributor_group_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="centerId != null">
+        center_id,
+      </if>
+      <if test="distributorGroupId != null">
+        distributor_group_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="centerId != null">
+        #{centerId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorGroupId != null">
+        #{distributorGroupId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insertList" parameterType="java.util.List">
+    INSERT INTO msg_center_distributor_group_relevance(
+    center_id,
+    distributor_group_id
+    ) VALUES
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.centerId},
+      #{item.distributorGroupId}
+      )
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDistributorGroupRelevanceDO">
+    update msg_center_distributor_group_relevance
+    <set>
+      <if test="centerId != null">
+        center_id = #{centerId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorGroupId != null">
+        distributor_group_id = #{distributorGroupId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDistributorGroupRelevanceDO">
+    update msg_center_distributor_group_relevance
+    set center_id = #{centerId,jdbcType=INTEGER},
+      distributor_group_id = #{distributorGroupId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

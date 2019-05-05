@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.rebatevoucher.RebateVoucherMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.rebatevoucher.dataobject.RebateVoucherDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="distributor_name" jdbcType="VARCHAR" property="distributorName"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="voucher_no" jdbcType="VARCHAR" property="voucherNo"/>
+        <result column="face_value" jdbcType="DECIMAL" property="faceValue"/>
+        <result column="balance" jdbcType="DECIMAL" property="balance"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="freeze_status" jdbcType="SMALLINT" property="freezeStatus"/>
+        <result column="voucher_status" jdbcType="SMALLINT" property="voucherStatus"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="batch_id" jdbcType="INTEGER" property="batchId"/>
+        <result column="batch_name" jdbcType="VARCHAR" property="batchName"/>
+        <result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
+        <result column="create_user_name" jdbcType="VARCHAR" property="createUserName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , distributor_id, distributor_name, `name`, voucher_no, face_value, balance, apply_status,
+    freeze_status, voucher_status, start_time, end_time, sort, remark, create_time, update_time, batch_id, batch_name, create_user_id, create_user_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rebate_voucher
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rebate_voucher
+        <where>
+            <if test="params.name!=null">
+                and `name` LIKE CONCAT( '%', #{params.name}, '%' )
+            </if>
+            <if test="params.voucherNo!=null">
+                and `voucher_no` = #{params.voucherNo}
+            </if>
+            <if test="params.distributorId!=null">
+                and `distributor_id` = #{params.distributorId}
+            </if>
+            <if test="params.distributorName!=null">
+                and `distributor_name` LIKE CONCAT( '%', #{params.distributorName}, '%' )
+            </if>
+            <if test="params.voucherStatus!=null">
+                and `voucher_status` = #{params.voucherStatus}
+            </if>
+            <if test="params.voucherStatusArr!=null and params.voucherStatusArr.size()>0">
+                and `voucher_status` in
+                <foreach collection="params.voucherStatusArr" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="params.startTime!=null">
+                and `start_time` &gt;= #{params.startTime}
+            </if>
+            <if test="params.endTime!=null">
+                and `end_time` &gt;= #{params.endTime}
+            </if>
+        </where>
+        <if test="params.sortColumn!=null">
+            order by
+            <if test="params.sortColumn==1">
+                create_time,id
+            </if>
+            <if test="params.sortColumn==2">
+                update_time,id
+            </if>
+            <if test="params.sortColumn==3">
+                start_time,id
+            </if>
+            <if test="params.sortColumn==4">
+                end_time,id
+            </if>
+            <if test="params.sortType!=null">
+                <if test="params.sortType==1">
+                    asc
+                </if>
+                <if test="params.sortType==2">
+                    desc
+                </if>
+            </if>
+        </if>
+    </select>
+    <select id="listRebateVoucherByTime" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rebate_voucher
+        where apply_status = 2
+        and voucher_status in (4,5)
+        and freeze_status != 11
+        and (start_time &gt;= #{time} or end_time &gt;= #{time})
+    </select>
+    <select id="listRebateVoucherByBatchId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rebate_voucher
+        where batch_id = #{batchId}
+    </select>
+    <select id="listRebateVoucherByPrimaryKeysAndDistributorId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rebate_voucher
+        <where>
+            and id in
+            <foreach collection="rebateVoucherIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+            <if test="distributorId!=null">
+                and distributor_id = #{distributorId}
+            </if>
+            and apply_status = 2
+            and voucher_status = 5
+            and freeze_status = 10
+            and balance != 0
+            <if test="time!=null">
+                and start_time &lt;= #{time}
+                and end_time &gt;= #{time}
+            </if>
+        </where>
+    </select>
+    <select id="listRebateVoucherByPrimaryKeys" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from rebate_voucher
+        where id in
+        <foreach collection="rebateVoucherIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from rebate_voucher
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.rebatevoucher.dataobject.RebateVoucherDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into rebate_voucher (distributor_id, distributor_name, name,
+        voucher_no, face_value, balance,
+        apply_status, freeze_status, voucher_status,
+        start_time, end_time, sort,
+        remark, create_time, update_time, batch_id, batch_name, create_user_id, create_user_name
+        )
+        values (#{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        #{voucherNo,jdbcType=VARCHAR}, #{faceValue,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL},
+        #{applyStatus,jdbcType=SMALLINT}, #{freezeStatus,jdbcType=SMALLINT}, #{voucherStatus,jdbcType=SMALLINT},
+        #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{sort,jdbcType=INTEGER},
+        #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{batchId,jdbcType=INTEGER}, #{batchName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER},
+        #{createUserName,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into rebate_voucher (distributor_id, distributor_name, name,
+        voucher_no, face_value, balance,
+        apply_status, freeze_status, voucher_status,
+        start_time, end_time, sort,
+        remark, create_time, update_time, batch_id, batch_name, create_user_id, create_user_name
+        )
+        values
+        <foreach collection="records" item="item" separator=",">
+            (#{item.distributorId,jdbcType=INTEGER}, #{item.distributorName,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR},
+            #{item.voucherNo,jdbcType=VARCHAR}, #{item.faceValue,jdbcType=DECIMAL}, #{item.balance,jdbcType=DECIMAL},
+            #{item.applyStatus,jdbcType=SMALLINT}, #{item.freezeStatus,jdbcType=SMALLINT},
+            #{item.voucherStatus,jdbcType=SMALLINT},
+            #{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}, #{item.sort,jdbcType=INTEGER},
+            #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.batchId,jdbcType=INTEGER}, #{item.batchName,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER},
+            #{item.createUserName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.rebatevoucher.dataobject.RebateVoucherDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into rebate_voucher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="distributorName != null">
+                distributor_name,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="voucherNo != null">
+                voucher_no,
+            </if>
+            <if test="faceValue != null">
+                face_value,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="applyStatus != null">
+                apply_status,
+            </if>
+            <if test="freezeStatus != null">
+                freeze_status,
+            </if>
+            <if test="voucherStatus != null">
+                voucher_status,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="batchId != null">
+                batch_id,
+            </if>
+            <if test="batchName != null">
+                batch_name,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createUserName != null">
+                create_user_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="voucherNo != null">
+                #{voucherNo,jdbcType=VARCHAR},
+            </if>
+            <if test="faceValue != null">
+                #{faceValue,jdbcType=DECIMAL},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="applyStatus != null">
+                #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="freezeStatus != null">
+                #{freezeStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="voucherStatus != null">
+                #{voucherStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="batchId != null">
+                #{batchId,jdbcType=INTEGER},
+            </if>
+            <if test="batchName != null">
+                #{batchName,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.rebatevoucher.dataobject.RebateVoucherDO">
+        update rebate_voucher
+        <set>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorName != null">
+                distributor_name = #{distributorName,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="voucherNo != null">
+                voucher_no = #{voucherNo,jdbcType=VARCHAR},
+            </if>
+            <if test="faceValue != null">
+                face_value = #{faceValue,jdbcType=DECIMAL},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="applyStatus != null">
+                apply_status = #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="freezeStatus != null">
+                freeze_status = #{freezeStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="voucherStatus != null">
+                voucher_status = #{voucherStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="batchId != null">
+                batch_id = #{batchId,jdbcType=INTEGER},
+            </if>
+            <if test="batchName != null">
+                batch_name = #{batchName,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.rebatevoucher.dataobject.RebateVoucherDO">
+        update rebate_voucher
+        set distributor_id   = #{distributorId,jdbcType=INTEGER},
+            distributor_name = #{distributorName,jdbcType=VARCHAR},
+            name             = #{name,jdbcType=VARCHAR},
+            voucher_no       = #{voucherNo,jdbcType=VARCHAR},
+            face_value       = #{faceValue,jdbcType=DECIMAL},
+            balance          = #{balance,jdbcType=DECIMAL},
+            apply_status     = #{applyStatus,jdbcType=SMALLINT},
+            freeze_status    = #{freezeStatus,jdbcType=SMALLINT},
+            voucher_status   = #{voucherStatus,jdbcType=SMALLINT},
+            start_time       = #{startTime,jdbcType=TIMESTAMP},
+            end_time         = #{endTime,jdbcType=TIMESTAMP},
+            sort             = #{sort,jdbcType=INTEGER},
+            remark           = #{remark,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP},
+            batch_id         = #{batchId,jdbcType=INTEGER},
+            batch_name       = #{batchName,jdbcType=VARCHAR},
+            create_user_id   = #{createUserId,jdbcType=INTEGER},
+            create_user_name = #{createUserName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateListRebateVoucherStatus" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update rebate_voucher set voucher_status = #{item.rebateVoucherStatus},update_time=#{item.updateTime}
+            where id = #{item.id}
+        </foreach>
+    </update>
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="records" index="index" separator=";" item="item">
+            update rebate_voucher
+            set distributor_id = #{item.distributorId,jdbcType=INTEGER},
+            distributor_name = #{item.distributorName,jdbcType=VARCHAR},
+            name = #{item.name,jdbcType=VARCHAR},
+            voucher_no = #{item.voucherNo,jdbcType=VARCHAR},
+            face_value = #{item.faceValue,jdbcType=DECIMAL},
+            balance = #{item.balance,jdbcType=DECIMAL},
+            apply_status = #{item.applyStatus,jdbcType=SMALLINT},
+            freeze_status = #{item.freezeStatus,jdbcType=SMALLINT},
+            voucher_status = #{item.voucherStatus,jdbcType=SMALLINT},
+            start_time = #{item.startTime,jdbcType=TIMESTAMP},
+            end_time = #{item.endTime,jdbcType=TIMESTAMP},
+            sort = #{item.sort,jdbcType=INTEGER},
+            remark = #{item.remark,jdbcType=VARCHAR},
+            create_time = #{item.createTime,jdbcType=TIMESTAMP},
+            update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+            batch_id = #{item.batchId,jdbcType=INTEGER},
+            batch_name = #{item.batchName,jdbcType=VARCHAR},
+            create_user_id = #{item.createUserId,jdbcType=INTEGER},
+            create_user_name = #{item.createUserName,jdbcType=VARCHAR}
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+</mapper>

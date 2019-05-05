@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.promotion.UserPromotionMapper">
+    <resultMap id="UserPromotionMap" type="com.bat.promotion.dao.promotion.dataobject.UserPromotionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="name_en" jdbcType="VARCHAR" property="nameEn"/>
+        <result column="promo_desc" jdbcType="VARCHAR" property="promoDesc"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="advance_flag" jdbcType="SMALLINT" property="advanceFlag"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="promo_status" jdbcType="SMALLINT" property="promoStatus"/>
+        <result column="promo_source" jdbcType="SMALLINT" property="promoSource"/>
+        <result column="promo_type" jdbcType="SMALLINT" property="promoType"/>
+        <result column="on_way_flag" jdbcType="SMALLINT" property="onWayFlag"/>
+    </resultMap>
+
+    <resultMap id="PromotionRuleGoodsMap" type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleGoodsDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_rule_id" jdbcType="INTEGER" property="promotionRuleId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="goods_no" jdbcType="VARCHAR" property="goodsNo"/>
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode"/>
+    </resultMap>
+
+    <resultMap id="PromotionRuleMap" type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="rule_name" jdbcType="VARCHAR" property="ruleName"/>
+        <result column="rule_name_en" jdbcType="VARCHAR" property="ruleNameEn"/>
+        <result column="rule_type" jdbcType="SMALLINT" property="ruleType"/>
+        <result column="add_up_flag" jdbcType="SMALLINT" property="addUpFlag"/>
+        <result column="money_or_count" jdbcType="SMALLINT" property="moneyOrCount"/>
+    </resultMap>
+    <resultMap id="PromotionRuleConditionMap"
+               type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_rule_id" jdbcType="INTEGER" property="promotionRuleId"/>
+        <result column="condition_name" jdbcType="VARCHAR" property="conditionName"/>
+        <result column="condition_name_en" jdbcType="VARCHAR" property="conditionNameEn"/>
+        <result column="special_flag" jdbcType="SMALLINT" property="specialFlag"/>
+        <result column="one_buy_count" jdbcType="INTEGER" property="oneBuyCount"/>
+        <result column="one_buy_money" jdbcType="DECIMAL" property="oneBuyMoney"/>
+        <result column="reduce_or_present" jdbcType="SMALLINT" property="reduceOrPresent"/>
+        <result column="reduce_type" jdbcType="SMALLINT" property="reduceType"/>
+        <result column="reduction_present_add_flag" jdbcType="SMALLINT" property="reductionPresentAddFlag"/>
+        <result column="discount" jdbcType="DECIMAL" property="discount"/>
+        <result column="reduction" jdbcType="DECIMAL" property="reduction"/>
+        <result column="present_count" jdbcType="INTEGER" property="presentCount"/>
+    </resultMap>
+
+    <resultMap id="PromotionRuleConditionPresentMap"
+               type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionPresentDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_rule_condition_id" jdbcType="INTEGER" property="promotionRuleConditionId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="total_count" jdbcType="INTEGER" property="totalCount"/>
+    </resultMap>
+
+    <resultMap id="PromotionRuleConditionSpecialMap"
+               type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionSpecialDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_rule_condition_id" jdbcType="INTEGER" property="promotionRuleConditionId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="special_price" jdbcType="DECIMAL" property="specialPrice"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, name, name_en, promo_desc, start_time, end_time, advance_flag, apply_status, 
+    promo_status, promo_source, promo_type, on_way_flag
+  </sql>
+
+    <select id="listPromotion" parameterType="map" resultMap="UserPromotionMap">
+        select id, name, name_en, promo_desc, start_time, end_time, advance_flag, apply_status,
+        promo_status, promo_source, promo_type, on_way_flag
+        from promotion
+        where 1 = 1 and (case when promo_status = 0 then apply_status = 2 and advance_flag = 2 else promo_status = 1
+        end)
+        <if test="promotionIds != null and promotionIds.size()>0">
+            and (case when distributor_scope <![CDATA[ <> ]]> 1 then id in
+            <foreach collection="promotionIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            else distributor_scope = 1 end )
+        </if>
+        <if test="promoTypes != null and promoTypes.size()>0">
+            and promo_type in
+            <foreach collection="promoTypes" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="promotionIds == null or promotionIds.size() == 0">
+            and distributor_scope = 1
+        </if>
+        <if test="promoType != null">
+            and promo_type = #{promoType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or replace(name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+        </if>
+        order by update_time desc
+    </select>
+
+    <select id="listPromotionByIds" parameterType="map" resultMap="UserPromotionMap">
+        select id, name, name_en, promo_desc, start_time, end_time, advance_flag, apply_status,
+        promo_status, promo_source, promo_type, on_way_flag
+        from promotion
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listPromotionRuleGoodsByPromotionIdsAndGoodsId" parameterType="map" resultMap="PromotionRuleGoodsMap">
+        select prg.id, prg.promotion_id, prg.promotion_rule_id, prg.goods_id, prg.item_id,prg.goods_no,prg.item_code
+        from promotion_rule_goods prg join promotion p on p.id = prg.promotion_id
+        where prg.goods_id = #{goodsId} and (case when p.promo_status = 0 then p.apply_status = 2 and p.advance_flag = 2
+        else
+        p.promo_status = 1 end)
+        <if test="promotionIds != null and promotionIds.size()>0">
+            and (case when p.distributor_scope <![CDATA[ <> ]]> 1 then p.id in
+            <foreach collection="promotionIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            else 1 end )
+        </if>
+        <if test="promotionIds == null or promotionIds.size() == 0">
+            and p.distributor_scope = 1
+        </if>
+        <if test="promoTypes != null and promoTypes.size()>0">
+            and p.promo_type in
+            <foreach collection="promoTypes" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listOrderPromotionRule" parameterType="map" resultMap="PromotionRuleMap">
+        select pr.id, pr.promotion_id, pr.rule_name, pr.rule_name_en, pr.rule_type, pr.add_up_flag, pr.money_or_count
+        from promotion_rule pr join promotion p on p.id = pr.promotion_id
+        where pr.rule_type = 1 and (case when p.promo_status = 0 then p.apply_status = 2 and p.advance_flag = 2 else
+        p.promo_status = 1 end)
+        <if test="promotionIds != null and promotionIds.size()>0">
+            and (case when p.distributor_scope <![CDATA[ <> ]]> 1 then p.id in
+            <foreach collection="promotionIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            else p.distributor_scope = 1 end )
+        </if>
+        <if test="promotionIds == null or promotionIds.size() == 0">
+            and p.distributor_scope = 1
+        </if>
+        <if test="promoTypes != null and promoTypes.size()>0">
+            and p.promo_type in
+            <foreach collection="promoTypes" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listPromotionRuleByIds" parameterType="map" resultMap="PromotionRuleMap">
+        select pr.id, pr.promotion_id, pr.rule_name, pr.rule_name_en, pr.rule_type, pr.add_up_flag, pr.money_or_count
+        from promotion_rule pr
+        where pr.id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listPromotionRuleConditionByPromotionRuleIds" parameterType="map" resultMap="PromotionRuleConditionMap">
+        select id, promotion_id, promotion_rule_id, condition_name, condition_name_en, special_flag,
+        one_buy_count, one_buy_money, reduce_or_present, reduce_type, reduction_present_add_flag,
+        discount, reduction, present_count
+        from promotion_rule_condition
+        where promotion_rule_id in
+        <foreach collection="promotionRuleIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listPresentByPromotionRuleConditionIds" parameterType="map"
+            resultMap="PromotionRuleConditionPresentMap">
+        select id,promotion_id, promotion_rule_condition_id, goods_id, item_id, count, total_count
+        from promotion_rule_condition_present
+        where promotion_rule_condition_id in
+        <foreach collection="promotionRuleConditionIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listSpecialByPromotionRuleConditionIdsAndGoodsId" parameterType="map"
+            resultMap="PromotionRuleConditionSpecialMap">
+        select id, promotion_id,promotion_rule_condition_id, goods_id, item_id, special_price
+        from promotion_rule_condition_special
+        where goods_id = #{goodsId} and promotion_rule_condition_id in
+        <foreach collection="promotionRuleConditionIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

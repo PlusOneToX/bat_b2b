@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantCommonMapper">
+    <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantCommonDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo"/>
+        <result column="wx_program_app_secret" jdbcType="VARCHAR" property="wxProgramAppSecret"/>
+        <result column="wx_program_app_id" jdbcType="VARCHAR" property="wxProgramAppId"/>
+        <result column="exchange_distributor_id" jdbcType="INTEGER" property="exchangeDistributorId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="colour" jdbcType="VARCHAR" property="colour"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, tenant_id, tenant_no, wx_program_app_secret, wx_program_app_id,exchange_distributor_id, create_time,
+    update_time,colour
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_common
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByTenantId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_common
+        where tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectByTenantNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_common
+        where tenant_no = #{tenantNo}
+    </select>
+
+    <select id="selectByWxProgramAppId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_common
+        where wx_program_app_id = #{wxProgramAppId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_common
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantCommonDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_common (tenant_id, tenant_no, wx_program_app_secret,
+        wx_program_app_id,exchange_distributor_id, create_time, update_time,colour
+        )
+        values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR}, #{wxProgramAppSecret,jdbcType=VARCHAR},
+        #{wxProgramAppId,jdbcType=VARCHAR},#{exchangeDistributorId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{colour,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantCommonDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_common
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="tenantNo != null">
+                tenant_no,
+            </if>
+            <if test="wxProgramAppSecret != null">
+                wx_program_app_secret,
+            </if>
+            <if test="wxProgramAppId != null">
+                wx_program_app_id,
+            </if>
+            <if test="exchangeDistributorId != null">
+                exchange_distributor_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="colour != null">
+                colour,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="wxProgramAppSecret != null">
+                #{wxProgramAppSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="wxProgramAppId != null">
+                #{wxProgramAppId,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeDistributorId != null">
+                #{exchangeDistributorId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="colour != null">
+                #{colour,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantCommonDO">
+        update platform_tenant_common
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                tenant_no = #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="wxProgramAppSecret != null">
+                wx_program_app_secret = #{wxProgramAppSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="wxProgramAppId != null">
+                wx_program_app_id = #{wxProgramAppId,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeDistributorId != null">
+                exchange_distributor_id = #{exchangeDistributorId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="colour != null">
+                colour = #{colour,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantCommonDO">
+    update platform_tenant_common
+    set tenant_id = #{tenantId,jdbcType=INTEGER},
+      tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      wx_program_app_secret = #{wxProgramAppSecret,jdbcType=VARCHAR},
+      wx_program_app_id = #{wxProgramAppId,jdbcType=VARCHAR},
+      exchange_distributor_id = #{exchangeDistributorId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      colour = #{colour,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

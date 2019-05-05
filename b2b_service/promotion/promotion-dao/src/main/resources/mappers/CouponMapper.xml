@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.coupon.CouponMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.coupon.dataobject.CouponDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="coupon_desc" jdbcType="VARCHAR" property="couponDesc"/>
+        <result column="coupon_explain" jdbcType="VARCHAR" property="couponExplain"/>
+        <result column="invalid_explain" jdbcType="VARCHAR" property="invalidExplain"/>
+        <result column="generate_count" jdbcType="INTEGER" property="generateCount"/>
+        <result column="generated_count" jdbcType="INTEGER" property="generatedCount"/>
+        <result column="used_count" jdbcType="INTEGER" property="usedCount"/>
+        <result column="limit_count" jdbcType="INTEGER" property="limitCount"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="coupon_status" jdbcType="SMALLINT" property="couponStatus"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="received_type" jdbcType="SMALLINT" property="receivedType"/>
+        <result column="coupon_method" jdbcType="SMALLINT" property="couponMethod"/>
+        <result column="order_money" jdbcType="DECIMAL" property="orderMoney"/>
+        <result column="reduction" jdbcType="DECIMAL" property="reduction"/>
+        <result column="discount" jdbcType="DECIMAL" property="discount"/>
+        <result column="coupon_type" jdbcType="SMALLINT" property="couponType"/>
+        <result column="coupon_code" jdbcType="VARCHAR" property="couponCode"/>
+        <result column="delivery_fee_flag" jdbcType="SMALLINT" property="deliveryFeeFlag"/>
+        <result column="delivery_fee" jdbcType="DECIMAL" property="deliveryFee"/>
+        <result column="model_scope" jdbcType="SMALLINT" property="modelScope"/>
+        <result column="material_scope" jdbcType="SMALLINT" property="materialScope"/>
+        <result column="coupon_scope" jdbcType="SMALLINT" property="couponScope"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, coupon_desc,coupon_explain, invalid_explain, generate_count, generated_count,used_count, limit_count,
+    apply_status, coupon_status, start_time, end_time, received_type, coupon_method, 
+    order_money, reduction, discount, coupon_type, coupon_code, delivery_fee_flag, delivery_fee, 
+    model_scope, material_scope, coupon_scope, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listCouponByIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listCouponByCouponNos" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.name, c.coupon_desc,c.coupon_explain, c.invalid_explain, c.generate_count,
+        c.generated_count,c.used_count, c.limit_count,
+        c.apply_status, c.coupon_status, c.start_time, c.end_time, c.received_type, c.coupon_method,
+        c.order_money, c.reduction, c.discount, c.coupon_type, c.coupon_code, c.delivery_fee_flag, c.delivery_fee,
+        c.model_scope, c.material_scope, c.coupon_scope, c.create_time, c.update_time
+        from coupon_customer cc join coupon c on cc.coupon_id=c.id
+        where cc.coupon_no in
+        <foreach collection="couponNo" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listCoupon" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.name,c.coupon_explain, c.coupon_desc, c.invalid_explain, c.generate_count,
+        c.generated_count,c.used_count,
+        c.limit_count,
+        c.apply_status, c.coupon_status, c.start_time, c.end_time, c.received_type, c.coupon_method,
+        c.order_money, c.reduction, c.discount, c.coupon_type, c.coupon_code, c.delivery_fee_flag, c.delivery_fee,
+        c.model_scope, c.material_scope, c.coupon_scope, c.create_time, c.update_time
+        from coupon c
+        where 1 = 1
+        <if test="applyStatus != null">
+            and c.apply_status = #{applyStatus}
+        </if>
+        <if test="couponStatus != null">
+            and c.coupon_status = #{couponStatus}
+        </if>
+        <if test="receivedType != null">
+            and c.received_type = #{receivedType}
+        </if>
+        <if test="couponMethod != null">
+            and c.coupon_method = #{couponMethod}
+        </if>
+        <if test="couponType != null">
+            and c.coupon_type = #{couponType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(c.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        order by c.update_time desc
+    </select>
+    <select id="listCouponByDistributorName" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.name,c.coupon_explain, c.coupon_desc, c.invalid_explain, c.generate_count,
+        c.generated_count,c.used_count,
+        c.limit_count,
+        c.apply_status, c.coupon_status, c.start_time, c.end_time, c.received_type, c.coupon_method,
+        c.order_money, c.reduction, c.discount, c.coupon_type, c.coupon_code, c.delivery_fee_flag, c.delivery_fee,
+        c.model_scope, c.material_scope, c.coupon_scope, c.create_time, c.update_time
+        from coupon_distributor_relevance dr join coupon c on c.id = dr.coupon_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and c.apply_status = #{applyStatus}
+        </if>
+        <if test="couponStatus != null">
+            and c.coupon_status = #{couponStatus}
+        </if>
+        <if test="receivedType != null">
+            and c.received_type = #{receivedType}
+        </if>
+        <if test="couponMethod != null">
+            and c.coupon_method = #{couponMethod}
+        </if>
+        <if test="couponType != null">
+            and c.coupon_type = #{couponType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 4">
+                and (replace(dr.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(dr.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+        </if>
+    </select>
+    <select id="listCouponByMaterial" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.name,c.coupon_explain, c.coupon_desc, c.invalid_explain, c.generate_count,
+        c.generated_count,c.used_count,
+        c.limit_count,
+        c.apply_status, c.coupon_status, c.start_time, c.end_time, c.received_type, c.coupon_method,
+        c.order_money, c.reduction, c.discount, c.coupon_type, c.coupon_code, c.delivery_fee_flag, c.delivery_fee,
+        c.model_scope, c.material_scope, c.coupon_scope, c.create_time, c.update_time
+        from coupon_material_relevance mr join coupon c on c.id = mr.coupon_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and c.apply_status = #{applyStatus}
+        </if>
+        <if test="couponStatus != null">
+            and c.coupon_status = #{couponStatus}
+        </if>
+        <if test="receivedType != null">
+            and c.received_type = #{receivedType}
+        </if>
+        <if test="couponMethod != null">
+            and c.coupon_method = #{couponMethod}
+        </if>
+        <if test="couponType != null">
+            and c.coupon_type = #{couponType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 4">
+                and replace(mr.material_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        group by mr.coupon_id order by c.update_time desc
+    </select>
+    <select id="listCouponByModel" parameterType="map" resultMap="BaseResultMap">
+        select c.id, c.name,c.coupon_explain, c.coupon_desc, c.invalid_explain, c.generate_count,
+        c.generated_count,c.used_count,
+        c.limit_count,
+        c.apply_status, c.coupon_status, c.start_time, c.end_time, c.received_type, c.coupon_method,
+        c.order_money, c.reduction, c.discount, c.coupon_type, c.coupon_code, c.delivery_fee_flag, c.delivery_fee,
+        c.model_scope, c.material_scope, c.coupon_scope, c.create_time, c.update_time
+        from coupon_model_relevance mr join coupon c on c.id = mr.coupon_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and c.apply_status = #{applyStatus}
+        </if>
+        <if test="couponStatus != null">
+            and c.coupon_status = #{couponStatus}
+        </if>
+        <if test="receivedType != null">
+            and c.received_type = #{receivedType}
+        </if>
+        <if test="couponMethod != null">
+            and c.coupon_method = #{couponMethod}
+        </if>
+        <if test="couponType != null">
+            and c.coupon_type = #{couponType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 4">
+                and replace(mr.model_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+        </if>
+        group by mr.coupon_id order by c.update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon (name, coupon_desc, invalid_explain,
+        generate_count, generated_count,used_count, limit_count,
+        apply_status, coupon_status, start_time,
+        end_time, received_type, coupon_method,
+        order_money, reduction, discount,
+        coupon_type, coupon_code, delivery_fee_flag,
+        delivery_fee, model_scope, material_scope,
+        coupon_scope, create_time, update_time,
+        coupon_explain)
+        values (#{name,jdbcType=VARCHAR}, #{couponDesc,jdbcType=VARCHAR}, #{invalidExplain,jdbcType=VARCHAR},
+        #{generateCount,jdbcType=INTEGER}, #{generatedCount,jdbcType=INTEGER}, #{usedCount,jdbcType=INTEGER},
+        #{limitCount,jdbcType=INTEGER},
+        #{applyStatus,jdbcType=SMALLINT}, #{couponStatus,jdbcType=SMALLINT}, #{startTime,jdbcType=TIMESTAMP},
+        #{endTime,jdbcType=TIMESTAMP}, #{receivedType,jdbcType=SMALLINT}, #{couponMethod,jdbcType=SMALLINT},
+        #{orderMoney,jdbcType=DECIMAL}, #{reduction,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL},
+        #{couponType,jdbcType=SMALLINT}, #{couponCode,jdbcType=VARCHAR}, #{deliveryFeeFlag,jdbcType=SMALLINT},
+        #{deliveryFee,jdbcType=DECIMAL}, #{modelScope,jdbcType=SMALLINT}, #{materialScope,jdbcType=SMALLINT},
+        #{couponScope,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{couponExplain,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="couponDesc != null">
+                coupon_desc,
+            </if>
+            <if test="invalidExplain != null">
+                invalid_explain,
+            </if>
+            <if test="generateCount != null">
+                generate_count,
+            </if>
+            <if test="generatedCount != null">
+                generated_count,
+            </if>
+            <if test="usedCount != null">
+                used_count,
+            </if>
+            <if test="limitCount != null">
+                limit_count,
+            </if>
+            <if test="applyStatus != null">
+                apply_status,
+            </if>
+            <if test="couponStatus != null">
+                coupon_status,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="receivedType != null">
+                received_type,
+            </if>
+            <if test="couponMethod != null">
+                coupon_method,
+            </if>
+            <if test="orderMoney != null">
+                order_money,
+            </if>
+            <if test="reduction != null">
+                reduction,
+            </if>
+            <if test="discount != null">
+                discount,
+            </if>
+            <if test="couponType != null">
+                coupon_type,
+            </if>
+            <if test="couponCode != null">
+                coupon_code,
+            </if>
+            <if test="deliveryFeeFlag != null">
+                delivery_fee_flag,
+            </if>
+            <if test="deliveryFee != null">
+                delivery_fee,
+            </if>
+            <if test="modelScope != null">
+                model_scope,
+            </if>
+            <if test="materialScope != null">
+                material_scope,
+            </if>
+            <if test="couponScope != null">
+                coupon_scope,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="couponExplain != null">
+                coupon_explain,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="couponDesc != null">
+                #{couponDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="invalidExplain != null">
+                #{invalidExplain,jdbcType=VARCHAR},
+            </if>
+            <if test="generateCount != null">
+                #{generateCount,jdbcType=INTEGER},
+            </if>
+            <if test="generatedCount != null">
+                #{generatedCount,jdbcType=INTEGER},
+            </if>
+            <if test="usedCount != null">
+                #{usedCount,jdbcType=INTEGER},
+            </if>
+            <if test="limitCount != null">
+                #{limitCount,jdbcType=INTEGER},
+            </if>
+            <if test="applyStatus != null">
+                #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="couponStatus != null">
+                #{couponStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receivedType != null">
+                #{receivedType,jdbcType=SMALLINT},
+            </if>
+            <if test="couponMethod != null">
+                #{couponMethod,jdbcType=SMALLINT},
+            </if>
+            <if test="orderMoney != null">
+                #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="reduction != null">
+                #{reduction,jdbcType=DECIMAL},
+            </if>
+            <if test="discount != null">
+                #{discount,jdbcType=DECIMAL},
+            </if>
+            <if test="couponType != null">
+                #{couponType,jdbcType=SMALLINT},
+            </if>
+            <if test="couponCode != null">
+                #{couponCode,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryFeeFlag != null">
+                #{deliveryFeeFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="deliveryFee != null">
+                #{deliveryFee,jdbcType=DECIMAL},
+            </if>
+            <if test="modelScope != null">
+                #{modelScope,jdbcType=SMALLINT},
+            </if>
+            <if test="materialScope != null">
+                #{materialScope,jdbcType=SMALLINT},
+            </if>
+            <if test="couponScope != null">
+                #{couponScope,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="couponExplain != null">
+                #{couponExplain,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDO">
+        update coupon
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="couponDesc != null">
+                coupon_desc = #{couponDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="invalidExplain != null">
+                invalid_explain = #{invalidExplain,jdbcType=VARCHAR},
+            </if>
+            <if test="generateCount != null">
+                generate_count = #{generateCount,jdbcType=INTEGER},
+            </if>
+            <if test="generatedCount != null">
+                generated_count = #{generatedCount,jdbcType=INTEGER},
+            </if>
+            <if test="usedCount != null">
+                used_count = #{usedCount,jdbcType=INTEGER},
+            </if>
+            <if test="limitCount != null">
+                limit_count = #{limitCount,jdbcType=INTEGER},
+            </if>
+            <if test="applyStatus != null">
+                apply_status = #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="couponStatus != null">
+                coupon_status = #{couponStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receivedType != null">
+                received_type = #{receivedType,jdbcType=SMALLINT},
+            </if>
+            <if test="couponMethod != null">
+                coupon_method = #{couponMethod,jdbcType=SMALLINT},
+            </if>
+            <if test="orderMoney != null">
+                order_money = #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="reduction != null">
+                reduction = #{reduction,jdbcType=DECIMAL},
+            </if>
+            <if test="discount != null">
+                discount = #{discount,jdbcType=DECIMAL},
+            </if>
+            <if test="couponType != null">
+                coupon_type = #{couponType,jdbcType=SMALLINT},
+            </if>
+            <if test="couponCode != null">
+                coupon_code = #{couponCode,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryFeeFlag != null">
+                delivery_fee_flag = #{deliveryFeeFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="deliveryFee != null">
+                delivery_fee = #{deliveryFee,jdbcType=DECIMAL},
+            </if>
+            <if test="modelScope != null">
+                model_scope = #{modelScope,jdbcType=SMALLINT},
+            </if>
+            <if test="materialScope != null">
+                material_scope = #{materialScope,jdbcType=SMALLINT},
+            </if>
+            <if test="couponScope != null">
+                coupon_scope = #{couponScope,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="couponExplain != null">
+                coupon_explain = #{couponExplain,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDO">
+    update coupon
+    set name = #{name,jdbcType=VARCHAR},
+      coupon_desc = #{couponDesc,jdbcType=VARCHAR},
+      invalid_explain = #{invalidExplain,jdbcType=VARCHAR},
+      generate_count = #{generateCount,jdbcType=INTEGER},
+      generated_count = #{generatedCount,jdbcType=INTEGER},
+      used_count = #{usedCount,jdbcType=INTEGER},
+      limit_count = #{limitCount,jdbcType=INTEGER},
+      apply_status = #{applyStatus,jdbcType=SMALLINT},
+      coupon_status = #{couponStatus,jdbcType=SMALLINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      received_type = #{receivedType,jdbcType=SMALLINT},
+      coupon_method = #{couponMethod,jdbcType=SMALLINT},
+      order_money = #{orderMoney,jdbcType=DECIMAL},
+      reduction = #{reduction,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      coupon_type = #{couponType,jdbcType=SMALLINT},
+      coupon_code = #{couponCode,jdbcType=VARCHAR},
+      delivery_fee_flag = #{deliveryFeeFlag,jdbcType=SMALLINT},
+      delivery_fee = #{deliveryFee,jdbcType=DECIMAL},
+      model_scope = #{modelScope,jdbcType=SMALLINT},
+      material_scope = #{materialScope,jdbcType=SMALLINT},
+      coupon_scope = #{couponScope,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      coupon_explain = #{couponExplain,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDO">
+    update coupon
+    set name = #{name,jdbcType=VARCHAR},
+      coupon_desc = #{couponDesc,jdbcType=VARCHAR},
+      coupon_explain = #{couponExplain,jdbcType=LONGVARCHAR},
+      invalid_explain = #{invalidExplain,jdbcType=VARCHAR},
+      generate_count = #{generateCount,jdbcType=INTEGER},
+      generated_count = #{generatedCount,jdbcType=INTEGER},
+      used_count = #{usedCount,jdbcType=INTEGER},
+      limit_count = #{limitCount,jdbcType=INTEGER},
+      apply_status = #{applyStatus,jdbcType=SMALLINT},
+      coupon_status = #{couponStatus,jdbcType=SMALLINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      received_type = #{receivedType,jdbcType=SMALLINT},
+      coupon_method = #{couponMethod,jdbcType=SMALLINT},
+      order_money = #{orderMoney,jdbcType=DECIMAL},
+      reduction = #{reduction,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      coupon_type = #{couponType,jdbcType=SMALLINT},
+      coupon_code = #{couponCode,jdbcType=VARCHAR},
+      delivery_fee_flag = #{deliveryFeeFlag,jdbcType=SMALLINT},
+      delivery_fee = #{deliveryFee,jdbcType=DECIMAL},
+      model_scope = #{modelScope,jdbcType=SMALLINT},
+      material_scope = #{materialScope,jdbcType=SMALLINT},
+      coupon_scope = #{couponScope,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateCount" parameterType="map">
+    update coupon
+    set generate_count = #{generateCount,jdbcType=INTEGER},
+      limit_count = #{limitCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateListCouponStatus" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            <if test="item.couponStatus == 4">
+                update coupon c set c.coupon_status = #{item.couponStatus},c.update_time=#{item.updateTime}
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(item.invalidExplain)">
+                    ,c.invalid_explain = #{item.invalidExplain}
+                </if>
+                where c.id =#{item.id} and c.coupon_status <![CDATA[ <> ]]> 3 and c.coupon_status <![CDATA[ <> ]]> 4
+                and c.coupon_status <![CDATA[ <> ]]> 5
+            </if>
+            <if test="item.couponStatus != 4">
+                update coupon_customer cc right join coupon c on c.id=cc.coupon_id
+                set c.coupon_status = #{item.couponStatus},cc.coupon_status=#{item.couponStatus},
+                c.update_time=#{item.updateTime},cc.update_time=#{item.updateTime}
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(item.invalidExplain)">
+                    ,c.invalid_explain = #{item.invalidExplain},cc.invalid_explain = #{item.invalidExplain}
+                </if>
+                where c.id = #{item.id} and c.coupon_status <![CDATA[ <> ]]> 3
+                and c.coupon_status <![CDATA[ <> ]]> 5
+            </if>
+        </foreach>
+    </update>
+
+    <select id="listCouponByTime" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon
+        where apply_status = 2 and ((coupon_status = 1 and start_time <![CDATA[ <= ]]> #{time}) or (coupon_status not in
+        (0,3,5) and end_time <![CDATA[ <= ]]> #{time}))
+    </select>
+
+    <select id="couponIdsByMaterialIdsAndModelIds" parameterType="map" resultType="java.lang.Integer">
+        select c.id
+        from coupon c where c.apply_status = 2 and (case when c.coupon_scope = 2 then exists(select 1 from
+        coupon_distributor_relevance cd where
+        cd.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and cd.coupon_id=c.id) else 1 end)
+        <if test="materialIds != null and materialIds.size() > 0">
+            and (case when c.material_scope = 2 then exists(select 1 from coupon_material_relevance cm where
+            cm.material_id in
+            <foreach collection="materialIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            and cm.coupon_id=c.id) else 1 end)
+        </if>
+        <if test="modelIds != null and modelIds.size() > 0">
+            and (case when c.model_scope = 2 then exists(select 1 from coupon_model_relevance cm where
+            cm.model_id in
+            <foreach collection="modelIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            and cm.coupon_id=c.id) else 1 end)
+        </if>
+    </select>
+
+    <select id="couponIdsEnableByMaterialIdsAndModelIds" parameterType="map" resultType="java.lang.Integer">
+        select c.id
+        from coupon c where c.apply_status = 2 and c.coupon_status in (2,4)
+        and c.end_time>=now()
+        and (case when c.coupon_scope = 2 then
+        exists(select 1 from
+        coupon_distributor_relevance cd where
+        cd.distributor_id = #{distributorId} and cd.coupon_id=c.id) else 1 end)
+        <if test="materialIds != null and materialIds.size() > 0">
+            and (case when c.material_scope = 2 then exists(select 1 from coupon_material_relevance cm where
+            cm.material_id in
+            <foreach collection="materialIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            and cm.coupon_id=c.id) else 1 end)
+        </if>
+        <if test="modelIds != null and modelIds.size() > 0">
+            and (case when c.model_scope = 2 then exists(select 1 from coupon_model_relevance cm where
+            cm.model_id in
+            <foreach collection="modelIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            and cm.coupon_id=c.id) else 1 end)
+        </if>
+    </select>
+</mapper>

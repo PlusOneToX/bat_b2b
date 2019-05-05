@@ -1,0 +1,15 @@
+package com.bat.promotion.service.rebatevoucher.executor;
+
+/**
+ * @author Lim
+ * @version 1.0
+ * @description: TODO
+ * @date 2019/12/31 15:38
+ */
+public class ErrorCode {
+    public static final String B_PROMOTION_REBATE_VOUCHER_ID_NULL = "B_PROMOTION_REBATE_VOUCHER_ID_NULL";
+    public static final String B_PROMOTION_REBATE_VOUCHER_ID_NOT_EXISTS = "B_PROMOTION_REBATE_VOUCHER_ID_NOT_EXISTS";
+    public static final String B_PROMOTION_REBATE_VOUCHER_IS_UNAVAILABLE = "B_PROMOTION_REBATE_VOUCHER_IS_UNAVAILABLE";
+    public static final String B_IMPORT_PROMOTION_REBATE_VOUCHER_IS_EMPTY = "B_IMPORT_PROMOTION_REBATE_VOUCHER_IS_EMPTY";
+    public static final String B_PROMOTION_REBATE_VOUCHER_FACE_VALUE_MUST_BE_GREATER_THAN_ZERO= "B_PROMOTION_REBATE_VOUCHER_FACE_VALUE_MUST_BE_GREATER_THAN_ZERO";
+}

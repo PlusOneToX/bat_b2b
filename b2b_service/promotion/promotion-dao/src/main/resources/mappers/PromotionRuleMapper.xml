@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.promotion.PromotionRuleMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="rule_name" jdbcType="VARCHAR" property="ruleName"/>
+        <result column="rule_name_en" jdbcType="VARCHAR" property="ruleNameEn"/>
+        <result column="rule_type" jdbcType="SMALLINT" property="ruleType"/>
+        <result column="add_up_flag" jdbcType="SMALLINT" property="addUpFlag"/>
+        <result column="money_or_count" jdbcType="SMALLINT" property="moneyOrCount"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, promotion_id, rule_name, rule_name_en, rule_type, add_up_flag, money_or_count
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByPromotionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule
+        where promotion_id = #{promotionId,jdbcType=INTEGER}
+    </select>
+    <select id="listByPromotionIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule
+        where promotion_id in
+        <foreach collection="promotionIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="listByIdsAndOrderPromotion" parameterType="map" resultMap="BaseResultMap">
+        select id, promotion_id, rule_name, rule_name_en, rule_type, add_up_flag, money_or_count
+        from promotion_rule
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+        <if test="promotionIds != null and promotionIds.size() > 0">
+            or (rule_type = 1 and promotion_id in
+            <foreach collection="promotionIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>)
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from promotion_rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion_rule (promotion_id, rule_name, rule_name_en,
+        rule_type, add_up_flag, money_or_count
+        )
+        values (#{promotionId,jdbcType=INTEGER}, #{ruleName,jdbcType=VARCHAR}, #{ruleNameEn,jdbcType=VARCHAR},
+        #{ruleType,jdbcType=SMALLINT}, #{addUpFlag,jdbcType=SMALLINT}, #{moneyOrCount,jdbcType=SMALLINT}
+        )
+    </insert>
+    <insert id="insertList"
+            parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO promotion_rule (promotion_id, rule_name, rule_name_en,
+        rule_type, add_up_flag, money_or_count
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.promotionId},
+            #{item.ruleName},
+            #{item.ruleNameEn},
+            #{item.ruleType},
+            #{item.addUpFlag},
+            #{item.moneyOrCount}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="promotionId != null">
+                promotion_id,
+            </if>
+            <if test="ruleName != null">
+                rule_name,
+            </if>
+            <if test="ruleNameEn != null">
+                rule_name_en,
+            </if>
+            <if test="ruleType != null">
+                rule_type,
+            </if>
+            <if test="addUpFlag != null">
+                add_up_flag,
+            </if>
+            <if test="moneyOrCount != null">
+                money_or_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="promotionId != null">
+                #{promotionId,jdbcType=INTEGER},
+            </if>
+            <if test="ruleName != null">
+                #{ruleName,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleNameEn != null">
+                #{ruleNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleType != null">
+                #{ruleType,jdbcType=SMALLINT},
+            </if>
+            <if test="addUpFlag != null">
+                #{addUpFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="moneyOrCount != null">
+                #{moneyOrCount,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleDO">
+        update promotion_rule
+        <set>
+            <if test="promotionId != null">
+                promotion_id = #{promotionId,jdbcType=INTEGER},
+            </if>
+            <if test="ruleName != null">
+                rule_name = #{ruleName,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleNameEn != null">
+                rule_name_en = #{ruleNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleType != null">
+                rule_type = #{ruleType,jdbcType=SMALLINT},
+            </if>
+            <if test="addUpFlag != null">
+                add_up_flag = #{addUpFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="moneyOrCount != null">
+                money_or_count = #{moneyOrCount,jdbcType=SMALLINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleDO">
+    update promotion_rule
+    set promotion_id = #{promotionId,jdbcType=INTEGER},
+      rule_name = #{ruleName,jdbcType=VARCHAR},
+      rule_name_en = #{ruleNameEn,jdbcType=VARCHAR},
+      rule_type = #{ruleType,jdbcType=SMALLINT},
+      add_up_flag = #{addUpFlag,jdbcType=SMALLINT},
+      money_or_count = #{moneyOrCount,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteByPromotionId" parameterType="java.lang.Integer">
+    delete from promotion_rule
+    where promotion_id = #{promotionId,jdbcType=INTEGER}
+  </delete>
+
+</mapper>

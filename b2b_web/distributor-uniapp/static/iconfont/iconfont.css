@@ -1,0 +1,95 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2908631 */
+  src: url('~@/static/iconfont/iconfont.eot?t=1636357557647'); /* IE9 */
+  src: url('~@/static/iconfont/iconfont.eot?t=1636357557647#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('~@/static/iconfont/iconfont.woff2?t=1636357557647') format('woff2'),
+       url('~@/static/iconfont/iconfont.woff?t=1636357557647') format('woff'),
+       url('~@/static/iconfont/iconfont.ttf?t=1636357557647') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon_selected01:before {
+  content: "\e613";
+}
+
+.icon-icon_selected_def:before,
+.icon-uncheck:before {
+  content: "\e610";
+}
+
+.icon-icon_zy:before {
+  content: "\e611";
+}
+
+.icon-icon_selected:before,
+.icon-Checkthe:before {
+  content: "\e612";
+}
+
+.icon-a-icon_my_waitok:before {
+  content: "\e60b";
+}
+
+.icon-icon_my_cargo:before {
+  content: "\e60c";
+}
+
+.icon-icon_my_waitdeliver:before {
+  content: "\e60d";
+}
+
+.icon-icon_my_shipped:before {
+  content: "\e60e";
+}
+
+.icon-a-icon_my_waitpayment:before {
+  content: "\e60f";
+}
+
+.icon-tab_to_class:before {
+  content: "\e601";
+}
+
+.icon-tab_to_home:before {
+  content: "\e602";
+}
+
+.icon-tab_to_shopping:before {
+  content: "\e603";
+}
+
+.icon-tab_to_home_pre:before {
+  content: "\e604";
+}
+
+.icon-tab_to_my_pre:before {
+  content: "\e605";
+}
+
+.icon-tab_to_class_pre:before {
+  content: "\e606";
+}
+
+.icon-tab_to_my:before {
+  content: "\e607";
+}
+
+.icon-tab_to_shoppingp_pre:before {
+  content: "\e608";
+}
+
+.icon-tab_to_speed_pre:before {
+  content: "\e609";
+}
+
+.icon-tab_to_speed:before {
+  content: "\e60a";
+}
+

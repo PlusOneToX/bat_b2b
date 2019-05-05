@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.bat</groupId>
+    <artifactId>dubboapi-platform</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>dubboapi-platform</name>
+
+    <distributionManagement>
+        <repository>
+            <id>dubboapi</id>
+            <name>dubboapi-platform-releases</name>
+            <url>http://127.0.0.1/repository/dubboapi-platform-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>dubboapi</id>
+            <name>dubboapi-platform-snapshots</name>
+            <url>http://127.0.0.1/repository/dubboapi-platform-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

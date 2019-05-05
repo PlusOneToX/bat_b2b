@@ -1,0 +1,94 @@
+CREATE TABLE `msg_center` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `channel` smallint(4) unsigned NOT NULL COMMENT '消息渠道 1.B2b 2.兑换商城 3.定制商城',
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '消息标题',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '消息内容',
+  `mini_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序跳转链接',
+  `pc_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'PC端跳转链接',
+  `push_switch` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '推送开关 0关 1开；如开启推送，则会通知小程序或公众号进行消息推送，B2B暂不支持（没有合适场景）',
+  `distributor_scope` smallint(4) unsigned DEFAULT NULL COMMENT '分销商推送范围1全部 2分销商等级 3.指定销售部门 4.指定业务员 5.指定分销商分组 6.指定分销商',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心配置表';
+
+CREATE TABLE `msg_center_admin_relevance` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `center_id` int(10) unsigned NOT NULL COMMENT '消息中心id',
+  `admin_id` int(10) unsigned NOT NULL COMMENT '业务员（后台用户）id',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `admin_id` (`admin_id`) USING BTREE,
+  KEY `center_id` (`center_id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心与业务员可视关系表';
+
+
+CREATE TABLE `msg_center_department_relevance` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `center_id` int(10) unsigned NOT NULL COMMENT '消息中心id',
+  `department_id` int(10) unsigned NOT NULL COMMENT '销售部门id',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `department_id` (`department_id`) USING BTREE,
+  KEY `center_id` (`center_id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心与销售部门可视关系表';
+
+CREATE TABLE `msg_center_distributor_group_relevance` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `center_id` int(11) DEFAULT NULL,
+  `distributor_group_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心与分销商分组可视关系表';
+
+CREATE TABLE `msg_center_distributor_relevance` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `center_id` int(10) unsigned NOT NULL COMMENT '消息中心id',
+  `distributor_id` int(10) unsigned NOT NULL COMMENT '分销商id',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `distributor_id` (`distributor_id`) USING BTREE,
+  KEY `center_id` (`center_id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心与分销商可视关系表';
+
+CREATE TABLE `msg_center_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `center_id` int(11) unsigned NOT NULL COMMENT '消息中心id',
+  `channel` smallint(4) unsigned NOT NULL COMMENT '消息渠道 1.B2b 2.兑换商城 3.定制商城',
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '消息标题',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '消息内容',
+  `mini_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序跳转链接',
+  `pc_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'PC端跳转链接',
+  `push_switch` smallint(4) unsigned NOT NULL COMMENT '推送开关 0关 1开；如开启推送，则会通知小程序或公众号进行消息推送，B2B暂不支持（没有合适场景）',
+  `push_flag` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '结果是否已经推送 0否 1是',
+  `read_flag` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '是否已经阅读 0否 1是',
+  `push_terminal` smallint(4) unsigned DEFAULT NULL COMMENT '推送终端 1短信 2微信B2B小程序 3微信定制小程序4.抖音定制小程序',
+  `mini_body` json DEFAULT NULL COMMENT '小程序推送消息体',
+  `msg_type` smallint(4) unsigned NOT NULL COMMENT '消息类型 1.订单状态通知 2.发货通知 3.订单未支付提醒 4.分销商审核通知 5新订单通知 6自定义消息',
+  `to_user_id` int(11) NOT NULL COMMENT '接收的用户id',
+  `to_username` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接收的用户名称',
+  `user_type` smallint(4) unsigned NOT NULL DEFAULT '1' COMMENT '用户类型 1B2B用户 2.C端用户',
+  `open_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接收用户openid',
+  `mobile` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机',
+  `phone` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '固定电话',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `read_time` datetime DEFAULT NULL COMMENT '阅读时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `send_fail_error` text COLLATE utf8mb4_general_ci COMMENT '推送失败原因',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息日志';
+
+CREATE TABLE `msg_center_scale_price_relevance` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `center_id` int(10) unsigned NOT NULL COMMENT '消息中心id',
+  `scale_price_id` int(10) unsigned NOT NULL COMMENT '价格等级id',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `scale_price_id` (`scale_price_id`) USING BTREE,
+  KEY `center_id` (`center_id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心与分销商等级可视关系表';
+
+CREATE TABLE `msg_center_wechat_template` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `channel` smallint(4) unsigned NOT NULL COMMENT '消息渠道 1.B2b 2.兑换商城 3.定制商城',
+  `type` smallint(4) unsigned NOT NULL COMMENT '通知类型:1.订单状态通知 2.发货通知 3.订单未支付提醒 4.分销商审核通知 5新订单通知',
+  `template_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板id',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息中心微信模板配置';

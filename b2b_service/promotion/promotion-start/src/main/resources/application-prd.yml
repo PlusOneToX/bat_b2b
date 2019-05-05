@@ -1,0 +1,73 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: r-j6cse54ptezcpp8y27pd.redis.rds.aliyuncs.com
+#      port: 6379
+#      password: bat2019
+#      masterName: promotion-service
+oss:
+  excel:
+    admin-import-rebatevoucher:
+### rocketmq stream消息
+spring:
+  redis:
+    host: bat2019
+    port: 6379
+    database: 1
+    password: bat2019
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者
+        promotion-output:
+          destination: promotion-service-topic
+          content-type: application/json
+        ### 消息消费者
+        ### 订单消息通道监听
+        promotion-order-input:
+          destination: order-service-topic
+          content-type: application/json
+          group: promotion-order-input-group
+        ### 平台消息通道监听
+        promotion-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: promotion-platform-input-group
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          promotion-output:
+            producer:
+              group: promotion-output-group
+          ### 订单消费者tag监听
+          promotion-order-input:
+            consumer:
+              tags: updateCouponStatus||orderGoodsSale||deductionRebateVoucher||rollBackRebateVoucher
+          ### 平台消费者tag监听
+          promotion-platform-input:
+            consumer:
+              tags: tenantDBDelete

@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.coupon.CouponCustomerMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.coupon.dataobject.CouponCustomerDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="coupon_id" jdbcType="INTEGER" property="couponId"/>
+        <result column="coupon_no" jdbcType="VARCHAR" property="couponNo"/>
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName"/>
+        <result column="pieces" jdbcType="INTEGER" property="pieces"/>
+        <result column="invalid_explain" jdbcType="VARCHAR" property="invalidExplain"/>
+        <result column="coupon_status" jdbcType="SMALLINT" property="couponStatus"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerId"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="UserCustomerCouponMap" type="com.bat.promotion.dao.coupon.dataobject.UserCustomerCouponDO">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="coupon_id" jdbcType="INTEGER" property="couponId"/>
+        <result column="coupon_no" jdbcType="VARCHAR" property="couponNo"/>
+        <result column="pieces" jdbcType="INTEGER" property="pieces"/>
+        <result column="coupon_desc" jdbcType="VARCHAR" property="couponDesc"/>
+        <result column="coupon_name" jdbcType="VARCHAR" property="couponName"/>
+        <result column="coupon_explain" jdbcType="VARCHAR" property="couponExplain"/>
+        <result column="invalid_explain" jdbcType="VARCHAR" property="invalidExplain"/>
+        <result column="coupon_status" jdbcType="SMALLINT" property="couponStatus"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="coupon_method" jdbcType="SMALLINT" property="couponMethod"/>
+        <result column="order_money" jdbcType="DECIMAL" property="orderMoney"/>
+        <result column="reduction" jdbcType="DECIMAL" property="reduction"/>
+        <result column="discount" jdbcType="DECIMAL" property="discount"/>
+        <result column="coupon_type" jdbcType="SMALLINT" property="couponType"/>
+        <result column="delivery_fee_flag" jdbcType="SMALLINT" property="deliveryFeeFlag"/>
+        <result column="delivery_fee" jdbcType="DECIMAL" property="deliveryFee"/>
+        <result column="model_scope" jdbcType="SMALLINT" property="modelScope"/>
+        <result column="material_scope" jdbcType="SMALLINT" property="materialScope"/>
+        <result column="received_flag" jdbcType="SMALLINT" property="receivedFlag"/>
+        <result column="goods_enable" jdbcType="SMALLINT" property="goodsEnable"/>
+        <result column="amount_enable" jdbcType="SMALLINT" property="amountEnable"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , coupon_id, coupon_no,customer_name,pieces,invalid_explain, coupon_status, customer_id, open_id, platform, distributor_id,
+    create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon_customer
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from coupon_customer
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponCustomerDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon_customer (coupon_id, coupon_no,customer_name,pieces,invalid_explain,
+        coupon_status,
+        customer_id, open_id, platform,
+        distributor_id, create_time, update_time
+        )
+        values (#{couponId,jdbcType=INTEGER},
+        #{couponNo,jdbcType=VARCHAR},#{customerName,jdbcType=VARCHAR},#{pieces,jdbcType=INTEGER},#{invalidExplain,jdbcType=VARCHAR},
+        #{couponStatus,jdbcType=SMALLINT},
+        #{customerId,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR},
+        #{distributorId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into coupon_customer (coupon_id, coupon_no,customer_name,pieces,invalid_explain,
+        coupon_status,
+        customer_id, open_id, platform,
+        distributor_id, create_time, update_time
+        )
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.couponId,jdbcType=INTEGER},
+            #{item.couponNo,jdbcType=VARCHAR},#{item.customerName,jdbcType=VARCHAR},#{item.pieces,jdbcType=INTEGER},#{item.invalidExplain,jdbcType=VARCHAR},
+            #{item.couponStatus,jdbcType=SMALLINT},
+            #{item.customerId,jdbcType=INTEGER}, #{item.openId,jdbcType=VARCHAR}, #{item.platform,jdbcType=VARCHAR},
+            #{item.distributorId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponCustomerDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="couponNo != null">
+                coupon_no,
+            </if>
+            <if test="customerName != null">
+                customer_name,
+            </if>
+            <if test="pieces != null">
+                pieces,
+            </if>
+            <if test="invalidExplain != null">
+                invalid_explain,
+            </if>
+            <if test="couponStatus != null">
+                coupon_status,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="couponNo != null">
+                #{couponNo,jdbcType=VARCHAR},
+            </if>
+            <if test="customerName != null">
+                #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="pieces != null">
+                #{pieces,jdbcType=INTEGER},
+            </if>
+            <if test="invalidExplain != null">
+                #{invalidExplain,jdbcType=VARCHAR},
+            </if>
+            <if test="couponStatus != null">
+                #{couponStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.coupon.dataobject.CouponCustomerDO">
+        update coupon_customer
+        <set>
+            <if test="couponId != null">
+                coupon_id = #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="couponNo != null">
+                coupon_no = #{couponNo,jdbcType=VARCHAR},
+            </if>
+            <if test="customerName != null">
+                customer_name = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="pieces != null">
+                pieces = #{pieces,jdbcType=INTEGER},
+            </if>
+            <if test="invalidExplain != null">
+                invalid_explain = #{invalidExplain,jdbcType=VARCHAR},
+            </if>
+            <if test="couponStatus != null">
+                coupon_status = #{couponStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=INTEGER},
+            </if>
+            <if test="openId != null">
+                open_id = #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponCustomerDO">
+        update coupon_customer
+        set coupon_id       = #{couponId,jdbcType=INTEGER},
+            coupon_no       = #{couponNo,jdbcType=VARCHAR},
+            customer_name   = #{customerName,jdbcType=VARCHAR},
+            pieces          = #{pieces,jdbcType=INTEGER},
+            invalid_explain = #{invalidExplain,jdbcType=VARCHAR},
+            coupon_status   = #{couponStatus,jdbcType=SMALLINT},
+            customer_id     = #{customerId,jdbcType=INTEGER},
+            open_id         = #{openId,jdbcType=VARCHAR},
+            platform        = #{platform,jdbcType=VARCHAR},
+            distributor_id  = #{distributorId,jdbcType=INTEGER},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateListCouponStatus" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update coupon_customer cc set cc.coupon_status=#{item.couponStatus},cc.update_time=#{item.updateTime}
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(item.invalidExplain)">
+                ,cc.invalid_explain = #{item.invalidExplain}
+            </if>
+            where cc.coupon_status <![CDATA[ <> ]]> 3 and cc.coupon_status <![CDATA[ <> ]]> 5
+            <if test="item.id != null">
+                and cc.coupon_id = #{item.id}
+            </if>
+            <if test="item.couponNo != null">
+                and cc.coupon_no = #{item.couponNo}
+            </if>
+        </foreach>
+    </update>
+
+    <select id="listUserCustomerCouponAllByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        select cc.id,
+               c.id                                                                                    as coupon_id,
+               cc.coupon_no,
+               cc.pieces,
+               c.name                                                                                  as coupon_name,
+               c.coupon_desc,
+               c.coupon_explain,
+               c.invalid_explain,
+               (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+               c.start_time,
+               c.end_time,
+               cc.create_time,
+               c.coupon_method,
+               c.order_money,
+               c.reduction,
+               c.discount,
+               c.coupon_type,
+               c.delivery_fee_flag,
+               c.delivery_fee,
+               c.model_scope,
+               c.material_scope,
+               (case
+                    when c.limit_count is null or c.limit_count = "" or
+                         (cc.pieces is not null and c.limit_count is not null and cc.pieces = c.limit_count) then 1
+                    else 0 end)                                                                        as received_flag
+        from coupon c
+                 left join (select max(ccr.pieces) as pieces,
+                                   ccr.id,
+                                   ccr.coupon_no,
+                                   ccr.coupon_id,
+                                   ccr.coupon_status,
+                                   ccr.create_time
+                            from coupon_customer ccr
+                            where ccr.customer_id = #{customerId}
+                            GROUP BY ccr.coupon_id) as cc on cc.coupon_id = c.id
+        where c.apply_status = 2
+          and c.coupon_status not in (0, 5)
+          and ((cc.coupon_no is null and c.coupon_status in (1, 2) and c.coupon_type in (1, 4)) or
+               cc.coupon_no is not null)
+          and (case
+                   when c.coupon_scope = 3 then exists(select 1
+                                                       from coupon_distributor_relevance cd
+                                                       where cd.distributor_id = #{distributorId}
+                                                         and cd.coupon_id = c.id)
+                   else 1 end)
+        ORDER BY received_flag ASC, c.reduction DESC, c.discount DESC, coupon_status ASC, c.end_time ASC
+    </select>
+
+    <select id="listUserCustomerCouponByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        <if test="all != null">
+            select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+            c.coupon_explain,c.invalid_explain,
+            (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+            c.start_time,c.end_time,cc.create_time,
+            c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+            c.delivery_fee,c.model_scope,c.material_scope,
+            (case when c.limit_count is null or c.limit_count = "" (cc.pieces is not null and c.limit_count is not null
+            and cc.pieces = c.limit_count) then 1 else 0
+            end) as received_flag
+            from coupon c
+            left join (select max(ccr.pieces) as
+            pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time from
+            coupon_customer
+            ccr where ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on cc.coupon_id = c.id
+            where c.apply_status = 2 and c.coupon_status not in (0,5)
+            and ((cc.coupon_no is null and c.coupon_status in (1,2) and c.coupon_type in (1,4)) or cc.coupon_no is not
+            null)
+            and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+            cd.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+            and cd.coupon_id=c.id) else 1 end)
+        </if>
+        <if test="all == null">
+            select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+            c.coupon_explain,c.invalid_explain,
+            (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+            c.start_time,c.end_time,cc.create_time,
+            c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+            c.delivery_fee,c.model_scope,c.material_scope,
+            (case when c.limit_count is null or c.limit_count = "" or (cc.pieces is not null and c.limit_count is not
+            null and cc.pieces = c.limit_count) then 1 else 0
+            end)
+            as received_flag
+            <if test="unReceive != null">
+                from coupon c
+                left join (select max(ccr.pieces) as
+                pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+                from coupon_customer ccr where ccr.customer_id=#{customerId}
+                GROUP BY ccr.coupon_id) as cc on
+                cc.coupon_id = c.id
+            </if>
+            <if test="unReceive == null">
+                from coupon_customer cc join coupon c on c.id = cc.coupon_id
+            </if>
+            where c.apply_status = 2 and c.coupon_status not in (0,5)
+            <if test="unReceive != null and received == null">
+                and (cc.pieces is null or cc.pieces <![CDATA[ < ]]> c.limit_count) and c.coupon_type in (1,4) and
+                c.coupon_status <![CDATA[ <> ]]> 4
+            </if>
+            <if test="unReceive == null">
+                and cc.customer_id=#{customerId}
+            </if>
+            <if test="unReceive != null and received != null">
+                and (cc.coupon_no is null and c.coupon_status in (1,2)) or cc.coupon_no is not null
+            </if>
+            <if test="unUsed != null and used == null">
+                and cc.coupon_status is not null and cc.coupon_status <![CDATA[ <> ]]> 6 and c.end_time>=now()
+            </if>
+            <if test="unUsed == null  and used != null">
+                and cc.coupon_status is not null and cc.coupon_status = 6
+            </if>
+            <if test="expired != null">
+                and cc.coupon_status is not null and cc.coupon_status = 3
+            </if>
+            <if test="expired == null">
+                and ((cc.coupon_status is null and c.coupon_status <![CDATA[ <> ]]> 3) or (cc.coupon_status is not null
+                and cc.coupon_status <![CDATA[ <> ]]> 3))
+            </if>
+            and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+            cd.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+            and cd.coupon_id=c.id) else 1 end)
+            ORDER BY received_flag ASC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time ASC
+        </if>
+    </select>
+
+    <select id="countUserCustomerCouponByMap" parameterType="map" resultType="int">
+        select count(*)
+        <if test="unReceive != null">
+            from coupon c
+            left join (select max(ccr.pieces) as
+            pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+            from coupon_customer ccr where ccr.customer_id=#{customerId}
+            GROUP BY ccr.coupon_id) as cc on
+            cc.coupon_id = c.id
+        </if>
+        <if test="unReceive == null">
+            from coupon_customer cc join coupon c on c.id = cc.coupon_id
+        </if>
+        where c.apply_status = 2 and c.coupon_status not in (0,5)
+        <if test="unReceive != null and received == null">
+            and (cc.pieces is null or cc.pieces <![CDATA[ < ]]> c.limit_count) and c.coupon_type in (1,4) and
+            c.coupon_status <![CDATA[ <> ]]> 4
+        </if>
+        <if test="unReceive == null">
+            and cc.customer_id=#{customerId}
+        </if>
+        <if test="unReceive != null and received != null">
+            and (cc.coupon_no is null and c.coupon_status in (1,2)) or cc.coupon_no is not null
+        </if>
+        <if test="unUsed != null and used == null">
+            and cc.coupon_status is not null and cc.coupon_status <![CDATA[ <> ]]> 6
+        </if>
+        <if test="unUsed == null  and used != null">
+            and cc.coupon_status is not null and cc.coupon_status = 6
+        </if>
+        <if test="expired != null">
+            and cc.coupon_status is not null and cc.coupon_status = 3
+        </if>
+        <if test="expired == null">
+            and ((cc.coupon_status is null and c.coupon_status <![CDATA[ <> ]]> 3) or (cc.coupon_status is not null
+            and cc.coupon_status <![CDATA[ <> ]]> 3))
+        </if>
+        and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+        cd.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and cd.coupon_id=c.id) else 1 end)
+    </select>
+
+    <select id="listUserCustomerGoodsCouponAllByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+        c.coupon_explain,c.invalid_explain,
+        (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+        c.start_time,c.end_time,cc.create_time,
+        c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+        c.delivery_fee,c.model_scope,c.material_scope,
+        (case when c.limit_count is null or c.limit_count = "" or (cc.pieces is not null and c.limit_count is not null
+        and cc.pieces = c.limit_count) then 1 else 0
+        end)
+        as received_flag,
+        (case when c.order_money is null or c.order_money <![CDATA[ < ]]> #{totalAmount} then 1 else 0 end)
+        amount_enable,
+        <if test="couponIds != null and couponIds.size() > 0">
+            (case when c.id in
+            <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            then 1 else 0 end) as goods_enable
+        </if>
+        <if test="couponIds == null or couponIds.size() == 0">
+            0 as goods_enable
+        </if>
+        from coupon c
+        left join (select max(ccr.pieces) as pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+        from
+        coupon_customer ccr
+        where
+        ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on cc.coupon_id = c.id
+        where c.apply_status = 2 and c.coupon_status not in (0,5)
+        and ((cc.coupon_no is null and c.coupon_status in (1,2) and c.coupon_type in (1,4)) or cc.coupon_no is not
+        null)
+        and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+        cd.distributor_id = #{distributorId} and cd.coupon_id=c.id) else 1 end)
+        ORDER BY goods_enable DESC,amount_enable DESC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time
+        ASC
+    </select>
+
+
+    <select id="listUserCustomerGoodsCouponByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        <if test="all != null">
+            select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+            c.coupon_explain,c.invalid_explain,
+            (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+            c.start_time,c.end_time,cc.create_time,
+            c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+            c.delivery_fee,c.model_scope,c.material_scope,
+            (case when c.limit_count is null or c.limit_count = "" or (cc.pieces is not null and c.limit_count is not
+            null and cc.pieces = c.limit_count) then 1 else 0
+            end)
+            as received_flag,
+            (case when c.order_money is null or c.order_money = 0 or c.order_money <![CDATA[ <= ]]>
+            #{totalAmount} then 1 else 0 end) as
+            amount_enable,
+            <if test="couponIds != null and couponIds.size() > 0">
+                (case when c.id in
+                <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+                then 1 else 0 end) as goods_enable
+            </if>
+            <if test="couponIds == null or couponIds.size() == 0">
+                0 as goods_enable
+            </if>
+            from coupon c
+            left join (select max(ccr.pieces) as
+            pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time from
+            coupon_customer
+            ccr where ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on cc.coupon_id = c.id
+            where c.apply_status = 2 and c.coupon_status not in (0,5)
+            and ((cc.coupon_no is null and c.coupon_status in (1,2) and c.coupon_type in (1,4)) or cc.coupon_no is not
+            null)
+            and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+            cd.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+            and cd.coupon_id=c.id) else 1 end)
+            ORDER BY goods_enable DESC,amount_enable DESC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time
+            ASC
+        </if>
+        <if test="all == null">
+            select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+            c.coupon_explain,c.invalid_explain,
+            (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+            c.start_time,c.end_time,cc.create_time,
+            c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+            c.delivery_fee,c.model_scope,c.material_scope,
+            (case when c.limit_count is null or c.limit_count = "" or (cc.pieces is not null and c.limit_count is not
+            null and cc.pieces = c.limit_count) then 1 else 0
+            end)
+            as received_flag,
+            (case when c.order_money is null or c.order_money = 0 or c.order_money <![CDATA[ <= ]]>
+            #{totalAmount} then 1 else 0 end) as
+            amount_enable,
+            <if test="couponIds != null and couponIds.size() > 0">
+                (case when c.id in
+                <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+                then 1 else 0 end) as goods_enable
+            </if>
+            <if test="couponIds == null or couponIds.size() == 0">
+                0 as goods_enable
+            </if>
+            <if test="unReceive != null and received == null">
+                from coupon c
+                left join (select max(ccr.pieces) as
+                pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+                from coupon_customer ccr where ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on
+                cc.coupon_id = c.id
+            </if>
+            <if test="unReceive == null">
+                from coupon_customer cc join coupon c on c.id = cc.coupon_id
+            </if>
+            where c.apply_status = 2 and c.coupon_status not in (0,5)
+            <if test="unReceive != null and received == null">
+                and (cc.pieces is null or cc.pieces <![CDATA[ < ]]> c.limit_count) and c.coupon_type in (1,4) and
+                c.coupon_status <![CDATA[ <> ]]> 4
+            </if>
+            <if test="unReceive == null">
+                and cc.customer_id=#{customerId}
+            </if>
+            <if test="unReceive != null and received != null">
+                and ((cc.coupon_no is null and c.coupon_status in (1,2)) or (cc.coupon_no is not null and
+                cc.coupon_status <![CDATA[ <> ]]> 6))
+            </if>
+            <if test="unUsed != null and used == null">
+                and cc.coupon_status is not null and cc.coupon_status <![CDATA[ <> ]]> 6
+                and c.end_time>=now()
+            </if>
+            <if test="unUsed == null  and used != null">
+                and cc.coupon_status is not null and cc.coupon_status = 6
+            </if>
+            <if test="expired != null">
+                and c.coupon_status = 3
+            </if>
+            <if test="expired == null">
+                and ((cc.coupon_status is null and c.coupon_status <![CDATA[ <> ]]> 3) or (cc.coupon_status is not null
+                and cc.coupon_status <![CDATA[ <> ]]> 3))
+            </if>
+            and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+            cd.distributor_id in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+            and cd.coupon_id=c.id) else 1 end)
+            ORDER BY goods_enable DESC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time ASC
+        </if>
+    </select>
+
+    <select id="listUserCustomerGoodsEnableCouponByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+        c.coupon_explain,c.invalid_explain,
+        c.start_time,c.end_time,cc.create_time,
+        c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+        c.delivery_fee,c.model_scope,c.material_scope
+        from coupon_customer cc join coupon c on c.id = cc.coupon_id
+        where cc.customer_id = #{customerId} and cc.coupon_status = 2
+        and (c.order_money is null or c.order_money = 0 or c.order_money <![CDATA[ <= ]]> #{totalAmount})
+        and c.end_time>=now()
+        and cc.coupon_id in
+        <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listUserCustomerGoodsEnableCountCouponByMap" parameterType="map" resultType="java.lang.Integer">
+        select count(1)
+        from coupon_customer cc join coupon c on c.id=cc.coupon_id
+        where cc.customer_id = #{customerId} and cc.coupon_status =2
+        and (c.order_money is null or c.order_money = 0 or c.order_money <![CDATA[ <= ]]> #{totalAmount})
+        and cc.coupon_id in
+        <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listUserCustomerSpecialCouponAllByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+        c.coupon_explain,c.invalid_explain,
+        (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+        c.start_time,c.end_time,cc.create_time,
+        c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+        c.delivery_fee,c.model_scope,c.material_scope,
+        (case when c.limit_count is null or c.limit_count = "" or (cc.pieces is not null and c.limit_count is not null
+        and cc.pieces = c.limit_count) then 1 else 0 end)
+        as received_flag
+        from coupon c
+        left join (select max(ccr.pieces) as pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+        from
+        coupon_customer ccr
+        where
+        ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on cc.coupon_id = c.id
+        where c.apply_status = 2 and c.coupon_status not in (0,5)
+        <if test="couponTypes != null and couponTypes.size() > 0">
+            and c.coupon_type in
+            <foreach collection="couponTypes" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+        </if>
+        and ((cc.coupon_no is null and c.coupon_status in (1,2) and c.coupon_type in (1,4)) or cc.coupon_no is not null)
+        and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+        cd.distributor_id = #{distributorId} and cd.coupon_id=c.id) else 1 end)
+        ORDER BY received_flag ASC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time ASC
+    </select>
+
+    <select id="listUserCustomerSpecialCouponByMap" parameterType="map" resultMap="UserCustomerCouponMap">
+        <if test="all != null">
+            select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+            c.coupon_explain,c.invalid_explain,
+            (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+            c.start_time,c.end_time,cc.create_time,
+            c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+            c.delivery_fee,c.model_scope,c.material_scope,
+            (case when c.limit_count is null or (cc.pieces is not null and c.limit_count is not
+            null and cc.pieces = c.limit_count) then 1 else 0
+            end)
+            as received_flag
+            from coupon c
+            left join (select max(ccr.pieces) as
+            pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+            from
+            coupon_customer
+            ccr where ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on cc.coupon_id = c.id
+            where c.apply_status = 2 and c.coupon_status not in (0,5,4)
+            <if test="couponTypes != null and couponTypes.size() > 0">
+                and c.coupon_type in
+                <foreach collection="couponTypes" index="index" item="item" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+            </if>
+            and ((cc.coupon_no is null and c.coupon_status in (1,2) and c.coupon_status <![CDATA[ <> ]]> 4) or
+            cc.coupon_no is not
+            null)
+            and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+            cd.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+            and cd.coupon_id=c.id) else 1 end)
+            ORDER BY received_flag ASC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time ASC
+        </if>
+        <if test="all == null">
+            select cc.id,c.id as coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+            c.coupon_explain,c.invalid_explain,
+            (case when cc.coupon_status is not null then cc.coupon_status else c.coupon_status end) as coupon_status,
+            c.start_time,c.end_time,cc.create_time,
+            c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+            c.delivery_fee,c.model_scope,c.material_scope,
+            (case when c.limit_count is null or (cc.pieces is not null and c.limit_count is not
+            null and cc.pieces = c.limit_count) then 1 else 0
+            end)
+            as received_flag
+            <if test="unReceive != null">
+                from coupon c
+                left join (select max(ccr.pieces) as
+                pieces,ccr.id,ccr.coupon_no,ccr.coupon_id,ccr.coupon_status,ccr.create_time
+                from coupon_customer ccr where ccr.customer_id=#{customerId} GROUP BY ccr.coupon_id) as cc on
+                cc.coupon_id = c.id
+            </if>
+            <if test="unReceive == null">
+                from coupon_customer cc join coupon c on c.id = cc.coupon_id
+            </if>
+            where c.apply_status = 2 and c.coupon_status not in (0,5,4)
+            <if test="couponTypes != null and couponTypes.size() > 0">
+                and c.coupon_type in
+                <foreach collection="couponTypes" index="index" item="item" open="(" separator=","
+                         close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="unReceive != null and received == null">
+                and (cc.pieces is null or cc.pieces <![CDATA[ < ]]> c.limit_count) and c.coupon_type in (1,4) and
+                c.coupon_status <![CDATA[ <> ]]> 4
+            </if>
+            <if test="unReceive == null">
+                and cc.customer_id=#{customerId}
+            </if>
+            <if test="unReceive != null and received != null">
+                and ((cc.coupon_no is null and c.coupon_status in (1,2)) or (cc.coupon_no is not null and
+                cc.coupon_status <![CDATA[ <> ]]> 6))
+            </if>
+            <if test="unUsed != null and used == null">
+                and cc.coupon_status is not null and cc.coupon_status <![CDATA[ <> ]]> 6
+            </if>
+            <if test="unUsed == null  and used != null">
+                and cc.coupon_status is not null and cc.coupon_status = 6
+            </if>
+            <if test="expired != null">
+                and c.coupon_status = 3
+            </if>
+            <if test="expired == null">
+                and ((cc.coupon_status is null and c.coupon_status <![CDATA[ <> ]]> 3) or (cc.coupon_status is not null
+                and cc.coupon_status <![CDATA[ <> ]]> 3))
+            </if>
+            and (case when c.coupon_scope = 3 then exists(select 1 from coupon_distributor_relevance cd where
+            cd.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+            and cd.coupon_id=c.id) else 1 end)
+            ORDER BY received_flag ASC,c.reduction DESC,c.discount DESC,coupon_status ASC,c.end_time ASC
+        </if>
+    </select>
+
+    <select id="selectMaxByMap" parameterType="map" resultMap="BaseResultMap">
+        select id, coupon_id, coupon_no,pieces,invalid_explain, coupon_status, customer_id,customer_name, open_id,
+        platform,
+        distributor_id,
+        create_time, update_time
+        from coupon_customer
+        where customer_id=#{customerId} and coupon_id in
+        <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByMap" parameterType="map" resultMap="BaseResultMap">
+        select id, coupon_id, coupon_no,pieces,invalid_explain, coupon_status, customer_id,customer_name, open_id,
+        platform,
+        distributor_id,
+        create_time, update_time
+        from coupon_customer
+        where 1=1
+        <if test="couponId != null">
+            and coupon_id = #{couponId}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(platform)">
+            and platform = #{platform}
+        </if>
+        <if test="couponStatus != null">
+            and coupon_status = #{couponStatus}
+        </if>
+        <if test="contentType != null">
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+                <if test="contentType == 1">
+                    and replace(customer_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                </if>
+                <if test="contentType == 2">
+                    and coupon_no = #{content}
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <select id="listByCouponNosAndCustomerId" parameterType="map" resultMap="UserCustomerCouponMap">
+        select cc.id,cc.coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+        cc.coupon_status,c.start_time,c.end_time,cc.create_time,
+        c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+        c.delivery_fee,c.model_scope,c.material_scope
+        from coupon_customer cc join coupon c on c.id = cc.coupon_id
+        where cc.customer_id = #{customerId}
+        and cc.coupon_no in
+        <foreach collection="couponNos" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByCouponNos" parameterType="map" resultMap="UserCustomerCouponMap">
+        select cc.id,cc.coupon_id,cc.coupon_no,cc.pieces,c.name as coupon_name,c.coupon_desc,
+        cc.coupon_status,c.start_time,c.end_time,cc.create_time,
+        c.coupon_method,c.order_money,c.reduction,c.discount,c.coupon_type,c.delivery_fee_flag,
+        c.delivery_fee,c.model_scope,c.material_scope,cc.customer_id,cc.distributor_id
+        from coupon_customer cc join coupon c on c.id = cc.coupon_id
+        where cc.coupon_no in
+        <foreach collection="couponNos" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByCustomerId" resultMap="UserCustomerCouponMap">
+        select cc.id,
+               cc.coupon_id,
+               cc.coupon_no,
+               cc.pieces,
+               c.name as coupon_name,
+               c.coupon_desc,
+               cc.coupon_status,
+               c.start_time,
+               c.end_time,
+               cc.create_time,
+               c.coupon_method,
+               c.order_money,
+               c.reduction,
+               c.discount,
+               c.coupon_type,
+               c.delivery_fee_flag,
+               c.delivery_fee,
+               c.model_scope,
+               c.material_scope
+        from coupon_customer cc
+                 join coupon c on c.id = cc.coupon_id
+        where cc.customer_id = #{customerId}
+    </select>
+    <select id="listCouponCustomerByCustomerIdsAndCouponCode" resultMap="UserCustomerCouponMap">
+        select cc.id,
+        cc.coupon_id,
+        cc.coupon_no,
+        cc.pieces,
+        c.name as coupon_name,
+        c.coupon_desc,
+        cc.coupon_status,
+        c.start_time,
+        c.end_time,
+        cc.create_time,
+        c.coupon_method,
+        c.order_money,
+        c.reduction,
+        c.discount,
+        c.coupon_type,
+        c.delivery_fee_flag,
+        c.delivery_fee,
+        c.model_scope,
+        c.material_scope
+        from coupon_customer cc
+        join coupon c on c.id = cc.coupon_id
+        <where>
+            cc.customer_id in
+            <foreach collection="customerIds" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+            and c.coupon_code = #{couponCode}
+            <if test="couponStatus!=null">
+                and cc.coupon_status = #{couponStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

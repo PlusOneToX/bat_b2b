@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.check.PromotionCheckMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.check.dataobject.PromotionCheckDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_type" jdbcType="SMALLINT" property="promotionType"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="check_user_id" jdbcType="INTEGER" property="checkUserId"/>
+        <result column="check_user_name" jdbcType="VARCHAR" property="checkUserName"/>
+        <result column="check_type" jdbcType="SMALLINT" property="checkType"/>
+        <result column="check_status" jdbcType="SMALLINT" property="checkStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="PromotionCheckListMap"
+               type="com.bat.promotion.dao.check.dataobject.PromotionCheckListDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_type" jdbcType="SMALLINT" property="promotionType"/>
+        <result column="group_seckill_type" jdbcType="SMALLINT" property="groupSeckillType"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="check_status" jdbcType="SMALLINT" property="checkStatus"/>
+        <result column="check_type" jdbcType="SMALLINT" property="checkType"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, promotion_id, promotion_type, user_id, user_name, check_user_id, check_user_name, 
+    check_type, check_status, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, promotion_id, promotion_type, user_id, user_name, check_user_id, check_user_name,
+    check_type, check_status, create_time, update_time
+        from promotion_check
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByPromotionIdsAndPromotionType" resultMap="BaseResultMap">
+        select id, promotion_id, promotion_type, user_id, user_name, check_user_id, check_user_name,
+               check_type, check_status, create_time, update_time
+        from promotion_check
+        where promotion_id in
+        <foreach collection="promotionIds" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+        and promotion_type = #{promotionCheckType}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from promotion_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <select id="selectCheckIngByPromotionIdAndPromotionType" parameterType="map" resultMap="BaseResultMap">
+    select id, promotion_id, promotion_type, user_id, user_name, check_user_id, check_user_name,
+    check_type, check_status, create_time, update_time
+    from distributor_check
+    where promotion_id = #{promotionId} and promotion_type = #{promotionType} and check_status = 0
+  </select>
+    <insert id="insert" parameterType="com.bat.promotion.dao.check.dataobject.PromotionCheckDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion_check (promotion_id, promotion_type, user_id,
+        user_name, check_user_id, check_user_name,
+        check_type, check_status, create_time,
+        update_time, check_content)
+        values (#{promotionId,jdbcType=INTEGER}, #{promotionType,jdbcType=SMALLINT}, #{userId,jdbcType=INTEGER},
+        #{userName,jdbcType=VARCHAR}, #{checkUserId,jdbcType=INTEGER}, #{checkUserName,jdbcType=VARCHAR},
+        #{checkType,jdbcType=SMALLINT}, #{checkStatus,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{checkContent,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.check.dataobject.PromotionCheckDO">
+    update promotion_check
+    set promotion_id = #{promotionId,jdbcType=INTEGER},
+      promotion_type = #{promotionType,jdbcType=SMALLINT},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      check_user_id = #{checkUserId,jdbcType=INTEGER},
+      check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      check_type = #{checkType,jdbcType=SMALLINT},
+      check_status = #{checkStatus,jdbcType=SMALLINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="listByUserId" parameterType="map" resultMap="PromotionCheckListMap">
+        select dc.id, dc.promotion_id,dc.promotion_type,
+        <if test="promotionType == 2">
+            d.group_seckill_type,
+        </if>
+        dc.user_id,dc.user_name,dc.check_status, dc.check_type,
+        dc.create_time,d.name
+        from promotion_check dc
+        <if test="promotionType == 1">
+            join promotion d on d.id = dc.promotion_id
+        </if>
+        <if test="promotionType == 2">
+            join group_seckill d on d.id = dc.promotion_id
+        </if>
+        <if test="promotionType == 3">
+            join coupon d on d.id = dc.promotion_id
+        </if>
+        <if test="promotionType == 4">
+            join rebate_voucher d on d.id = dc.promotion_id
+        </if>
+        where dc.user_id = #{userId} and dc.promotion_type = #{promotionType}
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(d.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and d.id = #{content}
+            </if>
+            <if test="contentType == 3">
+                and replace(dc.user_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 4">
+                and dc.id = #{content}
+            </if>
+        </if>
+        <if test="checkStatus != null">
+            and dc.check_status = #{checkStatus}
+        </if>
+        order by dc.update_time desc
+    </select>
+    <select id="listByCheckUserId" parameterType="map" resultMap="PromotionCheckListMap">
+        select dc.id, dc.promotion_id,dc.promotion_type,
+        <if test="promotionType == 2">
+            d.group_seckill_type,
+        </if>
+        dc.user_id,dc.user_name,dc.check_status, dc.check_type,
+        dc.create_time,d.name
+        from promotion_check dc
+        <if test="promotionType == 1">
+            join promotion d on d.id = dc.promotion_id
+        </if>
+        <if test="promotionType == 2">
+            join group_seckill d on d.id = dc.promotion_id
+        </if>
+        <if test="promotionType == 3">
+            join coupon d on d.id = dc.promotion_id
+        </if>
+        <if test="promotionType == 4">
+            join rebate_voucher d on d.id = dc.promotion_id
+        </if>
+        where dc.promotion_type = #{promotionType}
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and replace(d.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 2">
+                and d.id = #{content}
+            </if>
+            <if test="contentType == 3">
+                and replace(dc.user_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            </if>
+            <if test="contentType == 4">
+                and dc.id = #{content}
+            </if>
+        </if>
+        <if test="checkStatus != null">
+            and dc.check_status = #{checkStatus}
+        </if>
+        <if test="labelType == 2">
+            and dc.check_user_id = #{userId}
+        </if>
+        <if test="labelType == 3">
+            and exists(select 1 from promotion_check_flow dcf where dcf.promotion_check_id = dc.id and dcf.user_id =
+            #{userId})
+        </if>
+        order by dc.update_time desc
+    </select>
+</mapper>

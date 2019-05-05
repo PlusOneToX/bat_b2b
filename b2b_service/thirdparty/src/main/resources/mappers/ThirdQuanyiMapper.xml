@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.quanyi.dao.ThirdQuanyiMapper">
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="distributor_id" jdbcType="INTEGER" property="distributorId" />
+    <result column="distributor_name" jdbcType="VARCHAR" property="distributorName" />
+    <result column="third_phone" jdbcType="VARCHAR" property="thirdPhone" />
+    <result column="third_code" jdbcType="VARCHAR" property="thirdCode" />
+    <result column="third_sku_no" jdbcType="VARCHAR" property="thirdSkuNo" />
+    <result column="third_user_remark" jdbcType="VARCHAR" property="thirdUserRemark" />
+    <result column="exchange_id" jdbcType="INTEGER" property="exchangeId" />
+    <result column="exchange_name" jdbcType="VARCHAR" property="exchangeName" />
+    <result column="exchange_code_id" jdbcType="INTEGER" property="exchangeCodeId" />
+    <result column="plain_code" jdbcType="VARCHAR" property="plainCode" />
+    <result column="secret_code" jdbcType="VARCHAR" property="secretCode" />
+    <result column="material_id" jdbcType="INTEGER" property="materialId" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+    <result column="customer_no" jdbcType="VARCHAR" property="customerNo" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="dispatch_flag" jdbcType="SMALLINT" property="dispatchFlag" />
+    <result column="sign_in_flag" jdbcType="SMALLINT" property="signInFlag" />
+    <result column="destroy_flag" jdbcType="SMALLINT" property="destroyFlag" />
+    <result column="cancel_flag" jdbcType="SMALLINT" property="cancelFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="destroy_time" jdbcType="TIMESTAMP" property="destroyTime" />
+    <result column="cancel_time" jdbcType="TIMESTAMP" property="cancelTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    <result column="third_order_detail" jdbcType="LONGVARCHAR" property="thirdOrderDetail" />
+    <result column="last_modify_request" jdbcType="LONGVARCHAR" property="lastModifyRequest" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, distributor_id, distributor_name, third_phone, third_code, third_sku_no, third_user_remark,
+    exchange_id, exchange_name, exchange_code_id, plain_code, secret_code, material_id,
+    material_name, customer_id, customer_no, order_id, dispatch_flag, sign_in_flag, destroy_flag,
+    cancel_flag, create_time, destroy_time, cancel_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    third_order_detail, last_modify_request
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from third_quanyi
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from third_quanyi
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into third_quanyi (distributor_id, distributor_name, third_phone,
+    third_code, third_sku_no, third_user_remark,
+    exchange_id, exchange_name, exchange_code_id,
+    plain_code, secret_code, material_id,
+    material_name, customer_id, customer_no,
+    order_id, dispatch_flag, sign_in_flag,
+    destroy_flag, cancel_flag, create_time,
+    destroy_time, cancel_time, update_time,
+    third_order_detail, last_modify_request
+    )
+    values (#{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, #{thirdPhone,jdbcType=VARCHAR},
+    #{thirdCode,jdbcType=VARCHAR}, #{thirdSkuNo,jdbcType=VARCHAR}, #{thirdUserRemark,jdbcType=VARCHAR},
+    #{exchangeId,jdbcType=INTEGER}, #{exchangeName,jdbcType=VARCHAR}, #{exchangeCodeId,jdbcType=INTEGER},
+    #{plainCode,jdbcType=VARCHAR}, #{secretCode,jdbcType=VARCHAR}, #{materialId,jdbcType=INTEGER},
+    #{materialName,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, #{customerNo,jdbcType=VARCHAR},
+    #{orderId,jdbcType=INTEGER}, #{dispatchFlag,jdbcType=SMALLINT}, #{signInFlag,jdbcType=SMALLINT},
+    #{destroyFlag,jdbcType=SMALLINT}, #{cancelFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP},
+    #{destroyTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+    #{thirdOrderDetail,jdbcType=LONGVARCHAR}, #{lastModifyRequest,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into third_quanyi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="distributorId != null">
+        distributor_id,
+      </if>
+      <if test="distributorName != null">
+        distributor_name,
+      </if>
+      <if test="thirdPhone != null">
+        third_phone,
+      </if>
+      <if test="thirdCode != null">
+        third_code,
+      </if>
+      <if test="thirdSkuNo != null">
+        third_sku_no,
+      </if>
+      <if test="thirdUserRemark != null">
+        third_user_remark,
+      </if>
+      <if test="exchangeId != null">
+        exchange_id,
+      </if>
+      <if test="exchangeName != null">
+        exchange_name,
+      </if>
+      <if test="exchangeCodeId != null">
+        exchange_code_id,
+      </if>
+      <if test="plainCode != null">
+        plain_code,
+      </if>
+      <if test="secretCode != null">
+        secret_code,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="materialName != null">
+        material_name,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="customerNo != null">
+        customer_no,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="dispatchFlag != null">
+        dispatch_flag,
+      </if>
+      <if test="signInFlag != null">
+        sign_in_flag,
+      </if>
+      <if test="destroyFlag != null">
+        destroy_flag,
+      </if>
+      <if test="cancelFlag != null">
+        cancel_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="destroyTime != null">
+        destroy_time,
+      </if>
+      <if test="cancelTime != null">
+        cancel_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="thirdOrderDetail != null">
+        third_order_detail,
+      </if>
+      <if test="lastModifyRequest != null">
+        last_modify_request,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null">
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPhone != null">
+        #{thirdPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdCode != null">
+        #{thirdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdSkuNo != null">
+        #{thirdSkuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdUserRemark != null">
+        #{thirdUserRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null">
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeName != null">
+        #{exchangeName,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeCodeId != null">
+        #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="plainCode != null">
+        #{plainCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secretCode != null">
+        #{secretCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchFlag != null">
+        #{dispatchFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="signInFlag != null">
+        #{signInFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="destroyFlag != null">
+        #{destroyFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="cancelFlag != null">
+        #{cancelFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="destroyTime != null">
+        #{destroyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelTime != null">
+        #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdOrderDetail != null">
+        #{thirdOrderDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lastModifyRequest != null">
+        #{lastModifyRequest,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    update third_quanyi
+    <set>
+      <if test="distributorId != null">
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null">
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPhone != null">
+        third_phone = #{thirdPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdCode != null">
+        third_code = #{thirdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdSkuNo != null">
+        third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdUserRemark != null">
+        third_user_remark = #{thirdUserRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null">
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeName != null">
+        exchange_name = #{exchangeName,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeCodeId != null">
+        exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="plainCode != null">
+        plain_code = #{plainCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secretCode != null">
+        secret_code = #{secretCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="materialName != null">
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerNo != null">
+        customer_no = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchFlag != null">
+        dispatch_flag = #{dispatchFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="signInFlag != null">
+        sign_in_flag = #{signInFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="destroyFlag != null">
+        destroy_flag = #{destroyFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="cancelFlag != null">
+        cancel_flag = #{cancelFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="destroyTime != null">
+        destroy_time = #{destroyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelTime != null">
+        cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdOrderDetail != null">
+        third_order_detail = #{thirdOrderDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lastModifyRequest != null">
+        last_modify_request = #{lastModifyRequest,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    update third_quanyi
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      third_phone = #{thirdPhone,jdbcType=VARCHAR},
+      third_code = #{thirdCode,jdbcType=VARCHAR},
+      third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR},
+      third_user_remark = #{thirdUserRemark,jdbcType=VARCHAR},
+      exchange_id = #{exchangeId,jdbcType=INTEGER},
+      exchange_name = #{exchangeName,jdbcType=VARCHAR},
+      exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      plain_code = #{plainCode,jdbcType=VARCHAR},
+      secret_code = #{secretCode,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=INTEGER},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=INTEGER},
+      dispatch_flag = #{dispatchFlag,jdbcType=SMALLINT},
+      sign_in_flag = #{signInFlag,jdbcType=SMALLINT},
+      destroy_flag = #{destroyFlag,jdbcType=SMALLINT},
+      cancel_flag = #{cancelFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      destroy_time = #{destroyTime,jdbcType=TIMESTAMP},
+      cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      third_order_detail = #{thirdOrderDetail,jdbcType=LONGVARCHAR},
+      last_modify_request = #{lastModifyRequest,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.quanyi.dao.dataobject.ThirdQuanyiDO">
+    update third_quanyi
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      third_phone = #{thirdPhone,jdbcType=VARCHAR},
+      third_code = #{thirdCode,jdbcType=VARCHAR},
+      third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR},
+      third_user_remark = #{thirdUserRemark,jdbcType=VARCHAR},
+      exchange_id = #{exchangeId,jdbcType=INTEGER},
+      exchange_name = #{exchangeName,jdbcType=VARCHAR},
+      exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      plain_code = #{plainCode,jdbcType=VARCHAR},
+      secret_code = #{secretCode,jdbcType=VARCHAR},
+      material_id = #{materialId,jdbcType=INTEGER},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      customer_no = #{customerNo,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=INTEGER},
+      dispatch_flag = #{dispatchFlag,jdbcType=SMALLINT},
+      sign_in_flag = #{signInFlag,jdbcType=SMALLINT},
+      destroy_flag = #{destroyFlag,jdbcType=SMALLINT},
+      cancel_flag = #{cancelFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      destroy_time = #{destroyTime,jdbcType=TIMESTAMP},
+      cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findByDistributorIdAndThirdCode"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from third_quanyi
+    where distributor_id=#{distributorId} and third_code=#{thirdCode}
+  </select>
+
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from third_quanyi
+    <where>
+      <if test="distributorId !=null">
+        and distributor_id = #{distributorId}
+      </if>
+      <if test="distributorName !=null and distributorName!=''">
+        and distributor_name like concat ('%', #{distributorName} ,'%')
+      </if>
+
+      <if test="secretCode !=null and secretCode!=''">
+        and secret_code like concat ('%', #{secretCode} ,'%')
+      </if>
+
+      <if test="thirdCode !=null and thirdCode!=''">
+        and third_code like concat ('%', #{thirdCode} ,'%')
+      </if>
+
+      <if test="thirdPhone !=null and thirdPhone!=''">
+        and third_phone like concat ('%', #{thirdPhone} ,'%')
+      </if>
+      <if test="status !=null">
+        <if test="status ==4">
+          and cancel_flag = 1
+        </if>
+        <if test="status ==3">
+          and (cancel_flag is null or cancel_flag=0)
+          and destroy_flag=1
+        </if>
+        <if test="status ==2">
+          and (cancel_flag is null or cancel_flag=0)
+          and (destroy_flag is null or destroy_flag=0)
+          and exchange_code_id is not null
+        </if>
+        <if test="status ==1">
+          and (cancel_flag is null or cancel_flag=0)
+          and (destroy_flag is null or destroy_flag=0)
+          and exchange_code_id is null
+        </if>
+      </if>
+    </where>
+    order by third_code desc,create_time desc
+  </select>
+
+  <select id="findByExchangeCodeId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from third_quanyi
+    where exchange_code_id=#{exchangeCodeId}
+  </select>
+
+    <select id="findByExchangeCodeIds" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from third_quanyi
+      where exchange_code_id in
+      <foreach collection="exchangeCodeIds" item="exchangeCodeId" open="(" close=")" separator=",">
+        #{exchangeCodeId}
+      </foreach>
+    </select>
+
+</mapper>

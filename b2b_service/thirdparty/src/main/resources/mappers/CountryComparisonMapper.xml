@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.erp.dao.CountryComparisonMapper">
+    <resultMap id="BaseResultMap" type="com.bat.thirdparty.erp.dao.dataobject.CountryComparisonDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="country_id" jdbcType="VARCHAR" property="countryId"/>
+        <result column="erp_country_code" jdbcType="VARCHAR" property="erpCountryCode"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from country_comparison
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.thirdparty.erp.dao.dataobject.CountryComparisonDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into country_comparison (country_id, erp_country_code)
+        values (#{countryId,jdbcType=VARCHAR}, #{erpCountryCode,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.erp.dao.dataobject.CountryComparisonDO">
+    update country_comparison
+    set country_id = #{countryId,jdbcType=VARCHAR},
+      erp_country_code = #{erpCountryCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, country_id, erp_country_code
+    from country_comparison
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByCountryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, country_id, erp_country_code
+    from country_comparison
+    where country_id = #{countryId,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, country_id, erp_country_code
+    from country_comparison
+  </select>
+</mapper>

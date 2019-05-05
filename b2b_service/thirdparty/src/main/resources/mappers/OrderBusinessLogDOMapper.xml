@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.thirdparty.order.dao.log.OrderBusinessLogDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.order.dao.dataobject.log.OrderBusinessLogDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="log_type" property="logType" jdbcType="SMALLINT" />
+    <result column="toward_type" property="towardType" jdbcType="SMALLINT" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="other_order_no" property="otherOrderNo" jdbcType="VARCHAR" />
+    <result column="business_data" property="businessData" jdbcType="VARCHAR" />
+    <result column="header_param_json" property="headerParamJson" jdbcType="VARCHAR" />
+    <result column="request_param_json" property="requestParamJson" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="response_msg" property="responseMsg" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="SMALLINT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, log_type, toward_type, distributor_id, platform, other_order_no, business_data,
+    header_param_json, request_param_json, status, create_time, response_msg, order_no,
+    error_msg,update_time,delete_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from order_business_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_business_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.order.dao.dataobject.log.OrderBusinessLogDO" >
+    insert into order_business_log (id, log_type, toward_type,
+      distributor_id, platform, other_order_no,
+      business_data, header_param_json, request_param_json,
+      status, create_time, response_msg,
+      order_no, error_msg,update_time,delete_flag )
+    values (#{id,jdbcType=INTEGER}, #{logType,jdbcType=SMALLINT}, #{towardType,jdbcType=SMALLINT},
+      #{distributorId,jdbcType=INTEGER}, #{platform,jdbcType=VARCHAR}, #{otherOrderNo,jdbcType=VARCHAR},
+      #{businessData,jdbcType=VARCHAR}, #{headerParamJson,jdbcType=VARCHAR}, #{requestParamJson,jdbcType=VARCHAR},
+      #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{responseMsg,jdbcType=VARCHAR},
+      #{orderNo,jdbcType=VARCHAR}, #{errorMsg,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},#{deleteFlag,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.order.dao.dataobject.log.OrderBusinessLogDO" >
+    insert into order_business_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="logType != null" >
+        log_type,
+      </if>
+      <if test="towardType != null" >
+        toward_type,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+      <if test="otherOrderNo != null" >
+        other_order_no,
+      </if>
+      <if test="businessData != null" >
+        business_data,
+      </if>
+      <if test="headerParamJson != null" >
+        header_param_json,
+      </if>
+      <if test="requestParamJson != null" >
+        request_param_json,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="responseMsg != null" >
+        response_msg,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="errorMsg != null" >
+        error_msg,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="logType != null" >
+        #{logType,jdbcType=SMALLINT},
+      </if>
+      <if test="towardType != null" >
+        #{towardType,jdbcType=SMALLINT},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="otherOrderNo != null" >
+        #{otherOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessData != null" >
+        #{businessData,jdbcType=VARCHAR},
+      </if>
+      <if test="headerParamJson != null" >
+        #{headerParamJson,jdbcType=VARCHAR},
+      </if>
+      <if test="requestParamJson != null" >
+        #{requestParamJson,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseMsg != null" >
+        #{responseMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.order.dao.dataobject.log.OrderBusinessLogDO" >
+    update order_business_log
+    <set >
+      <if test="logType != null" >
+        log_type = #{logType,jdbcType=SMALLINT},
+      </if>
+      <if test="towardType != null" >
+        toward_type = #{towardType,jdbcType=SMALLINT},
+      </if>
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="otherOrderNo != null" >
+        other_order_no = #{otherOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessData != null" >
+        business_data = #{businessData,jdbcType=VARCHAR},
+      </if>
+      <if test="headerParamJson != null" >
+        header_param_json = #{headerParamJson,jdbcType=VARCHAR},
+      </if>
+      <if test="requestParamJson != null" >
+        request_param_json = #{requestParamJson,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseMsg != null" >
+        response_msg = #{responseMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        error_msg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.order.dao.dataobject.log.OrderBusinessLogDO" >
+    update order_business_log
+    set log_type = #{logType,jdbcType=SMALLINT},
+      toward_type = #{towardType,jdbcType=SMALLINT},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      platform = #{platform,jdbcType=VARCHAR},
+      other_order_no = #{otherOrderNo,jdbcType=VARCHAR},
+      business_data = #{businessData,jdbcType=VARCHAR},
+      header_param_json = #{headerParamJson,jdbcType=VARCHAR},
+      request_param_json = #{requestParamJson,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      response_msg = #{responseMsg,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      error_msg = #{errorMsg,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listByOtherOrderNoAndStatus" resultMap="BaseResultMap">
+    select * from order_business_log where  business_data = #{otherOrderNo,jdbcType=VARCHAR} and status = #{status,jdbcType=SMALLINT} and delete_flag=0
+  </select>
+
+
+  <select id="listByCondtion" resultMap="BaseResultMap">
+    select * from order_business_log
+    where 1=1 and delete_flag=0
+    <if test="logType !=null">
+      and log_type =#{logType}
+    </if>
+    <if test="distributorId !=null">
+      and distributor_id = #{distributorId}
+    </if>
+    <if test="otherOrderNo !=null and otherOrderNo !=''">
+      and other_order_no = #{otherOrderNo}
+    </if>
+    <if test="status !=null">
+      and status =#{status}
+    </if>
+    <if test="startTime !=null">
+      and create_time &gt;= #{startTime}
+    </if>
+    <if test="endTime !=null">
+      and create_time &lt;= #{endTime}
+    </if>
+    <if test="platformList !=null and platformList.size()>0">
+      <foreach collection="platformList" item="platform" separator=" or " open=" and platform in (" close=" )">
+        #{platform}
+      </foreach>
+    </if>
+
+    <!-- 判断搜索类型 -->
+    <if test="searchType  ==null and content !=null and content !=''">
+      and ( other_order_no like concat ('%',#{content},'%') or  business_data like concat ('%',#{content},'%') or order_no like concat ('%',#{content},'%')
+      or request_param_json like concat ('%',#{content},'%')
+      )
+    </if>
+    <if test="searchType !=null and searchType==1  and content !=null and content !=''">
+      and (
+      other_order_no like concat ('%',#{content},'%')  or order_no like concat ('%',#{content},'%')
+      )
+    </if>
+    <if test="searchType !=null and searchType==3  and content !=null and content !=''">
+      and request_param_json like concat ('%',#{content},'%')
+    </if>
+    <if test="searchType !=null and searchType==4  and content !=null and content !=''">
+      and response_msg like concat ('%',#{content},'%')
+    </if>
+    order by create_time desc
+  </select>
+
+  <!--条件查询第三方推单到B2B(不包含其他) -->
+  <select id="listReceiveOrderByCondition" resultMap="BaseResultMap">
+    select * from order_business_log
+    where
+    log_type BETWEEN 2 AND 3 and delete_flag=0
+    <if test="distributorId !=null">
+      and distributor_id = #{distributorId}
+    </if>
+    <if test="otherOrderNo !=null and otherOrderNo !=''">
+      and other_order_no = #{otherOrderNo}
+    </if>
+    <if test="status !=null">
+      and status =#{status}
+    </if>
+    <if test="startTime !=null">
+      and create_time &gt;= #{startTime}
+    </if>
+    <if test="endTime !=null">
+      and create_time &lt;= #{endTime}
+    </if>
+    <if test="platform !=null and platform !=''">
+      and   platform = #{platform}
+    </if>
+    <!-- 判断搜索类型 -->
+    <if test="searchType == null and content !=null and content !=''">
+      and ( other_order_no like concat ('%',#{content},'%') or  business_data like concat ('%',#{content},'%') or order_no like concat ('%',#{content},'%')
+      or request_param_json like concat ('%',#{content},'%')
+      )
+    </if>
+    <if test="searchType !=null and searchType==1  and content !=null and content !=''">
+      and (
+      other_order_no like concat ('%',#{content},'%')  or order_no like concat ('%',#{content},'%')
+      )
+    </if>
+    <if test="searchType !=null and searchType==3  and content !=null and content !=''">
+      and request_param_json like concat ('%',#{content},'%')
+    </if>
+    <if test="searchType !=null and searchType==4  and content !=null and content !=''">
+      and response_msg like concat ('%',#{content},'%')
+    </if>
+    order by create_time desc
+  </select>
+  <update id="deleteByOtherOrderNoAndLogTypeAndDistributorId" >
+    update order_business_log set delete_flag =1 where other_order_no = #{otherOrderNo} and log_type = #{logType} and distributor_id = #{distributorId} and status=0 and delete_flag=0
+    <if test="id !=null">
+      and id &lt;&gt; #{id}
+    </if>
+  </update>
+
+</mapper>

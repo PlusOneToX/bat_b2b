@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.groupseckill.GroupSeckillScalePriceRelevanceNoMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillScalePriceRelevanceNoDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="scale_price_id" jdbcType="INTEGER" property="scalePriceId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, group_seckill_id, scale_price_id
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from group_seckill_scale_price_relevance_no
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from group_seckill_scale_price_relevance_no
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillScalePriceRelevanceNoDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into group_seckill_scale_price_relevance_no (group_seckill_id, scale_price_id)
+        values (#{groupSeckillId,jdbcType=INTEGER}, #{scalePriceId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillScalePriceRelevanceNoDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into group_seckill_scale_price_relevance_no
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupSeckillId != null">
+                group_seckill_id,
+            </if>
+            <if test="scalePriceId != null">
+                scale_price_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupSeckillId != null">
+                #{groupSeckillId,jdbcType=INTEGER},
+            </if>
+            <if test="scalePriceId != null">
+                #{scalePriceId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillScalePriceRelevanceNoDO">
+        update group_seckill_scale_price_relevance_no
+        <set>
+            <if test="groupSeckillId != null">
+                group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+            </if>
+            <if test="scalePriceId != null">
+                scale_price_id = #{scalePriceId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillScalePriceRelevanceNoDO">
+    update group_seckill_scale_price_relevance_no
+    set group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+      scale_price_id = #{scalePriceId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteByGroupSeckillId" parameterType="java.lang.Integer">
+    delete from group_seckill_scale_price_relevance_no
+    where group_seckill_id = #{groupSeckillId,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="createScalePriceRelevanceNoList" parameterType="java.util.List">
+        INSERT INTO group_seckill_scale_price_relevance_no(
+        group_seckill_id,
+        scale_price_id
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.groupSeckillId},
+            #{item.scalePriceId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listScalePriceRelevanceNoIdByGroupSeckillId" resultType="int" parameterType="java.lang.Integer">
+        select scale_price_id FROM group_seckill_scale_price_relevance_no WHERE group_seckill_id = #{groupSeckillId,jdbcType=INTEGER}
+    </select>
+</mapper>

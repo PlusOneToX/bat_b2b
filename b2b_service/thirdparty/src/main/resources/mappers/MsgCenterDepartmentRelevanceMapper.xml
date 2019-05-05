@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.thirdparty.msgcenter.dao.MsgCenterDepartmentRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDepartmentRelevanceDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="center_id" jdbcType="INTEGER" property="centerId" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, center_id, department_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from msg_center_department_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <select id="listDepartmentIdByCenterId" resultType="java.lang.Integer">
+      select
+      department_id
+      from msg_center_department_relevance
+      where center_id = #{centerId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from msg_center_department_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDepartmentRelevanceDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_department_relevance (center_id, department_id)
+    values (#{centerId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDepartmentRelevanceDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into msg_center_department_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="centerId != null">
+        center_id,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="centerId != null">
+        #{centerId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+      INSERT INTO msg_center_department_relevance(
+      center_id,
+      department_id
+      ) VALUES
+      <foreach item="item" collection="list" separator=",">
+        (
+        #{item.centerId},
+        #{item.departmentId}
+        )
+      </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDepartmentRelevanceDO">
+    update msg_center_department_relevance
+    <set>
+      <if test="centerId != null">
+        center_id = #{centerId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.msgcenter.dao.dataobject.MsgCenterDepartmentRelevanceDO">
+    update msg_center_department_relevance
+    set center_id = #{centerId,jdbcType=INTEGER},
+      department_id = #{departmentId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

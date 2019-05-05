@@ -1,0 +1,36 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: r-bp1bmhbto8cna52cqwpd.redis.rds.aliyuncs.com
+#      port: 6379
+#      password: bat2019
+#      masterName: gateway-service
+spring:
+  redis:
+    host: bat2019
+    port: 6379
+    database: 1
+    password: bat2019
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000

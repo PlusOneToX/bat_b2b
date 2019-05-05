@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.thirdparty.alibaba.taobao.dao.TaobaoOrderDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" >
+    <id column="oid" property="oid" jdbcType="BIGINT" />
+    <result column="adjust_fee" property="adjustFee" jdbcType="VARCHAR" />
+    <result column="buyer_rate" property="buyerRate" jdbcType="CHAR" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="discount_fee" property="discountFee" jdbcType="VARCHAR" />
+    <result column="divide_order_fee" property="divideOrderFee" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="is_daixiao" property="isDaixiao" jdbcType="CHAR" />
+    <result column="is_oversold" property="isOversold" jdbcType="CHAR" />
+    <result column="is_sh_ship" property="isShShip" jdbcType="CHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="num_iid" property="numIid" jdbcType="BIGINT" />
+    <result column="order_from" property="orderFrom" jdbcType="VARCHAR" />
+    <result column="outer_sku_id" property="outerSkuId" jdbcType="VARCHAR" />
+    <result column="part_mjz_discount" property="partMjzDiscount" jdbcType="VARCHAR" />
+    <result column="payment" property="payment" jdbcType="VARCHAR" />
+    <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="propoint" property="propoint" jdbcType="INTEGER" />
+    <result column="refund_id" property="refundId" jdbcType="BIGINT" />
+    <result column="refund_status" property="refundStatus" jdbcType="VARCHAR" />
+    <result column="seller_rate" property="sellerRate" jdbcType="CHAR" />
+    <result column="seller_type" property="sellerType" jdbcType="CHAR" />
+    <result column="shipper" property="shipper" jdbcType="VARCHAR" />
+    <result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+    <result column="sku_properties_name" property="skuPropertiesName" jdbcType="VARCHAR" />
+    <result column="snapshot_url" property="snapshotUrl" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="total_fee" property="totalFee" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" extends="BaseResultMap" >
+    <result column="customization" property="customization" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    oid, adjust_fee, buyer_rate, cid, discount_fee, divide_order_fee, end_time, is_daixiao, 
+    is_oversold, is_sh_ship, num, num_iid, order_from, outer_sku_id, part_mjz_discount, 
+    payment, pic_path, price, propoint, refund_id, refund_status, seller_rate, seller_type, 
+    shipper, sku_id, sku_properties_name, snapshot_url, status, title, total_fee
+  </sql>
+  <sql id="Blob_Column_List" >
+    customization
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from taobao_order
+    where oid = #{oid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from taobao_order
+    where oid = #{oid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" >
+    insert into taobao_order (oid, adjust_fee, buyer_rate, 
+      cid, discount_fee, divide_order_fee, 
+      end_time, is_daixiao, is_oversold, 
+      is_sh_ship, num, num_iid, 
+      order_from, outer_sku_id, part_mjz_discount, 
+      payment, pic_path, price, 
+      propoint, refund_id, refund_status, 
+      seller_rate, seller_type, shipper, 
+      sku_id, sku_properties_name, snapshot_url, 
+      status, title, total_fee, 
+      customization)
+    values (#{oid,jdbcType=BIGINT}, #{adjustFee,jdbcType=VARCHAR}, #{buyerRate,jdbcType=CHAR}, 
+      #{cid,jdbcType=INTEGER}, #{discountFee,jdbcType=VARCHAR}, #{divideOrderFee,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{isDaixiao,jdbcType=CHAR}, #{isOversold,jdbcType=CHAR}, 
+      #{isShShip,jdbcType=CHAR}, #{num,jdbcType=INTEGER}, #{numIid,jdbcType=BIGINT}, 
+      #{orderFrom,jdbcType=VARCHAR}, #{outerSkuId,jdbcType=VARCHAR}, #{partMjzDiscount,jdbcType=VARCHAR}, 
+      #{payment,jdbcType=VARCHAR}, #{picPath,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, 
+      #{propoint,jdbcType=INTEGER}, #{refundId,jdbcType=BIGINT}, #{refundStatus,jdbcType=VARCHAR}, 
+      #{sellerRate,jdbcType=CHAR}, #{sellerType,jdbcType=CHAR}, #{shipper,jdbcType=VARCHAR}, 
+      #{skuId,jdbcType=VARCHAR}, #{skuPropertiesName,jdbcType=VARCHAR}, #{snapshotUrl,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{totalFee,jdbcType=DECIMAL}, 
+      #{customization,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" >
+    insert into taobao_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        oid,
+      </if>
+      <if test="adjustFee != null" >
+        adjust_fee,
+      </if>
+      <if test="buyerRate != null" >
+        buyer_rate,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="discountFee != null" >
+        discount_fee,
+      </if>
+      <if test="divideOrderFee != null" >
+        divide_order_fee,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="isDaixiao != null" >
+        is_daixiao,
+      </if>
+      <if test="isOversold != null" >
+        is_oversold,
+      </if>
+      <if test="isShShip != null" >
+        is_sh_ship,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="numIid != null" >
+        num_iid,
+      </if>
+      <if test="orderFrom != null" >
+        order_from,
+      </if>
+      <if test="outerSkuId != null" >
+        outer_sku_id,
+      </if>
+      <if test="partMjzDiscount != null" >
+        part_mjz_discount,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="picPath != null" >
+        pic_path,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="propoint != null" >
+        propoint,
+      </if>
+      <if test="refundId != null" >
+        refund_id,
+      </if>
+      <if test="refundStatus != null" >
+        refund_status,
+      </if>
+      <if test="sellerRate != null" >
+        seller_rate,
+      </if>
+      <if test="sellerType != null" >
+        seller_type,
+      </if>
+      <if test="shipper != null" >
+        shipper,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="skuPropertiesName != null" >
+        sku_properties_name,
+      </if>
+      <if test="snapshotUrl != null" >
+        snapshot_url,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+      <if test="customization != null" >
+        customization,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="oid != null" >
+        #{oid,jdbcType=BIGINT},
+      </if>
+      <if test="adjustFee != null" >
+        #{adjustFee,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerRate != null" >
+        #{buyerRate,jdbcType=CHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="discountFee != null" >
+        #{discountFee,jdbcType=VARCHAR},
+      </if>
+      <if test="divideOrderFee != null" >
+        #{divideOrderFee,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDaixiao != null" >
+        #{isDaixiao,jdbcType=CHAR},
+      </if>
+      <if test="isOversold != null" >
+        #{isOversold,jdbcType=CHAR},
+      </if>
+      <if test="isShShip != null" >
+        #{isShShip,jdbcType=CHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="numIid != null" >
+        #{numIid,jdbcType=BIGINT},
+      </if>
+      <if test="orderFrom != null" >
+        #{orderFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="outerSkuId != null" >
+        #{outerSkuId,jdbcType=VARCHAR},
+      </if>
+      <if test="partMjzDiscount != null" >
+        #{partMjzDiscount,jdbcType=VARCHAR},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="picPath != null" >
+        #{picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="propoint != null" >
+        #{propoint,jdbcType=INTEGER},
+      </if>
+      <if test="refundId != null" >
+        #{refundId,jdbcType=BIGINT},
+      </if>
+      <if test="refundStatus != null" >
+        #{refundStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerRate != null" >
+        #{sellerRate,jdbcType=CHAR},
+      </if>
+      <if test="sellerType != null" >
+        #{sellerType,jdbcType=CHAR},
+      </if>
+      <if test="shipper != null" >
+        #{shipper,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="skuPropertiesName != null" >
+        #{skuPropertiesName,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshotUrl != null" >
+        #{snapshotUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="customization != null" >
+        #{customization,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" >
+    update taobao_order
+    <set >
+      <if test="adjustFee != null" >
+        adjust_fee = #{adjustFee,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerRate != null" >
+        buyer_rate = #{buyerRate,jdbcType=CHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="discountFee != null" >
+        discount_fee = #{discountFee,jdbcType=VARCHAR},
+      </if>
+      <if test="divideOrderFee != null" >
+        divide_order_fee = #{divideOrderFee,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDaixiao != null" >
+        is_daixiao = #{isDaixiao,jdbcType=CHAR},
+      </if>
+      <if test="isOversold != null" >
+        is_oversold = #{isOversold,jdbcType=CHAR},
+      </if>
+      <if test="isShShip != null" >
+        is_sh_ship = #{isShShip,jdbcType=CHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="numIid != null" >
+        num_iid = #{numIid,jdbcType=BIGINT},
+      </if>
+      <if test="orderFrom != null" >
+        order_from = #{orderFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="outerSkuId != null" >
+        outer_sku_id = #{outerSkuId,jdbcType=VARCHAR},
+      </if>
+      <if test="partMjzDiscount != null" >
+        part_mjz_discount = #{partMjzDiscount,jdbcType=VARCHAR},
+      </if>
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=VARCHAR},
+      </if>
+      <if test="picPath != null" >
+        pic_path = #{picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="propoint != null" >
+        propoint = #{propoint,jdbcType=INTEGER},
+      </if>
+      <if test="refundId != null" >
+        refund_id = #{refundId,jdbcType=BIGINT},
+      </if>
+      <if test="refundStatus != null" >
+        refund_status = #{refundStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerRate != null" >
+        seller_rate = #{sellerRate,jdbcType=CHAR},
+      </if>
+      <if test="sellerType != null" >
+        seller_type = #{sellerType,jdbcType=CHAR},
+      </if>
+      <if test="shipper != null" >
+        shipper = #{shipper,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="skuPropertiesName != null" >
+        sku_properties_name = #{skuPropertiesName,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshotUrl != null" >
+        snapshot_url = #{snapshotUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="customization != null" >
+        customization = #{customization,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" >
+    update taobao_order
+    set adjust_fee = #{adjustFee,jdbcType=VARCHAR},
+      buyer_rate = #{buyerRate,jdbcType=CHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      discount_fee = #{discountFee,jdbcType=VARCHAR},
+      divide_order_fee = #{divideOrderFee,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_daixiao = #{isDaixiao,jdbcType=CHAR},
+      is_oversold = #{isOversold,jdbcType=CHAR},
+      is_sh_ship = #{isShShip,jdbcType=CHAR},
+      num = #{num,jdbcType=INTEGER},
+      num_iid = #{numIid,jdbcType=BIGINT},
+      order_from = #{orderFrom,jdbcType=VARCHAR},
+      outer_sku_id = #{outerSkuId,jdbcType=VARCHAR},
+      part_mjz_discount = #{partMjzDiscount,jdbcType=VARCHAR},
+      payment = #{payment,jdbcType=VARCHAR},
+      pic_path = #{picPath,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      propoint = #{propoint,jdbcType=INTEGER},
+      refund_id = #{refundId,jdbcType=BIGINT},
+      refund_status = #{refundStatus,jdbcType=VARCHAR},
+      seller_rate = #{sellerRate,jdbcType=CHAR},
+      seller_type = #{sellerType,jdbcType=CHAR},
+      shipper = #{shipper,jdbcType=VARCHAR},
+      sku_id = #{skuId,jdbcType=VARCHAR},
+      sku_properties_name = #{skuPropertiesName,jdbcType=VARCHAR},
+      snapshot_url = #{snapshotUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=DECIMAL},
+      customization = #{customization,jdbcType=LONGVARCHAR}
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.thirdparty.alibaba.taobao.dao.dataobject.TaobaoOrderDO" >
+    update taobao_order
+    set adjust_fee = #{adjustFee,jdbcType=VARCHAR},
+      buyer_rate = #{buyerRate,jdbcType=CHAR},
+      cid = #{cid,jdbcType=INTEGER},
+      discount_fee = #{discountFee,jdbcType=VARCHAR},
+      divide_order_fee = #{divideOrderFee,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_daixiao = #{isDaixiao,jdbcType=CHAR},
+      is_oversold = #{isOversold,jdbcType=CHAR},
+      is_sh_ship = #{isShShip,jdbcType=CHAR},
+      num = #{num,jdbcType=INTEGER},
+      num_iid = #{numIid,jdbcType=BIGINT},
+      order_from = #{orderFrom,jdbcType=VARCHAR},
+      outer_sku_id = #{outerSkuId,jdbcType=VARCHAR},
+      part_mjz_discount = #{partMjzDiscount,jdbcType=VARCHAR},
+      payment = #{payment,jdbcType=VARCHAR},
+      pic_path = #{picPath,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      propoint = #{propoint,jdbcType=INTEGER},
+      refund_id = #{refundId,jdbcType=BIGINT},
+      refund_status = #{refundStatus,jdbcType=VARCHAR},
+      seller_rate = #{sellerRate,jdbcType=CHAR},
+      seller_type = #{sellerType,jdbcType=CHAR},
+      shipper = #{shipper,jdbcType=VARCHAR},
+      sku_id = #{skuId,jdbcType=VARCHAR},
+      sku_properties_name = #{skuPropertiesName,jdbcType=VARCHAR},
+      snapshot_url = #{snapshotUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=DECIMAL}
+    where oid = #{oid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.groupseckill.GroupSeckillDistributorRelevanceMapper">
+    <resultMap id="BaseResultMap"
+               type="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDistributorRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, group_seckill_id, distributor_id,name,company_name
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from group_seckill_distributor_relevance
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from group_seckill_distributor_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDistributorRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into group_seckill_distributor_relevance (group_seckill_id, distributor_id,name,company_name)
+        values (#{groupSeckillId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDistributorRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into group_seckill_distributor_relevance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupSeckillId != null">
+                group_seckill_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupSeckillId != null">
+                #{groupSeckillId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDistributorRelevanceDO">
+        update group_seckill_distributor_relevance
+        <set>
+            <if test="groupSeckillId != null">
+                group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.promotion.dao.groupseckill.dataobject.GroupSeckillDistributorRelevanceDO">
+    update group_seckill_distributor_relevance
+    set group_seckill_id = #{groupSeckillId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteByGroupSeckillId" parameterType="java.lang.Integer">
+    delete from group_seckill_distributor_relevance
+    where group_seckill_id = #{groupSeckillId,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="createDistributorRelevanceList" parameterType="java.util.List">
+        INSERT INTO group_seckill_distributor_relevance(
+        group_seckill_id,
+        distributor_id,
+        name,
+        company_name
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.groupSeckillId},
+            #{item.distributorId},
+            #{item.name},
+            #{item.companyName}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listDistributorRelevanceByGroupSeckillId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM group_seckill_distributor_relevance WHERE group_seckill_id = #{groupSeckillId,jdbcType=INTEGER}
+    </select>
+</mapper>

@@ -1,0 +1,203 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6380
+#      password: bat123B2b456
+#      masterName: thidparty-service
+ding-talk:
+  appkey: 
+  appsecret: 
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2019
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    ### rocketmq配置
+    stream:
+      bindings:
+        ### 消息生产者
+        thirdparty-output:
+          destination: thirdparty-service-topic
+          content-type: application/json
+        ### 消息消费者
+        ### 订单消息通道监听（一般消息）
+        thirdparty-order-input:
+          destination: order-service-topic
+          content-type: application/json
+          group: thirdparty-order-input-group
+        ### 订单消息通道监听（erp同步消息）
+        thirdparty-order-erp-input:
+          destination: order-service-erp-topic
+          content-type: application/json
+          group: thirdparty-order-erp-input-group
+        ### 订单消息通道监听（erp柔性出库单同步消息）
+        thirdparty-order-erp-purchase-input:
+          destination: order-service-erp-purchase-topic
+          content-type: application/json
+          group: thirdparty-order-erp-purchase-input-group
+        ### 订单消息通道监听（工厂同步消息）
+        thirdparty-order-factory-input:
+          destination: order-service-factory-topic
+          content-type: application/json
+          group: thirdparty-order-factory-input-group
+        ### 订单消息通道监听（第三方客户同步消息）
+        thirdparty-order-customer-input:
+          destination: order-service-customer-topic
+          content-type: application/json
+          group: thirdparty-order-customer-input-group
+        ### 订单消息通道监听（订阅同步消息，例如微信小程序消息推送）
+        thirdparty-order-sub-input:
+          destination: order-service-sub-topic
+          content-type: application/json
+          group: thirdparty-order-sub-input-group
+        ### 财务消息通道监听
+        thirdparty-financial-input:
+          destination: financial-service-topic
+          content-type: application/json
+          group: thirdparty-financial-input-group
+        ### 分销商消息通道监听
+        thirdparty-distributor-input:
+          destination: distributor-service-topic
+          content-type: application/json
+          group: thirdparty-distributor-input-group
+
+        ### 柔性消息通道监听
+        thirdparty-flexible-input:
+          destination: flexible-service-topic
+          content-type: application/json
+          group: thirdparty-flexible-input-group
+
+        ### 商品消息通道监听
+        thirdparty-goods-input:
+          destination: goods-service-topic
+          content-type: application/json
+          group: thirdparty-goods-input-group
+
+        ### 活动消息通道监听
+        thirdparty-promotion-input:
+          destination: promotion-service-topic
+          content-type: application/json
+          group: thirdparty-promotion-input-group
+
+        ### 系统消息通道监听
+        thirdparty-system-input:
+          destination: system-service-topic
+          content-type: application/json
+          group: thirdparty-system-input-group
+
+        ### 本服务消息通道监听
+        thirdparty-self-input:
+          destination: thirdparty-service-topic
+          content-type: application/json
+          group: thirdparty-self-input-group
+
+        ### 仓库消息通道监听
+        thirdparty-warehouse-input:
+          destination: warehouse-service-topic
+          content-type: application/json
+          group: thirdparty-warehouse-input-group
+        ### 平台消息通道监听
+        thirdparty-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: thirdparty-platform-input-group
+
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          thirdparty-output:
+            producer:
+              group: thirdparty-output-group
+          ### 订单消费者tag监听
+          thirdparty-order-input:
+            consumer:
+              tags: syncErpFlexbileOrderDelivery||orderLog||commonLog||orderAsynErp||orderCancelErp||syncErpPurchase||syncOutStockToERP||orderDeliverBillLog||orderVoucherSyncErp||orderToSumsung||orderLogistictToThird||orderAsynFactory||syncErpPurchaseAndOutboundOrder||orderCancelToThird
+          ### 订单消费者tag监听（erp同步消息）
+          thirdparty-order-erp-input:
+            consumer:
+              tags: orderAsynErp||orderCancelErp||orderVoucherSyncErp
+          ### 订单消费者tag监听（erp柔性出库单同步消息）
+          thirdparty-order-erp-purchase-input:
+            consumer:
+              tags: syncErpPurchaseAndOutboundOrder
+          ### 订单消费者tag监听（工厂同步消息）
+          thirdparty-order-factory-input:
+            consumer:
+              tags: orderAsynFactory
+          ### 订单消费者tag监听（第三方客户同步消息）
+          thirdparty-order-customer-input:
+            consumer:
+              tags: orderToSumsung||orderLogistictToThird||orderCancelToThird
+          ### 订单消费者tag监听（订阅同步消息，例如微信小程序消息推送）
+          thirdparty-order-sub-input:
+            consumer:
+              tags: orderConfirmMsg||orderDeliverMsg||orderUnpaidMsg||newOrderMsg
+          ### 财务消费者tag监听
+          thirdparty-financial-input:
+            consumer:
+              tags: commonLog||voucherLog||refundLog||rechargeVoucherSyncErp||syncRefundBill||withdrawApplyLog
+          ### 分销商消费者tag监听
+          thirdparty-distributor-input:
+            consumer:
+              tags: distributorLog||commonLog||distributorSyncErp||distributorExamineMsg
+
+          ### 柔性消费者tag监听
+          thirdparty-flexible-input:
+            consumer:
+              tags: commonLog
+
+          ### 商品消费者tag监听
+          thirdparty-goods-input:
+            consumer:
+              tags: commonLog
+
+          ### 活动消费者tag监听
+          thirdparty-promotion-input:
+            consumer:
+              tags: commonLog||couponToSumsung
+
+          ### 系统消费者tag监听
+          thirdparty-system-input:
+            consumer:
+              tags: commonLog
+
+          ### 本身服务消费者tag监听
+          thirdparty-self-input:
+            consumer:
+              tags: commonLog||voucherLog||orderDeliverBillLog||orderLog||refundLog||orderDeliverMsg
+
+          ### 仓库消费者tag监听
+          thirdparty-warehouse-input:
+            consumer:
+              tags: commonLog
+          ### 平台消费者tag监听
+          thirdparty-platform-input:
+            consumer:
+              tags: tenantDBDelete

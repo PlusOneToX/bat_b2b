@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantSmsMapper">
+  <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+    <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo" />
+    <result column="sms_type" jdbcType="SMALLINT" property="smsType" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="access_key_id" jdbcType="VARCHAR" property="accessKeyId" />
+    <result column="access_key_secret" jdbcType="VARCHAR" property="accessKeySecret" />
+    <result column="verify_code_length" jdbcType="INTEGER" property="verifyCodeLength" />
+    <result column="code_verify_time" jdbcType="INTEGER" property="codeVerifyTime" />
+    <result column="verify_code_count_down" jdbcType="INTEGER" property="verifyCodeCountDown" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tenant_id, tenant_no, sms_type, sign, access_key_id, access_key_secret, verify_code_length, 
+    code_verify_time, verify_code_count_down, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from platform_tenant_sms
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByTenantIdAndSmsType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from platform_tenant_sms
+    where tenant_id = #{tenantId} and sms_type=#{smsType}
+  </select>
+
+  <select id="listByTenantId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from platform_tenant_sms
+    where tenant_id = #{tenantId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_sms
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into platform_tenant_sms (tenant_id, tenant_no, sms_type, 
+      sign, access_key_id, access_key_secret, 
+      verify_code_length, code_verify_time, verify_code_count_down, 
+      create_time, update_time)
+    values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR}, #{smsType,jdbcType=SMALLINT}, 
+      #{sign,jdbcType=VARCHAR}, #{accessKeyId,jdbcType=VARCHAR}, #{accessKeySecret,jdbcType=VARCHAR}, 
+      #{verifyCodeLength,jdbcType=INTEGER}, #{codeVerifyTime,jdbcType=INTEGER}, #{verifyCodeCountDown,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into platform_tenant_sms
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tenantId != null">
+        tenant_id,
+      </if>
+      <if test="tenantNo != null">
+        tenant_no,
+      </if>
+      <if test="smsType != null">
+        sms_type,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="accessKeyId != null">
+        access_key_id,
+      </if>
+      <if test="accessKeySecret != null">
+        access_key_secret,
+      </if>
+      <if test="verifyCodeLength != null">
+        verify_code_length,
+      </if>
+      <if test="codeVerifyTime != null">
+        code_verify_time,
+      </if>
+      <if test="verifyCodeCountDown != null">
+        verify_code_count_down,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tenantId != null">
+        #{tenantId,jdbcType=INTEGER},
+      </if>
+      <if test="tenantNo != null">
+        #{tenantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="smsType != null">
+        #{smsType,jdbcType=SMALLINT},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeyId != null">
+        #{accessKeyId,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeySecret != null">
+        #{accessKeySecret,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyCodeLength != null">
+        #{verifyCodeLength,jdbcType=INTEGER},
+      </if>
+      <if test="codeVerifyTime != null">
+        #{codeVerifyTime,jdbcType=INTEGER},
+      </if>
+      <if test="verifyCodeCountDown != null">
+        #{verifyCodeCountDown,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsDO">
+    update platform_tenant_sms
+    <set>
+      <if test="tenantId != null">
+        tenant_id = #{tenantId,jdbcType=INTEGER},
+      </if>
+      <if test="tenantNo != null">
+        tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="smsType != null">
+        sms_type = #{smsType,jdbcType=SMALLINT},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeyId != null">
+        access_key_id = #{accessKeyId,jdbcType=VARCHAR},
+      </if>
+      <if test="accessKeySecret != null">
+        access_key_secret = #{accessKeySecret,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyCodeLength != null">
+        verify_code_length = #{verifyCodeLength,jdbcType=INTEGER},
+      </if>
+      <if test="codeVerifyTime != null">
+        code_verify_time = #{codeVerifyTime,jdbcType=INTEGER},
+      </if>
+      <if test="verifyCodeCountDown != null">
+        verify_code_count_down = #{verifyCodeCountDown,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantSmsDO">
+    update platform_tenant_sms
+    set tenant_id = #{tenantId,jdbcType=INTEGER},
+      tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      sms_type = #{smsType,jdbcType=SMALLINT},
+      sign = #{sign,jdbcType=VARCHAR},
+      access_key_id = #{accessKeyId,jdbcType=VARCHAR},
+      access_key_secret = #{accessKeySecret,jdbcType=VARCHAR},
+      verify_code_length = #{verifyCodeLength,jdbcType=INTEGER},
+      code_verify_time = #{codeVerifyTime,jdbcType=INTEGER},
+      verify_code_count_down = #{verifyCodeCountDown,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

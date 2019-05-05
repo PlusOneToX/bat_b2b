@@ -1,0 +1,9 @@
+/unpackage/
+/node_modules/
+platforms/.DS_Store
+wxcomponents/.DS_Store
+.DS_Store
+
+# Editor directories and files
+.git/
+.hbuilderx/

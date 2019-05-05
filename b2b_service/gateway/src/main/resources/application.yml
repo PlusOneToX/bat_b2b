@@ -1,0 +1,79 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
+      routes:
+        # 商品服务
+        - id: goods-service
+          #匹配路由名
+          uri: lb://goods-service
+          predicates:
+            # 断言，路径相匹配的进行路由
+            - Path=/goods/**
+          filters:
+            - StripPrefix=0
+        # 系统服务
+        - id: system-service
+          uri: lb://system-service
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=0
+        # 仓库服务
+        - id: warehouse-service
+          uri: lb://warehouse-service
+          predicates:
+            - Path=/warehouse/**
+          filters:
+            - StripPrefix=0
+        # 客户服务
+        - id: distributor-service
+          uri: lb://distributor-service
+          predicates:
+            - Path=/distributor/**
+          filters:
+            - StripPrefix=0
+        # 柔性服务
+        - id: flexible-service
+          uri: lb://flexible-service
+          predicates:
+            - Path=/flexible/**
+          filters:
+            - StripPrefix=0
+        # 营销推广服务
+        - id: promotion-service
+          uri: lb://promotion-service
+          predicates:
+            - Path=/promotion/**
+          filters:
+            - StripPrefix=0
+        # 财务服务
+        - id: financial-service
+          uri: lb://financial-service
+          predicates:
+            - Path=/financial/**
+          filters:
+            - StripPrefix=0
+        # 订单服务
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=0
+        # 第三方接口服务
+        - id: thirdparty-service
+          uri: lb://thirdparty-service
+          predicates:
+            - Path=/thirdparty/**
+          filters:
+            - StripPrefix=0
+        # 平台服务
+        - id: platform-service
+          uri: lb://platform-service
+          predicates:
+            - Path=/platform/**
+          filters:
+            - StripPrefix=0

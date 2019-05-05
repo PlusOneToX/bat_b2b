@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.coupon.CouponDistributorRelevanceMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.coupon.dataobject.CouponDistributorRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="coupon_id" jdbcType="INTEGER" property="couponId"/>
+        <result column="distributor_id" jdbcType="INTEGER" property="distributorId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, coupon_id, distributor_id,name,company_name
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon_distributor_relevance
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon_distributor_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDistributorRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon_distributor_relevance (coupon_id, distributor_id,name,company_name)
+        values (#{couponId,jdbcType=INTEGER},
+        #{distributorId,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{companyName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDistributorRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon_distributor_relevance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="distributorId != null">
+                distributor_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDistributorRelevanceDO">
+        update coupon_distributor_relevance
+        <set>
+            <if test="couponId != null">
+                coupon_id = #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="distributorId != null">
+                distributor_id = #{distributorId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.promotion.dao.coupon.dataobject.CouponDistributorRelevanceDO">
+    update coupon_distributor_relevance
+    set coupon_id = #{couponId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteByCouponId" parameterType="java.lang.Integer">
+    delete from coupon_distributor_relevance
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="createDistributorRelevanceList" parameterType="java.util.List">
+        INSERT INTO coupon_distributor_relevance(
+        coupon_id,
+        distributor_id,
+        name,
+        company_name
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.couponId},
+            #{item.distributorId},
+            #{item.name},
+            #{item.companyName}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listDistributorRelevanceByCouponId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM coupon_distributor_relevance WHERE coupon_id = #{couponId,jdbcType=INTEGER}
+    </select>
+</mapper>

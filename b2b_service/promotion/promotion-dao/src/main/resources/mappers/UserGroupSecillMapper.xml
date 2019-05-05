@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.groupseckill.UserGroupSeckillMapper">
+
+    <resultMap id="UserGroupSeckillGoodsMap"
+               type="com.bat.promotion.dao.groupseckill.dataobject.UserGroupSeckillGoodsDO">
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="goods_no" jdbcType="VARCHAR" property="goodsNo"/>
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="exist_flag" jdbcType="SMALLINT" property="existFlag"/>
+        <result column="mto_flag" jdbcType="SMALLINT" property="mtoFlag"/>
+        <result column="max_num" jdbcType="INTEGER" property="maxNum"/>
+        <result column="min_num" jdbcType="INTEGER" property="minNum"/>
+        <result column="group_seckill_price" jdbcType="DECIMAL" property="groupSeckillPrice"/>
+        <result column="virtual_sum" jdbcType="INTEGER" property="virtualSum"/>
+        <result column="real_sum" jdbcType="INTEGER" property="realSum"/>
+    </resultMap>
+
+    <resultMap id="UserGoodsItemGroupSeckillMap"
+               type="com.bat.promotion.dao.groupseckill.dataobject.UserGoodsItemGroupSeckillDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="group_seckill_id" jdbcType="INTEGER" property="groupSeckillId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="group_seckill_desc" jdbcType="VARCHAR" property="groupSeckillDesc"/>
+        <result column="group_seckill_type" jdbcType="SMALLINT" property="groupSeckillType"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="group_seckill_status" jdbcType="SMALLINT" property="groupSeckillStatus"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="exist_flag" jdbcType="SMALLINT" property="existFlag"/>
+        <result column="mto_flag" jdbcType="SMALLINT" property="mtoFlag"/>
+        <result column="max_num" jdbcType="INTEGER" property="maxNum"/>
+        <result column="min_num" jdbcType="INTEGER" property="minNum"/>
+        <result column="group_seckill_price" jdbcType="DECIMAL" property="groupSeckillPrice"/>
+        <result column="virtual_sum" jdbcType="INTEGER" property="virtualSum"/>
+        <result column="real_sum" jdbcType="INTEGER" property="realSum"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, group_seckill_id, goods_id, item_id,goods_no,item_code, sort, exist_flag, mto_flag, max_num, min_num,
+    group_seckill_price, virtual_sum, real_sum
+  </sql>
+
+    <select id="listGoodsItemIds" parameterType="map" resultMap="UserGroupSeckillGoodsMap">
+        select gsg.id, gsg.group_seckill_id, gsg.goods_id, gsg.item_id,goods_no,gsg.item_code, gsg.sort, gsg.exist_flag,
+        gsg.mto_flag, gsg.max_num, gsg.min_num,
+        gsg.group_seckill_price, gsg.virtual_sum, gsg.real_sum,gs.start_time,gs.end_time
+        from group_seckill_goods gsg
+        join group_seckill gs on gs.id = gsg.group_seckill_id
+        where (case when gs.group_seckill_status = 0 then gs.apply_status = 2 and gs.advance_flag = 2 else
+        gs.group_seckill_status = 1 end)
+        <if test="groupSeckillIds != null and groupSeckillIds.size()>0">
+            and (case when gs.distributor_scope <![CDATA[ <> ]]> 1 then gsg.group_seckill_id in
+            <foreach collection="groupSeckillIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            else gs.distributor_scope = 1 end )
+        </if>
+        <if test="groupSeckillIds == null or groupSeckillIds.size() == 0">
+            and gs.distributor_scope = 1
+        </if>
+        <if test="groupSeckillType != null">
+            and group_seckill_type = #{groupSeckillType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            and (replace(gs.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+            or gsg.goods_no = concat(concat('%',#{content}),'%') or gsg.item_code = concat(concat('%',#{content}),'%'))
+        </if>
+        order by gs.sort asc, gsg.sort asc
+    </select>
+
+    <select id="listGroupSeckillGoodsByGroupSeckillIdsAndGoodsId" parameterType="map"
+            resultMap="UserGoodsItemGroupSeckillMap">
+        select
+        gsg.id,gsg.group_seckill_id,gs.name,gs.group_seckill_desc,gs.group_seckill_type,gs.start_time,gs.end_time,gs.group_seckill_status,gsg.item_id,
+        gsg.exist_flag,
+        gsg.mto_flag, gsg.max_num, gsg.min_num,
+        gsg.group_seckill_price, gsg.virtual_sum, gsg.real_sum
+        from group_seckill_goods gsg join group_seckill gs on gs.id = gsg.group_seckill_id
+        where gsg.goods_id = #{goodsId} and (case when gs.group_seckill_status = 0 then gs.apply_status = 2 and
+        gs.advance_flag = 2 else
+        gs.group_seckill_status = 1 end)
+        <if test="groupSeckillIds != null and groupSeckillIds.size() > 0">
+            and (case when gs.distributor_scope <![CDATA[ <> ]]> 1 then gsg.group_seckill_id in
+            <foreach collection="groupSeckillIds" index="index" item="item" open="(" separator=","
+                     close=")">
+                #{item}
+            </foreach>
+            else gs.distributor_scope = 1 end )
+        </if>
+        <if test="groupSeckillIds == null or groupSeckillIds.size() == 0">
+            and gs.distributor_scope = 1
+        </if>
+    </select>
+
+</mapper>

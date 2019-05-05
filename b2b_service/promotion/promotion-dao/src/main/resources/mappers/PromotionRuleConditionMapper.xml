@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.promotion.PromotionRuleConditionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="promotion_id" jdbcType="INTEGER" property="promotionId"/>
+        <result column="promotion_rule_id" jdbcType="INTEGER" property="promotionRuleId"/>
+        <result column="condition_name" jdbcType="VARCHAR" property="conditionName"/>
+        <result column="condition_name_en" jdbcType="VARCHAR" property="conditionNameEn"/>
+        <result column="special_flag" jdbcType="SMALLINT" property="specialFlag"/>
+        <result column="one_buy_count" jdbcType="INTEGER" property="oneBuyCount"/>
+        <result column="one_buy_money" jdbcType="DECIMAL" property="oneBuyMoney"/>
+        <result column="reduce_or_present" jdbcType="SMALLINT" property="reduceOrPresent"/>
+        <result column="reduce_type" jdbcType="SMALLINT" property="reduceType"/>
+        <result column="reduction_present_add_flag" jdbcType="SMALLINT" property="reductionPresentAddFlag"/>
+        <result column="discount" jdbcType="DECIMAL" property="discount"/>
+        <result column="reduction" jdbcType="DECIMAL" property="reduction"/>
+        <result column="present_count" jdbcType="INTEGER" property="presentCount"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, promotion_id, promotion_rule_id, condition_name, condition_name_en, special_flag, 
+    one_buy_count, one_buy_money, reduce_or_present, reduce_type, reduction_present_add_flag, 
+    discount, reduction, present_count
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule_condition
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByPromotionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule_condition
+        where promotion_id = #{promotionId,jdbcType=INTEGER}
+    </select>
+    <select id="listByPromotionRuleIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule_condition
+        where promotion_rule_id in
+        <foreach collection="promotionRuleIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByPromotionIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule_condition
+        where promotion_id in
+        <foreach collection="promotionIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listByIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion_rule_condition
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from promotion_rule_condition
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion_rule_condition (promotion_id, promotion_rule_id, condition_name,
+        condition_name_en, special_flag, one_buy_count,
+        one_buy_money, reduce_or_present, reduce_type,
+        reduction_present_add_flag, discount, reduction,
+        present_count)
+        values (#{promotionId,jdbcType=INTEGER}, #{promotionRuleId,jdbcType=INTEGER}, #{conditionName,jdbcType=VARCHAR},
+        #{conditionNameEn,jdbcType=VARCHAR}, #{specialFlag,jdbcType=SMALLINT}, #{oneBuyCount,jdbcType=INTEGER},
+        #{oneBuyMoney,jdbcType=DECIMAL}, #{reduceOrPresent,jdbcType=SMALLINT}, #{reduceType,jdbcType=SMALLINT},
+        #{reductionPresentAddFlag,jdbcType=SMALLINT}, #{discount,jdbcType=DECIMAL}, #{reduction,jdbcType=DECIMAL},
+        #{presentCount,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertList"
+            parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO promotion_rule_condition (promotion_id, promotion_rule_id, condition_name,
+        condition_name_en, special_flag, one_buy_count,
+        one_buy_money, reduce_or_present, reduce_type,
+        reduction_present_add_flag, discount, reduction,
+        present_count) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.promotionId},
+            #{item.promotionRuleId},
+            #{item.conditionName},
+            #{item.conditionNameEn},
+            #{item.specialFlag},
+            #{item.oneBuyCount},
+            #{item.oneBuyMoney},
+            #{item.reduceOrPresent},
+            #{item.reduceType},
+            #{item.reductionPresentAddFlag},
+            #{item.discount},
+            #{item.reduction},
+            #{item.presentCount}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective"
+            parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion_rule_condition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="promotionId != null">
+                promotion_id,
+            </if>
+            <if test="promotionRuleId != null">
+                promotion_rule_id,
+            </if>
+            <if test="conditionName != null">
+                condition_name,
+            </if>
+            <if test="conditionNameEn != null">
+                condition_name_en,
+            </if>
+            <if test="specialFlag != null">
+                special_flag,
+            </if>
+            <if test="oneBuyCount != null">
+                one_buy_count,
+            </if>
+            <if test="oneBuyMoney != null">
+                one_buy_money,
+            </if>
+            <if test="reduceOrPresent != null">
+                reduce_or_present,
+            </if>
+            <if test="reduceType != null">
+                reduce_type,
+            </if>
+            <if test="reductionPresentAddFlag != null">
+                reduction_present_add_flag,
+            </if>
+            <if test="discount != null">
+                discount,
+            </if>
+            <if test="reduction != null">
+                reduction,
+            </if>
+            <if test="presentCount != null">
+                present_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="promotionId != null">
+                #{promotionId,jdbcType=INTEGER},
+            </if>
+            <if test="promotionRuleId != null">
+                #{promotionRuleId,jdbcType=INTEGER},
+            </if>
+            <if test="conditionName != null">
+                #{conditionName,jdbcType=VARCHAR},
+            </if>
+            <if test="conditionNameEn != null">
+                #{conditionNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="specialFlag != null">
+                #{specialFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="oneBuyCount != null">
+                #{oneBuyCount,jdbcType=INTEGER},
+            </if>
+            <if test="oneBuyMoney != null">
+                #{oneBuyMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="reduceOrPresent != null">
+                #{reduceOrPresent,jdbcType=SMALLINT},
+            </if>
+            <if test="reduceType != null">
+                #{reduceType,jdbcType=SMALLINT},
+            </if>
+            <if test="reductionPresentAddFlag != null">
+                #{reductionPresentAddFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="discount != null">
+                #{discount,jdbcType=DECIMAL},
+            </if>
+            <if test="reduction != null">
+                #{reduction,jdbcType=DECIMAL},
+            </if>
+            <if test="presentCount != null">
+                #{presentCount,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionDO">
+        update promotion_rule_condition
+        <set>
+            <if test="promotionId != null">
+                promotion_id = #{promotionId,jdbcType=INTEGER},
+            </if>
+            <if test="promotionRuleId != null">
+                promotion_rule_id = #{promotionRuleId,jdbcType=INTEGER},
+            </if>
+            <if test="conditionName != null">
+                condition_name = #{conditionName,jdbcType=VARCHAR},
+            </if>
+            <if test="conditionNameEn != null">
+                condition_name_en = #{conditionNameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="specialFlag != null">
+                special_flag = #{specialFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="oneBuyCount != null">
+                one_buy_count = #{oneBuyCount,jdbcType=INTEGER},
+            </if>
+            <if test="oneBuyMoney != null">
+                one_buy_money = #{oneBuyMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="reduceOrPresent != null">
+                reduce_or_present = #{reduceOrPresent,jdbcType=SMALLINT},
+            </if>
+            <if test="reduceType != null">
+                reduce_type = #{reduceType,jdbcType=SMALLINT},
+            </if>
+            <if test="reductionPresentAddFlag != null">
+                reduction_present_add_flag = #{reductionPresentAddFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="discount != null">
+                discount = #{discount,jdbcType=DECIMAL},
+            </if>
+            <if test="reduction != null">
+                reduction = #{reduction,jdbcType=DECIMAL},
+            </if>
+            <if test="presentCount != null">
+                present_count = #{presentCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionRuleConditionDO">
+    update promotion_rule_condition
+    set promotion_id = #{promotionId,jdbcType=INTEGER},
+      promotion_rule_id = #{promotionRuleId,jdbcType=INTEGER},
+      condition_name = #{conditionName,jdbcType=VARCHAR},
+      condition_name_en = #{conditionNameEn,jdbcType=VARCHAR},
+      special_flag = #{specialFlag,jdbcType=SMALLINT},
+      one_buy_count = #{oneBuyCount,jdbcType=INTEGER},
+      one_buy_money = #{oneBuyMoney,jdbcType=DECIMAL},
+      reduce_or_present = #{reduceOrPresent,jdbcType=SMALLINT},
+      reduce_type = #{reduceType,jdbcType=SMALLINT},
+      reduction_present_add_flag = #{reductionPresentAddFlag,jdbcType=SMALLINT},
+      discount = #{discount,jdbcType=DECIMAL},
+      reduction = #{reduction,jdbcType=DECIMAL},
+      present_count = #{presentCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteByPromotionId" parameterType="java.lang.Integer">
+    delete from promotion_rule_condition
+    where promotion_id = #{promotionId,jdbcType=INTEGER}
+  </delete>
+</mapper>

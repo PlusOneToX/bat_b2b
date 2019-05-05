@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantDiyFactoryMapper">
+    <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo"/>
+        <result column="factory_no" jdbcType="VARCHAR" property="factoryNo"/>
+        <result column="factory_name" jdbcType="VARCHAR" property="factoryName"/>
+        <result column="app_id" jdbcType="VARCHAR" property="appId"/>
+        <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="order_add_url" jdbcType="VARCHAR" property="orderAddUrl"/>
+        <result column="order_cancel_url" jdbcType="VARCHAR" property="orderCancelUrl"/>
+        <result column="supplier_no" jdbcType="VARCHAR" property="supplierNo"/>
+        <result column="warehouse_no" jdbcType="VARCHAR" property="warehouseNo"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        <result column="config_other" jdbcType="LONGVARCHAR" property="configOther"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , tenant_id, tenant_no, factory_no,factory_name, app_id, app_key, app_secret, order_add_url,
+    order_cancel_url, supplier_no, warehouse_no, shop_name, create_time, update_time
+    </sql>
+    <sql id="Blob_Column_List">
+        config_other
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from platform_tenant_diy_factory
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByTenantId"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from platform_tenant_diy_factory
+        where tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectByTenantIdAndFactoryNo"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from platform_tenant_diy_factory
+        where tenant_id = #{tenantId} and factory_no=#{factoryNo}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from platform_tenant_diy_factory
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_diy_factory (tenant_id, tenant_no, factory_no,factory_name,
+        app_id, app_key, app_secret,
+        order_add_url, order_cancel_url, supplier_no,
+        warehouse_no, shop_name, create_time, update_time,
+        config_other)
+        values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR},
+        #{factoryNo,jdbcType=VARCHAR},#{factoryName,jdbcType=VARCHAR},
+        #{appId,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR},
+        #{orderAddUrl,jdbcType=VARCHAR}, #{orderCancelUrl,jdbcType=VARCHAR}, #{supplierNo,jdbcType=VARCHAR},
+        #{warehouseNo,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{configOther,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_diy_factory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="tenantNo != null">
+                tenant_no,
+            </if>
+            <if test="factoryNo != null">
+                factory_no,
+            </if>
+            <if test="factoryName != null">
+                factory_name,
+            </if>
+            <if test="appId != null">
+                app_id,
+            </if>
+            <if test="appKey != null">
+                app_key,
+            </if>
+            <if test="appSecret != null">
+                app_secret,
+            </if>
+            <if test="orderAddUrl != null">
+                order_add_url,
+            </if>
+            <if test="orderCancelUrl != null">
+                order_cancel_url,
+            </if>
+            <if test="supplierNo != null">
+                supplier_no,
+            </if>
+            <if test="warehouseNo != null">
+                warehouse_no,
+            </if>
+            <if test="shopName != null">
+                shop_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="configOther != null">
+                config_other,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryNo != null">
+                #{factoryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryName != null">
+                #{factoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appSecret != null">
+                #{appSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAddUrl != null">
+                #{orderAddUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCancelUrl != null">
+                #{orderCancelUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierNo != null">
+                #{supplierNo,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseNo != null">
+                #{warehouseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="shopName != null">
+                #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="configOther != null">
+                #{configOther,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        update platform_tenant_diy_factory
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                tenant_no = #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryNo != null">
+                factory_no = #{factoryNo,jdbcType=VARCHAR},
+            </if>
+            <if test="factoryName != null">
+                factory_name = #{factoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="appId != null">
+                app_id = #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="appKey != null">
+                app_key = #{appKey,jdbcType=VARCHAR},
+            </if>
+            <if test="appSecret != null">
+                app_secret = #{appSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAddUrl != null">
+                order_add_url = #{orderAddUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCancelUrl != null">
+                order_cancel_url = #{orderCancelUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierNo != null">
+                supplier_no = #{supplierNo,jdbcType=VARCHAR},
+            </if>
+            <if test="warehouseNo != null">
+                warehouse_no = #{warehouseNo,jdbcType=VARCHAR},
+            </if>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="configOther != null">
+                config_other = #{configOther,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        update platform_tenant_diy_factory
+        set tenant_id        = #{tenantId,jdbcType=INTEGER},
+            tenant_no        = #{tenantNo,jdbcType=VARCHAR},
+            factory_no       = #{factoryNo,jdbcType=VARCHAR},
+            factory_name     = #{factoryName,jdbcType=VARCHAR},
+            app_id           = #{appId,jdbcType=VARCHAR},
+            app_key          = #{appKey,jdbcType=VARCHAR},
+            app_secret       = #{appSecret,jdbcType=VARCHAR},
+            order_add_url    = #{orderAddUrl,jdbcType=VARCHAR},
+            order_cancel_url = #{orderCancelUrl,jdbcType=VARCHAR},
+            supplier_no      = #{supplierNo,jdbcType=VARCHAR},
+            warehouse_no     = #{warehouseNo,jdbcType=VARCHAR},
+            shop_name        = #{shopName,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP},
+            config_other     = #{configOther,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantDiyFactoryDO">
+        update platform_tenant_diy_factory
+        set tenant_id    = #{tenantId,jdbcType=INTEGER},
+            tenant_no    = #{tenantNo,jdbcType=VARCHAR},
+            factory_no   = #{factoryNo,jdbcType=VARCHAR},
+            factory_name = #{factoryName,jdbcType=VARCHAR} app_id = #{appId,jdbcType=VARCHAR},
+            app_key = #{appKey,jdbcType=VARCHAR},
+            app_secret = #{appSecret,jdbcType=VARCHAR},
+            order_add_url = #{orderAddUrl,jdbcType=VARCHAR},
+            order_cancel_url = #{orderCancelUrl,jdbcType=VARCHAR},
+            supplier_no = #{supplierNo,jdbcType=VARCHAR},
+            warehouse_no = #{warehouseNo,jdbcType=VARCHAR},
+            shop_name = #{shopName,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="factoryNoList" resultType="java.lang.String">
+        SELECT factory_no
+        FROM platform_tenant_diy_factory
+        GROUP BY factory_no
+    </select>
+
+</mapper>

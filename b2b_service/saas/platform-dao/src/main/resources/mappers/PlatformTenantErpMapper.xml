@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.platform.dao.tenant.PlatformTenantErpMapper">
+    <resultMap id="BaseResultMap" type="com.bat.platform.dao.tenant.dataobject.PlatformTenantErpDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="tenant_no" jdbcType="VARCHAR" property="tenantNo"/>
+        <result column="erp_type" jdbcType="SMALLINT" property="erpType"/>
+        <result column="base_url" jdbcType="VARCHAR" property="baseUrl"/>
+        <result column="base_ext_url" jdbcType="VARCHAR" property="baseExtUrl"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="db_id" jdbcType="VARCHAR" property="dbId"/>
+        <result column="lang" jdbcType="VARCHAR" property="lang"/>
+        <result column="platform" jdbcType="VARCHAR" property="platform"/>
+        <result column="token_valid_time" jdbcType="INTEGER" property="tokenValidTime"/>
+        <result column="wlf_item_no" jdbcType="VARCHAR" property="wlfItemNo"/>
+        <result column="vmi_warehouse" jdbcType="VARCHAR" property="vmiWarehouse"/>
+        <result column="po_inbound_type" jdbcType="VARCHAR" property="poInboundType"/>
+        <result column="settle_default" jdbcType="VARCHAR" property="settleDefault"/>
+        <result column="settle_cash_online" jdbcType="VARCHAR" property="settleCashOnline"/>
+        <result column="settle_cash_offline" jdbcType="VARCHAR" property="settleCashOffline"/>
+        <result column="settle_month" jdbcType="VARCHAR" property="settleMonth"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, tenant_id, tenant_no, erp_type, base_url, base_ext_url, user_name, password,
+    db_id, lang, platform, token_valid_time, wlf_item_no, vmi_warehouse,po_inbound_type, settle_default,
+    settle_cash_online, settle_cash_offline, settle_month, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_erp
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByTenantId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_erp
+        where tenant_id = #{tenantId}
+    </select>
+
+    <select id="selectByTenantIdAndErpType"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_tenant_erp
+        where tenant_id = #{tenantId} and erp_type=#{erpType}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from platform_tenant_erp
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantErpDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_erp (tenant_id, tenant_no, erp_type,
+        base_url, base_ext_url, user_name,
+        password, db_id, lang,
+        platform, token_valid_time, wlf_item_no,
+        vmi_warehouse,po_inbound_type, settle_default, settle_cash_online,
+        settle_cash_offline, settle_month, create_time,
+        update_time)
+        values (#{tenantId,jdbcType=INTEGER}, #{tenantNo,jdbcType=VARCHAR}, #{erpType,jdbcType=SMALLINT},
+        #{baseUrl,jdbcType=VARCHAR}, #{baseExtUrl,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}, #{dbId,jdbcType=VARCHAR}, #{lang,jdbcType=VARCHAR},
+        #{platform,jdbcType=VARCHAR}, #{tokenValidTime,jdbcType=INTEGER}, #{wlfItemNo,jdbcType=VARCHAR},
+        #{vmiWarehouse,jdbcType=VARCHAR},#{poInboundType,jdbcType=VARCHAR}, #{settleDefault,jdbcType=VARCHAR},
+        #{settleCashOnline,jdbcType=VARCHAR},
+        #{settleCashOffline,jdbcType=VARCHAR}, #{settleMonth,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantErpDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into platform_tenant_erp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="tenantNo != null">
+                tenant_no,
+            </if>
+            <if test="erpType != null">
+                erp_type,
+            </if>
+            <if test="baseUrl != null">
+                base_url,
+            </if>
+            <if test="baseExtUrl != null">
+                base_ext_url,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="dbId != null">
+                db_id,
+            </if>
+            <if test="lang != null">
+                lang,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="tokenValidTime != null">
+                token_valid_time,
+            </if>
+            <if test="wlfItemNo != null">
+                wlf_item_no,
+            </if>
+            <if test="vmiWarehouse != null">
+                vmi_warehouse,
+            </if>
+            <if test="poInboundType != null">
+                po_inbound_type,
+            </if>
+            <if test="settleDefault != null">
+                settle_default,
+            </if>
+            <if test="settleCashOnline != null">
+                settle_cash_online,
+            </if>
+            <if test="settleCashOffline != null">
+                settle_cash_offline,
+            </if>
+            <if test="settleMonth != null">
+                settle_month,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="erpType != null">
+                #{erpType,jdbcType=SMALLINT},
+            </if>
+            <if test="baseUrl != null">
+                #{baseUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="baseExtUrl != null">
+                #{baseExtUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="dbId != null">
+                #{dbId,jdbcType=VARCHAR},
+            </if>
+            <if test="lang != null">
+                #{lang,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="tokenValidTime != null">
+                #{tokenValidTime,jdbcType=INTEGER},
+            </if>
+            <if test="wlfItemNo != null">
+                #{wlfItemNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vmiWarehouse != null">
+                #{vmiWarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="poInboundType != null">
+                #{poInboundType,jdbcType=VARCHAR},
+            </if>
+            <if test="settleDefault != null">
+                #{settleDefault,jdbcType=VARCHAR},
+            </if>
+            <if test="settleCashOnline != null">
+                #{settleCashOnline,jdbcType=VARCHAR},
+            </if>
+            <if test="settleCashOffline != null">
+                #{settleCashOffline,jdbcType=VARCHAR},
+            </if>
+            <if test="settleMonth != null">
+                #{settleMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantErpDO">
+        update platform_tenant_erp
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="tenantNo != null">
+                tenant_no = #{tenantNo,jdbcType=VARCHAR},
+            </if>
+            <if test="erpType != null">
+                erp_type = #{erpType,jdbcType=SMALLINT},
+            </if>
+            <if test="baseUrl != null">
+                base_url = #{baseUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="baseExtUrl != null">
+                base_ext_url = #{baseExtUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="dbId != null">
+                db_id = #{dbId,jdbcType=VARCHAR},
+            </if>
+            <if test="lang != null">
+                lang = #{lang,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="tokenValidTime != null">
+                token_valid_time = #{tokenValidTime,jdbcType=INTEGER},
+            </if>
+            <if test="wlfItemNo != null">
+                wlf_item_no = #{wlfItemNo,jdbcType=VARCHAR},
+            </if>
+            <if test="vmiWarehouse != null">
+                vmi_warehouse = #{vmiWarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="poInboundType != null">
+                po_inbound_type = #{poInboundType,jdbcType=VARCHAR},
+            </if>
+            <if test="settleDefault != null">
+                settle_default = #{settleDefault,jdbcType=VARCHAR},
+            </if>
+            <if test="settleCashOnline != null">
+                settle_cash_online = #{settleCashOnline,jdbcType=VARCHAR},
+            </if>
+            <if test="settleCashOffline != null">
+                settle_cash_offline = #{settleCashOffline,jdbcType=VARCHAR},
+            </if>
+            <if test="settleMonth != null">
+                settle_month = #{settleMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.platform.dao.tenant.dataobject.PlatformTenantErpDO">
+    update platform_tenant_erp
+    set tenant_id = #{tenantId,jdbcType=INTEGER},
+      tenant_no = #{tenantNo,jdbcType=VARCHAR},
+      erp_type = #{erpType,jdbcType=SMALLINT},
+      base_url = #{baseUrl,jdbcType=VARCHAR},
+      base_ext_url = #{baseExtUrl,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      db_id = #{dbId,jdbcType=VARCHAR},
+      lang = #{lang,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR},
+      token_valid_time = #{tokenValidTime,jdbcType=INTEGER},
+      wlf_item_no = #{wlfItemNo,jdbcType=VARCHAR},
+      vmi_warehouse = #{vmiWarehouse,jdbcType=VARCHAR},
+      po_inbound_type = #{poInboundType,jdbcType=VARCHAR},
+      settle_default = #{settleDefault,jdbcType=VARCHAR},
+      settle_cash_online = #{settleCashOnline,jdbcType=VARCHAR},
+      settle_cash_offline = #{settleCashOffline,jdbcType=VARCHAR},
+      settle_month = #{settleMonth,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

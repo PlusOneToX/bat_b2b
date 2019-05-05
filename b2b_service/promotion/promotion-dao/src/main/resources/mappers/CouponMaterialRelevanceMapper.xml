@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.coupon.CouponMaterialRelevanceMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.coupon.dataobject.CouponMaterialRelevanceDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="coupon_id" jdbcType="INTEGER" property="couponId"/>
+        <result column="material_id" jdbcType="INTEGER" property="materialId"/>
+        <result column="material_name" jdbcType="VARCHAR" property="materialName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, coupon_id, material_id,material_name
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coupon_material_relevance
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coupon_material_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponMaterialRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon_material_relevance (coupon_id, material_id,material_name)
+        values (#{couponId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER},#{materialName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.coupon.dataobject.CouponMaterialRelevanceDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into coupon_material_relevance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                coupon_id,
+            </if>
+            <if test="materialId != null">
+                material_id,
+            </if>
+            <if test="materialName != null">
+                material_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="couponId != null">
+                #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="materialId != null">
+                #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="materialName != null">
+                #{materialName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.promotion.dao.coupon.dataobject.CouponMaterialRelevanceDO">
+        update coupon_material_relevance
+        <set>
+            <if test="couponId != null">
+                coupon_id = #{couponId,jdbcType=INTEGER},
+            </if>
+            <if test="materialId != null">
+                material_id = #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="materialName != null">
+                material_name = #{materialName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bat.promotion.dao.coupon.dataobject.CouponMaterialRelevanceDO">
+    update coupon_material_relevance
+    set coupon_id = #{couponId,jdbcType=INTEGER},
+      material_id = #{materialId,jdbcType=INTEGER},
+      material_name = #{materialName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <delete id="deleteByCouponId" parameterType="java.lang.Integer">
+    delete from coupon_material_relevance
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="createMaterialRelevanceList" parameterType="java.util.List">
+        INSERT INTO coupon_material_relevance(
+        material_id,
+        coupon_id,
+        material_name
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.materialId},
+            #{item.couponId},
+            #{item.materialName}
+            )
+        </foreach>
+    </insert>
+
+    <select id="listMaterialRelevanceByCouponId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM coupon_material_relevance WHERE coupon_id = #{couponId,jdbcType=INTEGER}
+    </select>
+
+    <select id="couponIdsByMaterialIds" parameterType="map" resultType="java.lang.Integer">
+        select coupon_id
+        from coupon_material_relevance
+        where material_id in
+        <foreach collection="materialIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+        group by coupon_id
+    </select>
+
+    <select id="materialIdsByCouponIds" parameterType="map" resultMap="BaseResultMap">
+        select id, coupon_id, material_id,material_name
+        from coupon_material_relevance
+        where coupon_id in
+        <foreach collection="couponIds" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

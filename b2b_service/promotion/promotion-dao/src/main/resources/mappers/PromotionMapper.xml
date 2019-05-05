@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.promotion.dao.promotion.PromotionMapper">
+    <resultMap id="BaseResultMap" type="com.bat.promotion.dao.promotion.dataobject.PromotionDO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="name_en" jdbcType="VARCHAR" property="nameEn"/>
+        <result column="promo_desc" jdbcType="VARCHAR" property="promoDesc"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="advance_flag" jdbcType="SMALLINT" property="advanceFlag"/>
+        <result column="apply_status" jdbcType="SMALLINT" property="applyStatus"/>
+        <result column="promo_status" jdbcType="SMALLINT" property="promoStatus"/>
+        <result column="promo_source" jdbcType="SMALLINT" property="promoSource"/>
+        <result column="promo_type" jdbcType="SMALLINT" property="promoType"/>
+        <result column="on_way_flag" jdbcType="SMALLINT" property="onWayFlag"/>
+        <result column="distributor_scope" jdbcType="SMALLINT" property="distributorScope"/>
+        <result column="distributor_scope_no" jdbcType="SMALLINT" property="distributorScopeNo"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, name_en, promo_desc, start_time, end_time, advance_flag, apply_status, 
+    promo_status, promo_source, promo_type, on_way_flag, distributor_scope, distributor_scope_no, 
+    create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listPromotion" parameterType="map" resultMap="BaseResultMap">
+        select p.id, p.name, p.name_en, p.promo_desc, p.start_time, p.end_time, p.advance_flag, p.apply_status,
+        p.promo_status, p.promo_source, p.promo_type, p.on_way_flag, p.distributor_scope, p.distributor_scope_no,
+        p.create_time, p.update_time
+        from promotion p
+        where 1 = 1
+        <if test="applyStatus != null">
+            and p.apply_status = #{applyStatus}
+        </if>
+        <if test="promoStatus != null">
+            and p.promo_status = #{promoStatus}
+        </if>
+        <if test="promoType != null">
+            and p.promo_type = #{promoType}
+        </if>
+        <if test="startTime != null">
+            and p.start_time = #{startTime}
+        </if>
+        <if test="endTime != null">
+            and p.end_time = #{endTime}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 1">
+                and (replace(p.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(p.name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+        </if>
+        order by p.update_time desc
+    </select>
+    <select id="listPromotionExport" parameterType="map" resultMap="BaseResultMap">
+        select p.id, p.name, p.name_en, p.promo_desc, p.start_time, p.end_time, p.advance_flag, p.apply_status,
+        p.promo_status, p.promo_source, p.promo_type, p.on_way_flag, p.distributor_scope, p.distributor_scope_no,
+        p.create_time, p.update_time
+        from promotion p
+        where p.apply_status <![CDATA[ <> ]]> 0
+        <if test="promoSource != null">
+            and p.promo_source = #{promoSource}
+        </if>
+        <if test="promoStatus != null">
+            and p.promo_status = #{promoStatus}
+        </if>
+        <if test="promoType != null">
+            and p.promo_type = #{promoType}
+        </if>
+        <if test="startTime != null">
+            and p.start_time = #{startTime}
+        </if>
+        <if test="endTime != null">
+            and p.end_time = #{endTime}
+        </if>
+        order by p.update_time desc
+    </select>
+    <select id="listPromotionByGoods" parameterType="map" resultMap="BaseResultMap">
+        select p.id, p.name, p.name_en, p.promo_desc, p.start_time, p.end_time, p.advance_flag, p.apply_status,
+        p.promo_status, p.promo_source, p.promo_type, p.on_way_flag, p.distributor_scope, p.distributor_scope_no,
+        p.create_time, p.update_time
+        from promotion_rule_goods prg join promotion p on p.id = prg.promotion_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and p.apply_status = #{applyStatus}
+        </if>
+        <if test="promoStatus != null">
+            and p.promo_status = #{promoStatus}
+        </if>
+        <if test="promoType != null">
+            and p.promo_type = #{promoType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 2">
+                and prg.goods_no = #{content} and (prg.item_id = 0 or prg.item_id is null)
+            </if>
+            <if test="contentType == 3">
+                and prg.item_code = #{content}
+            </if>
+        </if>
+        group by prg.promotion_id order by p.update_time desc
+    </select>
+    <select id="listPromotionByDistributorName" parameterType="map" resultMap="BaseResultMap">
+        select p.id, p.name, p.name_en, p.promo_desc, p.start_time, p.end_time, p.advance_flag, p.apply_status,
+        p.promo_status, p.promo_source, p.promo_type, p.on_way_flag, p.distributor_scope, p.distributor_scope_no,
+        p.create_time, p.update_time
+        from promotion_distributor_relevance pdr join promotion p on p.id = pdr.promotion_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and p.apply_status = #{applyStatus}
+        </if>
+        <if test="promoStatus != null">
+            and p.promo_status = #{promoStatus}
+        </if>
+        <if test="promoType != null">
+            and p.promo_type = #{promoType}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 4">
+                and (replace(pdr.name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(pdr.company_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+        </if>
+        order by p.update_time desc
+    </select>
+    <select id="listPromotionByRuleName" parameterType="map" resultMap="BaseResultMap">
+        select p.id, p.name, p.name_en, p.promo_desc, p.start_time, p.end_time, p.advance_flag, p.apply_status,
+        p.promo_status, p.promo_source, p.promo_type, p.on_way_flag, p.distributor_scope, p.distributor_scope_no,
+        p.create_time, p.update_time
+        from promotion_rule pr join promotion p on p.id = pr.promotion_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and p.apply_status = #{applyStatus}
+        </if>
+        <if test="applyStatus == null">
+            and p.apply_status <![CDATA[ <> ]]> 0
+        </if>
+        <if test="promoStatus != null">
+            and p.promo_status = #{promoStatus}
+        </if>
+        <if test="promoType != null">
+            and p.promo_type = #{promoType}
+        </if>
+        <if test="promoSource != null">
+            and p.promo_source = #{promoSource}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 5">
+                and (replace(pr.rule_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(pr.rule_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+        </if>
+        group by prg.promotion_id order by p.update_time desc
+    </select>
+    <select id="listPromotionByConditionName" parameterType="map" resultMap="BaseResultMap">
+        select p.id, p.name, p.name_en, p.promo_desc, p.start_time, p.end_time, p.advance_flag, p.apply_status,
+        p.promo_status, p.promo_source, p.promo_type, p.on_way_flag, p.distributor_scope, p.distributor_scope_no,
+        p.create_time, p.update_time
+        from promotion_rule_condition prc join promotion p on p.id = prc.promotion_id
+        where 1 = 1
+        <if test="applyStatus != null">
+            and p.apply_status = #{applyStatus}
+        </if>
+        <if test="applyStatus == null">
+            and p.apply_status <![CDATA[ <> ]]> 0
+        </if>
+        <if test="promoStatus != null">
+            and p.promo_status = #{promoStatus}
+        </if>
+        <if test="promoType != null">
+            and p.promo_type = #{promoType}
+        </if>
+        <if test="promoSource != null">
+            and p.promo_source = #{promoSource}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(content)">
+            <if test="contentType == 6">
+                and (replace(prc.condition_name,' ','') like replace(concat(concat('%',#{content}),'%'),' ','')
+                or replace(prc.condition_name_en,' ','') like replace(concat(concat('%',#{content}),'%'),' ',''))
+            </if>
+        </if>
+        group by prg.promotion_id order by p.update_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from promotion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion (name, name_en, promo_desc,
+        start_time, end_time, advance_flag,
+        apply_status, promo_status, promo_source,
+        promo_type, on_way_flag, distributor_scope,
+        distributor_scope_no, create_time, update_time
+        )
+        values (#{name,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{promoDesc,jdbcType=VARCHAR},
+        #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{advanceFlag,jdbcType=SMALLINT},
+        #{applyStatus,jdbcType=SMALLINT}, #{promoStatus,jdbcType=SMALLINT}, #{promoSource,jdbcType=SMALLINT},
+        #{promoType,jdbcType=SMALLINT}, #{onWayFlag,jdbcType=SMALLINT}, #{distributorScope,jdbcType=SMALLINT},
+        #{distributorScopeNo,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into promotion (name, name_en, promo_desc,
+        start_time, end_time, advance_flag,
+        apply_status, promo_status, promo_source,
+        promo_type, on_way_flag, distributor_scope,
+        distributor_scope_no, create_time, update_time
+        )
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.name,jdbcType=VARCHAR}, #{item.nameEn,jdbcType=VARCHAR}, #{item.promoDesc,jdbcType=VARCHAR},
+            #{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP},
+            #{item.advanceFlag,jdbcType=SMALLINT},
+            #{item.applyStatus,jdbcType=SMALLINT}, #{item.promoStatus,jdbcType=SMALLINT},
+            #{item.promoSource,jdbcType=SMALLINT},
+            #{item.promoType,jdbcType=SMALLINT}, #{item.onWayFlag,jdbcType=SMALLINT},
+            #{item.distributorScope,jdbcType=SMALLINT},
+            #{item.distributorScopeNo,jdbcType=SMALLINT}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionDO">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into promotion
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="nameEn != null">
+                name_en,
+            </if>
+            <if test="promoDesc != null">
+                promo_desc,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="advanceFlag != null">
+                advance_flag,
+            </if>
+            <if test="applyStatus != null">
+                apply_status,
+            </if>
+            <if test="promoStatus != null">
+                promo_status,
+            </if>
+            <if test="promoSource != null">
+                promo_source,
+            </if>
+            <if test="promoType != null">
+                promo_type,
+            </if>
+            <if test="onWayFlag != null">
+                on_way_flag,
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope,
+            </if>
+            <if test="distributorScopeNo != null">
+                distributor_scope_no,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameEn != null">
+                #{nameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="promoDesc != null">
+                #{promoDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="advanceFlag != null">
+                #{advanceFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="applyStatus != null">
+                #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="promoStatus != null">
+                #{promoStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="promoSource != null">
+                #{promoSource,jdbcType=SMALLINT},
+            </if>
+            <if test="promoType != null">
+                #{promoType,jdbcType=SMALLINT},
+            </if>
+            <if test="onWayFlag != null">
+                #{onWayFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScopeNo != null">
+                #{distributorScopeNo,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionDO">
+        update promotion
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameEn != null">
+                name_en = #{nameEn,jdbcType=VARCHAR},
+            </if>
+            <if test="promoDesc != null">
+                promo_desc = #{promoDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="advanceFlag != null">
+                advance_flag = #{advanceFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="applyStatus != null">
+                apply_status = #{applyStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="promoStatus != null">
+                promo_status = #{promoStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="promoSource != null">
+                promo_source = #{promoSource,jdbcType=SMALLINT},
+            </if>
+            <if test="promoType != null">
+                promo_type = #{promoType,jdbcType=SMALLINT},
+            </if>
+            <if test="onWayFlag != null">
+                on_way_flag = #{onWayFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScope != null">
+                distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+            </if>
+            <if test="distributorScopeNo != null">
+                distributor_scope_no = #{distributorScopeNo,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.promotion.dao.promotion.dataobject.PromotionDO">
+    update promotion
+    set name = #{name,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      promo_desc = #{promoDesc,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      advance_flag = #{advanceFlag,jdbcType=SMALLINT},
+      apply_status = #{applyStatus,jdbcType=SMALLINT},
+      promo_status = #{promoStatus,jdbcType=SMALLINT},
+      promo_source = #{promoSource,jdbcType=SMALLINT},
+      promo_type = #{promoType,jdbcType=SMALLINT},
+      on_way_flag = #{onWayFlag,jdbcType=SMALLINT},
+      distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+      distributor_scope_no = #{distributorScopeNo,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <update id="updateListPromotionStatus" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            update promotion set promo_status = #{item.promoStatus},update_time=#{item.updateTime} where id = #{item.id}
+            and promo_status <![CDATA[ <> ]]> 3 and promo_status <![CDATA[ <> ]]> 2
+        </foreach>
+    </update>
+
+    <select id="listPromotionByTime" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion
+        where apply_status = 2 and ((promo_status = 0 and start_time <![CDATA[ <= ]]> #{time})
+        or (promo_status = 1 and end_time <![CDATA[ <= ]]> #{time}))
+    </select>
+
+    <select id="listByIds" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from promotion
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listIdByAllDistributor" resultType="java.lang.Integer">
+        select id from promotion where promo_status = 1 and distributor_scope = 1
+    </select>
+
+    <select id="listIdByDistributorId" resultType="java.lang.Integer" parameterType="map">
+        select pdr.promotion_id from promotion_distributor_relevance pdr join promotion p on p.id = pdr.promotion_id
+        where p.apply_status = 2 and p.promo_status in (0,1) and pdr.distributor_id = #{distributorId}
+    </select>
+
+    <select id="listIdByScalePriceId" resultType="java.lang.Integer" parameterType="map">
+        select pspr.promotion_id from promotion_scale_price_relevance pspr join promotion p on p.id = pspr.promotion_id
+        where p.apply_status = 2 and p.promo_status in (0,1) and pspr.scale_price_id = #{scalePriceId}
+    </select>
+
+    <select id="listIdBySalesId" resultType="java.lang.Integer" parameterType="map">
+        select par.promotion_id from promotion_admin_relevance par join promotion p on p.id = par.promotion_id
+        where p.apply_status = 2 and p.promo_status in (0,1) and par.admin_id = #{salesId}
+    </select>
+
+    <select id="listIdByDepartmentId" resultType="java.lang.Integer" parameterType="map">
+        select pdr.promotion_id from promotion_department_relevance pdr join promotion p on p.id = pdr.promotion_id
+        where p.apply_status = 2 and p.promo_status in (0,1) and pdr.department_id = #{departmentId}
+    </select>
+
+</mapper>
