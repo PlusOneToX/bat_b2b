@@ -1,0 +1,16 @@
+<view class="login-wrap">
+  <view class="dialog-wrap" tt:if="{{config.tipsshow1}}">
+    <view class="title">用户信息授权</view>
+    <image class="image user" src="../../assets/images/user.png"></image>
+    <view class="text">请确认授权，以获取头像、昵称等信息～</view>
+    <view class="tips">（需登陆后，才能获取您的优惠券、订单、购物车等信息）</view>
+    <button class="btn" bindtap="getUserInfo">确认授权</button>
+  </view>
+  <view class="dialog-wrap" tt:if="{{config.tipsshow2}}">
+    <view class="title">用户手机号授权</view>
+    <image class="image phone" src="../../assets/images/phone.png"></image>
+    <view class="text">手机号一键登录，即可快速完成定制啦～</view>
+    <button class="btn" open-type="getPhoneNumber"
+      bindgetphonenumber="getPhoneNumber">手机号快捷登录</button>
+  </view>
+</view>

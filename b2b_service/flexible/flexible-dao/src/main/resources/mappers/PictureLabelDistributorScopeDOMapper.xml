@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.picture.PictureLabelDistributorScopeDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.picture.dataobject.PictureLabelDistributorScopeDO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="label_id" property="labelId" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, picture_id, label_id, distributor_id, create_time, create_user_id, create_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from picture_label_distributor_scope
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from picture_label_distributor_scope
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.picture.dataobject.PictureLabelDistributorScopeDO" useGeneratedKeys="true" keyProperty="id">
+    insert into picture_label_distributor_scope (id, picture_id, label_id, 
+      distributor_id, create_time, create_user_id, 
+      create_user_name)
+    values (#{id,jdbcType=BIGINT}, #{pictureId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER}, 
+      #{distributorId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureLabelDistributorScopeDO" >
+    insert into picture_label_distributor_scope
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pictureId != null" >
+        picture_id,
+      </if>
+      <if test="labelId != null" >
+        label_id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pictureId != null" >
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null" >
+        #{labelId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureLabelDistributorScopeDO" >
+    update picture_label_distributor_scope
+    <set >
+      <if test="pictureId != null" >
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null" >
+        label_id = #{labelId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.picture.dataobject.PictureLabelDistributorScopeDO" >
+    update picture_label_distributor_scope
+    set picture_id = #{pictureId,jdbcType=INTEGER},
+      label_id = #{labelId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

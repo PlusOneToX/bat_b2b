@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.distributor.DistributorModelExcludeDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.distributor.dataobject.DistributorModelExcludeDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, model_id, distributor_id, create_time, create_user_id, create_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_model_exclude
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_model_exclude
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.distributor.dataobject.DistributorModelExcludeDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_model_exclude (id, model_id, distributor_id, 
+      create_time, create_user_id, create_user_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.distributor.dataobject.DistributorModelExcludeDO" >
+    insert into distributor_model_exclude
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.distributor.dataobject.DistributorModelExcludeDO" >
+    update distributor_model_exclude
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.distributor.dataobject.DistributorModelExcludeDO" >
+    update distributor_model_exclude
+    set model_id = #{modelId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByModelId" resultMap="BaseResultMap">
+    select * from distributor_model_exclude where model_id = #{modelId}
+  </select>
+  <select id="listByDistributorIds" resultMap="BaseResultMap">
+    select * from distributor_model_exclude where distributor_id
+    in
+    <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+      #{distributorId}
+    </foreach>
+  </select>
+</mapper>

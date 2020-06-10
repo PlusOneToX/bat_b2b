@@ -1,0 +1,142 @@
+<!--pages/index/index.wxml-->
+<view class="home-wrap">
+  <!-- 型号/材质 -->
+  <view class="top-info">
+    <view class="model" bindtap="handleShowModel" wx:if="{{modelList.length > 0}}">
+      {{ modelName ? modelName : "请选择机型" }}
+      <van-icon name="arrow" />
+    </view>
+    <view class="material">{{ materialName }}</view>
+  </view>
+
+  <!-- banner -->
+  <swiper class="swiper" autoplay circular wx:if="{{bannerList && bannerList.length > 0}}">
+    <swiper-item wx:for="{{bannerList}}" wx:key="id" wx:for-item="banner" bindtap="goDetailList" data-item="{{banner}}">
+      <image class="banner-image" src="{{banner.bannerUrl}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+  <view class="swiper" wx:else>
+    <image class="banner-image" src="../../assets/images/default.png" mode="aspectFit"></image>
+  </view>
+
+  <!-- menu -->
+  <view class="menu-list-wrap">
+    <view class="menu-list">
+      <view class="menu-t">
+        <view class="menu-t-item" bindtap="goTheme">
+          <image class="image" src="../../assets/images/home_theme.png"></image>
+          <view class="menu-title">官方主题</view>
+          <view class="menu-con">海量IP授权图库</view>
+        </view>
+        <view class="menu-t-item" bindtap="goCustom">
+          <image class="image" src="../../assets/images/home_custom.png"></image>
+          <view class="menu-title">传图定制</view>
+          <view class="menu-con">做自己的设计师</view>
+        </view>
+      </view>
+      <view class="menu-b" bindtap="goCode">
+        <image class="image" src="../../assets/images/home_card.png"></image>
+        <text class="menu-title">卡包中心</text>
+        <view class="menu-con">
+          <text wx:if="userId">您有 {{ cardNum }} 张兑换卡可用</text>
+          <van-icon class="icon" name="arrow" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 通知栏 -->
+  <view class="notice-wrap" wx:if="{{noticeText}}">
+    <van-notice-bar color="#333333" background="transparent" left-icon="../../../../assets/images/notice.png" text="{{noticeText}}" />
+  </view>
+
+  <!-- 推荐/系列 -->
+  <view class="recommend-wrap" style="min-height: {{scrollHeight}}px">
+    <van-tabs class="recommend-title-wrap {{clickedTab ? '' : 'clickedTab'}}" sticky swipeable ellipsis="{{false}}" bind:change="handleClickSeries">
+      <van-tab wx:for="{{seriesList}}" wx:key="id" wx:for-item="series" title="{{series.themeName}}" name="{{series.id}}">
+        <view class="recommend-con {{curTab === 0 ? 'active' : ''}}" hidden="{{curTab !== 0}}">
+          <view class="goods-wrap" wx:for="{{recommendData}}" wx:key="id" wx:for-item="recommend" bindtap="goDetail" data-item="{{recommend}}">
+            <view class="goods-con">
+              <image class="goods-image" src="{{recommend.backgroundPreviewUrl}}" mode="heightFix"></image>
+              <!-- <view class="goods-name">{{recommend.pictureName}}</view> -->
+              <view class="custom-btn">选我定制</view>
+            </view>
+          </view>
+
+          <!-- 暂无数据 -->
+          <view class="no-data-wrap" hidden="{{recommendData && recommendData.length > 0}}">
+            <no-data></no-data>
+          </view>
+
+          <!-- 分割线 -->
+          <view class="divider-wrap" hidden="{{recommendData && recommendData.length <= 0}}">
+            <van-divider contentPosition="center" customStyle="color: #999999; border-color: rgba(231, 231, 231, 0.5); font-size: 10px;">
+              你看到我的底线啦
+            </van-divider>
+          </view>
+        </view>
+
+        <view class="recommend-con {{curTab === series.id ? 'active' : ''}}" hidden="{{curTab !== series.id}}">
+          <view class="goods-wrap" wx:for="{{seriesData}}" wx:key="id" wx:for-item="series" bindtap="goDetail" data-item="{{series}}">
+            <view class="goods-con">
+              <image class="goods-image" src="{{series.backgroundPreviewUrl}}" mode="heightFix"></image>
+              <!-- <view class="goods-name">{{series.pictureName}}</view> -->
+              <view class="custom-btn">选我定制</view>
+            </view>
+          </view>
+
+          <!-- 暂无数据 -->
+          <view class="no-data-wrap" hidden="{{seriesData && seriesData.length > 0}}">
+            <no-data></no-data>
+          </view>
+
+          <!-- 分割线 -->
+          <view class="divider-wrap" hidden="{{seriesData && seriesData.length <= 0}}">
+            <van-divider contentPosition="center" customStyle="color: #999999; border-color: rgba(231, 231, 231, 0.5); font-size: 10px;">
+              你看到我的底线啦
+            </van-divider>
+          </view>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </view>
+
+  <!-- 选择型号 -->
+  <view class="model-wrap" hidden="{{showModelDialog}}">
+    <view class="model-content">
+      <view class="title">选择手机型号</view>
+      <view class="cur-model" wx:if="{{curMobile}}">已选型号：{{ curMobile }}</view>
+      <view class="cur-model tips" wx:else>系统未匹配到您的机型，请手动选择！</view>
+
+      <view class="model-list">
+        <view class="model-l">
+          <view wx:for="{{modelList}}" wx:key="index" wx:for-item="item" class="model-item {{curIndex === index ? 'active': ''}}" data-index="{{index}}" bindtap="changeModel">
+            <text class="text">
+              <text class="text-con">{{ item.name }}</text>
+            </text>
+          </view>
+        </view>
+        <view class="model-r">
+          <view wx:for="{{modelList}}" wx:key="index" wx:for-item="model" class="model-list-wrap {{ curIndex === index ? 'active' : '' }}">
+            <view wx:for="{{model.childrenList}}" wx:key="index" wx:for-item="item" class="model-item {{item.underStockFlag ? 'default' : (mobile === item.name || curMobile === item.name) ? 'active' : '' }}" data-item="{{item}}" bindtap="chooseModel">
+              <text class="text">
+                <text class="text-con">{{ item.name }}{{ item.underStockFlag ? "（缺货）" : "" }}</text>
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="btn-wrap">
+        <text class="btn grey-btn" bindtap="handleCancelModel">跳过</text>
+        <text class="btn confirm-btn default" wx:if="{{!curMobile}}">确定</text>
+        <text class="btn confirm-btn" wx:else="{{curMobile}}" bindtap="handleConfirmModel">确定</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+</view>

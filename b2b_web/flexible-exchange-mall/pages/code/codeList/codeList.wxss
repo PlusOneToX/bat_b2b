@@ -1,0 +1,147 @@
+/* pages/code/codeList/codeList.wxss */
+page {
+  background-color: var(--white);
+}
+
+.code-wrap {
+  position: relative;
+  padding-bottom: 150rpx;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.code-wrap .van-tab__pane {
+  padding-bottom: 150rpx;
+}
+
+.code-wrap .van-tabs__wrap {
+  height: 106rpx !important;
+  background-color: var(--white);
+}
+
+.code-list {
+  padding: 10rpx 75rpx;
+}
+
+.code-list-item {
+  position: relative;
+  padding-bottom: 16rpx;
+  background-color: rgba(183, 183, 183, 0.1);
+  border-radius: 18rpx;
+  overflow: hidden;
+}
+
+.code-list-item+.code-list-item {
+  margin-top: 40rpx;
+}
+
+.code-list-item.used,
+.code-list-item.expired {
+  position: relative;
+  background-color: rgba(246, 246, 246, 0.9);
+}
+
+.code-list-item.used .image,
+.code-list-item.expired .image {
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+  filter: #999999;
+  border-radius: 18rpx 18rpx 0 0;
+}
+
+.code-list-item.used .img-used,
+.code-list-item.expired .img-expired {
+  content: '';
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  width: 96rpx;
+  height: 96rpx;
+}
+
+.code-list-item .image {
+  width: 100%;
+  height: auto;
+}
+
+.code-list-item .handle-btn-wrap {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+
+.code-list-item .share-btn {
+  display: inline-block;
+  width: 82rpx;
+  height: 41rpx;
+  padding: 0;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 41rpx;
+  background-color: var(--white);
+  border-radius: 11rpx;
+}
+
+.code-list-item .share-btn+.share-btn {
+  margin-left: 18rpx;
+}
+
+.code-list-item .code {
+  margin-top: 40rpx;
+  font-size: 32rpx;
+  text-align: center;
+  line-height: 1;
+}
+
+.code-list-item .mail-fee {
+  font-size: 22rpx;
+  color: #999999;
+}
+
+.code-list-item .code-b {
+  margin-top: 31rpx;
+  padding: 0 30rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+}
+
+.code-list-item .code-b .btn {
+  float: right;
+  padding: 0 42rpx;
+  border-radius: 10rpx;
+}
+
+.code-wrap .btn-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30rpx 60rpx;
+  height: 150rpx;
+  background: var(--white);
+  box-shadow: 0px -3rpx 15rpx -4rpx rgba(189, 189, 189, 0.5);
+  box-sizing: border-box;
+}
+
+.code-wrap .btn-wrap .btn {
+  border-radius: 60rpx;
+}
+
+/* 暂无数据 */
+.no-data-wrap {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 320rpx);
+}
+
+/* 分割线 */
+.divider-wrap {
+  padding: 20rpx 80rpx 40rpx;
+}

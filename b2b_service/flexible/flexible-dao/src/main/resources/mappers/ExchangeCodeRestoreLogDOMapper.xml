@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeCodeRestoreLogDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeRestoreLogDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exchange_code_id" property="exchangeCodeId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="old_order_goods_id" property="oldOrderGoodsId" jdbcType="INTEGER" />
+    <result column="old_order_id" property="oldOrderId" jdbcType="INTEGER" />
+    <result column="old_user_order_no" property="oldUserOrderNo" jdbcType="VARCHAR" />
+    <result column="old_user_id" property="oldUserId" jdbcType="BIGINT" />
+    <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, exchange_code_id, create_time, old_order_goods_id, old_order_id, old_user_order_no, 
+    old_user_id, use_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_code_restore_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exchange_code_restore_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeRestoreLogDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into exchange_code_restore_log (id, exchange_code_id, create_time, 
+      old_order_goods_id, old_order_id, old_user_order_no, 
+      old_user_id, use_time)
+    values (#{id,jdbcType=INTEGER}, #{exchangeCodeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{oldOrderGoodsId,jdbcType=INTEGER}, #{oldOrderId,jdbcType=INTEGER}, #{oldUserOrderNo,jdbcType=VARCHAR}, 
+      #{oldUserId,jdbcType=BIGINT}, #{useTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeRestoreLogDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_code_restore_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exchangeCodeId != null" >
+        exchange_code_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="oldOrderGoodsId != null" >
+        old_order_goods_id,
+      </if>
+      <if test="oldOrderId != null" >
+        old_order_id,
+      </if>
+      <if test="oldUserOrderNo != null" >
+        old_user_order_no,
+      </if>
+      <if test="oldUserId != null" >
+        old_user_id,
+      </if>
+      <if test="useTime != null" >
+        use_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeCodeId != null" >
+        #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oldOrderGoodsId != null" >
+        #{oldOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="oldOrderId != null" >
+        #{oldOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="oldUserOrderNo != null" >
+        #{oldUserOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oldUserId != null" >
+        #{oldUserId,jdbcType=BIGINT},
+      </if>
+      <if test="useTime != null" >
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeRestoreLogDO" >
+    update exchange_code_restore_log
+    <set >
+      <if test="exchangeCodeId != null" >
+        exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oldOrderGoodsId != null" >
+        old_order_goods_id = #{oldOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="oldOrderId != null" >
+        old_order_id = #{oldOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="oldUserOrderNo != null" >
+        old_user_order_no = #{oldUserOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oldUserId != null" >
+        old_user_id = #{oldUserId,jdbcType=BIGINT},
+      </if>
+      <if test="useTime != null" >
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeRestoreLogDO" >
+    update exchange_code_restore_log
+    set exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      old_order_goods_id = #{oldOrderGoodsId,jdbcType=INTEGER},
+      old_order_id = #{oldOrderId,jdbcType=INTEGER},
+      old_user_order_no = #{oldUserOrderNo,jdbcType=VARCHAR},
+      old_user_id = #{oldUserId,jdbcType=BIGINT},
+      use_time = #{useTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

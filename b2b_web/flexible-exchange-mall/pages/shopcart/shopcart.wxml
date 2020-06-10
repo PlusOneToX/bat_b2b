@@ -1,0 +1,101 @@
+<!--pages/shopcart/shopcart.wxml-->
+<view class="shopcart-wrap">
+  <!-- 购物车为空 -->
+  <view class="shopcart-null" wx:if="{{noPro}}">
+    <no-data flagType="{{'shopcart'}}"></no-data>
+  </view>
+
+  <!-- 购物车非空 -->
+  <view wx:else class="shopcart-content">
+    <view class="item-title">
+      <view class="item-title-l">
+        <view class="label" bindtap="handleSelectAll">
+          <van-checkbox value="{{checkAll}}">全选</van-checkbox>
+        </view>
+      </view>
+
+      <view class="item-title-r" bindtap="handleDeleteAll">
+        <image class="icon-dashbox" src="../../assets/images/cart_dashbox.png" mode="scaleToFill"></image>
+      </view>
+    </view>
+    <view class="shopcart-main">
+      <view class="pro-wrap">
+        <view class="pro-list shop-list" wx:for="{{mGoods}}" wx:key="index" wx:for-item="item">
+          <view class="pro-detail" wx:for="{{item}}" wx:key="k" wx:for-index="childindex" wx:for-item="v">
+            <text class="checkbox isStock" wx:if="{{v.isStockOut}}"></text>
+            <view class="checkbox" wx:else bindtap="handleSelectSingle" data-good="{{v}}" data-child="{{childindex}}"
+              data-parent="{{index}}">
+              <van-checkbox value="{{v.isChecked}}"></van-checkbox>
+            </view>
+            <view wx:if="{{v.diy}}">
+              <view class="pro-img">
+                <image class="img" src="{{v.diy.previewImage}}" mode="heightFix"></image>
+              </view>
+              <view class="pro-intro">
+                <view class="pro-title">{{ v.itemName }}</view>
+                <view class="pro-spe">
+                  <text>规格：</text>
+                  <view>{{ v.diy.modelName }}</view>
+                  <view>{{ v.diy.materialName }}</view>
+                </view>
+              </view>
+            </view>
+            <view class="isStock" wx:if="{{v.isStockOut}}">
+              <text>缺货</text>
+            </view>
+            <view class="stepper" wx:else>
+              <view class="stepper-minus" bindtap="changeNum" data-id="{{v.id}}" data-type="-1">
+                <image class="cart-step icon-step_minus" src="../../assets/images/cart_step_minus.png" mode="widthFix">
+                </image>
+              </view>
+              <input class="stepper-input" type="number" maxlength="3" value="{{v.itemCount}}" data-id="{{v.id}}"
+                data-good="{{v}}" data-child="{{childindex}}" data-parent="{{index}}" bindblur="handleInput" />
+              <view class="stepper-plus" bindtap="changeNum" data-id="{{v.id}}" data-type="1">
+                <image class="cart-step icon-step_plus" src="../../assets/images/cart_step_plus.png" mode="widthFix">
+                </image>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 失效商品 -->
+      <view class="invalid-pro" hidden="{{invalidGoods.length <= 0}}">
+        <view class="item-title">
+          <view class="item-title-l">失效商品</view>
+          <text class="item-title-r text-r" bindtap="handleEmpty">清空失效商品</text>
+        </view>
+        <view class="pro-wrap">
+          <view class="pro-list" wx:for="{{invalidGoods}}" wx:key="item" wx:for-item="item">
+            <view class="pro-detail">
+              <view class="invalid-label">失效</view>
+              <view wx:if="{{item.diy}}">
+                <view class="pro-img">
+                  <image class="img" src="{{item.diy.previewImage}}" mode="heightFix"></image>
+                </view>
+                <view class="pro-intro">
+                  <view class="pro-title">{{ item.itemName }}</view>
+                  <view class="pro-spe">
+                    <text>规格：</text>
+                    <view>{{ item.diy.modelName }}</view>
+                    <view>{{ item.diy.materialName }}</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 底部操作栏 -->
+    <view class="fixed-btn-wrap" wx:if="{{goods.length > 0}}">
+      <view class="btn" bindtap="handleSubmit">立即兑换</view>
+    </view>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+</view>

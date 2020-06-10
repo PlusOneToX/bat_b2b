@@ -1,0 +1,2 @@
+ALTER TABLE `exchange_code` 
+ADD COLUMN `distributor_quanyi_price` decimal(16, 3) UNSIGNED NULL DEFAULT 0 COMMENT '分销商权益价格（分销商等级价）' AFTER `distributor_order_goods_id`

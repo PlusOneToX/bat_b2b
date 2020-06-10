@@ -1,0 +1,76 @@
+.payResult {
+  position: fixed;
+  width: 100%;
+  top: 44px;
+  bottom: 0;
+  color: #333333;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.image {
+  display: inline-block;
+  margin-top: 100rpx;
+  width: 348rpx;
+  height: 226rpx;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.text {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 32rpx;
+}
+
+.remind {
+  display: inline-block;
+  margin-top: 40rpx;
+  text-align: left;
+}
+
+.remind .title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #444444;
+}
+
+.item-ul {
+  margin-top: 20rpx;
+}
+
+.item-li {
+  display: block;
+  line-height: 1.5;
+  font-size: 28rpx;
+}
+
+.btn-wrap {
+  display: flex;
+  padding: 64rpx 30rpx;
+}
+
+.btn-wrap .btn {
+  display: inline-block;
+  flex: 1;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 90rpx;
+  background-color: #ffffff;
+}
+
+.btn-wrap .btn.border-btn {
+  border: 1px solid #FFDA01;
+}
+
+.btn-wrap .btn.confirm-btn {
+  background-color: #FFDA01;
+}
+
+.btn-wrap .btn+.btn {
+  margin-left: 30rpx;
+}

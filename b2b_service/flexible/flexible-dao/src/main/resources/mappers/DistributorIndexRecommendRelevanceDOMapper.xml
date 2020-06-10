@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.DistributorIndexRecommendRelevanceDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendRelevanceDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="index_recommend_id" property="indexRecommendId" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="IndexRecommendPageCOResultMap" type="com.bat.flexible.dao.index.co.IndexRecommendPageCO" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="index_recommend_id" property="indexRecommendId" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="picture_name" property="pictureName" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="origin_image" property="originImage" jdbcType="VARCHAR" />
+    <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, index_recommend_id, distributor_id, distributor_name, company_name, create_user_id, 
+    create_user_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_index_recommend_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_index_recommend_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_index_recommend_relevance (id, index_recommend_id, distributor_id, 
+      distributor_name, company_name, create_user_id, 
+      create_user_name, create_time)
+    values (#{id,jdbcType=INTEGER}, #{indexRecommendId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, 
+      #{distributorName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_index_recommend_relevance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indexRecommendId != null" >
+        index_recommend_id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="indexRecommendId != null" >
+        #{indexRecommendId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendRelevanceDO" >
+    update distributor_index_recommend_relevance
+    <set >
+      <if test="indexRecommendId != null" >
+        index_recommend_id = #{indexRecommendId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendRelevanceDO" >
+    update distributor_index_recommend_relevance
+    set index_recommend_id = #{indexRecommendId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByIndexRecommendId" resultMap="BaseResultMap">
+    select * from distributor_index_recommend_relevance where  index_recommend_id = #{indexRecommendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByIndexRecommendId" >
+    delete from distributor_index_recommend_relevance where  index_recommend_id = #{indexRecommendId,jdbcType=INTEGER}
+  </delete>
+  <select id="listByDistributorIdList" resultMap="BaseResultMap">
+    select * from distributor_index_recommend_relevance where 1=1 and (
+    <foreach collection="distributorIdList" separator=" or " item="distributorId">
+      distributor_id = #{distributorId,jdbcType=INTEGER}
+    </foreach>
+    )
+  </select>
+<select id="listCOByContent" resultMap="IndexRecommendPageCOResultMap">
+  SELECT
+	t.*,
+	GROUP_CONCAT( m.item_code ) item_code
+FROM
+	(
+	SELECT
+		irpr.id,
+		irpr.picture_id,
+		irpr.index_recommend_id,
+		p.`code`,
+		GROUP_CONCAT( dirr.distributor_name ) distributor_name,
+		GROUP_CONCAT( dirr.company_name ) company_name,
+		p.`name` picture_name,
+		p.english_name,
+		p.thumbnail,
+		p.origin_image,
+		irpr.sort_no
+	FROM
+		distributor_index_recommend_relevance dirr
+		LEFT JOIN index_recommend_picture_relevance irpr ON dirr.index_recommend_id = irpr.index_recommend_id
+		LEFT JOIN picture p ON irpr.picture_id = p.id
+	WHERE
+		p.open_flag = 1
+		AND p.del_flag = 0
+		<if test="content !=null and content !=''">
+          and (dirr.distributor_name like concat('%',#{content},'%') or dirr.company_name like concat('%',#{content},'%'))
+        </if>
+	GROUP BY
+		irpr.id
+	) t
+	LEFT JOIN picture_material_relevance pmr ON t.picture_id = pmr.picture_id
+	LEFT JOIN material m ON m.id = pmr.material_id
+GROUP BY
+	t.id
+ORDER BY
+	t.index_recommend_id DESC,
+	t.sort_no ASC
+</select>
+
+</mapper>

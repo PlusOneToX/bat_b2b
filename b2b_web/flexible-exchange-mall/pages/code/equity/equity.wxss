@@ -1,0 +1,47 @@
+/* pages/code/equity/equity.wxss */
+.equity-wrap {
+  position: relative;
+  padding-top: 112rpx;
+  height: 100vh;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.equity-wrap .bg-t {
+  width: 594rpx;
+  height: 378rpx;
+}
+
+.equity-wrap .tips {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 40rpx;
+}
+
+.equity-wrap .handle-wrap {
+  position: relative;
+  padding: 84rpx 60rpx 112rpx;
+  z-index: 2;
+}
+
+.equity-wrap .handle-wrap .input {
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  border-radius: 90rpx;
+}
+
+.equity-wrap .handle-wrap .btn {
+  margin-top: 56rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  border-radius: 90rpx;
+}
+
+.equity-wrap .bg-b {
+  position: absolute;
+  bottom: 112rpx;
+  left: 0;
+  width: 100%;
+}

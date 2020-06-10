@@ -1,0 +1,150 @@
+/* pages/activity/activity.wxss */
+.activity-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#995EFA 0%, #6B34D7 80%);
+}
+
+.custom-title {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  font-size: 30rpx;
+  color: var(--white);
+  text-align: center;
+  z-index: 2;
+}
+
+.custom-title .home-icon {
+  position: absolute;
+  top: 50%;
+  left: 20rpx;
+  width: 64rpx;
+  height: 64rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.activity-wrap .bg-t,
+.activity-wrap .bg-b {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.activity-wrap .bg-b {
+  top: 33%;
+}
+
+.activity-content {
+  position: absolute;
+  width: 100%;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.activity-content .card-info {
+  position: relative;
+  margin: 0 auto;
+  width: 538rpx;
+  height: 475rpx;
+}
+
+.activity-content .card-info image {
+  width: 100%;
+}
+
+.activity-content .card-info .card {
+  position: absolute;
+  bottom: 23rpx;
+  left: 50%;
+  width: 494rpx;
+  height: 312rpx;
+  transform: translateX(-50%);
+  border-radius: 18rpx;
+}
+
+.activity-content .tips {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: var(--white);
+  text-align: center;
+}
+
+.activity-content .tips.mt-l {
+  margin-top: 16rpx;
+}
+
+.share-btn-wrap {
+  margin-top: 82rpx;
+}
+
+.share-btn-wrap .btn-wrap {
+  padding: 0;
+  width: 500rpx;
+  background-color: transparent;
+}
+
+.activity-content .share-btn-list {
+  margin: 125rpx auto;
+  display: flex;
+  justify-content: space-between;
+  width: 538rpx;
+}
+
+.activity-content .share-btn-list.mt-l {
+  margin-top: 155rpx;
+}
+
+.activity-content .share-btn-list .btn {
+  position: relative;
+  width: 235rpx;
+  height: 66rpx;
+  padding: 0 20rpx 0 68rpx;
+  font-size: 26rpx;
+  line-height: 66rpx;
+  background-color: var(--white);
+  border-radius: 66rpx;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.activity-content .share-btn-list .icon {
+  position: absolute;
+  top: 50%;
+  left: 20rpx;
+  width: 40rpx;
+  height: 40rpx;
+  transform: translateY(-50%);
+}
+
+/* 保存至相册 */
+.mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.save-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+}
+
+.save-inner .canvas {
+  width: 540rpx;
+  height: 800rpx;
+}

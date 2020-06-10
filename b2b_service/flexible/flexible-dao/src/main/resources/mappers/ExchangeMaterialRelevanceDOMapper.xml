@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeMaterialRelevanceDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeMaterialRelevanceDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exchange_id" property="exchangeId" jdbcType="INTEGER" />
+    <result column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, exchange_id, material_id, create_user_id, create_user_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_material_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exchange_material_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeMaterialRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_material_relevance (id, exchange_id, material_id, 
+       create_user_id, create_user_name,
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{exchangeId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, 
+       #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeMaterialRelevanceDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into exchange_material_relevance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exchangeId != null" >
+        exchange_id,
+      </if>
+      <if test="materialId != null" >
+        material_id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null" >
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeMaterialRelevanceDO" >
+    update exchange_material_relevance
+    <set >
+      <if test="exchangeId != null" >
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null" >
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeMaterialRelevanceDO" >
+    update exchange_material_relevance
+    set exchange_id = #{exchangeId,jdbcType=INTEGER},
+      material_id = #{materialId,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByExchangeId" resultMap="BaseResultMap">
+
+    select * from exchange_material_relevance where exchange_id =#{exchangeId}
+  </select>
+  <select id="findByExchangeIdAndMaterialId" resultMap="BaseResultMap">
+     select * from exchange_material_relevance where exchange_id =#{exchangeId} and material_id = #{materialId}
+  </select>
+</mapper>

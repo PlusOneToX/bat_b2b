@@ -1,0 +1,148 @@
+<view class="home-wrap">
+  <!-- 型号/材质 -->
+  <view class="top-info">
+    <view class="model" onTap="handleShowModel">
+      {{ modelName ? modelName : "请选择机型" }}
+      <text class="iconfont icon-arrow-right"></text>
+    </view>
+  </view>
+  <!-- banner -->
+  <swiper class="swiper" autoplay circular a:if="{{bannerList && bannerList.length > 0}}">
+    <swiper-item a:for="{{bannerList}}" a:for-index="id" a:for-item="banner" onTap="goDetailList" data-item="{{banner}}">
+      <image class="banner-image" src="{{banner.bannerUrl}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+  <view class="swiper" a:else>
+    <image class="banner-image" src="/assets/images/default.png" mode="aspectFit"></image>
+  </view>
+  <!-- menu -->
+  <view class="menu-list-wrap">
+    <view class="menu-list">
+      <view class="menu-t-item" onTap="goCustom">
+        <view class="menu-t-item-box">
+          <image class="image" src="{{ couponBtnPhotoImg }}"></image>
+        </view>
+        <view class="menu-title">传图定制</view>
+        <view class="menu-con">做自己的设计师</view>
+      </view>
+      <view class="menu-t-item" onTap="goCoupon" data-curTabCou="{{ curTabCou }}">
+        <view class="menu-t-item-box_">
+          <image class="image_gif" src="{{ couponBtnImg }}" mode="widthFix"></image>
+        </view>
+        <view class="menu-title gif_text">优惠券</view>
+        <view class="menu-con gif_text">领券购买更优惠</view>
+      </view>
+    </view>
+  </view>
+  <!-- 通知栏 -->
+  <w-notice showFlag="{{'home'}}"></w-notice>
+  <!-- 推荐/系列 -->
+  <view class="recommend-wrap" style="min-height: {{scrollHeight}}px" id="recommendWrap">
+    <view class="recommend-category {{hasFixed ? 'fixed' : ''}}">
+      <view class="item-list">
+        <view class="item {{curTab === series.id ? 'curItem' : ''}}" a:for="{{seriesList}}" a:for-index="id" a:for-item="series" 
+          data-id="{{series.id}}" onTap="handleClickSeries">
+          {{series.themeName}}
+          <view class="tab" hidden="{{curTab !== series.id}}">
+            <image src="/assets/images/home-tab.png" mode="widthFix" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 推荐 -->
+    <view hidden="{{curTab !== 0}}">
+      <view class="recommend-con {{hasFixed ? 'fixed' : ''}}">
+        <view class="goods-wrap" a:for="{{recommendData}}" a:for-index="id" a:for-item="recommend" onTap="goDetail" data-item="{{recommend}}">
+          <view class="goods-con">
+            <image class="goods-image" src="{{recommend.backgroundPreviewUrl}}" mode="heightFix"></image>
+            <view class="custom-btn">选我定制</view>
+          </view>
+        </view>
+        <!-- 暂无数据 -->
+        <view class="no-data-wrap" hidden="{{recommendData && recommendData.length > 0}}">
+          <no-data></no-data>
+        </view>
+      </view>
+      <!-- 分割线 -->
+      <view class="divider-wrap" hidden="{{recommendData && recommendData.length <= 0}}">
+        <w-divider></w-divider>
+      </view>
+    </view>
+    <!-- 其他系列 -->
+    <view hidden="{{curTab === 0}}">
+      <view class="recommend-con {{hasFixed ? 'fixed' : ''}}">
+        <view class="goods-wrap" a:for="{{seriesData}}" a:for-index="id" a:for-item="series" onTap="goDetail" data-item="{{series}}">
+          <view class="goods-con">
+            <image class="goods-image" src="{{series.backgroundPreviewUrl}}" mode="heightFix"></image>
+            <view class="custom-btn">选我定制</view>
+          </view>
+        </view>
+        <!-- 暂无数据 -->
+        <view class="no-data-wrap" hidden="{{seriesData && seriesData.length > 0}}">
+          <no-data></no-data>
+        </view>
+      </view>
+      <!-- 分割线 -->
+      <view class="divider-wrap" hidden="{{seriesData && seriesData.length <= 0}}">
+        <w-divider></w-divider>
+      </view>
+    </view>
+  </view>
+  <!-- 选择型号 -->
+  <view class="model-wrap" hidden="{{showModelDialog}}">
+    <view class="model-content">
+      <view class="title">选择手机型号</view>
+      <view class="cur-model" a:if="{{curMobile}}">已选型号：{{ curMobile }}</view>
+      <view class="cur-model tips" a:else>系统未匹配到您的机型，请手动选择！</view>
+      <view class="model-list">
+        <view class="model-l">
+          <view a:for="{{modelList}}" a:for-index="index" a:for-item="item" class="model-item {{curIndex === index ? 'active': ''}}" 
+            data-index="{{index}}" onTap="changeModel">
+            <text class="text">
+              <text class="text-con">{{ item.name }}</text>
+            </text>
+          </view>
+        </view>
+        <view class="model-r">
+          <view a:for="{{modelList}}" a:for-index="index" a:for-item="model" class="model-list-wrap {{ curIndex === index ? 'active' : '' }}">
+            <view a:for="{{model.childrenList}}" a:for-index="index" a:for-item="item" class="model-item {{item.underStockFlag ? 'default' : (mobile === item.name || curMobile === item.name) ? 'active' : '' }}" 
+              data-item="{{item}}" onTap="chooseModel">
+              <text class="text">
+                <text class="text-con">{{ item.name }}{{ item.underStockFlag ? "（缺货）" : "" }}</text>
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="btn-wrap">
+        <text class="btn grey-btn" onTap="handleCancelModel">跳过</text>
+        <text class="btn confirm-btn default" a:if="{{!curMobile}}">确定</text>
+        <text class="btn confirm-btn" a:if="{{curMobile}}" onTap="handleConfirmModel">确定</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 柔性关闭弹窗 -->
+  <view class="flexible-dialog" a:if="{{showFlexible}}">
+	  <view class="flexible-dialog-content">
+	      <view class="flexible-cotent-top">
+	      	<image class="flexible-cotent-top-img" src="../../assets/images/flexible-logo.png" mode="widthFix"/>
+	      </view>
+		  
+		  <view class="flexible-cotent-middle-title">
+		  	 通知提醒
+		  </view>
+		  <view class="flexible-cotent-middle-info">
+		  	 尊敬的客户，本商城将于6月30日停止运营，仅保留订单查询服务。感谢您的信任和支持。
+		  </view>
+		  <view class="flexible-cotent-bottom" onTap="clickFlexible"> 
+		  	 知道了
+		  </view>
+	  </view>
+	</view>
+
+  <!-- loading -->
+  <view hidden="{{!showLoading}}">
+    <w-loading message="{{message}}"></w-loading>
+  </view>
+</view>

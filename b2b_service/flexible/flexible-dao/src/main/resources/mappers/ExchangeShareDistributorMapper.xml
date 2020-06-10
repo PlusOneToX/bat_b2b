@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeShareDistributorMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeShareDistributorDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_share_id" jdbcType="INTEGER" property="exchangeShareId" />
+    <result column="distributor_id" jdbcType="INTEGER" property="distributorId" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_share_id, distributor_id, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_share_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_share_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeShareDistributorDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_share_distributor (exchange_share_id, distributor_id, type
+      )
+    values (#{exchangeShareId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{type,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeShareDistributorDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_share_distributor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeShareId != null">
+        exchange_share_id,
+      </if>
+      <if test="distributorId != null">
+        distributor_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeShareId != null">
+        #{exchangeShareId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeShareDistributorDO">
+    update exchange_share_distributor
+    <set>
+      <if test="exchangeShareId != null">
+        exchange_share_id = #{exchangeShareId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null">
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeShareDistributorDO">
+    update exchange_share_distributor
+    set exchange_share_id = #{exchangeShareId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      type = #{type,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" parameterType="java.util.List">
+    INSERT INTO exchange_share_distributor(
+    exchange_share_id,
+    distributor_id,
+    type
+    ) VALUES
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.exchangeShareId},
+      #{item.distributorId},
+      #{item.type}
+      )
+    </foreach>
+  </insert>
+
+  <select id="listByExchangeShareIdAndType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from exchange_share_distributor
+    where exchange_share_id = #{exchangeShareId,jdbcType=INTEGER} and type = #{type,jdbcType=SMALLINT}
+  </select>
+
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+    delete from exchange_share_distributor
+    where id in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+  <delete id="deleteByExchangeShareId">
+    delete
+    from exchange_share_distributor
+    where exchange_share_id = #{exchangeShareId}
+  </delete>
+
+</mapper>

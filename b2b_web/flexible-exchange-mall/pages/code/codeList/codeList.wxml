@@ -1,0 +1,60 @@
+<!--pages/code/codeList/codeList.wxml-->
+<wxs module="unit" src="../../../filter/formatStr.wxs"></wxs>
+
+<view class="code-wrap">
+  <van-tabs class="code-title-wrap" sticky swipeable ellipsis="{{false}}" bind:change="handleClickCode">
+    <van-tab wx:for="{{codeTitle}}" wx:key="id" wx:for-item="title" title="{{title.name}}" name="{{title.id}}">
+      <view class="code-list">
+        <view wx:for="{{codeList}}" wx:key="index" wx:for-item="code"
+          class="code-list-item {{ code.status === 2 ? 'used' : (code.status === 3 || code.status === 4) ? 'expired': '' }}">
+          <image class="image" src="{{code.headImg}}" mode="widthFix"></image>
+
+          <view class="handle-btn-wrap" wx:if="{{code.status === 1}}">
+            <!-- 解绑 -->
+            <button class="share-btn" data-id="{{code.id}}" bindtap="handleUnbound">解绑</button>
+            <!-- 转赠 -->
+            <button open-type="share" class="share-btn" data-id="{{code.id}}">转赠</button>
+          </view>
+
+          <!-- 已使用 -->
+          <image class="img-used" wx:if="{{code.status === 2}}" src="../../../assets/images/code-used.png"
+            mode="widthFix">
+          </image>
+          <!-- 已过期 -->
+          <image class="img-expired" wx:if="{{code.status === 3 || code.status === 4}}"
+            src="../../../assets/images/code-expired.png" mode="widthFix"></image>
+
+          <view class="code">
+            {{ code.secretCode }}<text class="mail-fee" wx:if="{{code.mailSetting === 2 && code.mailFee}}">（需支付 {{
+              code.mailFee }} 元运费）</text>
+          </view>
+          <view class="code-b">
+            <text class="time">有效期至：{{ unit.formatDate(code.endTime, 'YY-MM-DD') }}</text>
+            <text hidden="{{code.status !== 1}}" class="btn confirm-btn" bindtap="goCustom"
+              data-id="{{code.exchangeId}}">立即定制</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 暂无数据 -->
+      <view class="no-data-wrap" hidden="{{codeList && codeList.length > 0}}">
+        <no-data></no-data>
+      </view>
+
+      <!-- 分割线 -->
+      <view class="divider-wrap" hidden="{{codeList && codeList.length <= 0}}">
+        <van-divider contentPosition="center"
+          customStyle="color: #999999; border-color: rgba(231, 231, 231, 0.5); font-size: 10px;">
+          你看到我的底线啦
+        </van-divider>
+      </view>
+    </van-tab>
+  </van-tabs>
+
+  <view class="btn-wrap">
+    <button class="btn confirm-btn" bindtap="goBindCode">绑定兑换卡</button>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+</view>

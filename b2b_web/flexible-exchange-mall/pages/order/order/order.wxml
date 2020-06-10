@@ -1,0 +1,172 @@
+<!--pages/order/order/order.wxml-->
+<wxs module="unit" src="../../../filter/formatStr.wxs"></wxs>
+
+<view class="order-wrapper">
+  <!-- 通知栏 -->
+  <view class="notice-wrap" wx:if="{{noticeText}}">
+    <van-notice-bar color="#333333" background="rgba(255, 218, 1, 0.2)" left-icon="../../../../assets/images/notice.png"
+      text="{{noticeText}}" />
+  </view>
+
+  <!-- 地址 -->
+  <view class="address-wrap {{addrTotal > 0 ? 'hasAddr' : ''}}" bindtap="handleAddress">
+    <image class="location" src="../../../assets/images/location.png"></image>
+
+    <view class="address-detail" wx:if="{{addrTotal > 0}}">
+      <view class="addr-t">
+        <view class="tag" wx:if="{{addrDetail.defaultFlag === 1}}">默认</view>
+        <text class="name">{{addrDetail.userName}}</text>
+        <text class="phone">{{addrDetail.phone}}</text>
+      </view>
+      <view class="address">{{addrDetail.address}}</view>
+      <view class="detail">{{addrDetail.detail}}</view>
+    </view>
+
+    <view class="no-address" wx:else>请填写收货地址</view>
+
+    <van-icon class="icon" name="arrow" />
+  </view>
+
+  <!-- 订单商品信息 -->
+  <view class="order-wrap" wx:for="{{mGoods}}" wx:key="index" wx:for-index="index" wx:for-item="mGood">
+    <view class="item-box" wx:for="{{mGood}}" wx:key="childindex" wx:for-index="childindex" wx:for-item="good">
+      <view class="order-info">
+        <view class="pro-img">
+          <image class="img" src="{{good.diy.previewImage}}" mode="heightFix"></image>
+        </view>
+        <view class="order-detail">
+          <view class="tbox">
+            <text class="name">{{ good.itemName }}</text>
+          </view>
+          <view class="text model">
+            <view class="pro-spe">
+              <text class="pro-spe-title">规格：</text>
+              <view>{{ good.diy.modelName }}</view>
+              <view>{{ good.diy.materialName }}</view>
+              <view class="count"><text>X</text>{{ good.itemCount }}</view>
+            </view>
+          </view>
+
+          <view class="code-wrap {{good.secretCodes ? 'hasCode' : '' }}" bindtap="handleCard" data-good="{{good}}"
+            data-child="{{childindex}}" data-parent="{{index}}">
+            <text class="title">兑换卡</text>
+            <view class="secret-wrap">
+              <view class="secret" hidden="{{!good.secretCodes}}">
+                {{ good.secretCodes }}
+              </view>
+              <text class="no-secret" hidden="{{good.secretCodes}}">无可用，点击添加</text>
+            </view>
+            <view class="need-secret" hidden="{{!good.curNeedNum}}">
+              <text>还需{{ good.curNeedNum }}张兑换卡</text>
+              <van-icon name="arrow" />
+            </view>
+            <van-icon name="arrow" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="item-box double" hidden="{{!mGood[index].hasCode}}">
+      <view class="tr-box">
+        <view class="left">
+          配送方式<text>{{
+            mGood[index].deliveryPrice > 0 ? "普通快递" : ""
+            }}</text>
+        </view>
+        <view class="text">{{ express }}</view>
+        <view class="price {{mGood[index].deliveryPrice > 0 ? 'sale' : ''}}">
+          <text class="desc" wx:if="{{mGood[index].deliveryPrice > 0}}">运费：</text>
+          {{
+          mGood[index].hasCode
+          ? mGood[index].deliveryPrice > 0
+          ? "¥ " + mGood[index].deliveryPrice
+          : "包邮"
+          : ""
+          }}
+        </view>
+      </view>
+    </view> -->
+  </view>
+  <view class="item-box double">
+    <view class="tr-box">
+      <view class="left">
+        配送方式<text>{{totalMailFee > 0 ? "普通快递" : ""}}</text>
+      </view>
+      <view class="text">{{ express }}</view>
+      <view class="price {{totalMailFee > 0 ? 'sale' : ''}}">
+        <text class="desc" wx:if="{{totalMailFee > 0}}">运费：</text>
+        {{totalMailFee > 0 ? "¥ " + totalMailFee : "包邮"}}
+      </view>
+    </view>
+    <view class="tr-box">
+      <view class="left">订单备注：</view>
+      <van-field class="input" value="{{message}}" placeholder="您还有什么要求，请在这里说" clearable />
+    </view>
+  </view>
+
+  <view class="protocol-box">
+    <view class="checkbox-wrap">
+      <van-checkbox value="{{checked}}" bindtap="handleCheck">兑换即同意</van-checkbox>
+    </view>
+    <text class="point" bindtap="openProtocol">《定制产品兑换协议》</text>
+  </view>
+
+  <view class="fixed-btn-wrap {{exchangeShareData && exchangeShareData.id ? 'between' : ''}}">
+    <button open-type="share" class="btn share-btn" wx:if="{{hasMailFee && exchangeShareData && exchangeShareData.id}}"
+      data-id="{{exchangeShareData.id}}">{{exchangeShareData.forwardButtonText}}{{exchangeShareData.reduceAmount}}元</button>
+    <view class="btn {{isDisable ? 'readonly' : ''}}" bindtap="getDeliveryStopStatus">
+      {{ hasMailFee ? "提交订单" : "立即兑换" }}
+    </view>
+  </view>
+
+  <!-- 蒙版 -->
+  <view class="mask" hidden="{{!showMask}}" bindtap="closeMask"></view>
+
+  <!-- 兑换卡弹窗（已有兑换卡） -->
+  <view class="card-dialog" hidden="{{!cardListShow}}">
+    <view class="card-wrap card-list-wrap">
+      <view class="title">
+        <view class="text">
+          兑换卡
+          <text>所需 {{ needNum }} 张兑换卡/已选 {{ choosedNum }} 张兑换卡</text>
+        </view>
+        <text class="close" bindtap="closeDialog">确定</text>
+      </view>
+
+      <view class="card-list">
+        <view class="card-list-item" wx:for="{{cardList}}" wx:key="index" wx:for-index="index" wx:for-item="code"
+          bindtap="handleSelect" data-item="{{code}}">
+          <view class="card-t">
+            <image class="img" src="{{code.headImg}}" mode="widthFix"></image>
+          </view>
+          <view class="mail-fee" wx:if="{{code.mailSetting !== 1 && code.mailFee}}">
+            （需支付 {{ code.mailFee }} 元运费）
+          </view>
+          <view class="card-b">
+            <text class="time">有效期至：{{ unit.formatDate(code.endTime, 'YY-MM-DD') }}</text>
+            <text class="code">{{ code.secretCode }}</text>
+          </view>
+
+          <view class="checkbox" wx:if="{{code.canSelect}}">
+            <van-checkbox value="{{code.hasNSelect}}"></van-checkbox>
+          </view>
+          <text class="checkbox isStock" wx:else></text>
+        </view>
+      </view>
+
+      <view class="btn-wrap">
+        <text class="btn confirm-btn" bindtap="goBindCard">绑定兑换卡</text>
+      </view>
+    </view>
+  </view>
+
+  <!---协议---->
+  <view class="protocol-wrapper {{fadeProtocol ? 'show' : ''}}">
+    <protocol bind:agree="handleAgree"></protocol>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+</view>

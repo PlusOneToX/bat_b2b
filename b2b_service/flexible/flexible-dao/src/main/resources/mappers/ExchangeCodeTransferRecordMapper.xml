@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeCodeTransferRecordMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeTransferRecordDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_id" jdbcType="INTEGER" property="exchangeId" />
+    <result column="exchange_code_id" jdbcType="INTEGER" property="exchangeCodeId" />
+    <result column="from_user_id" jdbcType="INTEGER" property="fromUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="receive_flag" jdbcType="SMALLINT" property="receiveFlag" />
+    <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
+    <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_id, exchange_code_id, from_user_id, create_time, receive_flag, to_user_id, 
+    receive_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_code_transfer_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from exchange_code_transfer_record
+    <where>
+      <if test="exchangeCodeId != null">
+        and exchange_code_id=#{exchangeCodeId}
+      </if>
+      <if test="fromUserId != null">
+        and from_user_id=#{fromUserId}
+      </if>
+      <if test="receiveFlag != null">
+        and receive_flag=#{receiveFlag}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_code_transfer_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeTransferRecordDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_code_transfer_record (exchange_id, exchange_code_id, from_user_id, 
+      create_time, receive_flag, to_user_id, 
+      receive_time)
+    values (#{exchangeId,jdbcType=INTEGER}, #{exchangeCodeId,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{receiveFlag,jdbcType=SMALLINT}, #{toUserId,jdbcType=INTEGER}, 
+      #{receiveTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeTransferRecordDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_code_transfer_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeId != null">
+        exchange_id,
+      </if>
+      <if test="exchangeCodeId != null">
+        exchange_code_id,
+      </if>
+      <if test="fromUserId != null">
+        from_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="receiveFlag != null">
+        receive_flag,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
+      </if>
+      <if test="receiveTime != null">
+        receive_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeId != null">
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeCodeId != null">
+        #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserId != null">
+        #{fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveFlag != null">
+        #{receiveFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeTransferRecordDO">
+    update exchange_code_transfer_record
+    <set>
+      <if test="exchangeId != null">
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeCodeId != null">
+        exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserId != null">
+        from_user_id = #{fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveFlag != null">
+        receive_flag = #{receiveFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null">
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeTransferRecordDO">
+    update exchange_code_transfer_record
+    set exchange_id = #{exchangeId,jdbcType=INTEGER},
+      exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      from_user_id = #{fromUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      receive_flag = #{receiveFlag,jdbcType=SMALLINT},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

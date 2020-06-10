@@ -1,0 +1,26 @@
+.divider-content {
+  font-size: 20rpx;
+  color: #999999;
+  text-align: center;
+}
+
+.divider-content .line {
+  position: relative;
+  display: inline-block;
+  width: 180rpx;
+  height: 100%;
+}
+
+.divider-content .line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -9rpx;
+  width: 180rpx;
+  height: 1px;
+  background: rgba(216, 216, 216, 0.5);
+}
+
+.divider-content .text {
+  padding: 0 30rpx;
+}

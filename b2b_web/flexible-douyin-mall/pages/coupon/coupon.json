@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "w-loading": "../../components/loading/loading",
+    "w-coupon": "../../components/coupon/coupon"
+  },
+  "navigationBarTitleText": "优惠券"
+}

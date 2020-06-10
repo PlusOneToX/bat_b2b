@@ -1,0 +1,81 @@
+<view class="mine-wrap">
+  <view class="container-t-wrap">
+    <view class="container-t">
+      <view class="order-wrap">
+        <view class="avatar-box">
+          <view class="avatar-img">
+            <image class="image" src="{{avatarImg}}"></image>
+          </view>
+          <view class="name">
+            {{ nikeName }}
+          </view>
+        </view>
+        <view class="all-order" data-sid="0" bindtap="goOrder">
+          <view>我的订单</view>
+          <view class="arrow-right">全部
+            <text class="iconfont icon-arrow-right"></text>
+          </view>
+        </view>
+        <view class="item-ul">
+          <view class="item-li" data-sid="1" bindtap="goOrder">
+            <image class="sprite-icon icon-my_pay" src="../../assets/images/my_pay.png"></image>
+            <view class="text">待支付</view>
+          </view>
+          <view class="item-li" data-sid="2" bindtap="goOrder">
+            <image class="sprite-icon icon-my_ship" src="../../assets/images/my_ship.png"></image>
+            <view class="text">待发货</view>
+          </view>
+          <view class="item-li" data-sid="4" bindtap="goOrder">
+            <image class="sprite-icon icon-my_shipping" src="../../assets/images/my_shipping.png"></image>
+            <view class="text">待收货</view>
+          </view>
+          <view class="item-li" data-sid="6" bindtap="goOrder">
+            <image class="sprite-icon icon-my_shipped" src="../../assets/images/my_shipped.png"></image>
+            <view class="text">已完成</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="service-list">
+    <view class="item-ul">
+      <view class="item-li" bindtap="goShopcart">
+        <image class="sprite-icon icon-my_cart" src="../../assets/images/my_cart.png"></image>
+        <text class="text">购物车</text>
+        <text class="iconfont icon-arrow-right"></text>
+      </view>
+      <view class="item-li" bindtap="goCoupon">
+        <image class="sprite-icon icon-my_coupon" src="../../assets/images/my_coupon.png"></image>
+        <text class="text">优惠券</text>
+        <text class="iconfont icon-arrow-right"></text>
+      </view>
+      <view class="item-li" bindtap="goAddress">
+        <image class="sprite-icon icon-my_address" src="../../assets/images/my_address.png"></image>
+        <text class="text">地址管理</text>
+        <text class="iconfont icon-arrow-right"></text>
+      </view>
+      <view class="item-li" data-status="{{true}}" bindtap="handleDialog">
+        <image class="sprite-icon icon-my_chat" src="../../assets/images/my_chat.png"></image>
+        <text class="text">在线客服</text>
+        <span class="tips">客服时间：工作日09:00~21:00</span>
+        <text class="iconfont icon-arrow-right"></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 在线客服 -->
+  <view class="mask" hidden="{{!showDialog}}"></view>
+  <view class="online-service {{showDialog ? 'show' : ''}}">
+    <view class="service-box">
+      <view class="service-item" bindtap="handlePhone">
+        <image class="sprite-icon icon-mine_mobile" src="../../assets/images/mine_mobile.png"></image>
+        <text class="text">客服热线</text>
+      </view>
+      <view class="service-item" bindtap="handleWechat">
+        <image class="sprite-icon icon-mine_wechat" src="../../assets/images/mine_wechat.png"></image>
+        <text class="text">微信客服</text>
+      </view>
+    </view>
+    <view class="btn-cancel" data-status="{{false}}" bindtap="handleDialog">取消</view>
+  </view>
+</view>

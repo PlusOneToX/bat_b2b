@@ -1,0 +1,123 @@
+<import-sjs name="unit" from="/filter/formatStr.sjs" />
+<view class="order-wrapper">
+  <!-- 通知栏 -->
+  <w-notice showFlag="{{'order'}}"></w-notice>
+  <!-- 地址 -->
+  <view class="address-wrap {{addrTotal > 0 ? 'hasAddr' : ''}}" onTap="handleAddress">
+    <image class="location" src="/assets/images/location.png"></image>
+    <view class="address-detail" a:if="{{addrTotal > 0}}">
+      <view class="addr-t">
+        <view class="tag" a:if="{{addrDetail.defaultFlag === 1}}">默认</view>
+        <text class="name">{{addrDetail.userName}}</text>
+        <text class="phone">{{addrDetail.phone}}</text>
+      </view>
+      <view class="address">{{addrDetail.address}}</view>
+      <view class="detail">{{addrDetail.detail}}</view>
+    </view>
+    <view class="no-address" a:else>请填写收货地址</view>
+    <text class="iconfont icon-arrow-right"></text>
+  </view>
+  <!-- 订单商品信息 -->
+  <view class="order-wrap" a:for="{{mGoods}}" a:for-index="index" a:for-item="mGood">
+    <view class="item-box" a:for="{{mGood}}" a:for-index="childindex" a:for-item="good">
+      <view class="order-info">
+        <view class="pro-img">
+          <image class="img" src="{{good.diy.previewImage}}" mode="heightFix"></image>
+        </view>
+        <view class="order-detail">
+          <view class="tbox">
+            <text class="name">{{ good.itemName }}</text>
+          </view>
+          <view class="text model">
+            <view class="pro-spe">
+              <text class="pro-spe-title">规格：</text>
+              <view>{{ good.diy.modelName }}</view>
+              <view>{{ good.diy.materialName }}</view>
+              <view class="count">
+                <text>X</text>{{ good.itemCount }}</view>
+            </view>
+            <view class="pro-price">
+              ￥
+              <text class="price">{{ good.salePrice }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="item-box double">
+    <view class="tr-box">
+      <view class="left">
+        配送方式
+        <text class="label">{{deliveryPrice > 0 ? "普通快递" : ""}}</text>
+      </view>
+      <view class="right {{deliveryPrice > 0 ? 'price' : ''}}">
+        <text class="desc" a:if="{{deliveryPrice > 0}}">运费：</text>
+        {{deliveryPrice > 0 ? "¥ " + deliveryPrice : "包邮"}}
+      </view>
+    </view>
+    <view class="tr-box">
+      <view class="left">费用总计</view>
+      <view class="right price">￥
+        <text class="num">{{itemPrice}}</text></view>
+    </view>
+  </view>
+  <view class="item-box double">
+    <view class="tr-box">
+      <view class="left">商品优惠</view>
+      <view class="right {{couponFlag ? 'red' : ''}}" onTap="openCoupon">{{couponFlag ? saleValue : '不使用优惠券'}}
+        <text class="iconfont icon-arrow-right"></text></view>
+    </view>
+    <view class="tr-box">
+      <view class="left">订单备注：</view>
+      <input class="input" value="{{message}}" placeholder="您还有什么要求，请在这里说" clearable />
+    </view>
+  </view>
+  <!-- 协议 -->
+  <view class="protocol-box">
+    <view class="checkbox-wrap" onTap="handleCheck">
+      <checkbox class="checkbox-item" controlled="{{true}}" color="#333333" value="{{checked}}" checked="{{checked}}" />点击同意
+    </view>
+    <text class="point" onTap="openProtocol">《产品定制服务协议》</text>
+  </view>
+  <!-- 底部按钮 -->
+  <view class="fixed-btn-wrap">
+    <view class="total">合计：
+      <text class="price">￥</text>
+      <text class="price num">{{totalPrice}}</text></view>
+    <view class="btn {{isDisable ? 'readonly' : ''}}" onTap="getDeliveryStopStatus">提交订单</view>
+  </view>
+  <!-- 优惠券弹窗 -->
+  <view class="mask" onTap="closeMask" hidden="{{!showCoupon}}"></view>
+  <view class="coupon-dialog {{showCoupon ? 'show' : ''}}">
+    <w-coupon couponFlag="{{true}}" curTab="{{curTab}}" couponTabs="{{couponTabs}}" couponTotal="{{couponTotal}}" couponList="{{couponList}}" onExplainClick="handleExplain" onTabClick="handleTab" onLoadMore="loadMore" onHandleItem="handleCouponItem" onCancelItem="cancelCoupon"></w-coupon>
+  </view>
+  <!-- 协议弹窗 -->
+  <view class="protocol-wrapper {{fadeProtocol ? 'show' : ''}}">
+    <w-protocol onAgree="handleAgree"></w-protocol>
+  </view>
+
+  <!-- 柔性关闭弹窗 -->
+  <view class="flexible-dialog" a:if="{{showFlexible}}">
+	  <view class="flexible-dialog-content">
+	      <view class="flexible-cotent-top">
+	      	<image class="flexible-cotent-top-img" src="../../../assets/images/flexible-logo.png" mode="widthFix"/>
+	      </view>
+		  
+		  <view class="flexible-cotent-middle-title">
+		  	 通知提醒
+		  </view>
+		  <view class="flexible-cotent-middle-info">
+		  	 尊敬的客户，本商城将于6月30日停止运营，仅保留订单查询服务。感谢您的信任和支持。
+		  </view>
+		  <view class="flexible-cotent-bottom" onTap="clickFlexible"> 
+		  	 知道了
+		  </view>
+	  </view>
+  </view>
+
+  <!-- loading -->
+  <view hidden="{{!showLoading}}">
+    <w-loading message="{{loadingMsg}}"></w-loading>
+  </view>
+</view>

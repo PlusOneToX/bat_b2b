@@ -1,0 +1,10 @@
+<view class="protocol">
+	<view class="container">
+		<view>
+			此处放置协议内容，请自行修改
+		</view>
+		<view class="fixed-btn-wrap">
+			<view class="btn" onTap="handleClose">同意</view>
+		</view>
+	</view>
+</view>

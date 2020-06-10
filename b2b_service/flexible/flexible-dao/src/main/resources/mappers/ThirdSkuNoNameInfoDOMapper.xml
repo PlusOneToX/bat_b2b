@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.third.ThirdSkuNoNameInfoDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.third.dataobject.ThirdSkuNoNameInfoDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="third_no" property="thirdNo" jdbcType="VARCHAR" />
+    <result column="third_ext_name" property="thirdExtName" jdbcType="VARCHAR" />
+    <result column="third_name" property="thirdName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, third_no, third_ext_name, third_name, type, create_user_id, create_user_name, 
+    create_time, update_user_id, update_user_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from third_sku_no_name_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from third_sku_no_name_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuNoNameInfoDO" useGeneratedKeys="true" keyProperty="id">
+    insert into third_sku_no_name_info (id, distributor_id, third_no, 
+      third_ext_name, third_name, type, 
+      create_user_id, create_user_name, create_time, 
+      update_user_id, update_user_name, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{thirdNo,jdbcType=VARCHAR}, 
+      #{thirdExtName,jdbcType=VARCHAR}, #{thirdName,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuNoNameInfoDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into third_sku_no_name_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="thirdNo != null" >
+        third_no,
+      </if>
+      <if test="thirdExtName != null" >
+        third_ext_name,
+      </if>
+      <if test="thirdName != null" >
+        third_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdNo != null" >
+        #{thirdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdExtName != null" >
+        #{thirdExtName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdName != null" >
+        #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuNoNameInfoDO" >
+    update third_sku_no_name_info
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdNo != null" >
+        third_no = #{thirdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdExtName != null" >
+        third_ext_name = #{thirdExtName,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdName != null" >
+        third_name = #{thirdName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuNoNameInfoDO" >
+    update third_sku_no_name_info
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      third_no = #{thirdNo,jdbcType=VARCHAR},
+      third_ext_name = #{thirdExtName,jdbcType=VARCHAR},
+      third_name = #{thirdName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByDistributorId" resultMap="BaseResultMap">
+    select * from third_sku_no_name_info where distributor_id = #{distributorId} order by type
+  </select>
+  <delete id="deleteByDistributorId">
+    delete from third_sku_no_name_info where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

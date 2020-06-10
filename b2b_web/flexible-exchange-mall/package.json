@@ -1,0 +1,19 @@
+{
+  "name": "remeed_-mall",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "yaowei",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@vant/weapp": "^1.7.1",
+    "wx-server-sdk": "^2.5.3"
+  }
+}

@@ -1,0 +1,56 @@
+<!--pages/activity/activity.wxml-->
+<view class="activity-wrap">
+  <!-- 自定义title -->
+  <view class="custom-title" style="top: {{statusBarHeight}}px; line-height: {{customHeight}}px;">
+    <image class="home-icon" src="../../assets/images/home.png" mode="widthFix" bindtap="goHome"></image>
+    <text>全民送福利</text>
+  </view>
+  <!-- 顶部背景 -->
+  <image class="bg-t" src="../../assets/images/share-bg-t.png" mode="widthFix"></image>
+  <!-- 底部背景 -->
+  <image class="bg-b" src="../../assets/images/share-bg-b.png" mode="widthFix"></image>
+
+  <view class="activity-content">
+    <view class="card-info">
+      <image src="../../assets/images/share-card-bg.png" mode="widthFix"></image>
+      <image class="card" src="{{cardImg}}" mode="scaleToFill"></image>
+    </view>
+
+    <view class="tips mt-l">您的好友，送您一张免费手机壳兑换卡~</view>
+
+    <view class="share-btn-wrap">
+      <button class="btn-wrap" bindtap="handleBtn">
+        <image class="btn" src="../../assets/images/btn-bg.png" mode="widthFix"></image>
+        <text class="btn-text">{{isReceived ? "去定制" : "领取"}}</text>
+      </button>
+    </view>
+
+    <!-- 已领取 -->
+    <view class="tips" wx:if="{{isReceived}}">兑换卡已放入：{{diyTitle}}-卡包中心</view>
+
+    <view class="share-btn-list {{isReceived ? '' : 'mt-l'}}">
+      <view class="btn" bindtap="saveToPhoto">
+        <image class="icon" src="../../assets/images/share-icon1.png" mode="widthFix"></image>
+        <text>保存至相册</text>
+      </view>
+      <button class="btn" open-type="share">
+        <image class="icon" src="../../assets/images/share-icon2.png" mode="widthFix"></image>
+        <text>邀好友领取</text>
+      </button>
+    </view>
+  </view>
+
+  <view class="mask" hidden="{{!saveWrap}}" bindtap="hiddenMask"></view>
+  <view class="save-inner" hidden="{{!saveWrap}}">
+    <canvas type="2d" id="shareImg" canvas-id="shareImg" class="canvas"></canvas>
+    <view class="share-btn-wrap" bindtap="handleSavePhoto">
+      <button class="btn-wrap">
+        <image class="btn" src="../../assets/images/btn-bg.png" mode="widthFix"></image>
+        <text class="btn-text">保存至相册</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+</view>

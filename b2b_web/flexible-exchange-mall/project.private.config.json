@@ -1,0 +1,42 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/activity/activity",
+          "pathName": "pages/activity/activity",
+          "query": "id=1001",
+          "scene": null
+        },
+        {
+          "name": "pages/transfer/transfer",
+          "pathName": "pages/transfer/transfer",
+          "query": "receiveId=54",
+          "scene": null
+        },
+        {
+          "name": "pages/code/equity/equity",
+          "pathName": "pages/code/equity/equity",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

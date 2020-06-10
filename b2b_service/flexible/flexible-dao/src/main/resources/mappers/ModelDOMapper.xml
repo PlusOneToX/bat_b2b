@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.model.ModelDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.model.dataobject.ModelDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="del_flag" property="delFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="network_model" property="networkModel" jdbcType="VARCHAR" />
+    <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ModelPageCOResultMap" type="com.bat.flexible.dao.model.co.ModelPageCO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <collection property="childrenList" select="treeByCondition" column="{parentId=id,categoryId=category_id}"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bat.flexible.dao.model.dataobject.ModelDO" extends="BaseResultMap" >
+    <result column="depict" property="depict" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ModelTreeResultMap" type="com.bat.flexible.dao.model.co.ModelTreeCO">
+    <result column="model_id" property="modelId" javaType="INTEGER"/>
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="DECIMAL" />
+    <result column="width" property="width" jdbcType="DECIMAL" />
+    <result column="out_image" property="outImage" jdbcType="VARCHAR" />
+    <result column="floor_image" property="floorImage" jdbcType="VARCHAR" />
+    <result column="cut_type" property="cutType" jdbcType="SMALLINT" />
+    <result column="slitting_height" property="slittingHeight" jdbcType="INTEGER" />
+    <result column="slitting_white" property="slittingWhite" jdbcType="INTEGER" />
+    <result column="crosscutting_width" property="crosscuttingWidth" jdbcType="INTEGER" />
+    <result column="crosscutting_white" property="crosscuttingWhite" jdbcType="INTEGER" />
+    <result column="under_stock_flag" property="underStockFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT"/>
+    <result column="open_flag_param" property="openFlagParam" jdbcType="SMALLINT" />
+    <collection property="childrenList" column="{categoryId=category_id,parentId=model_id,openFlagParam=open_flag_param}" select="treeByParentIdAndCategoryIdAndOpenFlag"/>
+  </resultMap>
+  <resultMap id="ModelSimpleCOResultMap" type="com.bat.flexible.dao.model.co.ModelSimpleCO">
+    <result column="id" property="id" javaType="INTEGER"/>
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,  name, english_name, category_id, parent_id, sequence, image, open_flag, del_flag,
+    at_last_trademark, network_model, model_no, create_time, create_user_id, create_user_name, 
+    update_time, update_user_id, update_user_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    depict
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from model
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from model
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.model.dataobject.ModelDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into model (id,  name,
+      english_name, category_id, parent_id, 
+      sequence, image, open_flag, del_flag,
+      at_last_trademark, network_model, model_no, 
+      create_time, create_user_id, create_user_name, 
+      update_time, update_user_id, update_user_name, 
+      depict)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{englishName,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
+      #{sequence,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT}, #{delFlag,jdbcType=SMALLINT},
+      #{atLastTrademark,jdbcType=SMALLINT}, #{networkModel,jdbcType=VARCHAR}, #{modelNo,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{depict,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.model.dataobject.ModelDO" >
+    insert into model
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="atLastTrademark != null" >
+        at_last_trademark,
+      </if>
+      <if test="networkModel != null" >
+        network_model,
+      </if>
+      <if test="modelNo != null" >
+        model_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="depict != null" >
+        depict,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="atLastTrademark != null" >
+        #{atLastTrademark,jdbcType=SMALLINT},
+      </if>
+      <if test="networkModel != null" >
+        #{networkModel,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null" >
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="depict != null" >
+        #{depict,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.model.dataobject.ModelDO" >
+    update model
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="atLastTrademark != null" >
+        at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      </if>
+      <if test="networkModel != null" >
+        network_model = #{networkModel,jdbcType=VARCHAR},
+      </if>
+      <if test="modelNo != null" >
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="depict != null" >
+        depict = #{depict,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.flexible.dao.model.dataobject.ModelDO" >
+    update model
+    set
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      network_model = #{networkModel,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      depict = #{depict,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.model.dataobject.ModelDO" >
+    update model
+    set
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      network_model = #{networkModel,jdbcType=VARCHAR},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByModelIdList" resultMap="BaseResultMap">
+    select * from model where  1=1 and (
+    <foreach collection="modelIdList" separator=" or " item="id">
+
+      id = #{id}
+    </foreach>
+    )
+  </select>
+  <update id="setSequenceAddByCategoryIdAndParentId" >
+    update model set sequence = sequence+#{sortNoAdd}
+    where parent_id=#{parentId}
+     <if test="categoryId">
+       and category_id = #{categoryId}
+     </if>
+      <if test="sequenceStart !=null">
+        and sequence &gt; #{sequenceStart}
+      </if>
+      <if test="sequenceEnd !=null">
+        and sequence &lt; #{sequenceEnd}
+      </if>
+  </update>
+  <select id="findEffectByUpOrDown" resultMap="BaseResultMap">
+    select * from model where parent_id = #{parentId} and del_flag=0 and sequence
+    <choose>
+      <when test="flag">
+        &lt; #{sequence} order by sequence desc limit 1
+      </when>
+      <otherwise>
+        &gt; #{sequence} order by sequence  limit 1
+      </otherwise>
+    </choose>
+  </select>
+  <select id="listByParentId" resultMap="BaseResultMap">
+    select * from model where parent_id = #{parentId} and del_flag=0 order by sequence
+  </select>
+
+  <select id="listByParentIdsAndDistributorIdsAndMaterialId" resultMap="BaseResultMap">
+    select a.* from model a
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      left join distributor_model_exclude b on a.id=b.model_id
+    </if>
+    left join model_material_relevance c on c.model_id=a.id and c.del_flag=0
+    where a.parent_id in
+    <foreach collection="parents" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and a.del_flag=0 and a.open_flag=1 and (c.open_flag=1 or c.id is null )
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      and (b.distributor_id
+      not in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+        #{distributorId}
+      </foreach>
+      or b.distributor_id is null
+      )
+    </if>
+    group by a.id
+  </select>
+
+  <select id="getByModelNo" resultMap="BaseResultMap">
+    select * from model where model_no =#{modelNo} and del_flag=0
+  </select>
+
+  <select id="treeByCondition" resultMap="ModelPageCOResultMap">
+    SELECT
+     m.id  id,
+    m.`name` NAME,
+    m.model_no  model_no,
+    m.parent_id parent_id,
+     m.english_name  english_name,
+    m.category_id  category_id,
+     m.image  image,
+     m.open_flag  open_flag,
+    m.at_last_trademark  at_last_trademark
+
+    FROM
+    model m
+
+    WHERE
+    m.del_flag = 0
+    and parent_id = #{parentId}
+    <if test="categoryId !=null">
+      and  m.category_id = #{categoryId}
+    </if>
+
+    ORDER BY m.sequence
+  </select>
+
+
+  <select id="treeByParentIdAndCategoryIdAndOpenFlag" resultMap="ModelTreeResultMap">
+        select m.id model_id,m.parent_id,m.name,m.english_name,m.model_no,category_id,at_last_trademark,#{openFlagParam} open_flag_param from model m where m.parent_id=#{parentId}
+         <if test="categoryId !=null">
+           and m.category_id =#{categoryId}
+         </if>
+         <if test="openFlagParam !=null">
+           and open_flag = #{openFlagParam}
+         </if>
+         and m.del_flag=0
+        order by m.sequence
+  </select>
+  <select id="listAll" resultMap="BaseResultMap">
+    select * from model where del_flag=0
+  </select>
+
+  <select id="listAllCanUseParentsByDistributorIds" resultMap="BaseResultMap">
+    select a.* from model a
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      left join distributor_model_exclude b on a.id=b.model_id
+    </if>
+    where a.del_flag=0 and a.open_flag=1 and a.parent_id=0
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      and (b.distributor_id
+      not in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+        #{distributorId}
+      </foreach>
+       or b.distributor_id is null)
+    </if>
+    group by a.id
+  </select>
+
+  <select id="listSimpleCO" resultMap="ModelSimpleCOResultMap">
+    select id ,name,english_name,category_id,at_last_trademark,open_flag,parent_id,model_no from model where 1=1
+    and (
+    <foreach collection="modelIdList" item="modelId" separator=" or ">
+      id = #{modelId}
+    </foreach>
+    )
+    <if test="atLastTrademark !=null">
+      and at_last_trademark = #{atLastTrademark}
+    </if>
+
+    <if test="content !=null and content !=''">
+      AND (
+      `name` LIKE  concat('%',#{content},'%')
+      or english_name like concat('%',#{content},'%')
+      or model_no LIKE  concat('%',#{content},'%')
+      )
+    </if>
+
+    and del_flag=0 order by sequence
+  </select>
+
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from model where 1=1
+    <if test="atLastTrademark !=null">
+      and at_last_trademark=#{atLastTrademark}
+    </if>
+    <if test="openFlag !=null">
+      and open_flag=#{openFlag}
+    </if>
+    and del_flag=0 order by sequence
+  </select>
+
+  <select id="getOneByNetworkModel" resultMap="BaseResultMap">
+    select * from model where del_flag=0 and network_model like concat ('%',#{networkModel},'%') order by id desc limit 1
+  </select>
+
+
+  <select id="findByIdsAndMaterialIdAndPictureId" resultMap="BaseResultMap">
+    select a.* from model a
+    <if test="materialId !=null">
+      left join model_material_relevance b on a.id=b.model_id
+    </if>
+    <if test="pictureId !=null">
+      left join picture_model_relevance c on a.id=c.model_id
+      left join picture d on d.id=#{pictureId}
+    </if>
+    where a.del_flag=0 and a.open_flag=1
+    <if test="materialId !=null">
+      and b.material_id=#{materialId} and b.del_flag=0 and b.open_flag=1
+    </if>
+    <if test="pictureId !=null">
+      AND ( d.model_scope = 1 OR ( d.model_scope = 2 and c.picture_id=#{pictureId} and c.del_flag=0 ) ) and d.open_flag=1 and d.del_flag=0
+    </if>
+    and a.id
+    in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+    group by a.id
+  </select>
+
+
+</mapper>

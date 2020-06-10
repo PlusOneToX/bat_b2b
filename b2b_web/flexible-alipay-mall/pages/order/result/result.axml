@@ -1,0 +1,15 @@
+<view class="payResult">
+  <image class="image" src="/assets/images/pay-success.png"></image>
+  <view class="text">支付成功</view>
+  <view class="remind">
+    <view class="title">温馨提示</view>
+    <view class="item-ul">
+      <view class="item-li">您的订单已进入工厂备料，最迟48小时内发货</view>
+      <view class="item-li">定制产品无质量问题不提供退换货服务</view>
+    </view>
+  </view>
+  <view class="btn-wrap">
+    <button class="btn border-btn" onTap="goHome">返回首页</button>
+    <button class="btn confirm-btn" onTap="goPath" data-path="orderList">查看订单</button>
+  </view>
+</view>

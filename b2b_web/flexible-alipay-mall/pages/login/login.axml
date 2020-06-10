@@ -1,0 +1,9 @@
+<view class="login-wrap">
+  <view class="dialog-wrap">
+    <view class="title">用户信息授权</view>
+    <image class="image user" src="/assets/images/user.png"></image>
+    <view class="text">请确认授权，以获取头像、昵称等信息～</view>
+    <view class="tips">（需登陆后，才能获取您的优惠券、订单、购物车等信息）</view>
+    <button class="btn" onTap="getUserInfo">确认授权</button>
+  </view>
+</view>

@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.label.LabelDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.flexible.dao.label.dataobject.LabelDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="template_file" property="templateFile" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="SMALLINT"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="bar_code_position_x" property="barCodePositionX" jdbcType="DECIMAL"/>
+        <result column="bar_code_position_y" property="barCodePositionY" jdbcType="DECIMAL"/>
+        <result column="bar_code_position_width" property="barCodePositionWidth" jdbcType="DECIMAL"/>
+        <result column="bar_code_position_height" property="barCodePositionHeight" jdbcType="DECIMAL"/>
+        <result column="product_name_position_x" property="productNamePositionX" jdbcType="DECIMAL"/>
+        <result column="product_name_position_y" property="productNamePositionY" jdbcType="DECIMAL"/>
+        <result column="product_name_position_width" property="productNamePositionWidth" jdbcType="DECIMAL"/>
+        <result column="product_name_position_height" property="productNamePositionHeight" jdbcType="DECIMAL"/>
+        <result column="product_name_position_font" property="productNamePositionFont" jdbcType="INTEGER"/>
+        <result column="product_name_position_font_size" property="productNamePositionFontSize" jdbcType="INTEGER"/>
+        <result column="model_position_x" property="modelPositionX" jdbcType="DECIMAL"/>
+        <result column="model_position_y" property="modelPositionY" jdbcType="DECIMAL"/>
+        <result column="model_position_width" property="modelPositionWidth" jdbcType="DECIMAL"/>
+        <result column="model_position_height" property="modelPositionHeight" jdbcType="DECIMAL"/>
+        <result column="model_position_font" property="modelPositionFont" jdbcType="INTEGER"/>
+        <result column="model_position_font_size" property="modelPositionFontSize" jdbcType="INTEGER"/>
+        <result column="scope" property="scope" jdbcType="SMALLINT"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="en_name_position_x" property="enNamePositionX" jdbcType="DECIMAL"/>
+        <result column="en_name_position_y" property="enNamePositionY" jdbcType="DECIMAL"/>
+        <result column="en_name_position_width" property="enNamePositionWidth" jdbcType="DECIMAL"/>
+        <result column="en_name_position_height" property="enNamePositionHeight" jdbcType="DECIMAL"/>
+        <result column="en_name_position_font" property="enNamePositionFont" jdbcType="INTEGER"/>
+        <result column="en_name_position_font_size" property="enNamePositionFontSize" jdbcType="INTEGER"/>
+        <result column="stuff_name_position_x" property="stuffNamePositionX" jdbcType="DECIMAL"/>
+        <result column="stuff_name_position_y" property="stuffNamePositionY" jdbcType="DECIMAL"/>
+        <result column="stuff_name_position_width" property="stuffNamePositionWidth" jdbcType="DECIMAL"/>
+        <result column="stuff_name_position_height" property="stuffNamePositionHeight" jdbcType="DECIMAL"/>
+        <result column="stuff_name_position_font" property="stuffNamePositionFont" jdbcType="INTEGER"/>
+        <result column="stuff_name_position_font_size" property="stuffNamePositionFontSize" jdbcType="INTEGER"/>
+        <result column="stuff_en_name_position_x" property="stuffEnNamePositionX" jdbcType="DECIMAL"/>
+        <result column="stuff_en_name_position_y" property="stuffEnNamePositionY" jdbcType="DECIMAL"/>
+        <result column="stuff_en_name_position_width" property="stuffEnNamePositionWidth" jdbcType="DECIMAL"/>
+        <result column="stuff_en_name_position_height" property="stuffEnNamePositionHeight" jdbcType="DECIMAL"/>
+        <result column="stuff_en_name_position_font" property="stuffEnNamePositionFont" jdbcType="INTEGER"/>
+        <result column="stuff_en_name_position_font_size" property="stuffEnNamePositionFontSize" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="SMALLINT"/>
+        <result column="relevance_user_upload" property="relevanceUserUpload" jdbcType="SMALLINT"/>
+        <result column="third_sku_no" property="thirdSkuNo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="LabelPageResultMap" type="com.bat.flexible.dao.label.co.LabelPageListQry">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="SMALLINT"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="bar_code_position" property="barCodePosition" jdbcType="VARCHAR"/>
+        <result column="product_name_position" property="productNamePosition" jdbcType="VARCHAR"/>
+        <result column="model_position" property="modelPosition" jdbcType="VARCHAR"/>
+        <result column="en_name_position" property="enNamePosition" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , name, template_file, type, open_flag, bar_code_position_x, bar_code_position_y,
+    bar_code_position_width, bar_code_position_height, product_name_position_x, product_name_position_y, 
+    product_name_position_width, product_name_position_height, product_name_position_font, 
+    product_name_position_font_size, model_position_x, model_position_y, model_position_width, 
+    model_position_height, model_position_font, model_position_font_size, scope, category_id, 
+    en_name_position_x, en_name_position_y, en_name_position_width, en_name_position_height, 
+    en_name_position_font, en_name_position_font_size, stuff_name_position_x, stuff_name_position_y, 
+    stuff_name_position_width, stuff_name_position_height, stuff_name_position_font, 
+    stuff_name_position_font_size, stuff_en_name_position_x, stuff_en_name_position_y, 
+    stuff_en_name_position_width, stuff_en_name_position_height, stuff_en_name_position_font, 
+    stuff_en_name_position_font_size, create_time, create_user_id, create_user_name, 
+    update_time, update_user_id, update_user_name, del_flag, relevance_user_upload, third_sku_no
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from label
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from label
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.flexible.dao.label.dataobject.LabelDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into label (id, name, template_file,
+                           type, open_flag, bar_code_position_x,
+                           bar_code_position_y, bar_code_position_width,
+                           bar_code_position_height, product_name_position_x,
+                           product_name_position_y, product_name_position_width,
+                           product_name_position_height, product_name_position_font,
+                           product_name_position_font_size, model_position_x,
+                           model_position_y, model_position_width, model_position_height,
+                           model_position_font, model_position_font_size,
+                           scope, category_id, en_name_position_x,
+                           en_name_position_y, en_name_position_width, en_name_position_height,
+                           en_name_position_font, en_name_position_font_size,
+                           stuff_name_position_x, stuff_name_position_y,
+                           stuff_name_position_width, stuff_name_position_height,
+                           stuff_name_position_font, stuff_name_position_font_size,
+                           stuff_en_name_position_x, stuff_en_name_position_y,
+                           stuff_en_name_position_width, stuff_en_name_position_height,
+                           stuff_en_name_position_font, stuff_en_name_position_font_size,
+                           create_time, create_user_id, create_user_name,
+                           update_time, update_user_id, update_user_name,
+                           del_flag, relevance_user_upload, third_sku_no)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{templateFile,jdbcType=VARCHAR},
+                #{type,jdbcType=SMALLINT}, #{openFlag,jdbcType=SMALLINT}, #{barCodePositionX,jdbcType=DECIMAL},
+                #{barCodePositionY,jdbcType=DECIMAL}, #{barCodePositionWidth,jdbcType=DECIMAL},
+                #{barCodePositionHeight,jdbcType=DECIMAL}, #{productNamePositionX,jdbcType=DECIMAL},
+                #{productNamePositionY,jdbcType=DECIMAL}, #{productNamePositionWidth,jdbcType=DECIMAL},
+                #{productNamePositionHeight,jdbcType=DECIMAL}, #{productNamePositionFont,jdbcType=INTEGER},
+                #{productNamePositionFontSize,jdbcType=INTEGER}, #{modelPositionX,jdbcType=DECIMAL},
+                #{modelPositionY,jdbcType=DECIMAL}, #{modelPositionWidth,jdbcType=DECIMAL},
+                #{modelPositionHeight,jdbcType=DECIMAL},
+                #{modelPositionFont,jdbcType=INTEGER}, #{modelPositionFontSize,jdbcType=INTEGER},
+                #{scope,jdbcType=SMALLINT}, #{categoryId,jdbcType=INTEGER}, #{enNamePositionX,jdbcType=DECIMAL},
+                #{enNamePositionY,jdbcType=DECIMAL}, #{enNamePositionWidth,jdbcType=DECIMAL},
+                #{enNamePositionHeight,jdbcType=DECIMAL},
+                #{enNamePositionFont,jdbcType=INTEGER}, #{enNamePositionFontSize,jdbcType=INTEGER},
+                #{stuffNamePositionX,jdbcType=DECIMAL}, #{stuffNamePositionY,jdbcType=DECIMAL},
+                #{stuffNamePositionWidth,jdbcType=DECIMAL}, #{stuffNamePositionHeight,jdbcType=DECIMAL},
+                #{stuffNamePositionFont,jdbcType=INTEGER}, #{stuffNamePositionFontSize,jdbcType=INTEGER},
+                #{stuffEnNamePositionX,jdbcType=DECIMAL}, #{stuffEnNamePositionY,jdbcType=DECIMAL},
+                #{stuffEnNamePositionWidth,jdbcType=DECIMAL}, #{stuffEnNamePositionHeight,jdbcType=DECIMAL},
+                #{stuffEnNamePositionFont,jdbcType=INTEGER}, #{stuffEnNamePositionFontSize,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR},
+                #{delFlag,jdbcType=SMALLINT}, #{relevanceUserUpload,jdbcType=SMALLINT}, #{thirdSkuNo,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.flexible.dao.label.dataobject.LabelDO">
+        insert into label
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="templateFile != null">
+                template_file,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="barCodePositionX != null">
+                bar_code_position_x,
+            </if>
+            <if test="barCodePositionY != null">
+                bar_code_position_y,
+            </if>
+            <if test="barCodePositionWidth != null">
+                bar_code_position_width,
+            </if>
+            <if test="barCodePositionHeight != null">
+                bar_code_position_height,
+            </if>
+            <if test="productNamePositionX != null">
+                product_name_position_x,
+            </if>
+            <if test="productNamePositionY != null">
+                product_name_position_y,
+            </if>
+            <if test="productNamePositionWidth != null">
+                product_name_position_width,
+            </if>
+            <if test="productNamePositionHeight != null">
+                product_name_position_height,
+            </if>
+            <if test="productNamePositionFont != null">
+                product_name_position_font,
+            </if>
+            <if test="productNamePositionFontSize != null">
+                product_name_position_font_size,
+            </if>
+            <if test="modelPositionX != null">
+                model_position_x,
+            </if>
+            <if test="modelPositionY != null">
+                model_position_y,
+            </if>
+            <if test="modelPositionWidth != null">
+                model_position_width,
+            </if>
+            <if test="modelPositionHeight != null">
+                model_position_height,
+            </if>
+            <if test="modelPositionFont != null">
+                model_position_font,
+            </if>
+            <if test="modelPositionFontSize != null">
+                model_position_font_size,
+            </if>
+            <if test="scope != null">
+                scope,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="enNamePositionX != null">
+                en_name_position_x,
+            </if>
+            <if test="enNamePositionY != null">
+                en_name_position_y,
+            </if>
+            <if test="enNamePositionWidth != null">
+                en_name_position_width,
+            </if>
+            <if test="enNamePositionHeight != null">
+                en_name_position_height,
+            </if>
+            <if test="enNamePositionFont != null">
+                en_name_position_font,
+            </if>
+            <if test="enNamePositionFontSize != null">
+                en_name_position_font_size,
+            </if>
+            <if test="stuffNamePositionX != null">
+                stuff_name_position_x,
+            </if>
+            <if test="stuffNamePositionY != null">
+                stuff_name_position_y,
+            </if>
+            <if test="stuffNamePositionWidth != null">
+                stuff_name_position_width,
+            </if>
+            <if test="stuffNamePositionHeight != null">
+                stuff_name_position_height,
+            </if>
+            <if test="stuffNamePositionFont != null">
+                stuff_name_position_font,
+            </if>
+            <if test="stuffNamePositionFontSize != null">
+                stuff_name_position_font_size,
+            </if>
+            <if test="stuffEnNamePositionX != null">
+                stuff_en_name_position_x,
+            </if>
+            <if test="stuffEnNamePositionY != null">
+                stuff_en_name_position_y,
+            </if>
+            <if test="stuffEnNamePositionWidth != null">
+                stuff_en_name_position_width,
+            </if>
+            <if test="stuffEnNamePositionHeight != null">
+                stuff_en_name_position_height,
+            </if>
+            <if test="stuffEnNamePositionFont != null">
+                stuff_en_name_position_font,
+            </if>
+            <if test="stuffEnNamePositionFontSize != null">
+                stuff_en_name_position_font_size,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createUserName != null">
+                create_user_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="updateUserName != null">
+                update_user_name,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="relevanceUserUpload != null">
+                relevance_user_upload,
+            </if>
+            <if test="thirdSkuNo != null">
+                third_sku_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="templateFile != null">
+                #{templateFile,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="barCodePositionX != null">
+                #{barCodePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="barCodePositionY != null">
+                #{barCodePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="barCodePositionWidth != null">
+                #{barCodePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="barCodePositionHeight != null">
+                #{barCodePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionX != null">
+                #{productNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionY != null">
+                #{productNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionWidth != null">
+                #{productNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionHeight != null">
+                #{productNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionFont != null">
+                #{productNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="productNamePositionFontSize != null">
+                #{productNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="modelPositionX != null">
+                #{modelPositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionY != null">
+                #{modelPositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionWidth != null">
+                #{modelPositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionHeight != null">
+                #{modelPositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionFont != null">
+                #{modelPositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="modelPositionFontSize != null">
+                #{modelPositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="scope != null">
+                #{scope,jdbcType=SMALLINT},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="enNamePositionX != null">
+                #{enNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionY != null">
+                #{enNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionWidth != null">
+                #{enNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionHeight != null">
+                #{enNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionFont != null">
+                #{enNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="enNamePositionFontSize != null">
+                #{enNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="stuffNamePositionX != null">
+                #{stuffNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionY != null">
+                #{stuffNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionWidth != null">
+                #{stuffNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionHeight != null">
+                #{stuffNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionFont != null">
+                #{stuffNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="stuffNamePositionFontSize != null">
+                #{stuffNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="stuffEnNamePositionX != null">
+                #{stuffEnNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionY != null">
+                #{stuffEnNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionWidth != null">
+                #{stuffEnNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionHeight != null">
+                #{stuffEnNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionFont != null">
+                #{stuffEnNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="stuffEnNamePositionFontSize != null">
+                #{stuffEnNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="relevanceUserUpload != null">
+                #{relevanceUserUpload,jdbcType=SMALLINT},
+            </if>
+            <if test="thirdSkuNo != null">
+                #{thirdSkuNo,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.label.dataobject.LabelDO">
+        update label
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="templateFile != null">
+                template_file = #{templateFile,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=SMALLINT},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="barCodePositionX != null">
+                bar_code_position_x = #{barCodePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="barCodePositionY != null">
+                bar_code_position_y = #{barCodePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="barCodePositionWidth != null">
+                bar_code_position_width = #{barCodePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="barCodePositionHeight != null">
+                bar_code_position_height = #{barCodePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionX != null">
+                product_name_position_x = #{productNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionY != null">
+                product_name_position_y = #{productNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionWidth != null">
+                product_name_position_width = #{productNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionHeight != null">
+                product_name_position_height = #{productNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="productNamePositionFont != null">
+                product_name_position_font = #{productNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="productNamePositionFontSize != null">
+                product_name_position_font_size = #{productNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="modelPositionX != null">
+                model_position_x = #{modelPositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionY != null">
+                model_position_y = #{modelPositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionWidth != null">
+                model_position_width = #{modelPositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionHeight != null">
+                model_position_height = #{modelPositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="modelPositionFont != null">
+                model_position_font = #{modelPositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="modelPositionFontSize != null">
+                model_position_font_size = #{modelPositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="scope != null">
+                scope = #{scope,jdbcType=SMALLINT},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="enNamePositionX != null">
+                en_name_position_x = #{enNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionY != null">
+                en_name_position_y = #{enNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionWidth != null">
+                en_name_position_width = #{enNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionHeight != null">
+                en_name_position_height = #{enNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="enNamePositionFont != null">
+                en_name_position_font = #{enNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="enNamePositionFontSize != null">
+                en_name_position_font_size = #{enNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="stuffNamePositionX != null">
+                stuff_name_position_x = #{stuffNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionY != null">
+                stuff_name_position_y = #{stuffNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionWidth != null">
+                stuff_name_position_width = #{stuffNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionHeight != null">
+                stuff_name_position_height = #{stuffNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffNamePositionFont != null">
+                stuff_name_position_font = #{stuffNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="stuffNamePositionFontSize != null">
+                stuff_name_position_font_size = #{stuffNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="stuffEnNamePositionX != null">
+                stuff_en_name_position_x = #{stuffEnNamePositionX,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionY != null">
+                stuff_en_name_position_y = #{stuffEnNamePositionY,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionWidth != null">
+                stuff_en_name_position_width = #{stuffEnNamePositionWidth,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionHeight != null">
+                stuff_en_name_position_height = #{stuffEnNamePositionHeight,jdbcType=DECIMAL},
+            </if>
+            <if test="stuffEnNamePositionFont != null">
+                stuff_en_name_position_font = #{stuffEnNamePositionFont,jdbcType=INTEGER},
+            </if>
+            <if test="stuffEnNamePositionFontSize != null">
+                stuff_en_name_position_font_size = #{stuffEnNamePositionFontSize,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                update_user_name = #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="relevanceUserUpload != null">
+                relevance_user_upload = #{relevanceUserUpload,jdbcType=SMALLINT},
+            </if>
+            <if test="thirdSkuNo != null">
+                third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.label.dataobject.LabelDO">
+        update label
+        set name                             = #{name,jdbcType=VARCHAR},
+            template_file                    = #{templateFile,jdbcType=VARCHAR},
+            type                             = #{type,jdbcType=SMALLINT},
+            open_flag                        = #{openFlag,jdbcType=SMALLINT},
+            bar_code_position_x              = #{barCodePositionX,jdbcType=DECIMAL},
+            bar_code_position_y              = #{barCodePositionY,jdbcType=DECIMAL},
+            bar_code_position_width          = #{barCodePositionWidth,jdbcType=DECIMAL},
+            bar_code_position_height         = #{barCodePositionHeight,jdbcType=DECIMAL},
+            product_name_position_x          = #{productNamePositionX,jdbcType=DECIMAL},
+            product_name_position_y          = #{productNamePositionY,jdbcType=DECIMAL},
+            product_name_position_width      = #{productNamePositionWidth,jdbcType=DECIMAL},
+            product_name_position_height     = #{productNamePositionHeight,jdbcType=DECIMAL},
+            product_name_position_font       = #{productNamePositionFont,jdbcType=INTEGER},
+            product_name_position_font_size  = #{productNamePositionFontSize,jdbcType=INTEGER},
+            model_position_x                 = #{modelPositionX,jdbcType=DECIMAL},
+            model_position_y                 = #{modelPositionY,jdbcType=DECIMAL},
+            model_position_width             = #{modelPositionWidth,jdbcType=DECIMAL},
+            model_position_height            = #{modelPositionHeight,jdbcType=DECIMAL},
+            model_position_font              = #{modelPositionFont,jdbcType=INTEGER},
+            model_position_font_size         = #{modelPositionFontSize,jdbcType=INTEGER},
+            scope                            = #{scope,jdbcType=SMALLINT},
+            category_id                      = #{categoryId,jdbcType=INTEGER},
+            en_name_position_x               = #{enNamePositionX,jdbcType=DECIMAL},
+            en_name_position_y               = #{enNamePositionY,jdbcType=DECIMAL},
+            en_name_position_width           = #{enNamePositionWidth,jdbcType=DECIMAL},
+            en_name_position_height          = #{enNamePositionHeight,jdbcType=DECIMAL},
+            en_name_position_font            = #{enNamePositionFont,jdbcType=INTEGER},
+            en_name_position_font_size       = #{enNamePositionFontSize,jdbcType=INTEGER},
+            stuff_name_position_x            = #{stuffNamePositionX,jdbcType=DECIMAL},
+            stuff_name_position_y            = #{stuffNamePositionY,jdbcType=DECIMAL},
+            stuff_name_position_width        = #{stuffNamePositionWidth,jdbcType=DECIMAL},
+            stuff_name_position_height       = #{stuffNamePositionHeight,jdbcType=DECIMAL},
+            stuff_name_position_font         = #{stuffNamePositionFont,jdbcType=INTEGER},
+            stuff_name_position_font_size    = #{stuffNamePositionFontSize,jdbcType=INTEGER},
+            stuff_en_name_position_x         = #{stuffEnNamePositionX,jdbcType=DECIMAL},
+            stuff_en_name_position_y         = #{stuffEnNamePositionY,jdbcType=DECIMAL},
+            stuff_en_name_position_width     = #{stuffEnNamePositionWidth,jdbcType=DECIMAL},
+            stuff_en_name_position_height    = #{stuffEnNamePositionHeight,jdbcType=DECIMAL},
+            stuff_en_name_position_font      = #{stuffEnNamePositionFont,jdbcType=INTEGER},
+            stuff_en_name_position_font_size = #{stuffEnNamePositionFontSize,jdbcType=INTEGER},
+            create_time                      = #{createTime,jdbcType=TIMESTAMP},
+            create_user_id                   = #{createUserId,jdbcType=INTEGER},
+            create_user_name                 = #{createUserName,jdbcType=VARCHAR},
+            update_time                      = #{updateTime,jdbcType=TIMESTAMP},
+            update_user_id                   = #{updateUserId,jdbcType=INTEGER},
+            update_user_name                 = #{updateUserName,jdbcType=VARCHAR},
+            del_flag                         = #{delFlag,jdbcType=SMALLINT},
+            relevance_user_upload            = #{relevanceUserUpload,jdbcType=SMALLINT},
+            third_sku_no                     = #{thirdSkuNo,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listByLabelIdList" resultMap="BaseResultMap">
+        select * from label where 1=1 and (
+        <foreach collection="labelIdList" item="labelId" separator=" or ">
+            id =#{labelId}
+        </foreach>
+        )
+    </select>
+    <select id="listByCondition" resultMap="LabelPageResultMap">
+        SELECT
+        id,
+        NAME,
+        type,
+        CONCAT( product_name_position_x, ',',product_name_position_y,',', product_name_position_width,',',
+        product_name_position_height ) product_name_position,
+        CONCAT( en_name_position_x, ',',en_name_position_y,',', en_name_position_width, ',',en_name_position_height )
+        en_name_position,
+        CONCAT( model_position_x,',', model_position_y,',', model_position_width, ',',model_position_height )
+        model_position,
+        CONCAT( bar_code_position_x, ',',bar_code_position_y,',', bar_code_position_width,',', bar_code_position_height
+        ) bar_code_position,
+        open_flag,
+        update_time,
+        update_user_name
+        FROM
+        label
+        WHERE del_flag=0
+        <if test="type !=null">
+            AND type=#{type}
+        </if>
+        <if test="openFlag !=null">
+            AND open_flag=#{openFlag}
+        </if>
+        <if test="content !=null">
+            AND name like concat('%',#{content},'%')
+        </if>
+        ORDER BY open_flag desc,update_time DESC
+    </select>
+
+    <!--查询图片的定制标签-->
+    <select id="listUsableDiyLabelByCondition" resultMap="BaseResultMap">
+        SELECT l.* from label l
+        LEFT JOIN label_distributor_relevance ldr ON l.id = ldr.label_id AND ldr.del_flag=0 and ldr.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        <if test="pictureId >0">
+            LEFT JOIN picture_label_relevance plr ON plr.label_id = l.id AND plr.picture_id=#{pictureId} and
+            plr.del_flag=0
+        </if>
+        WHERE l.type=2 and l.category_id =#{categoryId}
+        AND l.del_flag=0 and l.open_flag=1
+        <if test="pictureId ==0">
+            AND l.relevance_user_upload =1
+        </if>
+        <if test="pictureId gt 0">
+            AND plr.id is not null
+        </if>
+        and (
+        l.scope = 1 OR (l.scope=#{distributorScope}) OR (l.scope=4 AND ldr.id IS NOT NULL)
+        )
+        ORDER BY l.scope DESC
+    </select>
+
+    <!--查询图片的定制标签（优先查分销商指定）-->
+    <select id="listUsableDiyLabelByConditionAndDistributorIds" resultMap="BaseResultMap">
+        SELECT l.* from label l
+        INNER JOIN label_distributor_relevance ldr ON l.id = ldr.label_id AND ldr.del_flag=0 and ldr.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        <if test="pictureId >0">
+            LEFT JOIN picture_label_relevance plr ON plr.label_id = l.id AND plr.picture_id=#{pictureId} and
+            plr.del_flag=0
+        </if>
+        WHERE l.type=2 and l.category_id =#{categoryId}
+        AND l.del_flag=0 and l.open_flag=1
+        <if test="pictureId ==0">
+            AND l.relevance_user_upload =1
+        </if>
+        <if test="pictureId gt 0">
+            AND plr.id is not null
+        </if>
+        and (
+        l.scope = 1 OR (l.scope=#{distributorScope}) OR (l.scope=4 AND ldr.id IS NOT NULL)
+        )
+        ORDER BY l.scope DESC
+    </select>
+
+</mapper>

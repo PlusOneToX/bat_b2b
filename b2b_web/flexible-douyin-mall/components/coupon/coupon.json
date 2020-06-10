@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "no-data": "../no-data/no-data",
+    "w-divider": "../divider/divider"
+  }
+}

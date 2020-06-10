@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeFactoryDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeFactoryDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exchange_id" property="exchangeId" jdbcType="INTEGER" />
+    <result column="add_quantity" property="addQuantity" jdbcType="INTEGER" />
+    <result column="invalid_quantity_init" property="invalidQuantityInit" jdbcType="INTEGER" />
+    <result column="synchronized_quantity" property="synchronizedQuantity" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="batch_order_no" property="batchOrderNo" jdbcType="VARCHAR" />
+    <result column="factory" property="factory" jdbcType="SMALLINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="positive_url" property="positiveUrl" jdbcType="VARCHAR" />
+    <result column="reverse_url" property="reverseUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, exchange_id, add_quantity, invalid_quantity_init, synchronized_quantity, status, 
+    batch_order_no, factory, create_user_id, create_user_name, create_time, update_user_id, 
+    update_user_name, update_time, file_url, positive_url, reverse_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_factory
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exchange_factory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeFactoryDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_factory (id, exchange_id, add_quantity, 
+      invalid_quantity_init, synchronized_quantity, 
+      status, batch_order_no, factory, 
+      create_user_id, create_user_name, create_time, 
+      update_user_id, update_user_name, update_time, 
+      file_url, positive_url, reverse_url
+      )
+    values (#{id,jdbcType=INTEGER}, #{exchangeId,jdbcType=INTEGER}, #{addQuantity,jdbcType=INTEGER}, 
+      #{invalidQuantityInit,jdbcType=INTEGER}, #{synchronizedQuantity,jdbcType=INTEGER}, 
+      #{status,jdbcType=SMALLINT}, #{batchOrderNo,jdbcType=VARCHAR}, #{factory,jdbcType=SMALLINT}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{fileUrl,jdbcType=VARCHAR}, #{positiveUrl,jdbcType=VARCHAR}, #{reverseUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeFactoryDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_factory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exchangeId != null" >
+        exchange_id,
+      </if>
+      <if test="addQuantity != null" >
+        add_quantity,
+      </if>
+      <if test="invalidQuantityInit != null" >
+        invalid_quantity_init,
+      </if>
+      <if test="synchronizedQuantity != null" >
+        synchronized_quantity,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="batchOrderNo != null" >
+        batch_order_no,
+      </if>
+      <if test="factory != null" >
+        factory,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+      <if test="positiveUrl != null" >
+        positive_url,
+      </if>
+      <if test="reverseUrl != null" >
+        reverse_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="addQuantity != null" >
+        #{addQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="invalidQuantityInit != null" >
+        #{invalidQuantityInit,jdbcType=INTEGER},
+      </if>
+      <if test="synchronizedQuantity != null" >
+        #{synchronizedQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="batchOrderNo != null" >
+        #{batchOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="factory != null" >
+        #{factory,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="positiveUrl != null" >
+        #{positiveUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="reverseUrl != null" >
+        #{reverseUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeFactoryDO" >
+    update exchange_factory
+    <set >
+      <if test="exchangeId != null" >
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="addQuantity != null" >
+        add_quantity = #{addQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="invalidQuantityInit != null" >
+        invalid_quantity_init = #{invalidQuantityInit,jdbcType=INTEGER},
+      </if>
+      <if test="synchronizedQuantity != null" >
+        synchronized_quantity = #{synchronizedQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="batchOrderNo != null" >
+        batch_order_no = #{batchOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="factory != null" >
+        factory = #{factory,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="positiveUrl != null" >
+        positive_url = #{positiveUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="reverseUrl != null" >
+        reverse_url = #{reverseUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeFactoryDO" >
+    update exchange_factory
+    set exchange_id = #{exchangeId,jdbcType=INTEGER},
+      add_quantity = #{addQuantity,jdbcType=INTEGER},
+      invalid_quantity_init = #{invalidQuantityInit,jdbcType=INTEGER},
+      synchronized_quantity = #{synchronizedQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=SMALLINT},
+      batch_order_no = #{batchOrderNo,jdbcType=VARCHAR},
+      factory = #{factory,jdbcType=SMALLINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      positive_url = #{positiveUrl,jdbcType=VARCHAR},
+      reverse_url = #{reverseUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.IndexRecommendPictureRelevanceDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.IndexRecommendPictureRelevanceDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="index_recommend_id" property="indexRecommendId" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="IndexRecommendRelaCOResultMap" type="com.bat.flexible.dao.index.co.IndexRecommendRelaCO">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="picture_name" property="pictureName" jdbcType="VARCHAR" />
+    <result column="origin_image" property="originImage" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, index_recommend_id, picture_id, sort_no, create_user_id, create_user_name, create_time, 
+    update_user_id, update_user_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from index_recommend_picture_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from index_recommend_picture_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.IndexRecommendPictureRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into index_recommend_picture_relevance (id, index_recommend_id, picture_id, 
+      sort_no, create_user_id, create_user_name, 
+      create_time, update_user_id, update_user_name, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{indexRecommendId,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER}, 
+      #{sortNo,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.IndexRecommendPictureRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into index_recommend_picture_relevance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indexRecommendId != null" >
+        index_recommend_id,
+      </if>
+      <if test="pictureId != null" >
+        picture_id,
+      </if>
+      <if test="sortNo != null" >
+        sort_no,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="indexRecommendId != null" >
+        #{indexRecommendId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null" >
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="sortNo != null" >
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.IndexRecommendPictureRelevanceDO" >
+    update index_recommend_picture_relevance
+    <set >
+      <if test="indexRecommendId != null" >
+        index_recommend_id = #{indexRecommendId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null" >
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="sortNo != null" >
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.IndexRecommendPictureRelevanceDO" >
+    update index_recommend_picture_relevance
+    set index_recommend_id = #{indexRecommendId,jdbcType=INTEGER},
+      picture_id = #{pictureId,jdbcType=INTEGER},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findMaxSortNo" resultMap="BaseResultMap">
+    select * from index_recommend_picture_relevance order by sort_no desc limit 1
+  </select>
+  <select id="findByIndexRecommendId" resultMap="BaseResultMap">
+     select * from index_recommend_picture_relevance where index_recommend_id = #{indexRecommendId,jdbcType=INTEGER}
+  </select>
+  <select id="listCOByIndexRecommendId" resultMap="IndexRecommendRelaCOResultMap">
+        SELECT
+                irpr.id,
+                irpr.picture_id,
+                p.CODE,
+                p.`name` picture_name,
+                p.english_name,
+                p.thumbnail,
+                p.origin_image,
+                p.open_flag,
+                GROUP_CONCAT( m.item_code ) item_code
+             FROM
+                 index_recommend_picture_relevance irpr
+                LEFT JOIN picture p ON irpr.picture_id = p.id
+                 LEFT JOIN picture_material_relevance pmr ON irpr.picture_id = pmr.picture_id
+                 left join material m on m.id = pmr.material_id
+                WHERE
+                 irpr.index_recommend_id = #{indexRecommendId}
+                 GROUP BY
+                 irpr.id
+                 ORDER BY
+                 irpr.sort_no ASC
+  </select>
+  <select id="findEffect" resultMap="BaseResultMap">
+    SELECT * FROM index_recommend_picture_relevance WHERE index_recommend_id=#{indexRecommendId} AND sort_no
+    <choose>
+      <when test="upFlag">
+        &lt; #{sortNo} ORDER BY sort_no DESC limit 1
+      </when>
+      <otherwise>
+        &gt; #{sortNo} ORDER BY sort_no ASC limit 1
+      </otherwise>
+    </choose>
+
+  </select>
+</mapper>

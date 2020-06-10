@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.picture.PictureTemplateEditDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.picture.dataobject.PictureTemplateEditDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="internal_edit_url" property="internalEditUrl" jdbcType="VARCHAR" />
+    <result column="edit_center_x" property="editCenterX" jdbcType="DECIMAL" />
+    <result column="edit_center_y" property="editCenterY" jdbcType="DECIMAL" />
+    <result column="length" property="length" jdbcType="DECIMAL" />
+    <result column="width" property="width" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="PictureTemplateSimpleResultMap" type="com.bat.flexible.dao.picture.co.PictureTemplateEditCmd" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="internal_edit_url" property="internalEditUrl" jdbcType="VARCHAR" />
+    <result column="edit_center_x" property="editCenterX" jdbcType="DECIMAL" />
+    <result column="edit_center_y" property="editCenterY" jdbcType="DECIMAL" />
+    <result column="length" property="length" jdbcType="DECIMAL" />
+    <result column="width" property="width" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, picture_id, internal_edit_url, edit_center_x, edit_center_y, length, width, create_time, 
+    create_user_id, create_user_name, update_time, update_user_id, update_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from picture_template_edit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from picture_template_edit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.picture.dataobject.PictureTemplateEditDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into picture_template_edit (id, picture_id, internal_edit_url, 
+      edit_center_x, edit_center_y, length, 
+      width, create_time, create_user_id, 
+      create_user_name, update_time, update_user_id, 
+      update_user_name)
+    values (#{id,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER}, #{internalEditUrl,jdbcType=VARCHAR},
+      #{editCenterX,jdbcType=DECIMAL}, #{editCenterY,jdbcType=DECIMAL}, #{length,jdbcType=DECIMAL}, 
+      #{width,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureTemplateEditDO" >
+    insert into picture_template_edit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pictureId != null" >
+        picture_id,
+      </if>
+      <if test="internalEditUrl != null" >
+        internal_edit_url,
+      </if>
+      <if test="editCenterX != null" >
+        edit_center_x,
+      </if>
+      <if test="editCenterY != null" >
+        edit_center_y,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="width != null" >
+        width,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null" >
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="internalEditUrl != null" >
+        #{internalEditUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="editCenterX != null" >
+        #{editCenterX,jdbcType=DECIMAL},
+      </if>
+      <if test="editCenterY != null" >
+        #{editCenterY,jdbcType=DECIMAL},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureTemplateEditDO" >
+    update picture_template_edit
+    <set >
+      <if test="pictureId != null" >
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="internalEditUrl != null" >
+        internal_edit_url = #{internalEditUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="editCenterX != null" >
+        edit_center_x = #{editCenterX,jdbcType=DECIMAL},
+      </if>
+      <if test="editCenterY != null" >
+        edit_center_y = #{editCenterY,jdbcType=DECIMAL},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        width = #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.picture.dataobject.PictureTemplateEditDO" >
+    update picture_template_edit
+    set picture_id = #{pictureId,jdbcType=INTEGER},
+      internal_edit_url = #{internalEditUrl,jdbcType=VARCHAR},
+      edit_center_x = #{editCenterX,jdbcType=DECIMAL},
+      edit_center_y = #{editCenterY,jdbcType=DECIMAL},
+      length = #{length,jdbcType=DECIMAL},
+      width = #{width,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByPictureId" resultMap="BaseResultMap">
+    select * from picture_template_edit where picture_id = #{pictureId}
+  </select>
+  <select id="listSimpleByPictureId" resultMap="PictureTemplateSimpleResultMap">
+    select  id, picture_id,internal_edit_url, edit_center_x, edit_center_y, length, width from picture_template_edit where 1=1
+    <if test="pictureId !=null">
+      and picture_id = #{pictureId}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,89 @@
+<import-sjs name="unit" from="/filter/formatStr.sjs" />
+<view class="coupon-content {{couponFlag ? 'scroll' : ''}}">
+  <view class="coupon-tab">
+    <view class="tab-inner">
+      <view class="tab-item {{curTab === tab.id ? 'curItem' : ''}}" a:for="{{couponTabs}}" a:for-index="index" a:for-item="tab" data-id="{{tab.id}}" onTap="handleClickTab">
+        <text a:if="{{!couponFlag}}">{{tab.title}}({{tab.count}})</text>
+        <text a:else>{{tab.title}}</text>
+        <view class="tab" hidden="{{curTab !== tab.id}}">
+          <image src="/assets/images/home-tab.png" mode="widthFix" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="coupon-list">
+    <view class="list-item {{(couponFlag && curTab === 3 && coupon.goodsEnable && coupon.amountEnable && coupon.couponStatus === 2) || (!couponFlag && curTab === 3) || curTab === 1 ? '' : 'disabled'}}" a:for="{{couponList}}" a:for-index="index" a:for-item="coupon">
+      <view class="list-item-inner">
+        <text class="coupon-name">{{coupon.couponName}}</text>
+        <view class="coupon-l">
+          <view class="sale-price" a:if="{{coupon.couponMethod === 1}}">
+            ¥
+            <text class="price">{{ coupon.reduction }}</text>
+          </view>
+          <view class="sale-price" a:if="{{coupon.couponMethod === 2}}">
+            <text class="price">{{ coupon.discount / 10 }}</text
+            >折
+          </view>
+          <view class="sale-price exchange" a:if="{{coupon.couponMethod === 3}}">
+            <text class="exchange">商品兑换</text>
+          </view>
+          <view class="coupon-info">
+            <view class="over-price" a:if="{{coupon.orderMoney > 0}}">
+              满{{ coupon.orderMoney }}元可用
+            </view>
+            <view class="over-price" a:else>新人可用</view>
+            <view class="datetime today" a:if="{{coupon.isToday}}">
+              <text class="space">今天到期 </text>
+              <text>{{ unit.formatDate(coupon.endTimeStr, "hh:mm:ss") }}</text>
+            </view>
+            <view class="datetime" a:else>
+              {{ unit.formatDate(coupon.startTimeStr, "MM月DD日") }}-{{ unit.formatDate(coupon.endTimeStr, "MM月DD日") }}有效
+            </view>
+          </view>
+        </view>
+        <view class="coupon-r {{(curTab === 4 || curTab === 5) ? 'hasImg' : ''}}">
+          <view class="coupon-status" a:if="{{curTab === 1}}" onTap="handleReceiveCoupon" data-item="{{coupon}}">立即领取</view>
+          <view class="coupon-status" a:if="{{curTab === 3}}" onTap="handleUseCoupon" data-item="{{coupon}}">立即使用</view>
+          <view class="coupon-status" a:if="{{curTab === 4}}">
+            <!-- 已使用 -->
+            <image class="img" src="/assets/images/coupon_used.png" mode="widthFix" />
+          </view>
+          <view class="coupon-status" a:if="{{curTab === 5}}">
+            <!-- 已过期 -->
+            <image class="img" src="/assets/images/coupon_expired.png" mode="widthFix" />
+          </view>
+          <view class="icon-wrap" onTap="toggleExplain" data-index="{{index}}">
+            <view class="iconfont icon-arrow-down" hidden="{{coupon.showExplain}}"></view>
+            <view class="iconfont icon-arrow-up" hidden="{{!coupon.showExplain}}"></view>
+          </view>
+        </view>
+      </view>
+      <view class="coupon-explain {{coupon.showExplain ? 'show' : ''}}">
+        <view class="explain-title" a:if="{{coupon.showExplain && curTab !== 1 && coupon.createTimeStr}}">
+          领取时间：{{ unit.formatDate(coupon.createTimeStr) }}
+        </view>
+        <view class="explain-list" a:if="{{coupon.showExplain && coupon.couponExplainArr.length > 0}}">
+          <view class="explain-item" a:for="{{coupon.couponExplainArr}}" a:for-item="explain">
+            {{ explain }}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 暂无数据 -->
+  <view class="no-data-wrap" hidden="{{couponList && couponList.length > 0}}">
+    <no-data></no-data>
+  </view>
+  <!-- 分割线 -->
+  <view class="divider-wrap" hidden="{{!(couponList && couponList.length > 0 && couponList.length >= couponTotal)}}">
+    <w-divider></w-divider>
+  </view>
+  <!-- 点击加载更多 -->
+  <view class="more-wrap" onTap="loadMore" a:if="{{couponFlag}}" hidden="{{(couponList && couponList.length > 0 && couponList.length >= couponTotal) || couponList.length  <= 0}}">
+    点击加载更多
+  </view>
+  <!-- 不使用优惠券 -->
+  <view class="btn-wrap" a:if="{{couponFlag && curTab === 3}}" onTap="cancelCoupon">
+    <view class="btn">不使用优惠券</view>
+  </view>
+</view>

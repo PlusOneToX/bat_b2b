@@ -1,0 +1,7 @@
+<view class="coupon-wrap">
+  <w-coupon couponFlag="{{false}}" curTab="{{curTab}}" couponTabs="{{couponTabs}}" couponTotal="{{couponTotal}}" couponList="{{couponList}}" onExplainClick="handleExplain" onTabClick="handleTab" onLoadMore="loadMore"></w-coupon>
+  <!-- loading -->
+  <view hidden="{{!showLoading}}">
+    <w-loading message="{{message}}"></w-loading>
+  </view>
+</view>

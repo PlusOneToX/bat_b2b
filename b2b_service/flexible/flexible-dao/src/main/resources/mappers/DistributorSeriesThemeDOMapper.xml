@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.DistributorSeriesThemeDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.DistributorSeriesThemeDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="theme_name" property="themeName" jdbcType="VARCHAR" />
+    <result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="DistributorSeriesThemePictureCOResultMap" type="com.bat.flexible.dao.index.co.DistributorSeriesThemePictureCO">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="origin_image" property="originImage" jdbcType="VARCHAR" />
+    <result column="picture_name" property="pictureName" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="theme_name" property="themeName" jdbcType="VARCHAR" />
+    <result column="category_image" property="categoryImage" jdbcType="VARCHAR" />
+    <result column="series_id" property="seriesId" jdbcType="INTEGER" />
+  </resultMap>
+   <resultMap id="SeriesThemePageCOResultMap" type="com.bat.flexible.dao.index.co.SeriesThemePageCO">
+       <result column="id" property="id" jdbcType="INTEGER" />
+       <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+       <result column="series_id" property="seriesId" jdbcType="INTEGER" />
+       <result column="theme_name" property="themeName" jdbcType="VARCHAR" />
+       <result column="code" property="code" jdbcType="VARCHAR" />
+       <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+       <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+       <result column="picture_name" property="pictureName" jdbcType="VARCHAR" />
+       <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+       <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+       <result column="origin_image" property="originImage" jdbcType="VARCHAR" />
+       <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+       <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+   </resultMap>
+    <resultMap id="DistributorSeriesSimpleCOResultMap" type="com.bat.flexible.dao.index.co.DistributorSeriesThemeSimpleCO">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="theme_name" property="themeName" jdbcType="VARCHAR" />
+    </resultMap>
+  <sql id="Base_Column_List" >
+    id, theme_name, sort_no, category_id, create_user_id, create_user_name, create_time, 
+    update_user_id, update_user_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_series_theme
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_series_theme
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.DistributorSeriesThemeDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_series_theme (id, theme_name, sort_no, 
+      category_id, create_user_id, create_user_name, 
+      create_time, update_user_id, update_user_name, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{themeName,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
+      #{categoryId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorSeriesThemeDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_series_theme
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="themeName != null" >
+        theme_name,
+      </if>
+      <if test="sortNo != null" >
+        sort_no,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="themeName != null" >
+        #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null" >
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorSeriesThemeDO" >
+    update distributor_series_theme
+    <set >
+      <if test="themeName != null" >
+        theme_name = #{themeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null" >
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.DistributorSeriesThemeDO" >
+    update distributor_series_theme
+    set theme_name = #{themeName,jdbcType=VARCHAR},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findMaxSortNo" resultMap="BaseResultMap">
+    select * from distributor_series_theme order by sort_no desc limit 1
+  </select>
+
+    <select id="listByDistributorIds" resultMap="BaseResultMap">
+        SELECT a.* FROM distributor_series_theme a
+        LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+        WHERE b.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        ORDER BY a.sort_no
+    </select>
+
+ <select id="pageCOByDistributorIds" resultMap="DistributorSeriesThemePictureCOResultMap">
+   SELECT
+     spr.id,
+     spr.picture_id,
+     p.thumbnail,
+     p.origin_image,
+     p.`name` picture_name,
+     p.english_name,
+     dst.theme_name,
+     pc.image category_image,
+     spr.series_id
+     FROM
+     ( SELECT d.id, d.category_id,d.sort_no, d.theme_name FROM distributor_series_theme_relevance r inner join distributor_series_theme d on r.series_theme_id = d.id
+      WHERE r.distributor_id
+     in
+     <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+         #{distributorId}
+     </foreach>
+     ORDER BY d.sort_no LIMIT #{seriesNum} ) dst
+     LEFT JOIN series_picture_relevance spr ON spr.series_id = dst.id
+     LEFT JOIN picture p ON p.id = spr.picture_id
+     LEFT JOIN picture_category pc ON dst.category_id = pc.id
+     WHERE spr.sort_no &lt;= (SELECT sort_no FROM series_picture_relevance s WHERE s.series_id = dst.id  order by sort_no ASC limit #{pictureNum},1)
+     GROUP BY spr.picture_id
+     ORDER BY dst.sort_no,spr.sort_no asc
+ </select>
+
+  <select id="listExchangeAllPictureByCondition" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+    SELECT d.id,d.id picture_id,d.name picture_name,d.origin_image,d.english_name,d.type,d.background_preview_url,d.no_camera_vacancy_preview FROM distributor_series_theme a
+        LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+        LEFT JOIN series_picture_relevance c on c.series_id=a.id
+        LEFT JOIN picture d on c.picture_id=d.id
+        LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+        LEFT JOIN picture_material_relevance f on f.picture_id=d.id
+        LEFT JOIN exchange_material_relevance g ON f.material_id = g.material_id
+     <if test="modelId !=null">
+        LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+      </if>
+  WHERE a.id = #{themeId} and b.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+         and g.exchange_id=#{exchangeId} and d.open_flag=1 and d.del_flag =0
+     <choose>
+       <when test="isSanXing">
+            and d.reseller_scope=4 and e.distributor_id
+           in
+           <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+               #{distributorId}
+           </foreach>
+       </when>
+       <otherwise>
+            and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+           in
+           <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+               #{distributorId}
+           </foreach>
+                ))
+       </otherwise>
+     </choose>
+    <if test="materialId !=null">
+            and f.material_id=#{materialId}
+    </if>
+    <if test="modelId !=null">
+            AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+    </if>
+      and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+      and ddpr.picture_id = d.id)
+      GROUP BY d.id ORDER BY c.sort_no,d.sequence
+  </select>
+
+
+    <select id="listExchangeAllPictureByConditionCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM distributor_series_theme a
+        LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+        LEFT JOIN series_picture_relevance c on c.series_id=a.id
+        LEFT JOIN picture d on c.picture_id=d.id
+        LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+        LEFT JOIN picture_material_relevance f on f.picture_id=d.id
+        LEFT JOIN exchange_material_relevance g ON f.material_id = g.material_id
+        <if test="modelId !=null">
+            LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+        </if>
+        WHERE a.id = #{themeId} and b.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and g.exchange_id=#{exchangeId} and d.open_flag=1 and d.del_flag =0
+        <choose>
+            <when test="isSanXing">
+                and d.reseller_scope=4 and e.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+            </when>
+            <otherwise>
+                and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+                    ))
+            </otherwise>
+        </choose>
+        <if test="materialId !=null">
+            and f.material_id=#{materialId}
+        </if>
+        <if test="modelId !=null">
+            AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+        </if>
+        and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and ddpr.picture_id = d.id)
+    </select>
+
+  <select id="listAssignExchangePictureByCondition" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+    SELECT  d.id,d.id picture_id,d.name picture_name,d.origin_image,d.english_name,d.type,d.background_preview_url,d.no_camera_vacancy_preview  FROM distributor_series_theme a
+         LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+         LEFT JOIN series_picture_relevance c on c.series_id=a.id
+         LEFT JOIN picture d on c.picture_id=d.id
+         LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+         LEFT JOIN exchange_picture_relevance f on f.picture_id=d.id
+      <if test="materialId !=null">
+        LEFT JOIN picture_material_relevance g ON g.picture_id = d.id
+      </if>
+      <if test="modelId !=null">
+        LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+      </if>
+    WHERE a.id = #{themeId} and b.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+      and f.exchange_id=#{exchangeId}
+                and d.open_flag=1 and d.del_flag=0
+       <choose>
+         <when test="isSanXing">
+            and d.reseller_scope=4 and e.distributor_id
+             in
+             <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                 #{distributorId}
+             </foreach>
+         </when>
+         <otherwise>
+           and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+             in
+             <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                 #{distributorId}
+             </foreach>
+               ))
+         </otherwise>
+       </choose>
+       <if test="materialId !=null">
+         and g.material_id=#{materialId}
+       </if>
+       <if test="modelId !=null">
+         AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+       </if>
+      and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+      and ddpr.picture_id = d.id)
+      GROUP BY d.id ORDER BY c.sort_no,d.sequence
+  </select>
+
+    <select id="listAssignExchangePictureByConditionCount" resultType="java.lang.Integer">
+        SELECT  count(*)  FROM distributor_series_theme a
+        LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+        LEFT JOIN series_picture_relevance c on c.series_id=a.id
+        LEFT JOIN picture d on c.picture_id=d.id
+        LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+        LEFT JOIN exchange_picture_relevance f on f.picture_id=d.id
+        <if test="materialId !=null">
+            LEFT JOIN picture_material_relevance g ON g.picture_id = d.id
+        </if>
+        <if test="modelId !=null">
+            LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+        </if>
+        WHERE a.id = #{themeId} and b.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+          and f.exchange_id=#{exchangeId}
+        and d.open_flag=1 and d.del_flag=0
+        <choose>
+            <when test="isSanXing">
+                and d.reseller_scope=4 and e.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+            </when>
+            <otherwise>
+                and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+                    ))
+            </otherwise>
+        </choose>
+        <if test="materialId !=null">
+            and g.material_id=#{materialId}
+        </if>
+        <if test="modelId !=null">
+            AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+        </if>
+        and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and ddpr.picture_id = d.id)
+    </select>
+
+    <select id="listPictureWithOutExchange" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+    SELECT  d.id,d.id picture_id,d.name picture_name,d.origin_image,d.english_name,d.type,d.background_preview_url,d.no_camera_vacancy_preview  FROM distributor_series_theme a
+            LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+             LEFT JOIN series_picture_relevance c on c.series_id=a.id
+            LEFT JOIN picture d on c.picture_id=d.id
+             LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+            <if test="materialId !=null">
+              LEFT JOIN picture_material_relevance g ON g.picture_id = d.id
+            </if>
+            <if test="modelId !=null">
+              LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+            </if>
+            WHERE a.id = #{themeId} and b.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+             #{distributorId}
+            </foreach>
+            and d.open_flag=1 and d.del_flag=0
+        <choose>
+          <when test="isSanXing">
+            and d.reseller_scope=4 and e.distributor_id
+              in
+              <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                  #{distributorId}
+              </foreach>
+          </when>
+          <otherwise>
+            and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+              in
+              <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                  #{distributorId}
+              </foreach>
+                ))
+          </otherwise>
+        </choose>
+         <if test="materialId !=null">
+           and g.material_id=#{materialId}
+         </if>
+         <if test="modelId !=null">
+             AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+         </if>
+      and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+      and ddpr.picture_id = d.id)
+      GROUP BY d.id ORDER BY c.sort_no,d.sequence
+  </select>
+
+    <select id="listPictureWithOutExchangeCount" resultType="java.lang.Integer">
+        SELECT  count(*)  FROM distributor_series_theme a
+        LEFT JOIN distributor_series_theme_relevance b on b.series_theme_id=a.id
+        LEFT JOIN series_picture_relevance c on c.series_id=a.id
+        LEFT JOIN picture d on c.picture_id=d.id
+        LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+        <if test="materialId !=null">
+            LEFT JOIN picture_material_relevance g ON g.picture_id = d.id
+        </if>
+        <if test="modelId !=null">
+            LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+        </if>
+        WHERE a.id = #{themeId} and b.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+          and d.open_flag=1 and d.del_flag=0
+        <choose>
+            <when test="isSanXing">
+                and d.reseller_scope=4 and e.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+            </when>
+            <otherwise>
+                and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+                    ))
+            </otherwise>
+        </choose>
+        <if test="materialId !=null">
+            and g.material_id=#{materialId}
+        </if>
+        <if test="modelId !=null">
+            AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+        </if>
+        and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and ddpr.picture_id = d.id)
+    </select>
+    
+  <select id="listPictureCategoryByCondtion" resultMap="com.bat.flexible.dao.picture.PictureCategoryDOMapper.BaseResultMap">
+     SELECT * FROM picture_category a WHERE a.parent_id=0 and a.type in(1,2,3) and a.open_flag=1 and a.del_flag=0
+         and EXISTS(
+       SELECT 1 FROM picture b LEFT JOIN picture_distributor_relevance c on b.id=c.picture_id
+       <if test="materialId !=null">
+           LEFT JOIN picture_material_relevance e ON e.picture_id = b.id and e.del_flag=0
+       </if>
+       <if test="modelId !=null">
+            LEFT JOIN picture_model_relevance f ON b.id = f.picture_id and f.del_flag=0
+       </if>
+    WHERE ( b.category_id=a.id or b.category_id in (SELECT d.id FROM picture_category d WHERE d.parent_id=a.id and d.open_flag=1 and d.del_flag=0))
+        and b.open_flag=1 and b.del_flag=0
+        <choose>
+          <when test="isSanXing">
+             and b.reseller_scope=4 and c.distributor_id
+              in
+              <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                  #{distributorId}
+              </foreach>
+          </when>
+          <otherwise>
+            and (b.reseller_scope=1  or (b.reseller_scope=2 and #{countryId}=37) or (b.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (b.reseller_scope=4 and c.distributor_id
+              in
+              <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                  #{distributorId}
+              </foreach>
+                ))
+          </otherwise>
+        </choose>
+      <if test="materialId !=null">
+          and e.material_id=#{materialId}
+      </if>
+      <if test="modelId !=null">
+         AND ( b.model_scope = 1 OR ( b.model_scope = 2 AND f.del_flag = 0 AND f.model_id =#{modelId} ) )
+      </if>
+       )
+       order by a.sequence
+  </select>
+
+   <select id="listCOByCondition" resultMap="SeriesThemePageCOResultMap">
+       SELECT
+	t.*,
+	p.`name` picture_name,
+	p.english_name,
+	p.code,
+	p.thumbnail,
+	p.origin_image,
+	GROUP_CONCAT( m.item_code ) item_code,
+	pc.name category_name
+FROM
+	(
+	SELECT
+		spr.id,
+		spr.picture_id,
+		spr.series_id,
+		dst.theme_name,
+		GROUP_CONCAT( dstr.distributor_name ) distributor_name,
+		GROUP_CONCAT( dstr.company_name ) company_name,
+		spr.sort_no
+	FROM
+		distributor_series_theme_relevance dstr
+		LEFT JOIN distributor_series_theme dst ON dst.id = dstr.series_theme_id
+		LEFT JOIN series_picture_relevance spr ON spr.series_id = dst.id
+		where 1=1
+		<if test="themeId !=null">
+            and dstr.series_theme_id =#{themeId}
+        </if>
+        <if test="content !=null and content !=''">
+            and (dstr.distributor_name like concat ('%',#{content},'%') or dstr.company_name like concat ('%',#{content},'%') )
+        </if>
+	GROUP BY
+		spr.id
+	ORDER BY
+		dstr.id DESC
+	) t
+	LEFT JOIN picture p ON t.picture_id = p.id
+	LEFT JOIN picture_material_relevance pmr ON t.picture_id = pmr.picture_id
+	LEFT JOIN material m ON m.id = pmr.material_id
+	LEFT JOIN picture_category pc on p.category_id = pc.id
+	where 1=1
+    <if test="pictureCategoryId !=null">
+        and p.category_id = #{pictureCategoryId}
+    </if>
+GROUP BY
+	t.id
+ORDER BY
+	t.series_id DESC,
+	t.sort_no ASC
+   </select>
+ <select id="listSimpleCOByDistributorIdAndContent" resultMap="DistributorSeriesSimpleCOResultMap">
+    SELECT
+         dst.id,
+         dst.theme_name
+         FROM
+            distributor_series_theme dst
+         left join  distributor_series_theme_relevance r on r.series_theme_id = dst.id
+        where 1=1
+        <if test="content !=null and content !=''">
+            and ( r.distributor_name like concat ('%',#{content},'%') or r.company_name like concat ('%',#{content},'%') )
+        </if>
+        <choose>
+            <when test="distributorId !=null">
+                AND r.distributor_id= #{distributorId}
+            </when>
+            <otherwise>
+                group by dst.id
+
+            </otherwise>
+        </choose>
+
+
+         ORDER BY dst.sort_no ASC
+ </select>
+
+
+</mapper>

@@ -1,0 +1,132 @@
+.payment-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #333333;
+  background-color: #f6f6f6;
+  border-top: 1px solid #E7E7E7;
+}
+
+.order-info {
+  padding: 80rpx 30rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.order-info .order-no {
+  margin-bottom: 80rpx;
+}
+
+.order-info .order-price {
+  margin-top: 24rpx;
+  font-size: 36rpx;
+  color: #FF622B;
+  line-height: 84rpx;
+}
+
+.order-info .order-price .price {
+  font-size: 60rpx;
+}
+
+.btn-wrap {
+  padding: 120rpx 60rpx 0;
+  display: flex;
+}
+
+.btn-wrap .btn {
+  display: inline-block;
+  flex: 1;
+  height: 110rpx;
+  line-height: 110rpx;
+  font-size: 32rpx;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 110rpx;
+  background-color: #ffffff;
+}
+
+.btn-wrap .btn.confirm-btn {
+  background-color: #FFDA01;
+}
+
+/* 柔性关闭弹窗 */
+.flexible-dialog{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.flexible-dialog-content {
+	position: absolute;
+	width: 90%;
+	background-size: 100% 100%;
+  height: 780rpx;
+  background-color: #ffffff;
+	border-radius: 24rpx;
+	display: flex;
+	align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.flexible-cotent-top{
+	width: 90%;
+	height: 200rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+		  
+}
+    
+.flexible-cotent-top-img{
+	width: 100%;
+	height: auto;
+}
+	  
+.flexible-cotent-middle-title{
+	width: 85%;
+	height: 100rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 80rpx;
+	font-size: 36rpx;
+	color: #333333;
+	font-weight: bold;
+}
+	  
+.flexible-cotent-middle-info{
+  width: 85%;
+	display: flex;
+  justify-content: space-between;
+  font-size: 30rpx;
+  color: #666666;
+  letter-spacing: 1rpx;
+  margin-top: 10rpx;
+  line-height: 45rpx;
+  text-align: center;
+}
+	  
+.flexible-cotent-bottom{
+  width: 195px;
+  height: 86rpx;
+  line-height: 86rpx;
+  text-align: center;
+	display: flex;
+  justify-content: center;
+  font-size: 36rpx;
+  color: #000000;
+  background-image: radial-gradient(#FFDA01 70%, transparent 0), linear-gradient(#FFDA01, #FFDA01), radial-gradient(#FFDA01 70%, transparent 0);
+  border-radius: 43rpx;
+  margin-top: 80rpx;
+}

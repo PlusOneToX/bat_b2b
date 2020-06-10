@@ -1,0 +1,98 @@
+/* components/protocol/protocol.wxss */
+.protocol {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background-color: var(--white);
+}
+
+.protocol .container {
+  height: 100%;
+  padding: 80rpx 30rpx 240rpx;
+  font-size: 28rpx;
+  color: #333333;
+  text-align: justify;
+  line-height: 1.5;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.protocol .container::-webkit-scrollbar {
+  display: none;
+}
+
+.protocol .container .protocol-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.protocol .container .protocol-subtitle {
+  font-size: 28rpx;
+  font-weight: bold;
+  line-height: 1.8;
+}
+
+.protocol .container {
+  font-size: 28rpx;
+}
+
+.protocol .container .rules {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.protocol .container .no {
+  display: inline-block;
+}
+
+.text-indent-double {
+  text-indent: 2em;
+}
+
+.margin-l-double {
+  margin-left: 20rpx;
+}
+
+.margin-b-double {
+  margin-bottom: 60rpx;
+}
+
+.margin-b-m {
+  margin-bottom: 30rpx;
+}
+
+.text-align-r {
+  text-align: right;
+}
+
+.text-align-c {
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.protocol .fixed-btn-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx 30rpx;
+  text-align: right;
+  background-color: var(--white);
+  box-shadow: 0 -2rpx 14rpx -4rpx rgba(189, 189, 189, 0.5);
+  z-index: 99;
+}
+
+.protocol .fixed-btn-wrap .btn {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 32rpx;
+  text-align: center;
+  background: var(--mainColor);
+  border-radius: 90rpx;
+}

@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/shopcart/shopcart",
+    "pages/mine/mine",
+    "pages/coupon/coupon",
+    "pages/order/order/order",
+    "pages/order/payment/payment",
+    "pages/order/result/result",
+    "pages/login/login",
+    "pages/webview/webview"
+  ],
+  "window": {
+    "defaultTitle": "",
+    "barButtonTheme": "light",
+    "titleBarColor": "#000000",
+    "enableInPageRenderInput": "YES"
+  },
+  "tabBar": {
+    "textColor": "#999999",
+    "selectedColor": "#333333",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "pagePath": "pages/index/index",
+        "name": "首页",
+        "icon": "assets/icons/tab_index.png",
+        "activeIcon": "assets/icons/tab_index_active.png"
+      },
+      {
+        "pagePath": "pages/shopcart/shopcart",
+        "name": "购物车",
+        "icon": "assets/icons/tab_shopcart.png",
+        "activeIcon": "assets/icons/tab_shopcart_active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "name": "我的",
+        "icon": "assets/icons/tab_mine.png",
+        "activeIcon": "assets/icons/tab_mine_active.png"
+      }
+    ]
+  }
+}

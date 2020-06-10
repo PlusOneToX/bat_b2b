@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.model.ModelMaterialRelevanceDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.flexible.dao.model.dataobject.ModelMaterialRelevanceDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="model_id" property="modelId" jdbcType="INTEGER"/>
+        <result column="material_id" property="materialId" jdbcType="INTEGER"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="width" property="width" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="out_image" property="outImage" jdbcType="VARCHAR"/>
+        <result column="floor_image" property="floorImage" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="third_sku" property="thirdSku" jdbcType="VARCHAR"/>
+        <result column="warn_msg" property="warnMsg" jdbcType="VARCHAR"/>
+        <result column="bom_code" property="bomCode" jdbcType="VARCHAR"/>
+        <result column="cut_type" property="cutType" jdbcType="SMALLINT"/>
+        <result column="slitting_height" property="slittingHeight" jdbcType="INTEGER"/>
+        <result column="slitting_white" property="slittingWhite" jdbcType="INTEGER"/>
+        <result column="crosscutting_width" property="crosscuttingWidth" jdbcType="INTEGER"/>
+        <result column="crosscutting_white" property="crosscuttingWhite" jdbcType="INTEGER"/>
+        <result column="under_stock_flag" property="underStockFlag" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="SMALLINT"/>
+        <result column="top_frame" property="topFrame" jdbcType="DECIMAL"/>
+        <result column="under_frame" property="underFrame" jdbcType="DECIMAL"/>
+        <result column="left_frame" property="leftFrame" jdbcType="DECIMAL"/>
+        <result column="right_frame" property="rightFrame" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="ModelMaterialRelevanceCOResultMap" type="com.bat.flexible.dao.model.co.ModelMaterialRelevanceCO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="model_id" property="modelId" jdbcType="INTEGER"/>
+        <result column="model_name" property="modelName" jdbcType="VARCHAR"/>
+        <result column="model_english_name" property="modelEnglishName" jdbcType="VARCHAR"/>
+        <result column="material_id" property="materialId" jdbcType="INTEGER"/>
+        <result column="material_name" property="materialName" jdbcType="VARCHAR"/>
+        <result column="material_english_name" property="materialEnglishName" jdbcType="VARCHAR"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="width" property="width" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="out_image" property="outImage" jdbcType="VARCHAR"/>
+        <result column="floor_image" property="floorImage" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="third_sku" property="thirdSku" jdbcType="VARCHAR"/>
+        <result column="warn_msg" property="warnMsg" jdbcType="VARCHAR"/>
+        <result column="bom_code" property="bomCode" jdbcType="VARCHAR"/>
+        <result column="cut_type" property="cutType" jdbcType="SMALLINT"/>
+        <result column="slitting_height" property="slittingHeight" jdbcType="INTEGER"/>
+        <result column="slitting_white" property="slittingWhite" jdbcType="INTEGER"/>
+        <result column="crosscutting_width" property="crosscuttingWidth" jdbcType="INTEGER"/>
+        <result column="crosscutting_white" property="crosscuttingWhite" jdbcType="INTEGER"/>
+        <result column="under_stock_flag" property="underStockFlag" jdbcType="SMALLINT"/>
+        <result column="del_flag" property="delFlag" jdbcType="SMALLINT"/>
+        <result column="top_frame" property="topFrame" jdbcType="DECIMAL"/>
+        <result column="under_frame" property="underFrame" jdbcType="DECIMAL"/>
+        <result column="left_frame" property="leftFrame" jdbcType="DECIMAL"/>
+        <result column="right_frame" property="rightFrame" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="ModelSkuExportQryResultMap" type="com.bat.flexible.dao.model.co.ModelSkuExportQry">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="model_name" property="modelName" jdbcType="VARCHAR"/>
+        <result column="material_name" property="materialName" jdbcType="VARCHAR"/>
+        <result column="model_no" property="modelNo" jdbcType="VARCHAR"/>
+        <result column="network_model" property="networkModel" jdbcType="VARCHAR"/>
+        <result column="length" property="length" jdbcType="DECIMAL"/>
+        <result column="width" property="width" jdbcType="DECIMAL"/>
+        <result column="height" property="height" jdbcType="DECIMAL"/>
+        <result column="third_sku" property="thirdSku" jdbcType="VARCHAR"/>
+        <result column="bom_code" property="bomCode" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , model_id, material_id, length, width, height, weight, out_image, floor_image,
+    open_flag, third_sku, warn_msg, bom_code, cut_type, slitting_height, slitting_white, 
+    crosscutting_width, crosscutting_white, under_stock_flag, create_time, create_user_id, 
+    create_user_name, update_time, update_user_id, update_user_name, del_flag, top_frame, 
+    under_frame, left_frame, right_frame
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from model_material_relevance
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from model_material_relevance
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.flexible.dao.model.dataobject.ModelMaterialRelevanceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into model_material_relevance (id, model_id, material_id,
+                                              length, width, height,
+                                              weight, out_image, floor_image,
+                                              open_flag, third_sku, warn_msg,
+                                              bom_code, cut_type, slitting_height,
+                                              slitting_white, crosscutting_width, crosscutting_white,
+                                              under_stock_flag, create_time, create_user_id,
+                                              create_user_name, update_time, update_user_id,
+                                              update_user_name, del_flag, top_frame,
+                                              under_frame, left_frame, right_frame)
+        values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER},
+                #{length,jdbcType=DECIMAL}, #{width,jdbcType=DECIMAL}, #{height,jdbcType=DECIMAL},
+                #{weight,jdbcType=DECIMAL}, #{outImage,jdbcType=VARCHAR}, #{floorImage,jdbcType=VARCHAR},
+                #{openFlag,jdbcType=SMALLINT}, #{thirdSku,jdbcType=VARCHAR}, #{warnMsg,jdbcType=VARCHAR},
+                #{bomCode,jdbcType=VARCHAR}, #{cutType,jdbcType=SMALLINT}, #{slittingHeight,jdbcType=INTEGER},
+                #{slittingWhite,jdbcType=INTEGER}, #{crosscuttingWidth,jdbcType=INTEGER},
+                #{crosscuttingWhite,jdbcType=INTEGER},
+                #{underStockFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER},
+                #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER},
+                #{updateUserName,jdbcType=VARCHAR}, #{delFlag,jdbcType=SMALLINT}, #{topFrame,jdbcType=DECIMAL},
+                #{underFrame,jdbcType=DECIMAL}, #{leftFrame,jdbcType=DECIMAL}, #{rightFrame,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.flexible.dao.model.dataobject.ModelMaterialRelevanceDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into model_material_relevance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="modelId != null">
+                model_id,
+            </if>
+            <if test="materialId != null">
+                material_id,
+            </if>
+            <if test="length != null">
+                length,
+            </if>
+            <if test="width != null">
+                width,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="outImage != null">
+                out_image,
+            </if>
+            <if test="floorImage != null">
+                floor_image,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="thirdSku != null">
+                third_sku,
+            </if>
+            <if test="warnMsg != null">
+                warn_msg,
+            </if>
+            <if test="bomCode != null">
+                bom_code,
+            </if>
+            <if test="cutType != null">
+                cut_type,
+            </if>
+            <if test="slittingHeight != null">
+                slitting_height,
+            </if>
+            <if test="slittingWhite != null">
+                slitting_white,
+            </if>
+            <if test="crosscuttingWidth != null">
+                crosscutting_width,
+            </if>
+            <if test="crosscuttingWhite != null">
+                crosscutting_white,
+            </if>
+            <if test="underStockFlag != null">
+                under_stock_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createUserName != null">
+                create_user_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="updateUserName != null">
+                update_user_name,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="topFrame != null">
+                top_frame,
+            </if>
+            <if test="underFrame != null">
+                under_frame,
+            </if>
+            <if test="leftFrame != null">
+                left_frame,
+            </if>
+            <if test="rightFrame != null">
+                right_frame,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="modelId != null">
+                #{modelId,jdbcType=INTEGER},
+            </if>
+            <if test="materialId != null">
+                #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="length != null">
+                #{length,jdbcType=DECIMAL},
+            </if>
+            <if test="width != null">
+                #{width,jdbcType=DECIMAL},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=DECIMAL},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=DECIMAL},
+            </if>
+            <if test="outImage != null">
+                #{outImage,jdbcType=VARCHAR},
+            </if>
+            <if test="floorImage != null">
+                #{floorImage,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="thirdSku != null">
+                #{thirdSku,jdbcType=VARCHAR},
+            </if>
+            <if test="warnMsg != null">
+                #{warnMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="bomCode != null">
+                #{bomCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cutType != null">
+                #{cutType,jdbcType=SMALLINT},
+            </if>
+            <if test="slittingHeight != null">
+                #{slittingHeight,jdbcType=INTEGER},
+            </if>
+            <if test="slittingWhite != null">
+                #{slittingWhite,jdbcType=INTEGER},
+            </if>
+            <if test="crosscuttingWidth != null">
+                #{crosscuttingWidth,jdbcType=INTEGER},
+            </if>
+            <if test="crosscuttingWhite != null">
+                #{crosscuttingWhite,jdbcType=INTEGER},
+            </if>
+            <if test="underStockFlag != null">
+                #{underStockFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="topFrame != null">
+                #{topFrame,jdbcType=DECIMAL},
+            </if>
+            <if test="underFrame != null">
+                #{underFrame,jdbcType=DECIMAL},
+            </if>
+            <if test="leftFrame != null">
+                #{leftFrame,jdbcType=DECIMAL},
+            </if>
+            <if test="rightFrame != null">
+                #{rightFrame,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.bat.flexible.dao.model.dataobject.ModelMaterialRelevanceDO">
+        update model_material_relevance
+        <set>
+            <if test="modelId != null">
+                model_id = #{modelId,jdbcType=INTEGER},
+            </if>
+            <if test="materialId != null">
+                material_id = #{materialId,jdbcType=INTEGER},
+            </if>
+            <if test="length != null">
+                length = #{length,jdbcType=DECIMAL},
+            </if>
+            <if test="width != null">
+                width = #{width,jdbcType=DECIMAL},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=DECIMAL},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=DECIMAL},
+            </if>
+            <if test="outImage != null">
+                out_image = #{outImage,jdbcType=VARCHAR},
+            </if>
+            <if test="floorImage != null">
+                floor_image = #{floorImage,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="thirdSku != null">
+                third_sku = #{thirdSku,jdbcType=VARCHAR},
+            </if>
+            <if test="warnMsg != null">
+                warn_msg = #{warnMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="bomCode != null">
+                bom_code = #{bomCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cutType != null">
+                cut_type = #{cutType,jdbcType=SMALLINT},
+            </if>
+            <if test="slittingHeight != null">
+                slitting_height = #{slittingHeight,jdbcType=INTEGER},
+            </if>
+            <if test="slittingWhite != null">
+                slitting_white = #{slittingWhite,jdbcType=INTEGER},
+            </if>
+            <if test="crosscuttingWidth != null">
+                crosscutting_width = #{crosscuttingWidth,jdbcType=INTEGER},
+            </if>
+            <if test="crosscuttingWhite != null">
+                crosscutting_white = #{crosscuttingWhite,jdbcType=INTEGER},
+            </if>
+            <if test="underStockFlag != null">
+                under_stock_flag = #{underStockFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                update_user_name = #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="topFrame != null">
+                top_frame = #{topFrame,jdbcType=DECIMAL},
+            </if>
+            <if test="underFrame != null">
+                under_frame = #{underFrame,jdbcType=DECIMAL},
+            </if>
+            <if test="leftFrame != null">
+                left_frame = #{leftFrame,jdbcType=DECIMAL},
+            </if>
+            <if test="rightFrame != null">
+                right_frame = #{rightFrame,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.model.dataobject.ModelMaterialRelevanceDO">
+        update model_material_relevance
+        set model_id = #{modelId,jdbcType=INTEGER},
+        material_id = #{materialId,jdbcType=INTEGER},
+        length = #{length,jdbcType=DECIMAL},
+        width = #{width,jdbcType=DECIMAL},
+        height = #{height,jdbcType=DECIMAL},
+        weight = #{weight,jdbcType=DECIMAL},
+        out_image = #{outImage,jdbcType=VARCHAR},
+        floor_image = #{floorImage,jdbcType=VARCHAR},
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+        third_sku = #{thirdSku,jdbcType=VARCHAR},
+        warn_msg = #{warnMsg,jdbcType=VARCHAR},
+        bom_code = #{bomCode,jdbcType=VARCHAR},
+        cut_type = #{cutType,jdbcType=SMALLINT},
+        slitting_height = #{slittingHeight,jdbcType=INTEGER},
+        slitting_white = #{slittingWhite,jdbcType=INTEGER},
+        crosscutting_width = #{crosscuttingWidth,jdbcType=INTEGER},
+        crosscutting_white = #{crosscuttingWhite,jdbcType=INTEGER},
+        <if test="underStockFlag != null">
+            under_stock_flag = #{underStockFlag,jdbcType=SMALLINT},
+        </if>
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+        top_frame = #{topFrame,jdbcType=DECIMAL},
+        under_frame = #{underFrame,jdbcType=DECIMAL},
+        left_frame = #{leftFrame,jdbcType=DECIMAL},
+        right_frame = #{rightFrame,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listByIdList" resultMap="BaseResultMap">
+        select * from model_material_relevance where 1=1 and (
+        <foreach collection="idList" item="id" separator=" or ">
+            id = #{id}
+        </foreach>
+        )
+    </select>
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from model_material_relevance where 1 = 1
+
+        <if test="materialId != null">
+            and material_id = #{materialId}
+        </if>
+        <if test="openFlag != null">
+            and open_flag =#{openFlag}
+        </if>
+        <if test="modelId !=null">
+            and model_id = #{modelId}
+        </if>
+        <if test="bomCode !=null and bomCode !=''">
+            and bom_code = #{bomCode}
+        </if>
+        and del_flag = 0
+    </select>
+    <select id="listCOByCondition" resultMap="ModelMaterialRelevanceCOResultMap">
+        select mmr.id, mmr.model_id, mmr.material_id, mmr.length, mmr.width, mmr.height, mmr.weight, mmr.out_image,
+        mmr.floor_image,
+        mmr.open_flag, mmr.third_sku, mmr.warn_msg, mmr.bom_code, mmr.cut_type, mmr.slitting_height, mmr.slitting_white,
+        mmr.crosscutting_width, mmr.crosscutting_white, mmr.under_stock_flag, m1.name model_name,m1.english_name
+        model_english_name,
+        m2.name material_name,m2.english_name
+        material_english_name,mmr.top_frame,mmr.under_frame,mmr.left_frame,mmr.right_frame
+        from model_material_relevance mmr left join model m1 on mmr.model_id= m1.id
+        left join material m2 on m2.id = mmr.material_id
+        where mmr.del_flag=0
+        <if test="materialId !=null">
+            and mmr.material_id=#{materialId}
+        </if>
+        <if test="openFlag !=null">
+            and mmr.open_flag = #{openFlag}
+        </if>
+        <if test="productCategoryId !=null">
+            and m1.category_id = #{productCategoryId}
+        </if>
+        <if test="content !=null and content !=''">
+            and (m1.name like concat('%',#{content},'%') or m2.name like concat ('%',#{content},'%') )
+        </if>
+    </select>
+    <select id="listByMaterialIdListAndOpenFlag" resultMap="BaseResultMap">
+        select * from model_material_relevance where del_flag=0
+        <if test="materialIdList !=null and materialIdList.size()>0">
+            <foreach open=" and ( " close=" )" collection="materialIdList" item="materialId" separator=" or ">
+                material_id=#{materialId}
+            </foreach>
+        </if>
+        <if test="openFlag !=null">
+            and open_flag = #{openFlag}
+        </if>
+    </select>
+    <select id="listExcelCO" resultMap="ModelSkuExportQryResultMap">
+        SELECT mmr.id,
+               l.`name` model_name,
+               m.`name` material_name,
+               l.model_no,
+               l.network_model,
+               mmr.length,
+               mmr.width,
+               mmr.height,
+               mmr.third_sku,
+               mmr.bom_code
+        FROM model_material_relevance mmr
+                 LEFT JOIN material m ON mmr.material_id = m.id
+                 LEFT JOIN model l ON l.id = mmr.model_id
+        WHERE mmr.del_flag = 0
+        ORDER BY mmr.model_id
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+.sprite-icon{
+  display: inline-block;
+  background-image: url(../image/icon.png);
+  background-size: 195.5px 131px;
+}
+.arrow_left{
+  width: 17.5px;
+  height: 16.5px;
+  background-position: -101.5px -66px;
+}
+.arrow_right{
+  width: 17.5px;
+  height: 16.5px;
+  background-position: -120px -66px;
+}
+.customized_button_material{
+  width: 64.5px;
+  height: 65px;
+  background-position: 0px 0px;
+}
+.customized_button_ok{
+  width: 64.5px;
+  height: 65px;
+  background-position: -65.5px 0px;
+}
+.customized_button_upload{
+  width: 64.5px;
+  height: 65px;
+  background-position: -131px 0px;
+}
+.customized_button_word{
+  width: 64.5px;
+  height: 65px;
+  background-position: 0px -66px;
+}
+.icon_fanhui{
+  width: 13px;
+  height: 16px;
+  background-position: -173.5px -66px;
+}
+.icon_layer{
+  width: 17px;
+  height: 17px;
+  background-position: -65.5px -66px;
+}
+.icon_replace{
+  width: 17px;
+  height: 17px;
+  background-position: -83.5px -66px;
+}
+.icon_shouhui{
+  width: 10px;
+  height: 11.5px;
+  background-position: -65.5px -84px;
+}
+.layer_icon_Movedown{
+  width: 16.5px;
+  height: 16.5px;
+  background-position: -138.5px -66px;
+}
+.layer_icon_Moveup{
+  width: 16.5px;
+  height: 16.5px;
+  background-position: -156px -66px;
+}

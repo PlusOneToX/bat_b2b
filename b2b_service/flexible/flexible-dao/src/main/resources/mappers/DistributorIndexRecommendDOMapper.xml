@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.DistributorIndexRecommendDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_user_id, create_user_name, create_time, update_user_id, update_user_name, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_index_recommend
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_index_recommend
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_index_recommend (id, create_user_id, create_user_name, 
+      create_time, update_user_id, update_user_name, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_index_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendDO" >
+    update distributor_index_recommend
+    <set >
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.DistributorIndexRecommendDO" >
+    update distributor_index_recommend
+    set create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAllExchangePictureCOByCondition" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+     SELECT
+             c.id,
+            c.picture_id,
+             d.`name` picture_name,
+            d.english_name,
+             d.origin_image,
+            d.thumbnail,
+            d.type,
+             d.background_preview_url,d.no_camera_vacancy_preview
+    FROM distributor_index_recommend_relevance a
+     INNER JOIN distributor_index_recommend b on a.index_recommend_id = b.id
+     LEFT JOIN index_recommend_picture_relevance c on c.index_recommend_id = b.id
+    LEFT JOIN picture d on c.picture_id=d.id
+    LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+    LEFT JOIN picture_material_relevance f on f.picture_id=d.id
+    LEFT JOIN exchange_material_relevance g ON f.material_id = g.material_id
+     <if test="modelId !=null">
+       LEFT JOIN picture_model_relevance h ON d.id = h.picture_id
+     </if>
+     WHERE a.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+       and g.exchange_id=#{exchangeId}
+                 and d.open_flag=1  and d.del_flag=0
+           <choose>
+               <when test="isSanXing">
+                   and d.reseller_scope=4 and e.distributor_id
+                   in
+                   <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                       #{distributorId}
+                   </foreach>
+               </when>
+             <otherwise>
+                  and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+                 in
+                 <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                     #{distributorId}
+                 </foreach>
+                      ))
+             </otherwise>
+           </choose>
+           <if test="materialId !=null">
+               and f.material_id=#{materialId}
+           </if>
+           <if test="modelId !=null">
+               AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+           </if>
+               and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+               in
+               <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+               #{distributorId}
+               </foreach>
+               and ddpr.picture_id = d.id)
+               GROUP BY c.picture_id
+               ORDER BY c.sort_no,d.sequence
+  </select>
+
+  <select id="listAssginExchangePictureCO" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+        SELECT
+                     c.id,
+                     c.picture_id,
+                     d.`name` picture_name,
+                     d.english_name,
+                     d.origin_image,
+                     d.thumbnail,
+                     d.type,
+                     d.background_preview_url,d.no_camera_vacancy_preview
+                     FROM distributor_index_recommend_relevance a
+                    INNER JOIN distributor_index_recommend b on a.index_recommend_id = b.id
+                    LEFT JOIN index_recommend_picture_relevance c on c.index_recommend_id = b.id
+                    LEFT JOIN picture d on c.picture_id=d.id
+                     LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id
+                     LEFT JOIN exchange_picture_relevance f on f.picture_id=d.id
+               <if test="materialId !=null">
+                 LEFT JOIN picture_goods_references g ON g.picture_id = d.id
+               </if>
+               <if test="modelId !=null">
+                 LEFT JOIN picture_model_relevance h ON d.id = h.picture_id AND h.del_flag=0
+               </if>
+    WHERE a.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+      and f.exchange_id=#{exchangeId} and d.open_flag =1 and d.del_flag=0
+      <choose>
+        <when test="isSanXing">
+          and d.reseller_scope=4 and e.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+        </when>
+        <otherwise>
+          and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                #{distributorId}
+            </foreach>
+              ))
+        </otherwise>
+      </choose>
+      <if test="materialId !=null">
+        and g.material_id=#{materialId}
+      </if>
+      <if test="modelId !=null">
+          AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.open_flag = 1 AND h.model_id =#{modelId} ) )
+      </if>
+         and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+      in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+          #{distributorId}
+      </foreach>
+        and ddpr.picture_id = d.id)
+        GROUP BY c.picture_id
+        ORDER BY c.sort_no,d.sequence
+  </select>
+
+  <select id="listPictureCOByCondition" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+        SELECT
+                     c.id,
+                     c.picture_id,
+                    d.`name` picture_name,
+                    d.english_name,
+                     d.origin_image,
+                     d.thumbnail,
+                     d.type,
+                     d.background_preview_url,
+                     d.no_camera_vacancy_preview
+                     FROM distributor_index_recommend_relevance a
+          INNER JOIN distributor_index_recommend b on a.index_recommend_id = b.id
+          LEFT JOIN index_recommend_picture_relevance c on c.index_recommend_id = b.id
+          LEFT JOIN picture d on c.picture_id=d.id
+          LEFT JOIN picture_distributor_relevance e ON e.picture_id = d.id and e.del_flag=0
+           <if test="materialId !=null">
+               LEFT JOIN picture_material_relevance g ON g.picture_id = d.id and g.del_flag=0
+           </if>
+           <if test="modelId !=null">
+               LEFT JOIN picture_model_relevance h ON d.id = h.picture_id and h.del_flag=0
+           </if>
+             WHERE a.distributor_id
+               in
+               <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+               #{distributorId}
+               </foreach>
+               and d.open_flag=1 and d.del_flag=0
+             <choose>
+                 <when test="isSanXing">
+                     and d.reseller_scope=4 and e.distributor_id
+                     in
+                     <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                         #{distributorId}
+                     </foreach>
+                 </when>
+                 <otherwise>
+                     and (d.reseller_scope=1  or (d.reseller_scope=2 and #{countryId}=37) or (d.reseller_scope=3 and #{countryId} &lt;&gt; 37) or (d.reseller_scope=4 and e.distributor_id
+                     in
+                     <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                         #{distributorId}
+                     </foreach>
+                         ))
+                 </otherwise>
+             </choose>
+
+            <if test="materialId !=null">
+                and g.material_id=#{materialId}
+            </if>
+            <if test="modelId !=null">
+                AND ( d.model_scope = 1 OR ( d.model_scope = 2 AND h.del_flag = 0 AND h.model_id =#{modelId} ) )
+            </if>
+             and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id
+             in
+             <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+              #{distributorId}
+             </foreach>
+             and ddpr.picture_id = d.id)
+             GROUP BY c.picture_id
+             ORDER BY c.sort_no,d.sequence
+  </select>
+</mapper>

@@ -1,0 +1,2 @@
+ALTER TABLE `exchange_card_transfer` 
+ADD COLUMN `switch_flag` smallint(4) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否开启转增 0否 1是' AFTER `receive_img`;

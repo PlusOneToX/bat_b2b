@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.BannerSeriesPictureRelevanceDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.BannerSeriesPictureRelevanceDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="banner_id" property="bannerId" jdbcType="INTEGER" />
+    <result column="picture_id" property="pictureId" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, banner_id, picture_id, create_user_id, create_user_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from banner_series_picture_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from banner_series_picture_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.BannerSeriesPictureRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into banner_series_picture_relevance (id, banner_id, picture_id, 
+      create_user_id, create_user_name, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{bannerId,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.BannerSeriesPictureRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into banner_series_picture_relevance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bannerId != null" >
+        banner_id,
+      </if>
+      <if test="pictureId != null" >
+        picture_id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bannerId != null" >
+        #{bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null" >
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.BannerSeriesPictureRelevanceDO" >
+    update banner_series_picture_relevance
+    <set >
+      <if test="bannerId != null" >
+        banner_id = #{bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null" >
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.BannerSeriesPictureRelevanceDO" >
+    update banner_series_picture_relevance
+    set banner_id = #{bannerId,jdbcType=INTEGER},
+      picture_id = #{pictureId,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByBannerId" resultMap="BaseResultMap">
+    select * from banner_series_picture_relevance where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <select id="listPictureIdByBannerId" resultType="java.lang.Integer">
+     select picture_id from banner_series_picture_relevance where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByBannerId">
+    delete from banner_series_picture_relevance where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+  <select id="listPictureCOByBannerIdAndSeriesId" resultMap="com.bat.flexible.dao.picture.PictureDOMapper.CommonPicturePageCOResultMap">
+     SELECT
+                bspr.id,
+                bspr.picture_id,
+                p.thumbnail,
+                p.`name` picture_name,
+                p.origin_image,
+                p.type,
+                p.english_name,
+                 p.background_preview_url,p.no_camera_vacancy_preview
+                FROM
+                banner_series_picture_relevance bspr
+                LEFT JOIN series_picture_relevance spr ON spr.picture_id = bspr.picture_id and spr.series_id = #{seriesId}
+                LEFT JOIN picture p ON p.id = bspr.picture_id
+            WHERE
+                 bspr.banner_id =#{bannerId} AND p.open_flag=1 and p.del_flag=0
+                 ORDER BY
+                spr.sort_no ASC
+  </select>
+</mapper>

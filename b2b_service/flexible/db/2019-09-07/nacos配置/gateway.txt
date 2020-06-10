@@ -1,0 +1,4 @@
+        - "/flexible/v1/web/user/exchangeTransfer/detail"
+        - "/flexible/v1/web/user/exchangeShare/releaseDetail"
+        - "/flexible/v1/web/user/exchangeShare/find"
+        - "/thirdparty/lk"

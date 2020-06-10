@@ -1,0 +1,4 @@
+<view>
+  <!--<web-view src="{{url}}" bindmessage="getMessage"></web-view> -->
+  <web-view src="{{url}}"></web-view>
+</view>

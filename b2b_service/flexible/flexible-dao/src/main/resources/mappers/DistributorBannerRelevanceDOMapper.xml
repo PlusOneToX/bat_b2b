@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.DistributorBannerRelevanceDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.DistributorBannerRelevanceDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="banner_id" property="bannerId" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, banner_id, distributor_id, distributor_name, company_name, create_user_id, create_user_name, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_banner_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_banner_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_banner_relevance (id, banner_id, distributor_id, 
+      distributor_name, company_name, create_user_id, 
+      create_user_name, create_time)
+    values (#{id,jdbcType=INTEGER}, #{bannerId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, 
+      #{distributorName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_banner_relevance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bannerId != null" >
+        banner_id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bannerId != null" >
+        #{bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerRelevanceDO" >
+    update distributor_banner_relevance
+    <set >
+      <if test="bannerId != null" >
+        banner_id = #{bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerRelevanceDO" >
+    update distributor_banner_relevance
+    set banner_id = #{bannerId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByBannerId" resultMap="BaseResultMap">
+    select * from distributor_banner_relevance where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByBannerIdList">
+    delete from distributor_banner_relevance
+    where 1=1 and (
+    <foreach collection="bannerIdList" separator=" or " item="bannerId">
+      banner_id = #{bannerId,jdbcType=INTEGER}
+    </foreach>
+    )
+  </delete>
+
+
+
+</mapper>

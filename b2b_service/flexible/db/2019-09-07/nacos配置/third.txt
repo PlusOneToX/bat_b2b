@@ -1,0 +1,9 @@
+wx:
+    mini:
+        program:
+            ##小程序生成短链接
+            shortLinkUrl: https://api.weixin.qq.com/wxa/genwxashortlink?access_token=
+    official:
+        program:
+            ##JS接口临时票据
+            jsapiTicket: https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=

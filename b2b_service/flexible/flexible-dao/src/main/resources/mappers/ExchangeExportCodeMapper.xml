@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeExportCodeMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeExportCodeDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_export_id" jdbcType="INTEGER" property="exchangeExportId" />
+    <result column="exchange_code_id" jdbcType="INTEGER" property="exchangeCodeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_export_id, exchange_code_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_export_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_export_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeExportCodeDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_export_code (exchange_export_id, exchange_code_id)
+    values (#{exchangeExportId,jdbcType=INTEGER}, #{exchangeCodeId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeExportCodeDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_export_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeExportId != null">
+        exchange_export_id,
+      </if>
+      <if test="exchangeCodeId != null">
+        exchange_code_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeExportId != null">
+        #{exchangeExportId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeCodeId != null">
+        #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insertList" parameterType="java.util.List">
+    insert into exchange_export_code (exchange_export_id, exchange_code_id)
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.exchangeExportId,jdbcType=INTEGER},
+      #{item.exchangeCodeId,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeExportCodeDO">
+    update exchange_export_code
+    <set>
+      <if test="exchangeExportId != null">
+        exchange_export_id = #{exchangeExportId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeCodeId != null">
+        exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeExportCodeDO">
+    update exchange_export_code
+    set exchange_export_id = #{exchangeExportId,jdbcType=INTEGER},
+      exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

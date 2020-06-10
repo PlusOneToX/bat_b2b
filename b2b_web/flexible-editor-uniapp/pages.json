@@ -1,0 +1,62 @@
+{
+	"pages": [
+
+        {
+			"path": "pages/phone/index",
+			"style": {
+                "navigationBarTitleText": "定制",
+			    "navigationStyle": "custom",
+                "enablePullDownRefresh":false
+			}
+		},
+        {
+			"path": "pages/index/index",
+			"style": {
+                "navigationBarTitleText": "首页",
+			    "navigationStyle": "custom",
+                "enablePullDownRefresh":true
+			}
+		},
+        {
+			"path": "pages/phone/glance_over",
+			"style": {
+                "navigationBarTitleText": "定制",
+			    "navigationStyle": "custom",
+                "enablePullDownRefresh":false
+			}
+		}
+	
+],
+
+	"globalStyle": {
+		"pageOrientation": "portrait",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"backgroundColorBottom": "#F4F5F6",
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"h5": {
+			"maxWidth": 1190,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#F1F1F1"
+		}
+
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/component.png",
+				"selectedIconPath": "static/componentHL.png",
+				"text": "内置组件"
+			}
+		]
+	}
+}

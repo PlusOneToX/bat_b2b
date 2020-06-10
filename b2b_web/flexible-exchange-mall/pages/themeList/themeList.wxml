@@ -1,0 +1,46 @@
+<!--pages/themeList/themeList.wxml-->
+<view class="theme-wrap">
+  <view class="bg"></view>
+  <van-tabs sticky swipeable ellipsis="{{false}}" bind:change="handleClickTheme">
+    <van-tab wx:for="{{themeTitle}}" wx:key="index" wx:for-item="title" title="{{title.name}}" name="{{title.id}}">
+      <view class="theme-list">
+        <view class="theme-list-item" wx:for="{{themeList}}" wx:key="index" wx:for-item="theme" bindtap="goDetailList"
+          data-item="{{theme}}">
+          <van-cell title="{{theme.themeName}}" is-link value="共 {{theme.pageInfo.total}} 款" />
+
+          <view class="inner-con">
+            <view class="bg-img">
+              <image class="image" src="{{theme.themeImg}}">
+              </image>
+            </view>
+
+            <view class="mask"></view>
+
+            <view class="img-list">
+              <view class="img-wrap" wx:for="{{theme.pageInfo.list}}" wx:key="index" wx:for-item="image">
+                <image class="image" src="{{image.noCameraVacancyPreview}}">
+                </image>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 分割线 -->
+      <view class="divider-wrap" hidden="{{themeList && themeList.length <= 0}}">
+        <van-divider contentPosition="center"
+          customStyle="color: #999999; border-color: rgba(231, 231, 231, 0.5); font-size: 10px;">
+          你看到我的底线啦
+        </van-divider>
+      </view>
+
+      <!-- 暂无数据 -->
+      <view class="no-data-wrap" hidden="{{themeList && themeList.length > 0}}">
+        <no-data></no-data>
+      </view>
+    </van-tab>
+  </van-tabs>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+</view>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.picture.PictureMateriaRelevanceDOMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.picture.dataobject.PictureMaterialRelevanceDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="picture_id" jdbcType="INTEGER" property="pictureId" />
+    <result column="material_id" jdbcType="INTEGER" property="materialId" />
+    <result column="del_flag" jdbcType="SMALLINT" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_user_name" jdbcType="VARCHAR" property="updateUserName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, picture_id, material_id, del_flag, create_time, create_user_id, create_user_name, 
+    update_time, update_user_id, update_user_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from picture_material_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from picture_material_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.picture.dataobject.PictureMaterialRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into picture_material_relevance (id, picture_id, material_id,
+      del_flag, create_time, create_user_id, 
+      create_user_name, update_time, update_user_id, 
+      update_user_name)
+    values (#{id,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, 
+      #{delFlag,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureMaterialRelevanceDO">
+    insert into picture_material_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pictureId != null">
+        picture_id,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createUserName != null">
+        create_user_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateUserName != null">
+        update_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null">
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null">
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null">
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureMaterialRelevanceDO">
+    update picture_material_relevance
+    <set>
+      <if test="pictureId != null">
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null">
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null">
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.picture.dataobject.PictureMaterialRelevanceDO">
+    update picture_material_relevance
+    set picture_id = #{pictureId,jdbcType=INTEGER},
+      material_id = #{materialId,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate" parameterType="java.util.List">
+    <foreach collection="updateList" item="pictureMaterialRelevance" separator=" ; " >
+      update picture_material_relevance
+      set picture_id = #{pictureMaterialRelevance.pictureId,jdbcType=INTEGER},
+      material_id = #{pictureMaterialRelevance.materialId,jdbcType=INTEGER},
+      del_flag = #{pictureMaterialRelevance.delFlag,jdbcType=SMALLINT},
+      create_time = #{pictureMaterialRelevance.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{pictureMaterialRelevance.createUserId,jdbcType=INTEGER},
+      create_user_name = #{pictureMaterialRelevance.createUserName,jdbcType=VARCHAR},
+      update_time = #{pictureMaterialRelevance.updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{pictureMaterialRelevance.updateUserId,jdbcType=INTEGER},
+      update_user_name = #{pictureMaterialRelevance.updateUserName,jdbcType=VARCHAR}
+      where id = #{pictureMaterialRelevance.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <select id="listByPictureIdAndDelFlag" resultMap="BaseResultMap">
+    select * from picture_material_relevance  where picture_id=#{pictureId}
+    <if test="delFlag !=null">
+      and del_flag=#{delFlag}
+    </if>
+  </select>
+  <select id="listByPictureIdAndMaterialId" resultMap="BaseResultMap">
+    select * from picture_material_relevance where 1=1
+    <if test="pictureId !=null">
+      and picture_id = #{pictureId}
+    </if>
+    <if test="materialId !=null">
+      and material_id = #{materialId}
+    </if>
+    and del_flag=0
+  </select>
+</mapper>

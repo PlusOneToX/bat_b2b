@@ -1,0 +1,24 @@
+<!--pages/code/equity/equity.wxml-->
+<view class="equity-wrap">
+  <!-- 顶部背景 -->
+  <image class="bg-t" src="../../../assets/images/sn_zhutu.png" mode="widthFix"></image>
+
+  <view class="tips">
+    <view>验证成功后，系统会发放一张定制权益卡到您</view>
+    <view>的账户下哦~</view>
+  </view>
+
+  <view class="handle-wrap">
+    <input class="input border-btn" type="text" placeholder="请输入短信中验证码" value="{{thirdCode}}" bindinput="bindInput" />
+    <button class="btn confirm-btn {{hasClicked ? 'default-btn' : ''}}" bindtap="handleVerify">确认验证</button>
+  </view>
+
+  <!-- 底部背景 -->
+  <image class="bg-b" src="../../../assets/images/sn_ditu.png" mode="widthFix"></image>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+</view>

@@ -1,0 +1,80 @@
+#缓存机制配置
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  hidePackages: com.bat
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      limit: 100
+  remote:
+    default:
+      type: redis.springdata
+      keyConvertor: fastjson
+      valueEncoder: java
+      valueDecoder: java
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6380
+#      password: bat123B2b456
+#      masterName: flexible-service
+
+### rocketmq stream消息
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+    password: bat2019
+    lettuce:
+      pool:
+        min-idle: 5
+        max-idle: 50
+        max-active: 100
+        max-wait: 5000
+  cloud:
+    stream:
+      bindings:
+        ### 消息生产者
+        flexible-output:
+          destination: flexible-service-topic
+          content-type: application/json
+        ### 消息消费者
+        ### 订单消息通道监听
+        flexible-input:
+          destination: flexible-service-topic
+          content-type: application/json
+          group: flexible-input-group
+        ### 订单消息通道监听
+        flexible-order-input:
+          destination: order-service-topic
+          content-type: application/json
+          group: flexibel-order-input-group
+        ### 平台消息通道监听
+        flexible-platform-input:
+          destination: platform-service-topic
+          content-type: application/json
+          group: flexible-platform-input-group
+      ### 消息生产者消费者配置
+      rocketmq:
+        bindings:
+          ### 生产者配置
+          flexible-output:
+            producer:
+              group: flexible-output-group
+          ### 订单消费者tag监听
+          flexible-input:
+            consumer:
+              tags:
+          ### 订单服务tag监听
+          flexible-order-input:
+            consumer:
+              tags: orderGoodsDiyLabel||orderCancelExchangeCode
+          ### 平台消费者tag监听
+          flexible-platform-input:
+            consumer:
+              tags: tenantDBDelete

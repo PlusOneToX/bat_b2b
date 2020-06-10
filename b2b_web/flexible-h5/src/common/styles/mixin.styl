@@ -1,0 +1,101 @@
+@import "variable.styl"
+
+// 背景图片
+bg-image($url)
+  background-image: url("../../common/images/" + $url + ".png")
+  background-repeat: no-repeat
+  background-position: center
+  @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2)
+    background-image: url("../../common/images/" + $url + "@2x.png")
+    background-repeat: no-repeat
+    background-position: center
+  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3)
+    background-image: url("../../common/images/" + $url + "@2x.png")
+    background-repeat: no-repeat
+    background-position: center
+
+// 不换行
+no-wrap()
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+
+// 通用按钮
+btn-normal()
+  display: inline-block
+  width:300px
+  height: 50px
+  line-height: 50px
+  font-size:$font-size-large
+  border-radius: 28px
+  text-align: center
+  color:$color-text-w
+  background-color:$color-theme
+
+btn-normal-c()
+  display: inline-block
+  width:300px
+  height: 50px
+  line-height: 50px
+  font-size:$font-size-large
+  border-radius: 28px
+  text-align: center
+  color:$color-text-dd
+  background-color:$color-background-l
+
+// 确认按钮
+btn-submit()
+  display:inline-block
+  bottom:30px
+  width:250px
+  height:40px
+  line-height:40px
+  font-size:$font-size-medium-x
+  text-align: center
+  border-radius:20px
+  color:$color-text-w
+  background-color:$color-theme
+
+// 扩展点击区域
+extend-click()
+  position: relative
+  &:before
+    content: ''
+    position: absolute
+    top: -10px
+    left: -10px
+    right: -10px
+    bottom: -10px
+
+// 单选我、复选按钮框
+check-style()
+  display:inline-block
+  width: 20px
+  height: 20px
+  border: 1px solid #cccccc
+  border-radius: 50%
+  &:checked
+    position: relative
+    border-color: $color-theme
+    background-color: $color-theme
+    &::after
+      content: ''
+      position: absolute
+      top: 5px
+      left: 4px
+      display: inline-block
+      width: 9px
+      height: 4px
+      border-bottom: 2px solid $color-text-w
+      border-left: 2px solid $color-text-w
+      transform: rotate(-45deg)
+
+
+@keyframes fadein
+  0%
+    transform: translate3d(0, 0, 0)
+  100%
+    transform: translate3d(100%, 0, 0)
+
+
+

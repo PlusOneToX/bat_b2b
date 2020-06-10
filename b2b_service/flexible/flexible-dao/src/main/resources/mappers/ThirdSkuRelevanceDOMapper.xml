@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.third.ThirdSkuRelevanceDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.third.dataobject.ThirdSkuRelevanceDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="third_material_category_no" property="thirdMaterialCategoryNo" jdbcType="VARCHAR" />
+    <result column="third_brand_no" property="thirdBrandNo" jdbcType="VARCHAR" />
+    <result column="third_model_no" property="thirdModelNo" jdbcType="VARCHAR" />
+    <result column="third_material_no" property="thirdMaterialNo" jdbcType="VARCHAR" />
+    <result column="third_colour_no" property="thirdColourNo" jdbcType="VARCHAR" />
+    <result column="third_sku_no" property="thirdSkuNo" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, material_id, model_id, third_material_category_no, third_brand_no, 
+    third_model_no, third_material_no, third_colour_no, third_sku_no, open_flag, create_user_id, 
+    create_user_name, create_time, update_user_id, update_user_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from third_sku_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from third_sku_relevance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into third_sku_relevance (id, distributor_id, material_id, 
+      model_id, third_material_category_no, third_brand_no, 
+      third_model_no, third_material_no, third_colour_no, 
+      third_sku_no, open_flag, create_user_id, 
+      create_user_name, create_time, update_user_id, 
+      update_user_name, update_time)
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, 
+      #{modelId,jdbcType=INTEGER}, #{thirdMaterialCategoryNo,jdbcType=VARCHAR}, #{thirdBrandNo,jdbcType=VARCHAR}, 
+      #{thirdModelNo,jdbcType=VARCHAR}, #{thirdMaterialNo,jdbcType=VARCHAR}, #{thirdColourNo,jdbcType=VARCHAR}, 
+      #{thirdSkuNo,jdbcType=VARCHAR}, #{openFlag,jdbcType=SMALLINT}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuRelevanceDO" useGeneratedKeys="true" keyProperty="id">
+    insert into third_sku_relevance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="materialId != null" >
+        material_id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="thirdMaterialCategoryNo != null" >
+        third_material_category_no,
+      </if>
+      <if test="thirdBrandNo != null" >
+        third_brand_no,
+      </if>
+      <if test="thirdModelNo != null" >
+        third_model_no,
+      </if>
+      <if test="thirdMaterialNo != null" >
+        third_material_no,
+      </if>
+      <if test="thirdColourNo != null" >
+        third_colour_no,
+      </if>
+      <if test="thirdSkuNo != null" >
+        third_sku_no,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null" >
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdMaterialCategoryNo != null" >
+        #{thirdMaterialCategoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdBrandNo != null" >
+        #{thirdBrandNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdModelNo != null" >
+        #{thirdModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdMaterialNo != null" >
+        #{thirdMaterialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdColourNo != null" >
+        #{thirdColourNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdSkuNo != null" >
+        #{thirdSkuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuRelevanceDO" >
+    update third_sku_relevance
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null" >
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="thirdMaterialCategoryNo != null" >
+        third_material_category_no = #{thirdMaterialCategoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdBrandNo != null" >
+        third_brand_no = #{thirdBrandNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdModelNo != null" >
+        third_model_no = #{thirdModelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdMaterialNo != null" >
+        third_material_no = #{thirdMaterialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdColourNo != null" >
+        third_colour_no = #{thirdColourNo,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdSkuNo != null" >
+        third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.third.dataobject.ThirdSkuRelevanceDO" >
+    update third_sku_relevance
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      material_id = #{materialId,jdbcType=INTEGER},
+      model_id = #{modelId,jdbcType=INTEGER},
+      third_material_category_no = #{thirdMaterialCategoryNo,jdbcType=VARCHAR},
+      third_brand_no = #{thirdBrandNo,jdbcType=VARCHAR},
+      third_model_no = #{thirdModelNo,jdbcType=VARCHAR},
+      third_material_no = #{thirdMaterialNo,jdbcType=VARCHAR},
+      third_colour_no = #{thirdColourNo,jdbcType=VARCHAR},
+      third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByDistributorIdAndOpenFlag" resultMap="BaseResultMap">
+    select * from third_sku_relevance where 1=1
+    <if test="distributorId !=null">
+      and distributor_id=#{distributorId}
+    </if>
+    <if test="openFlag !=null">
+      and open_flag=#{openFlag}
+    </if>
+  </select>
+  <delete id="deleteByDistributorId">
+    delete from third_sku_relevance where distributor_id = #{distributorId,jdbcType=INTEGER}
+  </delete>
+  <select id="getByDistributorIdAndThirdSkuNo" resultMap="BaseResultMap">
+    select * from third_sku_relevance where distributor_id=#{distributorId} and third_sku_no = #{thirdSkuNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,2 @@
+ALTER TABLE `burying_point` 
+MODIFY COLUMN `source` varchar(50) NULL DEFAULT NULL COMMENT '来源' AFTER `id`;

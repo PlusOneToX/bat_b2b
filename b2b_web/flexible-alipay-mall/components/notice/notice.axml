@@ -1,0 +1,8 @@
+<view class="notice-wrap {{showFlag === 'home' ? 'home' : showFlag === 'order' ? 'order' : ''}}" a:if="{{noticeData}}">
+  <view class="notice-content">
+    <image class="icon-notice" src="/assets/images/notice.png" mode="heightFix" />
+    <view class="bar">
+      <view class="bartext" id="marquee" style="transform: translateX({{speed}}px)">{{ noticeData }}</view>
+    </view>
+  </view>
+</view>

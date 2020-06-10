@@ -1,0 +1,83 @@
+/* pages/transfer/transfer.wxss */
+.transfer-wrap {
+  text-align: center;
+}
+
+.transfer-wrap .avatar {
+  margin-top: 40rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 1rpx solid #ccc;
+}
+
+.transfer-wrap .username {
+  margin-top: 18rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.transfer-wrap .text {
+  margin-top: 14rpx;
+  font-size: 28rpx;
+}
+
+.card-info-wrap {
+  position: relative;
+  margin-top: 84rpx;
+  width: 100%;
+  height: 375rpx;
+}
+
+.card-info {
+  position: absolute;
+  left: 50%;
+  width: 524rpx;
+  height: 375rpx;
+  transform: translateX(-50%);
+}
+
+.card-info image {
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card-info .card-b,
+.card-info .card-t {
+  bottom: 0;
+}
+
+.card-info .card-in {
+  width: 494rpx;
+  height: 312rpx;
+  border-radius: 18rpx;
+}
+
+.share-btn-wrap {
+  margin-top: 137rpx;
+}
+
+.share-btn-wrap .btn-text.received {
+  color: var(--white);
+}
+
+.share-btn-wrap .btn-wrap {
+  padding: 0;
+  width: 500rpx;
+  background-color: var(--white);
+}
+
+.received-tips {
+  margin-top: 54rpx;
+  font-size: 28rpx;
+  line-height: 37rpx;
+}
+
+.received-tips .tips-s {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 30rpx;
+  margin-bottom: 10rpx;
+}

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.index.DistributorBannerDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.index.dataobject.DistributorBannerDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="sort_no" property="sortNo" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="start_time" property="startTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="show_location" property="showLocation" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="series_id" property="seriesId" jdbcType="INTEGER" />
+    <result column="external_link" property="externalLink" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="DistributorBannerListCOResultMap" type="com.bat.flexible.dao.index.co.DistributorBannerListCO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="series_id" property="seriesId" jdbcType="INTEGER" />
+    <result column="external_link" property="externalLink" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="DistributorBannerPageCOResultMap" type="com.bat.flexible.dao.index.co.DistributorBannerPageCO" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="start_time" property="startTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="show_location" property="showLocation" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, banner_url, sort_no, status, start_time, end_time, show_location, remark, type, 
+    series_id, external_link, create_user_id, create_user_name, create_time, update_user_id, 
+    update_user_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor_banner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from distributor_banner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_banner (id, banner_url, sort_no, 
+      status, start_time, end_time, 
+      show_location, remark, type, 
+      series_id, external_link, create_user_id, 
+      create_user_name, create_time, update_user_id, 
+      update_user_name, update_time)
+    values (#{id,jdbcType=INTEGER}, #{bannerUrl,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{startTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, 
+      #{showLocation,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
+      #{seriesId,jdbcType=INTEGER}, #{externalLink,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerDO" useGeneratedKeys="true" keyProperty="id">
+    insert into distributor_banner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bannerUrl != null" >
+        banner_url,
+      </if>
+      <if test="sortNo != null" >
+        sort_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="showLocation != null" >
+        show_location,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="seriesId != null" >
+        series_id,
+      </if>
+      <if test="externalLink != null" >
+        external_link,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bannerUrl != null" >
+        #{bannerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null" >
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="showLocation != null" >
+        #{showLocation,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="seriesId != null" >
+        #{seriesId,jdbcType=INTEGER},
+      </if>
+      <if test="externalLink != null" >
+        #{externalLink,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerDO" >
+    update distributor_banner
+    <set >
+      <if test="bannerUrl != null" >
+        banner_url = #{bannerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null" >
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="showLocation != null" >
+        show_location = #{showLocation,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="seriesId != null" >
+        series_id = #{seriesId,jdbcType=INTEGER},
+      </if>
+      <if test="externalLink != null" >
+        external_link = #{externalLink,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.index.dataobject.DistributorBannerDO" >
+    update distributor_banner
+    set banner_url = #{bannerUrl,jdbcType=VARCHAR},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      start_time = #{startTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      show_location = #{showLocation,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      series_id = #{seriesId,jdbcType=INTEGER},
+      external_link = #{externalLink,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findMaxSortNo" resultMap="BaseResultMap">
+    select * from distributor_banner order by sort_no desc limit 1
+  </select>
+  <select id="listBySeriesId" resultMap="BaseResultMap">
+    select * from distributor_banner where series_id = #{seriesId,jdbcType=INTEGER}
+  </select>
+  <update id="dropStartEvent">
+    DROP EVENT IF EXISTS event_start_distributorBanner${bannerId}
+  </update>
+  <update id="createStartEvent">
+    CREATE EVENT event_start_distributorBanner${bannerId} ON SCHEDULE AT TIMESTAMP #{time,jdbcType=VARCHAR} ON COMPLETION NOT PRESERVE DO UPDATE distributor_banner SET status = 1 WHERE id = #{bannerId}
+  </update>
+  <update id="dropEndEvent">
+    DROP EVENT IF EXISTS  event_end_distributorBanner${bannerId}
+  </update>
+  <update id="createEndEvent">
+    CREATE EVENT event_end_distributorBanner${bannerId} ON SCHEDULE AT TIMESTAMP #{time,jdbcType=VARCHAR} ON COMPLETION NOT PRESERVE DO UPDATE distributor_banner SET status = 2 WHERE id = ${bannerId}
+  </update>
+
+  <select id="listCOByDistributorIdsAndStatus" resultMap="DistributorBannerListCOResultMap">
+    select b.id,b.banner_url,b.type,b.series_id,b.external_link from distributor_banner_relevance r
+    inner join distributor_banner b on r.banner_id = b.id
+    where r.distributor_id in
+    <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+      #{distributorId}
+    </foreach>
+    <if test="status !=null">
+      and b.status =#{status}
+    </if>
+    order by b.sort_no asc
+  </select>
+  <select id="listCOByCondition" resultMap="DistributorBannerPageCOResultMap">
+    SELECT
+	db.id,
+	GROUP_CONCAT( dbr.distributor_name ) distributor_name,
+	GROUP_CONCAT( dbr.company_name ) company_name,
+	db.sort_no,
+    db.status,
+	db.show_location,
+	db.start_time,
+	db.end_time,
+	db.banner_url,
+	db.remark
+FROM
+	distributor_banner db
+	LEFT JOIN distributor_banner_relevance dbr ON db.id = dbr.banner_id
+WHERE
+	1 = 1
+	<if test="showLocation !=null">
+      AND db.show_location = 1
+    </if>
+	<if test="status !=null">
+      AND db.`status` = #{status}
+    </if>
+	<if test="content !=null and content !=''">
+      AND (
+      dbr.distributor_name LIKE CONCAT( '%', #{content}, '%' )
+      OR dbr.company_name LIKE CONCAT( '%', #{content}, '%' )
+      )
+    </if>
+	GROUP BY db.id  ORDER BY db.sort_no
+  </select>
+</mapper>

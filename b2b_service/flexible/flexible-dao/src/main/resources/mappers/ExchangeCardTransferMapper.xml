@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeCardTransferMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeCardTransferDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_id" jdbcType="INTEGER" property="exchangeId" />
+    <result column="transfer_text" jdbcType="VARCHAR" property="transferText" />
+    <result column="transfer_img" jdbcType="VARCHAR" property="transferImg" />
+    <result column="receive_text" jdbcType="VARCHAR" property="receiveText" />
+    <result column="receive_img" jdbcType="VARCHAR" property="receiveImg" />
+    <result column="switch_flag" jdbcType="SMALLINT" property="switchFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_id, transfer_text, transfer_img, receive_text, receive_img,switch_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_card_transfer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByExchangeId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from exchange_card_transfer
+    where exchange_id = #{exchangeId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_card_transfer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardTransferDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_card_transfer (exchange_id, transfer_text, transfer_img, 
+      receive_text, receive_img,switch_flag)
+    values (#{exchangeId,jdbcType=INTEGER}, #{transferText,jdbcType=VARCHAR}, #{transferImg,jdbcType=VARCHAR}, 
+      #{receiveText,jdbcType=VARCHAR}, #{receiveImg,jdbcType=VARCHAR}, #{switchFlag,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardTransferDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_card_transfer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeId != null">
+        exchange_id,
+      </if>
+      <if test="transferText != null">
+        transfer_text,
+      </if>
+      <if test="transferImg != null">
+        transfer_img,
+      </if>
+      <if test="receiveText != null">
+        receive_text,
+      </if>
+      <if test="receiveImg != null">
+        receive_img,
+      </if>
+      <if test="switchFlag != null">
+        switch_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeId != null">
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="transferText != null">
+        #{transferText,jdbcType=VARCHAR},
+      </if>
+      <if test="transferImg != null">
+        #{transferImg,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveText != null">
+        #{receiveText,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveImg != null">
+        #{receiveImg,jdbcType=VARCHAR},
+      </if>
+      <if test="switchFlag != null">
+        #{switchFlag,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardTransferDO">
+    update exchange_card_transfer
+    <set>
+      <if test="exchangeId != null">
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="transferText != null">
+        transfer_text = #{transferText,jdbcType=VARCHAR},
+      </if>
+      <if test="transferImg != null">
+        transfer_img = #{transferImg,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveText != null">
+        receive_text = #{receiveText,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveImg != null">
+        receive_img = #{receiveImg,jdbcType=VARCHAR},
+      </if>
+      <if test="switchFlag != null">
+        switch_flag=#{switchFlag,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardTransferDO">
+    update exchange_card_transfer
+    set exchange_id = #{exchangeId,jdbcType=INTEGER},
+      transfer_text = #{transferText,jdbcType=VARCHAR},
+      transfer_img = #{transferImg,jdbcType=VARCHAR},
+      receive_text = #{receiveText,jdbcType=VARCHAR},
+      receive_img = #{receiveImg,jdbcType=VARCHAR},
+      switch_flag=#{switchFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

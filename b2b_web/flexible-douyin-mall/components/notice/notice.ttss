@@ -1,0 +1,36 @@
+.notice-wrap.home {
+  padding: 0 30rpx 20rpx;
+  background-color: #F5F5F5;
+}
+
+.notice-wrap.order {
+  padding: 4rpx 30rpx;
+  background-color: rgba(255, 218, 1, 0.2);
+}
+
+.notice-content {
+  position: relative;
+  display: flex;
+  padding: 16rpx 0 16rpx 45rpx;
+  height: 36rpx;
+  align-items: center;
+}
+
+.notice-content .icon-notice {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 36rpx;
+  margin-right: 24rpx;
+  transform: translateY(-50%);
+}
+
+.notice-content .bar {
+  width: 100%;
+  overflow: hidden;
+}
+
+.notice-content .bartext {
+  font-size: 26rpx;
+  white-space: nowrap;
+}

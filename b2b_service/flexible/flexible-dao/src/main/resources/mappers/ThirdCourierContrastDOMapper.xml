@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.third.ThirdCourierContrastDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.third.dataobject.ThirdCourierContrastDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distribution_kdn_code" property="distributionKdnCode" jdbcType="VARCHAR" />
+    <result column="distributor_shipper_name" property="distributorShipperName" jdbcType="VARCHAR" />
+    <result column="distributor_shipper_code" property="distributorShipperCode" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, distribution_kdn_code, distributor_shipper_name, distributor_shipper_code, 
+    open_flag, create_user_id, create_user_name, create_time, update_user_id, update_user_name, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from third_courier_contrast
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from third_courier_contrast
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.third.dataobject.ThirdCourierContrastDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into third_courier_contrast (id, distributor_id, distribution_kdn_code, 
+      distributor_shipper_name, distributor_shipper_code, 
+      open_flag, create_user_id, create_user_name, 
+      create_time, update_user_id, update_user_name, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{distributionKdnCode,jdbcType=VARCHAR}, 
+      #{distributorShipperName,jdbcType=VARCHAR}, #{distributorShipperCode,jdbcType=VARCHAR}, 
+      #{openFlag,jdbcType=SMALLINT}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.third.dataobject.ThirdCourierContrastDO" useGeneratedKeys="true" keyProperty="id">
+    insert into third_courier_contrast
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributionKdnCode != null" >
+        distribution_kdn_code,
+      </if>
+      <if test="distributorShipperName != null" >
+        distributor_shipper_name,
+      </if>
+      <if test="distributorShipperCode != null" >
+        distributor_shipper_code,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributionKdnCode != null" >
+        #{distributionKdnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorShipperName != null" >
+        #{distributorShipperName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorShipperCode != null" >
+        #{distributorShipperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.third.dataobject.ThirdCourierContrastDO" >
+    update third_courier_contrast
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributionKdnCode != null" >
+        distribution_kdn_code = #{distributionKdnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorShipperName != null" >
+        distributor_shipper_name = #{distributorShipperName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorShipperCode != null" >
+        distributor_shipper_code = #{distributorShipperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.third.dataobject.ThirdCourierContrastDO" >
+    update third_courier_contrast
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      distribution_kdn_code = #{distributionKdnCode,jdbcType=VARCHAR},
+      distributor_shipper_name = #{distributorShipperName,jdbcType=VARCHAR},
+      distributor_shipper_code = #{distributorShipperCode,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByDistributorIdAndDistributionKdnCode" resultMap="BaseResultMap">
+    select * from third_courier_contrast where distributor_id = #{distributorId,jdbcType=INTEGER} and
+      distribution_kdn_code = #{distributionKdnCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

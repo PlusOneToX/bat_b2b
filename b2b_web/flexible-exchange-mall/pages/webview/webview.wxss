@@ -1,0 +1,51 @@
+/* pages/webview/webview.wxss */
+
+.container {
+  color: rgb(124, 9, 240);
+}
+
+.index {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.logo {
+  display: inline-block;
+  width: 430rpx;
+  height: 60rpx;
+}
+
+.accredit {
+  display: inline-block;
+  margin-top: 44rpx;
+  width: 392rpx;
+  height: 332rpx;
+}
+
+.dialog-mask {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.desc-text {
+  margin: 24rpx 0 32rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0;
+  width: 502rpx !important;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+  border-radius: 40rpx;
+  color: var(--white);
+  background-color: #15BED6;
+}

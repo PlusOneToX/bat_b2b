@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.picture.PictureDOMapper">
+    <resultMap id="BaseResultMap" type="com.bat.flexible.dao.picture.dataobject.PictureDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="english_name" property="englishName" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="SMALLINT"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="sequence" property="sequence" jdbcType="INTEGER"/>
+        <result column="origin_image" property="originImage" jdbcType="VARCHAR"/>
+        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="del_flag" property="delFlag" jdbcType="SMALLINT"/>
+        <result column="model_scope" property="modelScope" jdbcType="SMALLINT"/>
+        <result column="reseller_scope" property="resellerScope" jdbcType="SMALLINT"/>
+        <result column="theme_url" property="themeUrl" jdbcType="VARCHAR"/>
+        <result column="template_center_x" property="templateCenterX" jdbcType="DECIMAL"/>
+        <result column="template_center_y" property="templateCenterY" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="copyright_cost" property="copyrightCost" jdbcType="DECIMAL"/>
+        <result column="background_preview_url" property="backgroundPreviewUrl" jdbcType="VARCHAR"/>
+        <result column="no_camera_vacancy_preview" property="noCameraVacancyPreview" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="PictureCOResultMap" type="com.bat.flexible.dao.picture.co.PicturePageCO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="english_name" property="englishName" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="SMALLINT"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="category_english_name" property="categoryEnglishName" jdbcType="VARCHAR"/>
+        <result column="material_id_s" property="materialIdS" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.bat.flexible.dao.picture.dataobject.PictureDO"
+               extends="BaseResultMap">
+        <result column="description" property="description" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <resultMap id="CommonPicturePageCOResultMap" type="com.bat.flexible.dao.picture.co.CommonPicturePageCO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="picture_id" property="pictureId" jdbcType="INTEGER"/>
+        <result column="picture_name" property="pictureName" jdbcType="VARCHAR"/>
+        <result column="origin_image" property="originImage" jdbcType="VARCHAR"/>
+        <result column="english_name" property="englishName" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="SMALLINT"/>
+        <result column="background_preview_url" property="backgroundPreviewUrl" jdbcType="VARCHAR"/>
+        <result column="no_camera_vacancy_preview" property="noCameraVacancyPreview" jdbcType="VARCHAR"/>
+        <result column="copyright_cost" property="copyrightCost" jdbcType="DECIMAL"/>
+        <result column="template_center_x" property="templateCenterX" jdbcType="DECIMAL"/>
+        <result column="template_center_y" property="templateCenterY" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="DistributorPictureCOResultMap" type="com.bat.flexible.dao.picture.co.DistributorPictureCO">
+        <result column="picture_id" property="pictureId" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="picture_name" property="pictureName" jdbcType="VARCHAR"/>
+        <result column="origin_image" property="originImage" jdbcType="VARCHAR"/>
+        <result column="english_name" property="englishName" jdbcType="VARCHAR"/>
+        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="SMALLINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , code, name, english_name, type, category_id, sequence, origin_image, thumbnail,
+    open_flag, del_flag,model_scope, reseller_scope, theme_url, template_center_x, template_center_y,
+    create_time, create_user_id, create_user_name, update_time, update_user_id, update_user_name, 
+    copyright_cost,background_preview_url,no_camera_vacancy_preview
+    </sql>
+    <sql id="Blob_Column_List">
+        description
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from picture
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from picture
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bat.flexible.dao.picture.dataobject.PictureDO" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into picture (id, code, name,
+                             english_name, type, category_id,
+                             sequence, origin_image, thumbnail,
+                             open_flag, del_flag, model_scope, reseller_scope,
+                             theme_url, template_center_x, template_center_y,
+                             create_time, create_user_id, create_user_name,
+                             update_time, update_user_id, update_user_name,
+                             copyright_cost, description, background_preview_url, no_camera_vacancy_preview)
+        values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{englishName,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, #{categoryId,jdbcType=INTEGER},
+                #{sequence,jdbcType=INTEGER}, #{originImage,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR},
+                #{openFlag,jdbcType=SMALLINT}, #{delFlag,jdbcType=SMALLINT}, #{modelScope,jdbcType=SMALLINT},
+                #{resellerScope,jdbcType=SMALLINT},
+                #{themeUrl,jdbcType=VARCHAR}, #{templateCenterX,jdbcType=DECIMAL}, #{templateCenterY,jdbcType=DECIMAL},
+                #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR},
+                #{copyrightCost,jdbcType=DECIMAL}, #{description,jdbcType=LONGVARCHAR},
+                #{backgroundPreviewUrl,jdbcType=VARCHAR},
+                #{noCameraVacancyPreview,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureDO">
+        insert into picture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="englishName != null">
+                english_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="sequence != null">
+                sequence,
+            </if>
+            <if test="originImage != null">
+                origin_image,
+            </if>
+            <if test="thumbnail != null">
+                thumbnail,
+            </if>
+            <if test="openFlag != null">
+                open_flag,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="modelScope != null">
+                model_scope,
+            </if>
+            <if test="resellerScope != null">
+                reseller_scope,
+            </if>
+            <if test="themeUrl != null">
+                theme_url,
+            </if>
+            <if test="templateCenterX != null">
+                template_center_x,
+            </if>
+            <if test="templateCenterY != null">
+                template_center_y,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createUserName != null">
+                create_user_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="updateUserName != null">
+                update_user_name,
+            </if>
+            <if test="copyrightCost != null">
+                copyright_cost,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="backgroundPreviewUrl !=null">
+                background_preview_url,
+            </if>
+            <if test="noCameraVacancyPreview !=null">
+                no_camera_vacancy_preview
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="englishName != null">
+                #{englishName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=SMALLINT},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="sequence != null">
+                #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="originImage != null">
+                #{originImage,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnail != null">
+                #{thumbnail,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="modelScope != null">
+                #{modelScope,jdbcType=SMALLINT},
+            </if>
+            <if test="resellerScope != null">
+                #{resellerScope,jdbcType=SMALLINT},
+            </if>
+            <if test="themeUrl != null">
+                #{themeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="templateCenterX != null">
+                #{templateCenterX,jdbcType=DECIMAL},
+            </if>
+            <if test="templateCenterY != null">
+                #{templateCenterY,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="copyrightCost != null">
+                #{copyrightCost,jdbcType=DECIMAL},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="backgroundPreviewUrl !=null">
+                #{backgroundPreviewUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="noCameraVacancyPreview !=null">
+                #{noCameraVacancyPreview,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureDO">
+        update picture
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="englishName != null">
+                english_name = #{englishName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=SMALLINT},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="sequence != null">
+                sequence = #{sequence,jdbcType=INTEGER},
+            </if>
+            <if test="originImage != null">
+                origin_image = #{originImage,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbnail != null">
+                thumbnail = #{thumbnail,jdbcType=VARCHAR},
+            </if>
+            <if test="openFlag != null">
+                open_flag = #{openFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="modelScope != null">
+                model_scope = #{modelScope,jdbcType=SMALLINT},
+            </if>
+            <if test="resellerScope != null">
+                reseller_scope = #{resellerScope,jdbcType=SMALLINT},
+            </if>
+            <if test="themeUrl != null">
+                theme_url = #{themeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="templateCenterX != null">
+                template_center_x = #{templateCenterX,jdbcType=DECIMAL},
+            </if>
+            <if test="templateCenterY != null">
+                template_center_y = #{templateCenterY,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="createUserName != null">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="updateUserName != null">
+                update_user_name = #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="copyrightCost != null">
+                copyright_cost = #{copyrightCost,jdbcType=DECIMAL},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="backgroundPreviewUrl !=null">
+                background_preview_url = #{backgroundPreviewUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="noCameraVacancyPreview !=null">
+                no_camera_vacancy_preview = #{noCameraVacancyPreview,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.flexible.dao.picture.dataobject.PictureDO">
+        update picture
+        set code                      = #{code,jdbcType=VARCHAR},
+            name                      = #{name,jdbcType=VARCHAR},
+            english_name              = #{englishName,jdbcType=VARCHAR},
+            type                      = #{type,jdbcType=SMALLINT},
+            category_id               = #{categoryId,jdbcType=INTEGER},
+            sequence                  = #{sequence,jdbcType=INTEGER},
+            origin_image              = #{originImage,jdbcType=VARCHAR},
+            thumbnail                 = #{thumbnail,jdbcType=VARCHAR},
+            open_flag                 = #{openFlag,jdbcType=SMALLINT},
+            del_flag                  = #{delFlag,jdbcType=SMALLINT},
+            model_scope               = #{modelScope,jdbcType=SMALLINT},
+            reseller_scope            = #{resellerScope,jdbcType=SMALLINT},
+            theme_url                 = #{themeUrl,jdbcType=VARCHAR},
+            template_center_x         = #{templateCenterX,jdbcType=DECIMAL},
+            template_center_y         = #{templateCenterY,jdbcType=DECIMAL},
+            create_time               = #{createTime,jdbcType=TIMESTAMP},
+            create_user_id            = #{createUserId,jdbcType=INTEGER},
+            create_user_name          = #{createUserName,jdbcType=VARCHAR},
+            update_time               = #{updateTime,jdbcType=TIMESTAMP},
+            update_user_id            = #{updateUserId,jdbcType=INTEGER},
+            update_user_name          = #{updateUserName,jdbcType=VARCHAR},
+            copyright_cost            = #{copyrightCost,jdbcType=DECIMAL},
+            description               = #{description,jdbcType=LONGVARCHAR},
+            background_preview_url    = #{backgroundPreviewUrl,jdbcType=VARCHAR},
+            no_camera_vacancy_preview = #{noCameraVacancyPreview,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.picture.dataobject.PictureDO">
+        update picture
+        set code                      = #{code,jdbcType=VARCHAR},
+            name                      = #{name,jdbcType=VARCHAR},
+            english_name              = #{englishName,jdbcType=VARCHAR},
+            type                      = #{type,jdbcType=SMALLINT},
+            category_id               = #{categoryId,jdbcType=INTEGER},
+            sequence                  = #{sequence,jdbcType=INTEGER},
+            origin_image              = #{originImage,jdbcType=VARCHAR},
+            thumbnail                 = #{thumbnail,jdbcType=VARCHAR},
+            open_flag                 = #{openFlag,jdbcType=SMALLINT},
+            del_flag                  = #{delFlag,jdbcType=SMALLINT},
+            model_scope               = #{modelScope,jdbcType=SMALLINT},
+            reseller_scope            = #{resellerScope,jdbcType=SMALLINT},
+            theme_url                 = #{themeUrl,jdbcType=VARCHAR},
+            template_center_x         = #{templateCenterX,jdbcType=DECIMAL},
+            template_center_y         = #{templateCenterY,jdbcType=DECIMAL},
+            create_time               = #{createTime,jdbcType=TIMESTAMP},
+            create_user_id            = #{createUserId,jdbcType=INTEGER},
+            create_user_name          = #{createUserName,jdbcType=VARCHAR},
+            update_time               = #{updateTime,jdbcType=TIMESTAMP},
+            update_user_id            = #{updateUserId,jdbcType=INTEGER},
+            update_user_name          = #{updateUserName,jdbcType=VARCHAR},
+            copyright_cost            = #{copyrightCost,jdbcType=DECIMAL},
+            description               = #{description,jdbcType=LONGVARCHAR},
+            background_preview_url    = #{backgroundPreviewUrl,jdbcType=VARCHAR},
+            no_camera_vacancy_preview = #{noCameraVacancyPreview,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="findMaxByCategoryId" resultType="java.lang.Integer">
+        select ifnull(max(sequence), 0)
+        from picture
+        where category_id = #{categoryId}
+    </select>
+    <select id="listByPictureIdList" resultMap="BaseResultMap">
+        select * from picture where 1=1 and (
+        <foreach collection="pictureIdList" item="pictureId" separator=" or ">
+            id = #{pictureId}
+        </foreach>
+        )
+    </select>
+    <select id="listByCategoryIdAndOpenFlag" resultMap="BaseResultMap">
+        select * from picture where category_id = #{categoryId}
+        <if test="openFlag !=null">
+            and open_flag=#{openFlag}
+        </if>
+        and del_flag=0 order by sequence
+    </select>
+    <select id="findEffectByUpOrDown" resultMap="BaseResultMap">
+        select * from picture where category_id = #{categoryId} and del_flag=0 and sequence
+        <choose>
+            <when test="flag">
+                &lt; #{sequence} order by sequence desc limit 1
+            </when>
+            <otherwise>
+                &gt; #{sequence} order by sequence limit 1
+            </otherwise>
+        </choose>
+    </select>
+    <update id="updateSequenceAddByCategoryId">
+        update picture set sequence = sequence+#{sequenceAdd} where category_id =#{categoryId}
+        <if test="sequenceStart !=null">
+            and sequence &gt; #{sequenceEnd}
+        </if>
+        <if test="sequenceEnd !=null">
+            and sequence &lt; #{sequenceEnd}
+        </if>
+
+    </update>
+    <select id="listCOByCondition" resultMap="PictureCOResultMap">
+        SELECT
+        p.id,
+        p.`code`,
+        p.`name`,
+        p.english_name,
+        p.type,
+        p.category_id,
+        p.thumbnail,
+        p.open_flag,
+        p.theme_url,
+        pc.name category_name,
+        pc.english_name category_english_name
+        <if test="materialIdList !=null and materialIdList.size()>0">
+            <!-- 含有材质参数才判断图片材质关联关系 -->
+            ,
+            GROUP_CONCAT( pmr.material_id ) material_id_s
+        </if>
+        FROM
+        picture p
+        left join picture_category pc on p.category_id = pc.id
+        <if test="materialIdList !=null and materialIdList.size()>0">
+            <!-- 含有材质参数才判断图片材质关联关系 -->
+            LEFT JOIN picture_material_relevance pmr ON p.id = pmr.picture_id
+        </if>
+        <if test="modelIdList !=null and modelIdList.size()>0">
+            LEFT JOIN picture_model_relevance pmr2 on pmr2.picture_id = p.id and pmr2.del_flag=0
+        </if>
+        WHERE
+        p.del_flag = 0
+        <!-- 含有材质参数才判断图片材质关联关系 -->
+        <if test="materialIdList !=null and materialIdList.size()>0">
+            and pmr.del_flag=0
+        </if>
+
+        <if test="type !=null">
+            and p.type = #{type}
+        </if>
+        <if test="categoryId !=null">
+            AND p.category_id = #{categoryId}
+        </if>
+        <if test="openFlag !=null">
+            and p.open_flag=#{openFlag}
+        </if>
+        <if test="materialIdList !=null and materialIdList.size()>0">
+            <foreach collection="materialIdList" open=" and ( " close=" )" separator=" or " item="materialId">
+                pmr.material_id = #{materialId}
+            </foreach>
+        </if>
+        <if test="modelIdList !=null and modelIdList.size()>0">
+            <foreach collection="modelIdList" open=" and ( " close=" )" separator=" or " item="modelId">
+                pmr2.model_id = #{modelId}
+            </foreach>
+        </if>
+        <if test="content !=null and content !=''">
+            and (p.name like concat('%',#{content},'%') or p.code like concat('%',#{content},'%') or p.id like
+            concat('%',#{content},'%'))
+        </if>
+        <if test="materialIdList !=null and materialIdList.size()>0">
+            GROUP BY
+            pmr.picture_id
+        </if>
+
+        order by pc.sequence, p.sequence
+    </select>
+
+    <!-- 通过启用状态和图库图片类型查询数据 -->
+    <select id="listByCondition" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from picture
+        where 1 = 1
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        and del_flag = 0
+        order by category_id, sequence
+    </select>
+    <select id="listByDistributorIdAndPictureIdListAndCountryId" resultMap="BaseResultMap">
+        SELECT
+        p.*
+        FROM
+        picture p
+        LEFT JOIN picture_distributor_relevance prr ON p.id = prr.picture_id
+        AND prr.distributor_id = #{distributorId}
+        AND prr.del_flag = 0
+        WHERE
+        p.del_flag=0 and (
+        <foreach collection="pictureIdList" item="pictureId" separator=" or ">
+            p.id=#{pictureId}
+        </foreach>
+        )
+        AND NOT EXISTS ( SELECT 1 FROM distributor_picture_exclude ddpr WHERE ddpr.distributor_id =#{distributorId} AND
+        ddpr.picture_id = p.id )
+        AND (
+        p.reseller_scope = 1
+        OR ( p.reseller_scope = 2 AND 37 = #{countryId} )
+        OR ( p.reseller_scope = 3 AND #{countryId} &lt;&gt; 37 )
+        OR ( p.reseller_scope = 4 AND prr.id IS NOT NULL )
+        )
+    </select>
+
+    <select id="listExchangePictureByCondition" resultMap="CommonPicturePageCOResultMap">
+        SELECT a.id,a.id picture_id, a.name picture_name, a.english_name, a.type, a.origin_image,
+        a.copyright_cost,a.background_preview_url,a.no_camera_vacancy_preview,a.template_center_x,a.template_center_y
+        FROM picture a LEFT JOIN
+        picture_distributor_relevance b on a.id=b.picture_id
+        LEFT JOIN picture_category c on c.id=a.category_id
+        <if test="materialId !=null">
+            LEFT JOIN picture_material_relevance d on d.picture_id=a.id and d.del_flag = 0
+        </if>
+        <!--属于全部可用的兑换卡、材质id为空-->
+        <if test="allApplicableExchangeFlag !=null and allApplicable and materialId==null">
+            LEFT JOIN picture_material_relevance d on d.picture_id=a.id LEFT JOIN exchange_material_relevance e ON
+            d.material_id = e.material_id
+        </if>
+        <!--属于全部可用的兑换卡、材质id不为空-->
+        <if test="allApplicableExchangeFlag !=null and allApplicable and materialId !=null">
+            LEFT JOIN exchange_material_relevance e ON d.material_id = e.material_id
+        </if>
+        <!--属于指定图片可用的兑换卡-->
+        <if test="allApplicableExchangeFlag !=null and !allApplicable">
+            LEFT JOIN exchange_picture_relevance e ON d.material_id = e.material_id
+        </if>
+        <if test="modelId !=null">
+            LEFT JOIN picture_model_relevance f ON a.id = f.picture_id
+        </if>
+        WHERE a.open_flag=1 and a.del_flag=0 and (b.del_flag is null or b.del_flag=0) and c.open_flag=1 and c.del_flag=0
+        and (
+        <foreach collection="pictureCategoryIdList" item="pictureCategoryId" separator=" or ">
+            a.category_id = #{pictureCategoryId}
+        </foreach>
+        )
+        <if test="type !=null">
+            and a.type=#{type}
+        </if>
+
+        <choose>
+            <when test="isSanXing">
+                and a.reseller_scope=4 and b.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+            </when>
+            <otherwise>
+                and (a.reseller_scope=1 or (a.reseller_scope=2 and #{countryId}=37) or (a.reseller_scope=3 and
+                #{countryId} &lt;&gt; 37 ) or (a.reseller_scope=4 and b.distributor_id
+                in
+                <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+                    #{distributorId}
+                </foreach>
+                ))
+            </otherwise>
+        </choose>
+        <!--属于兑换卡-->
+        <if test="allApplicableExchangeFlag !=null">
+            and e.exchange_id=#{exchangeId}
+        </if>
+        <if test="materialId !=null">
+            and d.material_id=#{materialId}
+        </if>
+        <if test="modelId !=null">
+            AND ( a.model_scope = 1 OR ( a.model_scope = 2 AND f.del_flag = 0 AND f.model_id =#{modelId} ) )
+        </if>
+        and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.del_flag=0 and ddpr.distributor_id
+        in
+        <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+            #{distributorId}
+        </foreach>
+        and ddpr.picture_id = a.id)
+        GROUP BY a.id
+        ORDER BY a.sequence
+    </select>
+
+    <!--  <select id="listAssignExchangePictureByCondition" resultMap="CommonPicturePageCOResultMap">
+        SELECT a.* FROM picture a LEFT JOIN picture_distributor_relevance b on a.id=b.picture_id
+        LEFT JOIN picture_category c on c.id=a.category_id
+        LEFT JOIN picture_material_relevance d on d.picture_id=a.id
+        LEFT JOIN exchange_material_relevance e ON d.material_id = e.material_id
+        <if test="modelId !=null">
+          LEFT JOIN picture_model_relevance f ON a.id = f.picture_id
+        </if>
+        WHERE a.open_flag=1 and a.del_flag=0 and c.open_flag=1 and (
+        <foreach collection="pictureCategoryIdList" item="pictureCategoryId" separator=" or ">
+          a.category_id = #{pictureCategoryId}
+        </foreach>
+        )
+        <choose>
+          <when test="isSanXing">
+            and a.reseller_scope=4 and b.distributor_id=#{distributorId}
+          </when>
+          <otherwise>
+            and (a.reseller_scope=1 or (a.reseller_scope=2 and #{countryId}=1) or (a.reseller_scope=3 and
+            #{countryId} &gt;1) or (a.reseller_scope=4 and b.distributor_id=#{distributorId}))
+          </otherwise>
+        </choose>
+        and e.exchange_id=#{exchangeId}
+        <if test="materialId !=null">
+          and d.material_id=:materialId
+        </if>
+        <if test="modelId !=null">
+          AND ( a.model_scope = 1 OR ( a.model_scope = 2 AND f.del_flag = 0 AND f.model_id =#{modelId} ) )
+        </if>
+        and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id =#{distributorId} and ddpr.picture_id = a.id)
+        ORDER BY a.sequence
+      </select>-->
+    <select id="listDistributorByCondition" resultMap="DistributorPictureCOResultMap">
+        SELECT
+        p.id picture_id,
+        p.`code`,
+        p.`name` picture_name,
+        p.english_name,
+        p.thumbnail,
+        p.open_flag,
+        p.origin_image,
+        GROUP_CONCAT( m.item_code ) item_code
+        FROM
+        picture p
+        LEFT JOIN picture_distributor_relevance prr ON p.id = prr.picture_id
+        AND prr.distributor_id =#{distributorId}
+        AND prr.del_flag = 0
+        LEFT JOIN picture_material_relevance pgr ON pgr.picture_id = p.id
+        left join material m on m.id = pgr.material_id
+        left join picture_category pc on p.category_id = pc.id
+        WHERE 1=1 and p.del_flag=0 and m.del_flag=0
+        <if test="type !=null">
+            AND p.type =#{type}
+        </if>
+        <if test="openFlag !=null">
+            AND p.open_flag = #{openFlag}
+        </if>
+        <if test="categoryIdList !=null and categoryIdList.size()>0">
+            and (
+            <foreach collection="categoryIdList" separator=" or " item="categoryId">
+                p.category_id = #{categoryId}
+            </foreach>
+            )
+        </if>
+        <choose>
+            <when test="isSanXing">
+                and p.reseller_scope=4 and prr.distributor_id=#{distributorId}
+            </when>
+            <otherwise>
+                AND (
+                p.reseller_scope = 1
+                OR ( p.reseller_scope = 2 AND 37 = #{countryId} )
+                OR ( p.reseller_scope = 3 AND 37 &lt;&gt; #{countryId} )
+                OR ( p.reseller_scope = 4 AND prr.id IS NOT NULL )
+                )
+            </otherwise>
+        </choose>
+        and NOT EXISTS(select 1 from distributor_picture_exclude ddpr where ddpr.distributor_id =#{distributorId} and
+        ddpr.picture_id = p.id)
+
+        GROUP BY
+        pgr.picture_id
+        ORDER BY pc.sequence, p.sequence
+    </select>
+    <select id="getByCode" resultMap="BaseResultMap">
+        select *
+        from picture
+        where code = #{code}
+    </select>
+
+    <!-- 通过类型条件筛选图片数据 -->
+    <select id="listByConditionType" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from picture
+        where 1 = 1
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        <if test="type == null and typeList != null and typeList.size() > 0">
+            and (
+            <foreach collection="typeList" separator=" or " item="type">
+                type = #{type}
+            </foreach>
+            )
+        </if>
+        <if test="openFlag != null">
+            and open_flag = #{openFlag}
+        </if>
+        and del_flag = 0
+        order by category_id, sequence
+    </select>
+</mapper>

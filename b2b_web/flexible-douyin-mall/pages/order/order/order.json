@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "w-loading": "../../../components/loading/loading",
+    "w-notice": "../../../components/notice/notice",
+    "w-coupon": "../../../components/coupon/coupon",
+    "w-protocol": "../../../components/protocol/protocol"
+  }
+}

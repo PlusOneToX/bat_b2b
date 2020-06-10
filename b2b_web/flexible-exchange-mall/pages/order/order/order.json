@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "protocol": "../../../components/protocol/protocol"
+  },
+  "navigationBarTitleText": "提交订单"
+}

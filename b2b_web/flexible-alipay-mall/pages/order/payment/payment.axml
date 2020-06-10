@@ -1,0 +1,31 @@
+<view class="payment-wrap">
+  <view class="order-info">
+    <view class="order-no" a:if="{{orderNo}}">订单编号： {{orderNo}}</view>
+    <view>应付金额</view>
+    <view class="order-price">¥
+      <text class="price">{{orderPrice}}</text></view>
+  </view>
+  
+  <view class="btn-wrap">
+    <button class="btn confirm-btn" onTap="handlePayment">立即支付</button>
+  </view>
+</view>
+
+<!-- 柔性关闭弹窗 -->
+<view class="flexible-dialog" a:if="{{showFlexible}}">
+  <view class="flexible-dialog-content">
+    <view class="flexible-cotent-top">
+      <image class="flexible-cotent-top-img" src="../../../assets/images/flexible-logo.png" mode="widthFix" />
+    </view>
+    
+    <view class="flexible-cotent-middle-title">
+      通知提醒
+    </view>
+    <view class="flexible-cotent-middle-info">
+      尊敬的客户，本商城将于6月30日停止运营，仅保留订单查询服务。感谢您的信任和支持。
+    </view>
+    <view class="flexible-cotent-bottom" onTap="clickFlexible">
+      知道了
+    </view>
+  </view>
+</view>

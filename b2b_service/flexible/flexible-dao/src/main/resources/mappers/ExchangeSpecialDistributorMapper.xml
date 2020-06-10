@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeSpecialDistributorMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDistributorDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_special_id" jdbcType="INTEGER" property="exchangeSpecialId" />
+    <result column="distributor_id" jdbcType="INTEGER" property="distributorId" />
+    <result column="page_visits" jdbcType="INTEGER" property="pageVisits" />
+    <result column="one_forward_times" jdbcType="INTEGER" property="oneForwardTimes" />
+    <result column="two_forward_times" jdbcType="INTEGER" property="twoForwardTimes" />
+    <result column="receive_times" jdbcType="INTEGER" property="receiveTimes" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl" />
+    <result column="short_link" jdbcType="VARCHAR" property="shortLink" />
+  </resultMap>
+
+  <resultMap id="ListMap" type="com.bat.flexible.dao.exchange.co.ExchangeSpecialDistributorCO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_special_id" jdbcType="INTEGER" property="exchangeSpecialId" />
+    <result column="distributor_id" jdbcType="INTEGER" property="distributorId" />
+    <result column="page_visits" jdbcType="INTEGER" property="pageVisits" />
+    <result column="one_forward_times" jdbcType="INTEGER" property="oneForwardTimes" />
+    <result column="two_forward_times" jdbcType="INTEGER" property="twoForwardTimes" />
+    <result column="receive_times" jdbcType="INTEGER" property="receiveTimes" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="qr_code_url" jdbcType="VARCHAR" property="qrCodeUrl" />
+    <result column="short_link" jdbcType="VARCHAR" property="shortLink" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, exchange_special_id, distributor_id, page_visits, one_forward_times, two_forward_times, 
+    receive_times, link, status, qr_code_url, short_link
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_special_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="listCOByCondition"
+          resultMap="ListMap">
+    select
+    <include refid="Base_Column_List"/>
+    from exchange_special_distributor
+    <where>
+      <if test="exchangeSpecialId != null">
+        and exchange_special_id=#{exchangeSpecialId}
+      </if>
+      <if test="distributorId != null">
+        and distributor_id=#{distributorId}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_special_distributor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDistributorDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_special_distributor (exchange_special_id, distributor_id, 
+      page_visits, one_forward_times, two_forward_times, 
+      receive_times, link, status, 
+      qr_code_url, short_link)
+    values (#{exchangeSpecialId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, 
+      #{pageVisits,jdbcType=INTEGER}, #{oneForwardTimes,jdbcType=INTEGER}, #{twoForwardTimes,jdbcType=INTEGER}, 
+      #{receiveTimes,jdbcType=INTEGER}, #{link,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+      #{qrCodeUrl,jdbcType=VARCHAR}, #{shortLink,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDistributorDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_special_distributor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeSpecialId != null">
+        exchange_special_id,
+      </if>
+      <if test="distributorId != null">
+        distributor_id,
+      </if>
+      <if test="pageVisits != null">
+        page_visits,
+      </if>
+      <if test="oneForwardTimes != null">
+        one_forward_times,
+      </if>
+      <if test="twoForwardTimes != null">
+        two_forward_times,
+      </if>
+      <if test="receiveTimes != null">
+        receive_times,
+      </if>
+      <if test="link != null">
+        link,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="qrCodeUrl != null">
+        qr_code_url,
+      </if>
+      <if test="shortLink != null">
+        short_link,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeSpecialId != null">
+        #{exchangeSpecialId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="pageVisits != null">
+        #{pageVisits,jdbcType=INTEGER},
+      </if>
+      <if test="oneForwardTimes != null">
+        #{oneForwardTimes,jdbcType=INTEGER},
+      </if>
+      <if test="twoForwardTimes != null">
+        #{twoForwardTimes,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTimes != null">
+        #{receiveTimes,jdbcType=INTEGER},
+      </if>
+      <if test="link != null">
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="qrCodeUrl != null">
+        #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="shortLink != null">
+        #{shortLink,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDistributorDO">
+    update exchange_special_distributor
+    <set>
+      <if test="exchangeSpecialId != null">
+        exchange_special_id = #{exchangeSpecialId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null">
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="pageVisits != null">
+        page_visits = #{pageVisits,jdbcType=INTEGER},
+      </if>
+      <if test="oneForwardTimes != null">
+        one_forward_times = #{oneForwardTimes,jdbcType=INTEGER},
+      </if>
+      <if test="twoForwardTimes != null">
+        two_forward_times = #{twoForwardTimes,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTimes != null">
+        receive_times = #{receiveTimes,jdbcType=INTEGER},
+      </if>
+      <if test="link != null">
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="qrCodeUrl != null">
+        qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="shortLink != null">
+        short_link = #{shortLink,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDistributorDO">
+    update exchange_special_distributor
+    set exchange_special_id = #{exchangeSpecialId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      page_visits = #{pageVisits,jdbcType=INTEGER},
+      one_forward_times = #{oneForwardTimes,jdbcType=INTEGER},
+      two_forward_times = #{twoForwardTimes,jdbcType=INTEGER},
+      receive_times = #{receiveTimes,jdbcType=INTEGER},
+      link = #{link,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      short_link = #{shortLink,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertList" parameterType="java.util.List">
+    INSERT INTO exchange_special_distributor(
+    exchange_special_id,
+    distributor_id,
+    status
+    ) VALUES
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.exchangeSpecialId},
+      #{item.distributorId},
+      #{item.status}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

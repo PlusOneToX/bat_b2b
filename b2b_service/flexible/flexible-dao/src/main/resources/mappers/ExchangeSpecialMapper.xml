@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeSpecialMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_platform" jdbcType="SMALLINT" property="activityPlatform" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="page_img" jdbcType="VARCHAR" property="pageImg" />
+    <result column="page_guide_text" jdbcType="VARCHAR" property="pageGuideText" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="exchange_id" jdbcType="INTEGER" property="exchangeId" />
+    <result column="forward_text" jdbcType="VARCHAR" property="forwardText" />
+    <result column="forward_img" jdbcType="VARCHAR" property="forwardImg" />
+    <result column="friend_img" jdbcType="VARCHAR" property="friendImg" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="PageMap" type="com.bat.flexible.dao.exchange.co.ExchangeSpecialPageCO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_platform" jdbcType="SMALLINT" property="activityPlatform" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="page_img" jdbcType="VARCHAR" property="pageImg" />
+    <result column="page_guide_text" jdbcType="VARCHAR" property="pageGuideText" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="exchange_id" jdbcType="INTEGER" property="exchangeId" />
+    <result column="forward_text" jdbcType="VARCHAR" property="forwardText" />
+    <result column="forward_img" jdbcType="VARCHAR" property="forwardImg" />
+    <result column="friend_img" jdbcType="VARCHAR" property="friendImg" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, activity_platform, title, page_img, page_guide_text, type, exchange_id, forward_text, 
+    forward_img, friend_img,  end_time, status,create_time,update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_special
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="listCOByCondition" resultMap="PageMap">
+    select
+    a.id, a.activity_platform, a.title, a.page_img, a.page_guide_text, a.type, a.exchange_id, a.forward_text,
+    a.forward_img, a.friend_img, a.end_time, a.status,a.create_time,a.update_time
+    from exchange_special a
+    left join exchange_special_distributor b on a.id=b.exchange_special_id
+    <where>
+      <if test="title != null and title!=''">
+       and a.title=#{title}
+      </if>
+      <if test="distributorId != null">
+       and b.distributor_id=#{distributorId}
+      </if>
+      <if test="activityPlatform != null">
+       and a.activity_platform=#{activityPlatform}
+      </if>
+      <if test="type != null">
+       and a.type=#{type}
+      </if>
+    </where>
+    group by a.id order by a.create_time desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_special
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_special (activity_platform, title, page_img,
+      page_guide_text, type, exchange_id, 
+      forward_text, forward_img, friend_img, 
+      end_time, status,create_time,update_time
+      )
+    values (#{activityPlatform,jdbcType=SMALLINT}, #{title,jdbcType=VARCHAR}, #{pageImg,jdbcType=VARCHAR}, 
+      #{pageGuideText,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, #{exchangeId,jdbcType=INTEGER}, 
+      #{forwardText,jdbcType=VARCHAR}, #{forwardImg,jdbcType=VARCHAR}, #{friendImg,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_special
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityPlatform != null">
+        activity_platform,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="pageImg != null">
+        page_img,
+      </if>
+      <if test="pageGuideText != null">
+        page_guide_text,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="exchangeId != null">
+        exchange_id,
+      </if>
+      <if test="forwardText != null">
+        forward_text,
+      </if>
+      <if test="forwardImg != null">
+        forward_img,
+      </if>
+      <if test="friendImg != null">
+        friend_img,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityPlatform != null">
+        #{activityPlatform,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pageImg != null">
+        #{pageImg,jdbcType=VARCHAR},
+      </if>
+      <if test="pageGuideText != null">
+        #{pageGuideText,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="exchangeId != null">
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="forwardText != null">
+        #{forwardText,jdbcType=VARCHAR},
+      </if>
+      <if test="forwardImg != null">
+        #{forwardImg,jdbcType=VARCHAR},
+      </if>
+      <if test="friendImg != null">
+        #{friendImg,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDO">
+    update exchange_special
+    <set>
+      <if test="activityPlatform != null">
+        activity_platform = #{activityPlatform,jdbcType=SMALLINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pageImg != null">
+        page_img = #{pageImg,jdbcType=VARCHAR},
+      </if>
+      <if test="pageGuideText != null">
+        page_guide_text = #{pageGuideText,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="exchangeId != null">
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="forwardText != null">
+        forward_text = #{forwardText,jdbcType=VARCHAR},
+      </if>
+      <if test="forwardImg != null">
+        forward_img = #{forwardImg,jdbcType=VARCHAR},
+      </if>
+      <if test="friendImg != null">
+        friend_img = #{friendImg,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        create_time= #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time=#{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialDO">
+    update exchange_special
+    set activity_platform = #{activityPlatform,jdbcType=SMALLINT},
+      title = #{title,jdbcType=VARCHAR},
+      page_img = #{pageImg,jdbcType=VARCHAR},
+      page_guide_text = #{pageGuideText,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      exchange_id = #{exchangeId,jdbcType=INTEGER},
+      forward_text = #{forwardText,jdbcType=VARCHAR},
+      forward_img = #{forwardImg,jdbcType=VARCHAR},
+      friend_img = #{friendImg,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=SMALLINT},
+      create_time= #{createTime,jdbcType=TIMESTAMP},
+      update_time=#{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

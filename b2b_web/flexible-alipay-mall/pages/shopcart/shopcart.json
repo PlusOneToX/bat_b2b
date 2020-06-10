@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "w-loading": "../../components/loading/loading",
+    "no-data": "../../components/no-data/no-data"
+  },
+  "navigationBarTitleText": "购物车"
+}

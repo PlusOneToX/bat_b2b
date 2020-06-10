@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeSpecialReleaseMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialReleaseDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exchange_share_id" jdbcType="INTEGER" property="exchangeShareId" />
+    <result column="exchange_special_id" jdbcType="INTEGER" property="exchangeSpecialId" />
+    <result column="exchange_special_distributor_id" jdbcType="INTEGER" property="exchangeSpecialDistributorId" />
+    <result column="distributor_id" jdbcType="INTEGER" property="distributorId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_share_id, exchange_special_id, exchange_special_distributor_id, distributor_id, 
+    user_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_special_release
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="countReceive" resultType="java.lang.Integer">
+    select count(*)
+    from exchange_special_release a
+    left join exchange_special_receive b on a.id = b.special_release_id
+    where a.exchange_special_id = #{exchangeSpecialId,jdbcType=INTEGER}
+      and a.distributor_id = #{distributorId,jdbcType=INTEGER}
+      and b.user_id=#{receiveUserId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findCodeRecordBySpecialDistributorId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from exchange_special_release
+    where exchange_special_distributor_id = #{exchangeSpecialDistributorId,jdbcType=INTEGER} and user_id=0 limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from exchange_special_release
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialReleaseDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_special_release (exchange_share_id, exchange_special_id, 
+      exchange_special_distributor_id, distributor_id, 
+      user_id, create_time)
+    values (#{exchangeShareId,jdbcType=INTEGER}, #{exchangeSpecialId,jdbcType=INTEGER}, 
+      #{exchangeSpecialDistributorId,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialReleaseDO">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exchange_special_release
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exchangeShareId != null">
+        exchange_share_id,
+      </if>
+      <if test="exchangeSpecialId != null">
+        exchange_special_id,
+      </if>
+      <if test="exchangeSpecialDistributorId != null">
+        exchange_special_distributor_id,
+      </if>
+      <if test="distributorId != null">
+        distributor_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exchangeShareId != null">
+        #{exchangeShareId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeSpecialId != null">
+        #{exchangeSpecialId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeSpecialDistributorId != null">
+        #{exchangeSpecialDistributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null">
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="insertList" parameterType="java.util.List">
+    INSERT INTO exchange_special_release(
+    exchange_share_id, exchange_special_id,
+    exchange_special_distributor_id, distributor_id,
+    user_id, create_time
+    ) VALUES
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.exchangeShareId,jdbcType=INTEGER}, #{item.exchangeSpecialId,jdbcType=INTEGER},
+      #{item.exchangeSpecialDistributorId,jdbcType=INTEGER}, #{item.distributorId,jdbcType=INTEGER},
+      #{item.userId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialReleaseDO">
+    update exchange_special_release
+    <set>
+      <if test="exchangeShareId != null">
+        exchange_share_id = #{exchangeShareId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeSpecialId != null">
+        exchange_special_id = #{exchangeSpecialId,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeSpecialDistributorId != null">
+        exchange_special_distributor_id = #{exchangeSpecialDistributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null">
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeSpecialReleaseDO">
+    update exchange_special_release
+    set exchange_share_id = #{exchangeShareId,jdbcType=INTEGER},
+      exchange_special_id = #{exchangeSpecialId,jdbcType=INTEGER},
+      exchange_special_distributor_id = #{exchangeSpecialDistributorId,jdbcType=INTEGER},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

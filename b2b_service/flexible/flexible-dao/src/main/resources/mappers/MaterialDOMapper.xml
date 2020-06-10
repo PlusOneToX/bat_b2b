@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.material.MaterialDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.material.dataobject.MaterialDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="material_no" property="materialNo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="del_flag" property="delFlag" jdbcType="SMALLINT" />
+    <result column="manufactor" property="manufactor" jdbcType="VARCHAR" />
+    <result column="colour" property="colour" jdbcType="VARCHAR" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="stuff_name" property="stuffName" jdbcType="VARCHAR" />
+    <result column="stuff_en_name" property="stuffEnName" jdbcType="VARCHAR" />
+    <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+    <result column="allow_upload_flag" property="allowUploadFlag" jdbcType="SMALLINT" />
+    <result column="mandatory_covered_bleed_flag" property="mandatoryCoveredBleedFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <resultMap id="MaterialPageCOResultMap" type="com.bat.flexible.dao.material.co.MaterialPageCO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="material_no" property="materialNo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+    <collection property="childrenList" select="listCOByParentId" column="{parentId=id,categoryId=category_id}"/>
+  </resultMap>
+
+  <resultMap id="MaterialTreeCOResultMap" type="com.bat.flexible.dao.material.co.MaterialTreeCO" >
+    <id column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="material_no" property="materialNo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+    <result column="allow_upload_flag" property="allowUploadFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="manufactor" property="manufactor" jdbcType="VARCHAR" />
+    <result column="colour" property="colour" jdbcType="VARCHAR" />
+    <result column="mandatory_covered_bleed_flag" property="mandatoryCoveredBleedFlag" jdbcType="SMALLINT" />
+    <collection property="childrenList" select="treeUsableCOByParentIdAndCategoryId" column="{parentId=material_id}"/>
+  </resultMap>
+  <resultMap id="MaterialSimpleTreeCOResultMap" type="com.bat.flexible.dao.material.co.MaterialSimpleTreeCO" >
+    <id column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="material_no" property="materialNo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="at_last_trademark_query" property="atLastTrademarkQuery" jdbcType="SMALLINT" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <collection property="childrenList" select="treeAdmin" column="{parentId=material_id,atLastTrademark=at_last_trademark_query,openFlag=open_flag}"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bat.flexible.dao.material.dataobject.MaterialDO" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parent_id, material_no, name, english_name, category_id, sequence, image, description, 
+    open_flag, del_flag, manufactor, colour, at_last_trademark, stuff_name, stuff_en_name, 
+    subtitle, create_time, create_user_id, create_user_name, update_time, update_user_id, 
+    update_user_name, item_id, item_code, allow_upload_flag,mandatory_covered_bleed_flag
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from material
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from material
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.material.dataobject.MaterialDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into material (id, parent_id, material_no, 
+      name, english_name, category_id, 
+      sequence, image, description, 
+      open_flag, del_flag, manufactor, 
+      colour, at_last_trademark, stuff_name, 
+      stuff_en_name, subtitle, create_time, 
+      create_user_id, create_user_name, update_time, 
+      update_user_id, update_user_name, item_id, 
+      item_code, allow_upload_flag, content,mandatory_covered_bleed_flag
+      )
+    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{materialNo,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{englishName,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
+      #{sequence,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{openFlag,jdbcType=SMALLINT}, #{delFlag,jdbcType=SMALLINT}, #{manufactor,jdbcType=VARCHAR}, 
+      #{colour,jdbcType=VARCHAR}, #{atLastTrademark,jdbcType=SMALLINT}, #{stuffName,jdbcType=VARCHAR}, 
+      #{stuffEnName,jdbcType=VARCHAR}, #{subtitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER}, 
+      #{itemCode,jdbcType=VARCHAR}, #{allowUploadFlag,jdbcType=SMALLINT}, #{content,jdbcType=LONGVARCHAR},#{mandatoryCoveredBleedFlag,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.material.dataobject.MaterialDO" >
+    insert into material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="materialNo != null" >
+        material_no,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="manufactor != null" >
+        manufactor,
+      </if>
+      <if test="colour != null" >
+        colour,
+      </if>
+      <if test="atLastTrademark != null" >
+        at_last_trademark,
+      </if>
+      <if test="stuffName != null" >
+        stuff_name,
+      </if>
+      <if test="stuffEnName != null" >
+        stuff_en_name,
+      </if>
+      <if test="subtitle != null" >
+        subtitle,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemCode != null" >
+        item_code,
+      </if>
+      <if test="allowUploadFlag != null" >
+        allow_upload_flag,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="mandatoryCoveredBleedFlag !=null">
+        mandatory_covered_bleed_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="materialNo != null" >
+        #{materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="manufactor != null" >
+        #{manufactor,jdbcType=VARCHAR},
+      </if>
+      <if test="colour != null" >
+        #{colour,jdbcType=VARCHAR},
+      </if>
+      <if test="atLastTrademark != null" >
+        #{atLastTrademark,jdbcType=SMALLINT},
+      </if>
+      <if test="stuffName != null" >
+        #{stuffName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuffEnName != null" >
+        #{stuffEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="allowUploadFlag != null" >
+        #{allowUploadFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mandatoryCoveredBleedFlag !=null">
+        #{mandatoryCoveredBleedFlag,jdbcType=SMALLINT}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.material.dataobject.MaterialDO" >
+    update material
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="materialNo != null" >
+        material_no = #{materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="manufactor != null" >
+        manufactor = #{manufactor,jdbcType=VARCHAR},
+      </if>
+      <if test="colour != null" >
+        colour = #{colour,jdbcType=VARCHAR},
+      </if>
+      <if test="atLastTrademark != null" >
+        at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      </if>
+      <if test="stuffName != null" >
+        stuff_name = #{stuffName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuffEnName != null" >
+        stuff_en_name = #{stuffEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="itemCode != null" >
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="allowUploadFlag != null" >
+        allow_upload_flag = #{allowUploadFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mandatoryCoveredBleedFlag !=null">
+        mandatory_covered_bleed_flag=#{mandatoryCoveredBleedFlag,jdbcType=SMALLINT}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.flexible.dao.material.dataobject.MaterialDO" >
+    update material
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      material_no = #{materialNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      manufactor = #{manufactor,jdbcType=VARCHAR},
+      colour = #{colour,jdbcType=VARCHAR},
+      at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      stuff_name = #{stuffName,jdbcType=VARCHAR},
+      stuff_en_name = #{stuffEnName,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      allow_upload_flag = #{allowUploadFlag,jdbcType=SMALLINT},
+      content = #{content,jdbcType=LONGVARCHAR},
+      mandatory_covered_bleed_flag=#{mandatoryCoveredBleedFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.material.dataobject.MaterialDO" >
+    update material
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      material_no = #{materialNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      manufactor = #{manufactor,jdbcType=VARCHAR},
+      colour = #{colour,jdbcType=VARCHAR},
+      at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      stuff_name = #{stuffName,jdbcType=VARCHAR},
+      stuff_en_name = #{stuffEnName,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=INTEGER},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      allow_upload_flag = #{allowUploadFlag,jdbcType=SMALLINT},
+      mandatory_covered_bleed_flag=#{mandatoryCoveredBleedFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listByMaterialIdList" resultMap="BaseResultMap">
+    select * from material where 1=1 and (
+    <foreach collection="materialIdList" item="materialId" separator=" or ">
+      id = #{materialId}
+    </foreach>
+    )
+  </select>
+  <select id="getByMaterialNo" resultMap="BaseResultMap">
+    select * from material where  material_no=#{materialNo} and  del_flag=0
+  </select>
+
+  <select id="findEffectByUpOrDown" resultMap="BaseResultMap">
+    select * from material where parent_id = #{parentId} and del_flag=0 and sequence
+    <choose>
+      <when test="flag">
+        &lt; #{sequence} order by sequence desc limit 1
+      </when>
+      <otherwise>
+        &gt; #{sequence} order by sequence  limit 1
+      </otherwise>
+    </choose>
+  </select>
+  <select id="listByParentId" resultMap="BaseResultMap">
+    select * from material where parent_id = #{parentId} and del_flag=0 order by sequence
+  </select>
+<select id="findMaxByParentId" resultType="java.lang.Integer">
+  select ifnull(max(sequence),0) from material where parent_id=#{parentId}
+</select>
+  <select id="treeByCondition" resultMap="MaterialPageCOResultMap">
+SELECT
+	 id,
+	name,
+	material_no,
+	parent_id,
+	english_name,
+	category_id,
+	image,
+	open_flag,
+	at_last_trademark,
+	item_code
+FROM
+	material
+WHERE
+     parent_id =#{parentId} and del_flag = 0
+    <if test="categoryId !=null">
+      and category_id = #{categoryId}
+    </if>
+   ORDER BY  sequence
+  </select>
+
+    <select id="listCOByParentId" resultMap="MaterialPageCOResultMap">
+    SELECT
+     id, NAME, material_no,parent_id, english_name, category_id, image,open_flag, at_last_trademark,item_code,#{content} content
+    FROM
+    material
+    WHERE
+    del_flag=0 and parent_id =#{parentId}
+      <if test="categoryId !=null">
+       and category_id = #{categoryId}
+      </if>
+      <if test="openFlag !=null">
+        and open_flag = #{openFlag}
+      </if>
+      <if test="content !=null and content !=''">
+        AND (
+       `name` LIKE  concat('%',#{content},'%')
+
+        or english_name like concat('%',#{content},'%')
+        )
+      </if>
+    ORDER BY sequence
+  </select>
+  <select id="treeUsableCOByParentIdAndCategoryId" resultMap="MaterialTreeCOResultMap">
+    select id material_id,parent_id,material_no,name,english_name,image,at_last_trademark,item_id,item_code,allow_upload_flag,manufactor,colour,mandatory_covered_bleed_flag from material
+    where parent_id = #{parentId} and del_flag=0 and open_flag=1
+    <if test="categoryId !=null">
+      and category_id=#{categoryId}
+    </if>
+    order by sequence
+  </select>
+<select id="listAll" resultMap="BaseResultMap">
+  select * from material where del_flag=0
+</select>
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from  material where 1=1
+    <if test="parentId !=null">
+      and parent_id=#{parentId}
+    </if>
+    <if test="openFlag !=null">
+      and open_flag = #{openFlag}
+    </if>
+    <if test="atLastTrademark !=null">
+      and at_last_trademark=#{atLastTrademark}
+    </if>
+    <if test="categoryId !=null">
+      and category_id=#{categoryId}
+    </if>
+    <if test="content !=null and content !=''">
+      and ( name like concat ('%',#{content},'%') or english_name like concat ('%',#{content},'%') or material_no like concat ('%',#{content},'%'))
+    </if>
+    and del_flag=0 order by sequence
+  </select>
+  <select id="treeAdmin" resultMap="MaterialSimpleTreeCOResultMap">
+    select id material_id,parent_id,material_no,name,english_name,at_last_trademark,#{atLastTrademark} at_last_trademark_query,open_flag  from material where parent_id=#{parentId}
+    <if test="openFlag !=null">
+      and open_flag =#{openFlag}
+    </if>
+    <if test="atLastTrademark!=null">
+      and at_last_trademark=#{atLastTrademark}
+    </if>
+    <if test="categoryId !=null">
+      and category_id =#{categoryId}
+    </if>
+    and del_flag=0 order by sequence asc
+  </select>
+  <select id="getByItemId" resultMap="BaseResultMap">
+    select * from material where item_id = #{itemId} and del_flag=0
+  </select>
+  <select id="listByItemIdList" resultMap="BaseResultMap">
+    select * from material where del_flag=0
+    <foreach collection="itemIdList" open=" and (" close=" )" separator=" or " item="itemId">
+      item_id = #{itemId}
+    </foreach>
+  </select>
+  <select id="listAllGroupByItemId" resultMap="BaseResultMap">
+    select * from material where del_flag=0 and item_id &gt; 0 group by item_id
+  </select>
+  <select id="getByItemCode" resultMap="BaseResultMap">
+    select * from material where del_flag=0 and item_code = #{itemCode}
+  </select>
+
+  <select id="findCanUseParentsByDistributorIds" resultMap="BaseResultMap">
+    select a.* from material a
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      left join distributor_material_exclude b on a.id=b.material_id and b.del_flag=0
+    </if>
+    where a.del_flag=0 and a.parent_id=0 and a.open_flag=1
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      and (b.distributor_id
+      not in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+        #{distributorId}
+      </foreach>
+      or b.distributor_id is null
+      )
+    </if>
+    group by a.id
+  </select>
+
+  <select id="listByParentIds" resultMap="BaseResultMap">
+    select a.* from material a
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      left join distributor_material_exclude b on a.id=b.material_id and b.del_flag=0
+    </if>
+    where a.del_flag=0 and a.open_flag=1 and a.parent_id in
+    <foreach collection="parentIds" item="parentId" open="(" close=")" separator=",">
+      #{parentId}
+    </foreach>
+    <if test="distributorIds !=null and distributorIds.size()>0">
+      and (b.distributor_id
+      not in
+      <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+        #{distributorId}
+      </foreach>
+      or b.distributor_id is null
+      )
+    </if>
+    group by a.id
+  </select>
+
+  <select id="findByIdsAndModelIdAndPictureId" resultMap="BaseResultMap">
+    select a.* from material a
+    <if test="modelId !=null">
+      left join model_material_relevance b on a.id=b.material_id
+    </if>
+    <if test="pictureId !=null">
+      left join picture_material_relevance c on a.id=c.material_id
+      left join picture d on d.id=c.picture_id
+    </if>
+    where a.del_flag=0 and a.open_flag=1
+    <if test="modelId !=null">
+      and b.model_id=#{modelId} and b.del_flag=0 and b.open_flag=1
+    </if>
+    <if test="pictureId !=null">
+      and c.picture_id=#{pictureId} and c.del_flag=0 and d.del_flag=0 and d.open_flag=1
+    </if>
+    and a.id
+    in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+    group by a.id
+  </select>
+
+</mapper>

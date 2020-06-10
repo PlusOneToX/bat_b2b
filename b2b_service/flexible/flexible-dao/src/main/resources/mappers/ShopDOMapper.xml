@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.shop.ShopDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.shop.dataobject.ShopDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="wx_platform_id" property="wxPlatformId" jdbcType="INTEGER" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="del_flag" property="delFlag" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="qr_url" property="qrUrl" jdbcType="VARCHAR" />
+    <result column="extend_param" property="extendParam" jdbcType="VARCHAR" />
+    <result column="third_qr_url" property="thirdQrUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="app_name" property="appName" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="SMALLINT" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="saleman_id" property="salemanId" jdbcType="INTEGER" />
+    <result column="saleman_name" property="salemanName" jdbcType="VARCHAR" />
+    <result column="user_config_id" property="userConfigId" jdbcType="INTEGER" />
+    <result column="user_config_name" property="userConfigName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ShopPageCOResultMap" type="com.bat.flexible.dao.shop.co.ShopPageCO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="distributor_company_name" property="distributorCompanyName" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="qr_url" property="qrUrl" jdbcType="VARCHAR" />
+    <result column="third_qr_url" property="thirdQrUrl" jdbcType="VARCHAR" />
+    <result column="app_name" property="appName" jdbcType="VARCHAR" />
+    <result column="wx_platform_id" property="wxPlatformId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="saleman_id" property="salemanId" jdbcType="INTEGER" />
+    <result column="saleman_name" property="salemanName" jdbcType="VARCHAR" />
+    <result column="user_config_id" property="userConfigId" jdbcType="INTEGER" />
+    <result column="user_config_name" property="userConfigName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, distributor_name, company_name, shop_name, shop_code, wx_platform_id, 
+    open_flag, del_flag, remark, url, qr_url, extend_param, third_qr_url, create_time, 
+    create_user_id, create_user_name, update_time, update_user_id, update_user_name,app_id,app_name,source,
+    type,platform,saleman_id,saleman_name,user_config_id,user_config_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.shop.dataobject.ShopDO" useGeneratedKeys="true" keyProperty="id">
+    insert into shop (id, distributor_id, distributor_name, 
+      company_name, shop_name, shop_code, 
+      wx_platform_id, open_flag, del_flag, 
+      remark, url, qr_url, 
+      extend_param, third_qr_url, create_time, 
+      create_user_id, create_user_name, update_time, 
+      update_user_id, update_user_name,app_id,app_name,source,type,platform
+      ,saleman_id,saleman_name,user_config_id,user_config_name)
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{shopCode,jdbcType=VARCHAR}, 
+      #{wxPlatformId,jdbcType=INTEGER}, #{openFlag,jdbcType=SMALLINT}, #{delFlag,jdbcType=SMALLINT}, 
+      #{remark,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{qrUrl,jdbcType=VARCHAR}, 
+      #{extendParam,jdbcType=VARCHAR}, #{thirdQrUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}
+      , #{appName,jdbcType=VARCHAR}, #{source,jdbcType=SMALLINT}, #{type,jdbcType=SMALLINT}, #{platform,jdbcType=VARCHAR},
+      #{salemanId,jdbcType=INTEGER}, #{salemanName,jdbcType=VARCHAR},
+      #{userConfigId,jdbcType=INTEGER}, #{userConfigName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.shop.dataobject.ShopDO" useGeneratedKeys="true" keyProperty="id">
+    insert into shop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="shopCode != null" >
+        shop_code,
+      </if>
+      <if test="wxPlatformId != null" >
+        wx_platform_id,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="qrUrl != null" >
+        qr_url,
+      </if>
+      <if test="extendParam != null" >
+        extend_param,
+      </if>
+      <if test="thirdQrUrl != null" >
+        third_qr_url,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="appName != null" >
+        app_name,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="platform !=null">
+        platform,
+      </if>
+      <if test="salemanId !=null">
+        saleman_id,
+      </if>
+      <if test="salemanName !=null">
+        saleman_name,
+      </if>
+      <if test="userConfigId !=null">
+        user_config_id,
+      </if>
+      <if test="userConfigName !=null">
+        user_config_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null" >
+        #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPlatformId != null" >
+        #{wxPlatformId,jdbcType=INTEGER},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="qrUrl != null" >
+        #{qrUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="extendParam != null" >
+        #{extendParam,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdQrUrl != null" >
+        #{thirdQrUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="platform !=null">
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="salemanId !=null">
+        #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="salemanName !=null">
+        #{salemanName,jdbcType=VARCHAR},
+      </if>
+      <if test="userConfigId !=null">
+        #{userConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="userConfigName !=null">
+        #{userConfigName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.shop.dataobject.ShopDO" >
+    update shop
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null" >
+        shop_code = #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wxPlatformId != null" >
+        wx_platform_id = #{wxPlatformId,jdbcType=INTEGER},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="qrUrl != null" >
+        qr_url = #{qrUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="extendParam != null" >
+        extend_param = #{extendParam,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdQrUrl != null" >
+        third_qr_url = #{thirdQrUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="platform !=null">
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="salemanId !=null">
+        saleman_id = #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="salemanName !=null">
+        saleman_name = #{salemanName,jdbcType=VARCHAR},
+      </if>
+      <if test="userConfigId !=null">
+        user_config_id = #{userConfigId,jdbcType=INTEGER},
+      </if>
+      <if test="userConfigName !=null">
+        user_config_name = #{userConfigName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.shop.dataobject.ShopDO" >
+    update shop
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_code = #{shopCode,jdbcType=VARCHAR},
+      wx_platform_id = #{wxPlatformId,jdbcType=INTEGER},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      qr_url = #{qrUrl,jdbcType=VARCHAR},
+      extend_param = #{extendParam,jdbcType=VARCHAR},
+      third_qr_url = #{thirdQrUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      app_id = #{appId,jdbcType=VARCHAR},
+      app_name = #{appName,jdbcType=VARCHAR},
+      source = #{source,jdbcType=SMALLINT},
+      type = #{type,jdbcType=SMALLINT},
+      platform = #{platform,jdbcType=VARCHAR},
+      saleman_id = #{salemanId,jdbcType=INTEGER},
+      saleman_name = #{salemanName,jdbcType=VARCHAR},
+      user_config_id = #{userConfigId,jdbcType=INTEGER},
+      user_config_name = #{userConfigName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listCOByCondition" resultMap="ShopPageCOResultMap">
+    select id, distributor_id, distributor_name, company_name distributor_company_name, shop_name, shop_code,
+    open_flag, remark, url, qr_url, third_qr_url,app_name,wx_platform_id,type,platform,saleman_id,
+    saleman_name,user_config_name,user_config_id
+     from shop where 1=1
+    <if test="distributorId !=null">
+      and distributor_id = #{distributorId}
+    </if>
+    <if test="appName !=null and appName !=''">
+      and app_name like concat('%',#{appName},'%')
+    </if>
+    <if test="shopName !=null and shopName !=''">
+      and shop_name like concat('%',#{shopName},'%')
+    </if>
+    <if test="shopCode !=null and shopCode !=''">
+      and shop_code like concat('%',#{shopCode},'%')
+    </if>
+
+    <if test="openFlag !=null">
+      and open_flag=#{openFlag}
+    </if>
+    <if test="content !=null and content !=''">
+      and ( distributor_id like concat('%',#{content} ,'%') or shop_name like  concat('%',#{content} ,'%') or shop_code like concat('%',#{content} ,'%')
+      or distributor_name like concat('%',#{content} ,'%') or company_name like concat('%',#{content} ,'%')
+      )
+
+    </if>
+    and del_flag=0 order by update_time desc
+  </select>
+  <select id="getByDistributorIdAndShopCode" resultMap="BaseResultMap">
+    select * from shop where  distributor_id = #{distributorId} and shop_code = #{shopCode,jdbcType=VARCHAR} and del_flag=0
+  </select>
+  <select id="searchUserConfigIdByShopName" resultType="java.lang.Integer">
+    select user_config_id from shop where del_flag = 0 and shop_name like concat('%',#{shopName} ,'%')
+  </select>
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from shop
+    where 1=1
+    <if test="userConfigId !=null">
+      and user_config_id = #{userConfigId,jdbcType=INTEGER}
+    </if>
+    and del_flag = 0
+  </select>
+  <update id="restoreUserConfigIdNull">
+    update shop set user_config_id = null,user_config_name=null  where user_config_id = #{userConfigId}
+  </update>
+</mapper>

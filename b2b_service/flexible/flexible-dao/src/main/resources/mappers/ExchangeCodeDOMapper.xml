@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeCodeDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exchange_id" property="exchangeId" jdbcType="INTEGER" />
+    <result column="plain_code" property="plainCode" jdbcType="VARCHAR" />
+    <result column="secret_code" property="secretCode" jdbcType="VARCHAR" />
+    <result column="box_code" property="boxCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="distributor_order_id" property="distributorOrderId" jdbcType="INTEGER" />
+    <result column="distributor_order_goods_id" property="distributorOrderGoodsId" jdbcType="INTEGER" />
+    <result column="distributor_quanyi_price" property="distributorQuanyiPrice" jdbcType="DECIMAL"/>
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_order_id" property="userOrderId" jdbcType="INTEGER" />
+    <result column="user_order_goods_id" property="userOrderGoodsId" jdbcType="INTEGER" />
+    <result column="user_third_order_no" property="userThirdOrderNo" jdbcType="VARCHAR" />
+    <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="exchange_factory_id" property="exchangeFactoryId" jdbcType="INTEGER" />
+    <result column="outbound_no" property="outboundNo" jdbcType="VARCHAR" />
+    <result column="distributor_company_name" property="distributorCompanyName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="ExchangeCodePageCOResultMap" type="com.bat.flexible.dao.exchange.co.ExchangeCodePageCO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="plain_code" property="plainCode" jdbcType="VARCHAR" />
+    <result column="secret_code" property="secretCode" jdbcType="VARCHAR" />
+    <result column="box_code" property="boxCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="card_name" property="cardName" jdbcType="VARCHAR" />
+    <result column="distributor_order_id" property="distributorOrderId" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_order_id" property="userOrderId" jdbcType="INTEGER" />
+    <result column="user_third_order_no" property="userThirdOrderNo" jdbcType="VARCHAR" />
+    <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="exchange_factory_id" property="exchangeFactoryId" jdbcType="INTEGER" />
+    <result column="exchange_way" property="exchangeWay" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, exchange_id, plain_code, secret_code, box_code, status, distributor_order_id, 
+    distributor_order_goods_id, distributor_quanyi_price,distributor_id, distributor_name, user_id, user_name,
+    user_order_id, user_order_goods_id, user_third_order_no, use_time, create_user_id, 
+    create_user_name, create_time, update_user_id, update_user_name, update_time, exchange_factory_id, 
+    outbound_no,distributor_company_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exchange_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_code (id, exchange_id, plain_code, 
+      secret_code, box_code, status, 
+      distributor_order_id, distributor_order_goods_id, distributor_quanyi_price,
+      distributor_id, distributor_name, user_id, 
+      user_name, user_order_id, user_order_goods_id, 
+      user_third_order_no, use_time, create_user_id, 
+      create_user_name, create_time, update_user_id, 
+      update_user_name, update_time, exchange_factory_id, 
+      outbound_no,distributor_company_name)
+    values (#{id,jdbcType=INTEGER}, #{exchangeId,jdbcType=INTEGER}, #{plainCode,jdbcType=VARCHAR}, 
+      #{secretCode,jdbcType=VARCHAR}, #{boxCode,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+      #{distributorOrderId,jdbcType=INTEGER}, #{distributorOrderGoodsId,jdbcType=INTEGER}, #{distributorQuanyiPrice,jdbcType=DECIMAL},
+      #{distributorId,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+      #{userName,jdbcType=VARCHAR}, #{userOrderId,jdbcType=INTEGER}, #{userOrderGoodsId,jdbcType=INTEGER}, 
+      #{userThirdOrderNo,jdbcType=VARCHAR}, #{useTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{exchangeFactoryId,jdbcType=INTEGER}, 
+      #{outboundNo,jdbcType=VARCHAR},#{distributorCompanyName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="batchCreate"   useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_code ( exchange_id, plain_code,
+    secret_code, box_code, status,
+    distributor_order_id, distributor_order_goods_id,distributor_quanyi_price,
+    distributor_id, distributor_name,distributor_company_name, user_id,
+    user_name, user_order_id, user_order_goods_id,
+    user_third_order_no, use_time, create_user_id,
+    create_user_name, create_time, update_user_id,
+    update_user_name, update_time, exchange_factory_id,
+    outbound_no) values
+    <foreach collection="exchangeCodeList" item="code" separator=" , " >
+       ( #{code.exchangeId,jdbcType=INTEGER}, #{code.plainCode,jdbcType=VARCHAR},
+      #{code.secretCode,jdbcType=VARCHAR}, #{code.boxCode,jdbcType=VARCHAR}, #{code.status,jdbcType=SMALLINT},
+      #{code.distributorOrderId,jdbcType=INTEGER}, #{code.distributorOrderGoodsId,jdbcType=INTEGER},#{code.distributorQuanyiPrice,jdbcType=DECIMAL},
+      #{code.distributorId,jdbcType=INTEGER}, #{code.distributorName,jdbcType=VARCHAR},#{code.distributorCompanyName,jdbcType=VARCHAR}, #{code.userId,jdbcType=BIGINT},
+      #{code.userName,jdbcType=VARCHAR}, #{code.userOrderId,jdbcType=INTEGER}, #{code.userOrderGoodsId,jdbcType=INTEGER},
+      #{code.userThirdOrderNo,jdbcType=VARCHAR}, #{code.useTime,jdbcType=TIMESTAMP}, #{code.createUserId,jdbcType=INTEGER},
+      #{code.createUserName,jdbcType=VARCHAR}, #{code.createTime,jdbcType=TIMESTAMP}, #{code.updateUserId,jdbcType=INTEGER},
+      #{code.updateUserName,jdbcType=VARCHAR}, #{code.updateTime,jdbcType=TIMESTAMP}, #{code.exchangeFactoryId,jdbcType=INTEGER},
+      #{code.outboundNo,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+  <insert id="batchCreateContainKey"   useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_code ( id,exchange_id, plain_code,
+    secret_code, box_code, status,
+    distributor_order_id, distributor_order_goods_id,distributor_quanyi_price,
+    distributor_id, distributor_name,distributor_company_name, user_id,
+    user_name, user_order_id, user_order_goods_id,
+    user_third_order_no, use_time, create_user_id,
+    create_user_name, create_time, update_user_id,
+    update_user_name, update_time, exchange_factory_id,
+    outbound_no) values
+    <foreach collection="exchangeCodeList" item="code" separator=" , " >
+      ( #{code.id,jdbcType=INTEGER},#{code.exchangeId,jdbcType=INTEGER}, #{code.plainCode,jdbcType=VARCHAR},
+      #{code.secretCode,jdbcType=VARCHAR}, #{code.boxCode,jdbcType=VARCHAR}, #{code.status,jdbcType=SMALLINT},
+      #{code.distributorOrderId,jdbcType=INTEGER}, #{code.distributorOrderGoodsId,jdbcType=INTEGER},#{code.distributorQuanyiPrice,jdbcType=DECIMAL},
+      #{code.distributorId,jdbcType=INTEGER}, #{code.distributorName,jdbcType=VARCHAR},#{code.distributorCompanyName,jdbcType=VARCHAR}, #{code.userId,jdbcType=BIGINT},
+      #{code.userName,jdbcType=VARCHAR}, #{code.userOrderId,jdbcType=INTEGER}, #{code.userOrderGoodsId,jdbcType=INTEGER},
+      #{code.userThirdOrderNo,jdbcType=VARCHAR}, #{code.useTime,jdbcType=TIMESTAMP}, #{code.createUserId,jdbcType=INTEGER},
+      #{code.createUserName,jdbcType=VARCHAR}, #{code.createTime,jdbcType=TIMESTAMP}, #{code.updateUserId,jdbcType=INTEGER},
+      #{code.updateUserName,jdbcType=VARCHAR}, #{code.updateTime,jdbcType=TIMESTAMP}, #{code.exchangeFactoryId,jdbcType=INTEGER},
+      #{code.outboundNo,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exchangeId != null" >
+        exchange_id,
+      </if>
+      <if test="plainCode != null" >
+        plain_code,
+      </if>
+      <if test="secretCode != null" >
+        secret_code,
+      </if>
+      <if test="boxCode != null" >
+        box_code,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="distributorOrderId != null" >
+        distributor_order_id,
+      </if>
+      <if test="distributorOrderGoodsId != null" >
+        distributor_order_goods_id,
+      </if>
+      <if test="distributorQuanyiPrice != null" >
+        distributor_quanyi_price,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userOrderId != null" >
+        user_order_id,
+      </if>
+      <if test="userOrderGoodsId != null" >
+        user_order_goods_id,
+      </if>
+      <if test="userThirdOrderNo != null" >
+        user_third_order_no,
+      </if>
+      <if test="useTime != null" >
+        use_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="exchangeFactoryId != null" >
+        exchange_factory_id,
+      </if>
+      <if test="outboundNo != null" >
+        outbound_no,
+      </if>
+      <if test="distributorCompanyName !=null">
+        distributor_company_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="plainCode != null" >
+        #{plainCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secretCode != null" >
+        #{secretCode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxCode != null" >
+        #{boxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="distributorOrderId != null" >
+        #{distributorOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorOrderGoodsId != null" >
+        #{distributorOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorQuanyiPrice != null" >
+        #{distributorQuanyiPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userOrderId != null" >
+        #{userOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="userOrderGoodsId != null" >
+        #{userOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userThirdOrderNo != null" >
+        #{userThirdOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null" >
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeFactoryId != null" >
+        #{exchangeFactoryId,jdbcType=INTEGER},
+      </if>
+      <if test="outboundNo != null" >
+        #{outboundNo,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorCompanyName !=null">
+        #{distributorCompanyName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeDO" >
+    update exchange_code
+    <set >
+      <if test="exchangeId != null" >
+        exchange_id = #{exchangeId,jdbcType=INTEGER},
+      </if>
+      <if test="plainCode != null" >
+        plain_code = #{plainCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secretCode != null" >
+        secret_code = #{secretCode,jdbcType=VARCHAR},
+      </if>
+      <if test="boxCode != null" >
+        box_code = #{boxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="distributorOrderId != null" >
+        distributor_order_id = #{distributorOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorOrderGoodsId != null" >
+        distributor_order_goods_id = #{distributorOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorQuanyiPrice != null" >
+        distributor_quanyi_price =  #{distributorQuanyiPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userOrderId != null" >
+        user_order_id = #{userOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="userOrderGoodsId != null" >
+        user_order_goods_id = #{userOrderGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userThirdOrderNo != null" >
+        user_third_order_no = #{userThirdOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="useTime != null" >
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeFactoryId != null" >
+        exchange_factory_id = #{exchangeFactoryId,jdbcType=INTEGER},
+      </if>
+      <if test="outboundNo != null" >
+        outbound_no = #{outboundNo,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorCompanyName !=null">
+        distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeDO" >
+    update exchange_code
+    set exchange_id = #{exchangeId,jdbcType=INTEGER},
+      plain_code = #{plainCode,jdbcType=VARCHAR},
+      secret_code = #{secretCode,jdbcType=VARCHAR},
+      box_code = #{boxCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      distributor_order_id = #{distributorOrderId,jdbcType=INTEGER},
+      distributor_order_goods_id = #{distributorOrderGoodsId,jdbcType=INTEGER},
+      distributor_quanyi_price = #{distributorQuanyiPrice,jdbcType=DECIMAL},
+      distributor_id = #{distributorId,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_order_id = #{userOrderId,jdbcType=INTEGER},
+      user_order_goods_id = #{userOrderGoodsId,jdbcType=INTEGER},
+      user_third_order_no = #{userThirdOrderNo,jdbcType=VARCHAR},
+      use_time = #{useTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      exchange_factory_id = #{exchangeFactoryId,jdbcType=INTEGER},
+      outbound_no = #{outboundNo,jdbcType=VARCHAR},
+      distributor_company_name = #{distributorCompanyName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate" parameterType="java.util.List">
+   <foreach collection="updateList" item="exchangeCodeDO" separator=" ; ">
+     update exchange_code
+     set exchange_id = #{exchangeCodeDO.exchangeId,jdbcType=INTEGER},
+     plain_code = #{exchangeCodeDO.plainCode,jdbcType=VARCHAR},
+     secret_code = #{exchangeCodeDO.secretCode,jdbcType=VARCHAR},
+     box_code = #{exchangeCodeDO.boxCode,jdbcType=VARCHAR},
+     status = #{exchangeCodeDO.status,jdbcType=SMALLINT},
+     distributor_order_id = #{exchangeCodeDO.distributorOrderId,jdbcType=INTEGER},
+     distributor_order_goods_id = #{exchangeCodeDO.distributorOrderGoodsId,jdbcType=INTEGER},
+     distributor_quanyi_price = #{exchangeCodeDO.distributorQuanyiPrice,jdbcType=DECIMAL},
+     distributor_id = #{exchangeCodeDO.distributorId,jdbcType=INTEGER},
+     distributor_name = #{exchangeCodeDO.distributorName,jdbcType=VARCHAR},
+     user_id = #{exchangeCodeDO.userId,jdbcType=BIGINT},
+     user_name = #{exchangeCodeDO.userName,jdbcType=VARCHAR},
+     user_order_id = #{exchangeCodeDO.userOrderId,jdbcType=INTEGER},
+     user_order_goods_id = #{exchangeCodeDO.userOrderGoodsId,jdbcType=INTEGER},
+     user_third_order_no = #{exchangeCodeDO.userThirdOrderNo,jdbcType=VARCHAR},
+     use_time = #{exchangeCodeDO.useTime,jdbcType=TIMESTAMP},
+     create_user_id = #{exchangeCodeDO.createUserId,jdbcType=INTEGER},
+     create_user_name = #{exchangeCodeDO.createUserName,jdbcType=VARCHAR},
+     create_time = #{exchangeCodeDO.createTime,jdbcType=TIMESTAMP},
+     update_user_id = #{exchangeCodeDO.updateUserId,jdbcType=INTEGER},
+     update_user_name = #{exchangeCodeDO.updateUserName,jdbcType=VARCHAR},
+     update_time = #{exchangeCodeDO.updateTime,jdbcType=TIMESTAMP},
+     exchange_factory_id = #{exchangeCodeDO.exchangeFactoryId,jdbcType=INTEGER},
+     outbound_no = #{exchangeCodeDO.outboundNo,jdbcType=VARCHAR},
+     distributor_company_name = #{exchangeCodeDO.distributorCompanyName,jdbcType=VARCHAR}
+     where id = #{exchangeCodeDO.id,jdbcType=INTEGER}
+   </foreach>
+  </update>
+  <select id="listByExchangeId" resultMap="BaseResultMap">
+    select * from exchange_code where exchange_id = #{exchangeId,jdbcType=INTEGER}
+  </select>
+  <update id="createEndExchangeEvent">
+   CREATE EVENT event_end_exchangeCod2${exchangeId} ON SCHEDULE AT TIMESTAMP #{time,jdbcType=VARCHAR} ON COMPLETION NOT PRESERVE DO UPDATE exchange_code SET status = 3 WHERE exchange_id = #{exchangeId} and (status= 1 or status =0)
+  </update>
+  <select id="listByOutboundNoGroupByBoxCode" resultMap="BaseResultMap">
+    SELECT * FROM exchange_code WHERE outbound_no =#{outboundNo} GROUP BY box_code
+  </select>
+  <select id="listByBoxCode" resultMap="BaseResultMap">
+    SELECT * FROM exchange_code WHERE box_code = #{boxCode}
+  </select>
+  <select id="findByPlainCodeAndSecretCode" resultMap="BaseResultMap">
+     SELECT * FROM exchange_code WHERE 1=1
+     <if test="plainCode !=null and plainCode !=''">
+       and plain_code = #{plainCode}
+     </if>
+     <if test="secretCode !=null and secretCode !=''">
+       and secret_code = #{secretCode}
+     </if>
+  </select>
+  <select id="listByBoxCodeAndPlainCodeList" resultMap="BaseResultMap">
+    select * from exchange_code where 1=1
+    <if test="boxCode !=null and boxCode !=''">
+      and box_code = #{boxCode}
+    </if>
+    <if test="plainCodeList !=null and plainCodeList.size >0">
+      and (
+      <foreach collection="plainCodeList" separator=" or " item="plainCode">
+        plain_code = #{plainCode}
+      </foreach>
+      )
+    </if>
+  </select>
+
+  <update id="updateExchangeFactoryId">
+    update exchange_code set exchange_factory_id = #{factoryId} where exchange_id =#{exchangeId} and exchange_factory_id is null
+  </update>
+  <select id="findMaxByRiseValue" resultMap="BaseResultMap">
+    SELECT c.* FROM exchange_entity_rule r LEFT JOIN  exchange_code c ON r.exchange_id = c.exchange_id
+             WHERE r.rise_value=#{riseValue} ORDER BY c.id DESC limit 1
+  </select>
+  <select id="findByUserOrderIdAndStatusOrderByExchangeIdAsc" resultMap="BaseResultMap">
+    select * from exchange_code where user_order_id = #{userOrderId} and status = #{status} order by exchange_id desc
+  </select>
+  <select id="countByBoxCodeAndItemId" resultMap="BaseResultMap" >
+     SELECT c.* FROM exchange_code c inner join exchange_card e on e.id = c.exchange_id WHERE e.item_id =#{itemId} and c.box_code is  not null GROUP BY c.box_code
+  </select>
+  <select id="countByBoxCodeIsNotNull" resultMap="BaseResultMap">
+    SELECT c.* FROM exchange_code c inner join exchange_card e on e.id = c.exchange_id WHERE e.item_id =#{itemId} and c.box_code is  not null
+  </select>
+
+  <select id="listCOByCondition" resultMap="ExchangeCodePageCOResultMap">
+    SELECT c.id,c.plain_code,c.box_code,c.secret_code,a.exchange_way,c.`status`,c.use_time,c.distributor_name,
+    c.user_name,c.user_order_id,a.code_name card_name,c.update_time,c.create_time,
+    c.user_third_order_no,c.distributor_order_id,c.exchange_factory_id FROM exchange_code c LEFT JOIN exchange_card a ON
+    c.exchange_id = a.id
+    <if test="exchangeExportId !=null">
+      left join exchange_export_code e on e.exchange_code_id=c.id
+    </if>
+    WHERE 1=1
+    <if test="exchangeWay !=null">
+      AND a.exchange_way= #{exchangeWay}
+    </if>
+    <if test="status !=null">
+      AND c.status= #{status}
+    </if>
+    <if test="exchangeId !=null">
+      AND c.exchange_id =#{exchangeId}
+    </if>
+    <if test="exchangeFactoryId !=null">
+      AND c.exchange_factory_id =#{exchangeFactoryId}
+    </if>
+    <if test="content !=null and content !=''">
+      AND (c.plain_code LIKE concat ('%',#{content},'%') or c.box_code LIKE concat ('%',#{content},'%') or c.user_name
+      like concat ('%',#{content},'%')
+      or c.user_order_id like concat ('%',#{content},'%') OR c.exchange_factory_id like concat ('%',#{content},'%')
+      or c.distributor_name like concat ('%',#{content},'%') or c.distributor_order_id like concat ('%',#{content},'%')
+      )
+    </if>
+    <if test="exchangeExportId !=null">
+      AND e.exchange_export_id=#{exchangeExportId}
+    </if>
+    order by c.id desc
+  </select>
+  <select id="listByExchangeCodeIdListAndMaterialIdAndModelId" resultMap="BaseResultMap">
+    SELECT d.* FROM exchange_code d
+         LEFT JOIN exchange_material_relevance b ON d.exchange_id = b.exchange_id
+        LEFT JOIN exchange_model_relevance c ON d.exchange_id = c.exchange_id
+         WHERE 1=1 and (
+          <foreach collection="exchangeCodeIdList" item="id" separator=" or ">
+            d.id = #{id}
+          </foreach>
+    )
+        and   b.material_id = #{materialId} AND ( c.type=1  OR c.model_id = #{modelId} )
+  </select>
+  <select id="listByOutboundNoGroupByDistributorOrderId" resultMap="BaseResultMap">
+    select * from exchange_code where  outbound_no = #{outboundNo,jdbcType=VARCHAR}
+    group by distributor_order_id
+  </select>
+  <select id="listBySecretCodeList" resultMap="BaseResultMap">
+    select * from exchange_code where 1=1
+    <foreach collection="secretCodeList" item="secretCode" separator=" or " open=" and ( " close=" ) ">
+      secret_code = #{secretCode}
+    </foreach>
+  </select>
+  <select id="listByUserOrderId" resultMap="BaseResultMap">
+    select * from exchange_code where user_order_id = #{orderId}
+  </select>
+
+  <select id="listAll2" resultMap="BaseResultMap">
+    select id,plain_code from exchange_code_copy where 1=1
+    <if test="plainCode !=null">
+      and plain_code = #{plainCode,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+
+  <select id="listByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from exchange_code
+    where id in
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <update id="updateId">
+    update exchange_code set id = #{newId} where id =#{oldId}
+  </update>
+
+  <select id="listByExportId" resultMap="BaseResultMap">
+    SELECT c.*
+    FROM exchange_code c
+    inner join exchange_export_code e on e.exchange_code_id = c.id
+    where e.exchange_export_id = #{exchangeExportId}
+  </select>
+
+  <!-- 后台兑换码解绑 -->
+  <delete id="unboundExchange" parameterType="java.lang.Integer" >
+    delete from exchange_code_user
+    where exchange_code_id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!-- 后台兑换码解绑子属性 判断兑换卡是否被领取 -->
+  <select id="selectExchangeUserRecordById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select a.id,b.exchange_code_id
+    from exchange_code a
+    left join exchange_code_user b
+    on a.id = b.exchange_code_id
+    where b.exchange_code_id = #{id,jdbcType=INTEGER}
+  </select>
+
+</mapper>

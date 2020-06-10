@@ -1,0 +1,231 @@
+/* pages/mine/mine.wxss */
+.mine-wrap {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #F6F6F6;
+  overflow: hidden;
+}
+
+.container-t-wrap {
+  background-color: var(--white);
+}
+
+.container-t {
+  position: relative;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 663rpx;
+  background: linear-gradient(136deg, rgba(255, 234, 45, 0.9) 0%, rgba(255, 218, 1, 0.9) 40%, rgba(255, 205, 0, 0.9) 100%);
+  background-position: center;
+  background-size: 100% auto;
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
+}
+
+.container-t::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: calc(50% - 60rpx);
+  height: 340rpx;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 30rpx 30rpx 0 0;
+  transform: translateX(-50%);
+}
+
+/* 头像/昵称 */
+.avatar-box {
+  position: relative;
+  text-align: center;
+}
+
+.avatar-box .avatar-img {
+  display: inline-block;
+  width: 130rpx;
+  height: 130rpx;
+  margin-top: 195rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--white);
+  overflow: hidden;
+}
+
+.avatar-box .image {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-box .name {
+  margin-top: 6rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* 我的订单 */
+.order-wrap {
+  position: relative;
+  left: 25%;
+  padding: 0 60rpx;
+  width: 50%;
+  height: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+
+.order-wrap::before {
+  content: '';
+  position: absolute;
+  left: 60rpx;
+  bottom: 0;
+  width: calc(100% - 120rpx);
+  height: 405rpx;
+  background-color: #FFFDF3;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.all-order {
+  position: relative;
+  margin-top: 37rpx;
+  padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 30rpx;
+}
+
+.order-wrap .arrow-right {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.order-wrap .item-ul {
+  margin-top: 40rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.order-wrap .item-li {
+  position: relative;
+  flex: 1;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  text-align: center;
+}
+
+.order-wrap .item-li .sprite-icon {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.order-wrap .item-li .text {
+  margin-top: 6rpx;
+  position: absolute;
+  left: 50%;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+/* 服务列表 */
+.service-list {
+  position: relative;
+  padding-top: 24rpx;
+  background-color: var(--white);
+}
+
+.service-list .item-ul {
+  padding: 0 30rpx;
+}
+
+.service-list .item-ul .text {
+  font-size: 30rpx;
+  color: #333333;
+}
+
+.service-list .item-li {
+  position: relative;
+  display: block;
+  padding-left: 68rpx;
+  width: 100%;
+  height: 125rpx;
+  line-height: 125rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
+
+.service-list .item-li .sprite-icon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 48rpx;
+  height: 48rpx;
+  transform: translateY(-50%);
+}
+
+.service-list .item-li+.item-li {
+  border-top: 1px solid rgba(231, 231, 231, 0.5);
+}
+
+.service-list .item-li .van-icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.service-list .item-li .tips {
+  position: absolute;
+  top: 50%;
+  right: 40rpx;
+  transform: translateY(-50%);
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 在线客服 */
+.online-service {
+  width: 100%;
+  border-radius: 32rpx 32rpx 0 0;
+}
+
+.online-service .van-popup {
+  padding-bottom: 0 !important;
+  border-radius: 32rpx 32rpx 0 0;
+}
+
+.online-service .service-box {
+  padding: 0 30rpx;
+  text-align: center;
+}
+
+.online-service .service-item {
+  height: 130rpx;
+  line-height: 130rpx;
+  border-bottom: 1px solid rgba(231, 231, 231, 0.5);
+}
+
+.online-service .sprite-icon {
+  position: relative;
+  top: -3rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.online-service .text {
+  margin-left: 24rpx;
+  font-size: 28rpx;
+}
+
+.online-service .btn-cancel {
+  height: 130rpx;
+  line-height: 130rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.online-service .wechat-btn {
+  height: 130rpx;
+  line-height: 130rpx;
+  background-color: transparent;
+}

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.distributor.FlexibleDistributorCooperationDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.distributor.dataobject.FlexibleDistributorCooperationDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="distributor_id" property="distributorId" jdbcType="INTEGER" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
+    <result column="default_choose" property="defaultChoose" jdbcType="SMALLINT" />
+    <result column="cooperation_type" property="cooperationType" jdbcType="SMALLINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="del_flag" property="delFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, distributor_id, sequence, default_choose, cooperation_type, remark, create_time, 
+    create_user_id, create_user_name, update_time, update_user_id, update_user_name, 
+    open_flag, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from flexible_distributor_cooperation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from flexible_distributor_cooperation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.distributor.dataobject.FlexibleDistributorCooperationDO" useGeneratedKeys="true" keyProperty="id">
+    insert into flexible_distributor_cooperation (id, distributor_id, sequence, 
+      default_choose, cooperation_type, remark, 
+      create_time, create_user_id, create_user_name, 
+      update_time, update_user_id, update_user_name, 
+      open_flag, del_flag)
+    values (#{id,jdbcType=INTEGER}, #{distributorId,jdbcType=INTEGER}, #{sequence,jdbcType=INTEGER}, 
+      #{defaultChoose,jdbcType=SMALLINT}, #{cooperationType,jdbcType=SMALLINT}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{openFlag,jdbcType=SMALLINT}, #{delFlag,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.distributor.dataobject.FlexibleDistributorCooperationDO" >
+    insert into flexible_distributor_cooperation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="distributorId != null" >
+        distributor_id,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="defaultChoose != null" >
+        default_choose,
+      </if>
+      <if test="cooperationType != null" >
+        cooperation_type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="distributorId != null" >
+        #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="defaultChoose != null" >
+        #{defaultChoose,jdbcType=SMALLINT},
+      </if>
+      <if test="cooperationType != null" >
+        #{cooperationType,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.distributor.dataobject.FlexibleDistributorCooperationDO" >
+    update flexible_distributor_cooperation
+    <set >
+      <if test="distributorId != null" >
+        distributor_id = #{distributorId,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="defaultChoose != null" >
+        default_choose = #{defaultChoose,jdbcType=SMALLINT},
+      </if>
+      <if test="cooperationType != null" >
+        cooperation_type = #{cooperationType,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.distributor.dataobject.FlexibleDistributorCooperationDO" >
+    update flexible_distributor_cooperation
+    set distributor_id = #{distributorId,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
+      default_choose = #{defaultChoose,jdbcType=SMALLINT},
+      cooperation_type = #{cooperationType,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      del_flag = #{delFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByOpenFlagAndContent" resultMap="BaseResultMap">
+    select * from flexible_distributor_cooperation where del_flag =0
+    <if test="openFlag !=null">
+      and open_flag = #{openFlag}
+    </if>
+    <if test="content !=null and content !=''">
+      and distributor_id like concat ('%',#{content},'%')
+    </if>
+    order by sequence
+  </select>
+  <select id="findMaxSequence" resultType="java.lang.Integer">
+    select ifnull(max(sequence),0) from flexible_distributor_cooperation
+  </select>
+</mapper>

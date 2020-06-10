@@ -1,0 +1,102 @@
+<sjs module="unit" src="../../../filter/formatStr.sjs"></sjs>
+
+<view class="order-wrapper">
+  <!-- 通知栏 -->
+  <w-notice showFlag="{{'order'}}"></w-notice>
+
+  <!-- 地址 -->
+  <view class="address-wrap {{addrTotal > 0 ? 'hasAddr' : ''}}" bindtap="handleAddress">
+    <image class="location" src="../../../assets/images/location.png"></image>
+
+    <view class="address-detail" tt:if="{{addrTotal > 0}}">
+      <view class="addr-t">
+        <view class="tag" tt:if="{{addrDetail.defaultFlag === 1}}">默认</view>
+        <text class="name">{{addrDetail.userName}}</text>
+        <text class="phone">{{addrDetail.phone}}</text>
+      </view>
+      <view class="address">{{addrDetail.address}}</view>
+      <view class="detail">{{addrDetail.detail}}</view>
+    </view>
+
+    <view class="no-address" tt:else>请填写收货地址</view>
+
+    <text class="iconfont icon-arrow-right"></text>
+  </view>
+
+  <!-- 订单商品信息 -->
+  <view class="order-wrap" tt:for="{{mGoods}}" tt:for-index="index" tt:for-item="mGood">
+    <view class="item-box" tt:for="{{mGood}}" tt:for-index="childindex" tt:for-item="good">
+      <view class="order-info">
+        <view class="pro-img">
+          <image class="img" src="{{good.diy.previewImage}}" mode="heightFix"></image>
+        </view>
+        <view class="order-detail">
+          <view class="tbox">
+            <text class="name">{{ good.itemName }}</text>
+          </view>
+          <view class="text model">
+            <view class="pro-spe">
+              <text class="pro-spe-title">规格：</text>
+              <view>{{ good.diy.modelName }}</view>
+              <view>{{ good.diy.materialName }}</view>
+              <view class="count"><text>X</text>{{ good.itemCount }}</view>
+            </view>
+            <view class="pro-price">
+              ￥<text class="price">{{ good.salePrice }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="item-box double">
+    <view class="tr-box">
+      <view class="left">配送方式</view>
+      <view class="right">包邮</view>
+    </view>
+    <view class="tr-box">
+      <view class="left">费用总计</view>
+      <view class="right price">￥<text class="num">{{itemPrice}}</text></view>
+    </view>
+  </view>
+
+  <view class="item-box double">
+    <view class="tr-box">
+      <view class="left">商品优惠</view>
+      <view class="right {{couponFlag ? 'red' : ''}}" bindtap="openCoupon">{{couponFlag ? saleValue : '不使用优惠券'}}<text class="iconfont icon-arrow-right"></text></view>
+    </view>
+    <view class="tr-box">
+      <view class="left">订单备注：</view>
+      <input class="input" value="{{message}}" placeholder="您还有什么要求，请在这里说" clearable />
+    </view>
+  </view>
+
+  <!-- 协议 -->
+  <view class="protocol-box">
+    <view class="checkbox-wrap" bindtap="handleCheck">
+      <checkbox class="checkbox-item" value="{{checked}}" checked="{{checked}}" />点击同意
+    </view>
+    <text class="point" bindtap="openProtocol">《定制产品购销协议》</text>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="fixed-btn-wrap">
+    <view class="total">合计：<text class="price">￥</text><text class="price num">{{totalPrice}}</text></view>
+    <view class="btn {{isDisable ? 'readonly' : ''}}" bindtap="getDeliveryStopStatus">提交订单</view>
+  </view>
+
+  <!-- 优惠券弹窗 -->
+  <view class="mask" bindtap="closeMask" hidden="{{!showCoupon}}"></view>
+  <view class="coupon-dialog {{showCoupon ? 'show' : ''}}">
+    <w-coupon couponFlag="{{true}}" curTab="{{curTab}}" couponTabs="{{couponTabs}}" couponTotal="{{couponTotal}}" couponList="{{couponList}}" bind:explainClick="handleExplain" bind:tabClick="handleTab" bind:loadMore="loadMore" bind:handleItem="handleCouponItem" bind:cancelItem="cancelCoupon"></w-coupon>
+  </view>
+
+  <!-- 协议弹窗 -->
+  <view class="protocol-wrapper {{fadeProtocol ? 'show' : ''}}">
+    <w-protocol bind:agree="handleAgree"></w-protocol>
+  </view>
+  
+  <!-- loading -->
+  <w-loading hidden="{{!showLoading}}" message="{{loadingMsg}}"></w-loading>
+</view>

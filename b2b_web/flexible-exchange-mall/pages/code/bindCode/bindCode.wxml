@@ -1,0 +1,19 @@
+<!--pages/code/bindCode/bindCode.wxml-->
+<view class="add-card">
+  <view class="card-bg-wrap">
+    <image class="card-bg" src="../../../assets/images/add-card.png"></image>
+  </view>
+  <view class="input-title">请输入兑换码：</view>
+  <view class="input-wrap">
+    <input class="input" placeholder="手动输入或扫码输入兑换卡码（区分大小写）" value="{{secretCode}}" bindinput="bindInput" />
+    <icon bindtap="clearInput" class="icon-small" type="cancel" size="23" color="#666666" wx:if="{{secretCode}}"></icon>
+    <image bindtap="handleScan" class="image scan" src="../../../assets/images/scan.png"></image>
+  </view>
+
+  <view class="btn-wrap">
+    <button class="btn confirm-btn" bindtap="bindCode">添加</button>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+</view>

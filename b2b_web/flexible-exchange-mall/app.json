@@ -1,0 +1,71 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/themeList/themeList",
+    "pages/customize/customize",
+    "pages/mine/mine",
+    "pages/webview/webview",
+    "pages/login/login",
+    "pages/code/codeList/codeList",
+    "pages/code/bindCode/bindCode",
+    "pages/order/payment/payment",
+    "pages/order/result/result",
+    "pages/order/order/order",
+    "pages/shopcart/shopcart",
+    "pages/activity/activity",
+    "pages/transfer/transfer",
+    "pages/code/equity/equity",
+    "pages/code/equityReceived/equityReceived"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#333333",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/tab_index.png",
+        "selectedIconPath": "assets/icons/tab_index_active.png"
+      },
+      {
+        "pagePath": "pages/themeList/themeList",
+        "text": "官方主题",
+        "iconPath": "assets/icons/tab_theme.png",
+        "selectedIconPath": "assets/icons/tab_theme_active.png"
+      },
+      {
+        "pagePath": "pages/customize/customize",
+        "text": "传图定制",
+        "iconPath": "assets/icons/tab_custom.png",
+        "selectedIconPath": "assets/icons/tab_custom_active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "assets/icons/tab_mine.png",
+        "selectedIconPath": "assets/icons/tab_mine_active.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-toast": "@vant/weapp/toast/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
+    "van-divider": "@vant/weapp/divider/index",
+    "van-checkbox": "@vant/weapp/checkbox/index",
+    "van-field": "@vant/weapp/field/index"
+  },
+  "sitemapLocation": "sitemap.json"
+}

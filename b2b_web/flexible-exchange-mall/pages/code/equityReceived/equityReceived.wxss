@@ -1,0 +1,74 @@
+/* pages/code/equityReceived/equityReceived.wxss */
+.equity-received {
+  padding-top: 70rpx;
+  box-sizing: border-box;
+}
+
+.equity-status-wrap {
+  text-align: center;
+}
+
+.equity-status {
+  display: inline-block;
+  position: relative;
+  padding-left: 26px;
+  font-size: 32rpx;
+  color: #333333;
+  line-height: 44rpx;
+}
+
+.equity-status .icon-box-img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 20px;
+  transform: translateY(-50%);
+}
+
+.equity-received .code-wrap {
+  margin-top: 68rpx;
+  padding: 0 44rpx;
+}
+
+.equity-received .code-wrap .code-info {
+  padding-bottom: 34rpx;
+  color: #333333;
+  text-align: center;
+  background-color: rgba(183, 183, 183, 0.1);
+  border-radius: 36rpx;
+  overflow: hidden;
+}
+
+.code-info .image {
+  width: 100%;
+}
+
+.code-info .code {
+  margin-top: 28rpx;
+  font-size: 32rpx;
+  line-height: 64rpx;
+}
+
+.code-info .code-b {
+  margin-top: 38rpx;
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+
+.equity-received .btn-wrap {
+  padding: 90rpx 34rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.equity-received .btn-wrap .btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+  border-radius: 80rpx;
+}
+
+.equity-received .btn-wrap .btn+.btn {
+  margin-left: 22rpx;
+}

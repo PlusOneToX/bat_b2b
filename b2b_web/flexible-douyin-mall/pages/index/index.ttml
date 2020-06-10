@@ -1,0 +1,134 @@
+<view class="home-wrap">
+  <!-- 型号/材质 -->
+  <view class="top-info">
+    <view class="model" bindtap="handleShowModel">
+      {{ modelName ? modelName : "请选择机型" }}
+      <text class="iconfont icon-arrow-right"></text>
+    </view>
+  </view>
+
+  <!-- banner -->
+  <swiper class="swiper" autoplay circular tt:if="{{bannerList && bannerList.length > 0}}">
+    <swiper-item tt:for="{{bannerList}}" tt:for-index="id" tt:for-item="banner" bindtap="goDetailList" data-item="{{banner}}">
+      <image class="banner-image" src="{{banner.bannerUrl}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+  <view class="swiper" tt:else>
+    <image class="banner-image" src="../../assets/images/default.png" mode="aspectFit"></image>
+  </view>
+
+  <!-- menu -->
+  <view class="menu-list-wrap">
+    <view class="menu-list">
+      <view class="menu-t-item" bindtap="goCustom">
+        <image class="image" src="../../assets/images/home_custom.png"></image>
+        <view class="menu-title">传图定制</view>
+        <view class="menu-con">做自己的设计师</view>
+      </view>
+      <view class="menu-t-item" bindtap="goCoupon">
+        <image class="image" src="../../assets/images/home_coupon.png"></image>
+        <view class="menu-title">优惠券</view>
+        <view class="menu-con">领券购买更优惠</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 通知栏 -->
+  <w-notice showFlag="{{'home'}}"></w-notice>
+
+  <!-- 推荐/系列 -->
+  <view class="recommend-wrap" style="min-height: {{scrollHeight}}px" id="recommendWrap">
+    <view class="recommend-category {{hasFixed ? 'fixed' : ''}}">
+			<view class="item-list">
+				<view class="item {{curTab === series.id ? 'curItem' : ''}}" tt:for="{{seriesList}}" tt:for-index="id" tt:for-item="series" data-id="{{series.id}}" bindtap="handleClickSeries">
+					{{series.themeName}}
+          <image class="tab" hidden="{{curTab !== series.id}}" src="../../assets/images/home-tab.png" mode="widthFix" />
+				</view>
+			</view>
+		</view>
+
+    <view hidden="{{curTab !== 0}}">
+      <view class="recommend-con {{hasFixed ? 'fixed' : ''}}">
+        <view class="goods-wrap" tt:for="{{recommendData}}" tt:for-index="id" tt:for-item="recommend" bindtap="goDetail"
+          data-item="{{recommend}}">
+          <view class="goods-con">
+            <image class="goods-image" src="{{recommend.backgroundPreviewUrl}}" mode="heightFix"></image>
+            <view class="custom-btn">选我定制</view>
+          </view>
+        </view>
+
+        <!-- 暂无数据 -->
+        <view class="no-data-wrap" hidden="{{recommendData && recommendData.length > 0}}">
+          <no-data></no-data>
+        </view>
+      </view>
+
+      <!-- 分割线 -->
+      <view class="divider-wrap" hidden="{{recommendData && recommendData.length <= 0}}">
+        <w-divider></w-divider>
+      </view>
+    </view>
+
+    <view hidden="{{curTab === 0}}">
+      <view class="recommend-con {{hasFixed ? 'fixed' : ''}}">
+        <view class="goods-wrap" tt:for="{{seriesData}}" tt:for-index="id" tt:for-item="series" bindtap="goDetail"
+          data-item="{{series}}">
+          <view class="goods-con">
+            <image class="goods-image" src="{{series.backgroundPreviewUrl}}" mode="heightFix"></image>
+            <view class="custom-btn">选我定制</view>
+          </view>
+        </view>
+
+        <!-- 暂无数据 -->
+        <view class="no-data-wrap" hidden="{{seriesData && seriesData.length > 0}}">
+          <no-data></no-data>
+        </view>
+      </view>
+
+      <!-- 分割线 -->
+      <view class="divider-wrap" hidden="{{seriesData && seriesData.length <= 0}}">
+        <w-divider></w-divider>
+      </view>
+    </view>
+  </view>
+
+  <!-- 选择型号 -->
+  <view class="model-wrap" hidden="{{showModelDialog}}">
+    <view class="model-content">
+      <view class="title">选择手机型号</view>
+      <view class="cur-model" tt:if="{{curMobile}}">已选型号：{{ curMobile }}</view>
+      <view class="cur-model tips" tt:else>系统未匹配到您的机型，请手动选择！</view>
+
+      <view class="model-list">
+        <view class="model-l">
+          <view tt:for="{{modelList}}" tt:for-index="index" tt:for-item="item"
+            class="model-item {{curIndex === index ? 'active': ''}}" data-index="{{index}}" bindtap="changeModel">
+            <text class="text">
+              <text class="text-con">{{ item.name }}</text>
+            </text>
+          </view>
+        </view>
+        <view class="model-r">
+          <view tt:for="{{modelList}}" tt:for-index="index" tt:for-item="model"
+            class="model-list-wrap {{ curIndex === index ? 'active' : '' }}">
+            <view tt:for="{{model.childrenList}}" tt:for-index="index" tt:for-item="item"
+              class="model-item {{item.underStockFlag ? 'default' : (mobile === item.name || curMobile === item.name) ? 'active' : '' }}"
+              data-item="{{item}}" bindtap="chooseModel">
+              <text class="text">
+                <text class="text-con">{{ item.name }}{{ item.underStockFlag ? "（缺货）" : "" }}</text>
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="btn-wrap">
+        <text class="btn grey-btn" bindtap="handleCancelModel">跳过</text>
+        <text class="btn confirm-btn default" tt:if="{{!curMobile}}">确定</text>
+        <text class="btn confirm-btn" tt:if="{{curMobile}}" bindtap="handleConfirmModel">确定</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- loading -->
+  <w-loading hidden="{{!showLoading}}" message="{{message}}"></w-loading>
+</view>

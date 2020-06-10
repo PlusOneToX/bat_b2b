@@ -1,0 +1,124 @@
+CREATE TABLE `exchange_card_transfer` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `exchange_id` int(11) unsigned NOT NULL COMMENT '兑换卡id',
+  `transfer_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '转赠文案',
+  `transfer_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '转赠封面图',
+  `receive_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '收取页面文案',
+  `receive_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '收取卡片页面配图',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_exchange_id` (`exchange_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='兑换卡转赠配置';
+
+CREATE TABLE `exchange_code_transfer_record` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `exchange_id` int(11) unsigned NOT NULL COMMENT '兑换活动id',
+  `exchange_code_id` int(11) unsigned NOT NULL COMMENT '兑换码id',
+  `from_user_id` int(11) unsigned NOT NULL COMMENT '转赠发起人',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `receive_flag` smallint(4) unsigned NOT NULL DEFAULT '0' COMMENT '是否已收取 0否 1是',
+  `to_user_id` int(11) unsigned DEFAULT NULL COMMENT '收卡人',
+  `receive_time` datetime DEFAULT NULL COMMENT '收卡时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='兑换码转赠记录';
+
+CREATE TABLE `exchange_export` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `distributor_id` int(11) unsigned NOT NULL COMMENT '发卡分销商id',
+  `export_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '导出记录单名称',
+  `exchange_id` int(11) unsigned NOT NULL COMMENT '兑换卡活动id',
+  `out_num` int(11) unsigned NOT NULL COMMENT '出库数量',
+  `remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `file_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '导出文件url',
+  `examine_flag` smallint(4) unsigned NOT NULL COMMENT '是否已审核 0否 1是',
+  `has_use_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '已使用数量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='电子兑换卡导出记录';
+
+CREATE TABLE `exchange_export_code` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `exchange_export_id` int(11) unsigned NOT NULL COMMENT '导出记录id',
+  `exchange_code_id` int(11) unsigned NOT NULL COMMENT '兑换码id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `exchange_share` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `activity_platform` smallint(4) NOT NULL COMMENT '活动所属平台 1兑换商城 2定制商城',
+  `prefer_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '减免优惠活动名称',
+  `seat` smallint(4) unsigned NOT NULL COMMENT '活动位置 1确认订单页 2订单详情页',
+  `forward_button_text` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '转发按钮文案',
+  `reduce_flag` smallint(4) unsigned NOT NULL COMMENT '是否减免优惠 0否 1是',
+  `reduce_amount` decimal(16,3) unsigned DEFAULT NULL COMMENT '减免金额',
+  `exchange_special_id` int(11) unsigned NOT NULL COMMENT '专题活动id',
+  `distributor_visual_type` smallint(1) NOT NULL COMMENT '分销商可视类型 1全部 2指定',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `status` smallint(4) unsigned NOT NULL COMMENT '状态 0禁用 1启用',
+  `forward_num` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '转发次数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='转发活动配置';
+
+CREATE TABLE `exchange_share_distributor` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `exchange_share_id` int(11) unsigned NOT NULL COMMENT '转发活动配置id',
+  `distributor_id` int(11) unsigned NOT NULL COMMENT '分销商id',
+  `type` smallint(4) unsigned NOT NULL COMMENT '关系类型 1当前分销商可视 2当前分销商不可视（活动为指定全部分销商生效）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='转发活动配置分销商配置信息';
+
+CREATE TABLE `exchange_special` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `activity_platform` smallint(4) NOT NULL COMMENT '活动所属平台 1兑换商城',
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '活动标题',
+  `page_img` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '页面配图',
+  `page_guide_text` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '活动页面引导文案',
+  `type` smallint(4) unsigned NOT NULL COMMENT '活动福利类型;1兑换卡',
+  `exchange_id` int(11) unsigned NOT NULL COMMENT '兑换活动id',
+  `forward_text` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '转发文案',
+  `forward_img` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '活动转发封面',
+  `friend_img` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '朋友圈分享图',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `status` smallint(4) unsigned NOT NULL COMMENT '状态 0停用 1启用',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='营销专题';
+
+CREATE TABLE `exchange_special_distributor` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `exchange_special_id` int(11) unsigned NOT NULL COMMENT '专题id',
+  `distributor_id` int(11) unsigned NOT NULL COMMENT '分销商id',
+  `page_visits` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '页面访问次数',
+  `one_forward_times` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '一次转发次数',
+  `two_forward_times` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '二次转发次数',
+  `receive_times` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '福利领取次数',
+  `link` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '链接',
+  `status` smallint(4) unsigned NOT NULL COMMENT '状态 0禁用 1启用',
+  `qr_code_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '小程序二维码链接',
+  `short_link` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '短链接',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='专题分销商配置信息';
+
+CREATE TABLE `exchange_special_receive` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `special_release_id` int(11) unsigned NOT NULL COMMENT '转发专题发布id',
+  `user_id` int(11) unsigned NOT NULL COMMENT '领取人id',
+  `exchange_code_id` int(11) unsigned NOT NULL COMMENT '领取的兑换卡id',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='转发专题领取';
+
+CREATE TABLE `exchange_special_release` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `exchange_share_id` int(11) unsigned NOT NULL COMMENT '转发id',
+  `exchange_special_id` int(11) unsigned NOT NULL COMMENT '专题id',
+  `exchange_special_distributor_id` int(11) unsigned DEFAULT NULL COMMENT '专题分销商配置id',
+  `distributor_id` int(11) unsigned NOT NULL COMMENT '发卡分销商id',
+  `user_id` int(11) unsigned NOT NULL COMMENT '发起人用户id',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='转发专题发布';

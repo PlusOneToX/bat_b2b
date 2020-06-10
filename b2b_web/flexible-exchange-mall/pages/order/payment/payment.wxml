@@ -1,0 +1,21 @@
+<!--pages/order/payment/payment.wxml-->
+<view class="payment-wrap">
+  <view class="order-info">
+    <view class="order-no">订单编号： {{orderNo}}</view>
+    <view>应付邮费</view>
+    <view class="order-price">¥<text class="price">{{orderPrice}}</text></view>
+  </view>
+
+  <view class="payment-type">
+    <view>支付方式：</view>
+    <view class="wx-payment">
+      <image class="image weixin" src="../../../assets/images/weixin.png"></image>
+      <text>微信支付</text>
+      <image class="image checked" src="../../../assets/images/checked.png"></image>
+    </view>
+  </view>
+
+  <view class="btn-wrap">
+    <button class="btn confirm-btn" bindtap="handlePayment">立即支付</button>
+  </view>
+</view>

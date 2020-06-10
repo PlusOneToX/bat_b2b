@@ -1,0 +1,35 @@
+@import "variable.styl"
+
+body, html
+  font-family: 'PingFangSC-Medium', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+  font-weight: 400;
+  color: $color-font-base;
+  line-height: 1;
+  background: $color-bg;
+  user-select: none;
+
+// 取消按钮
+.cancel-btn
+  background-color: $color-bg-btn;
+
+// 边框按钮
+.border-btn
+  border: 1px solid $color-main;
+
+// 确定按钮
+.confirm-btn
+  color: $color-font-base;
+  background-color: $color-main;
+
+// 禁用按钮
+.default-btn
+  background-color: $color-bg;
+
+// 清除浮动
+.clearfix
+  zoom: 1
+  &:after
+    content: ""
+    display: block
+    height: 0
+    clear: both

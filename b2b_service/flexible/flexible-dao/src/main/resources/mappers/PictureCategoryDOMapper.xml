@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.picture.PictureCategoryDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="sequence" property="sequence" jdbcType="DECIMAL" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <resultMap id="PictureCategoryPageCOResultMap" type="com.bat.flexible.dao.picture.co.PictureCategoryPageCO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <collection property="childrenList" column="{parentId=id}" select="treeCOByParentId"/>
+  </resultMap>
+  <resultMap id="PictureCategoryTreeResultMap" type="com.bat.flexible.dao.picture.co.PictureCategoryTreeCO" extends="BaseResultMap">
+    <result column="old_sequence" property="oldSequence" javaType="DECIMAL"/>
+    <collection property="childrenList" select="treeByParentId" column="{parentId=id}"/>
+  </resultMap>
+  <resultMap id="PictureCategorySimpleTreeResultMap" type="com.bat.flexible.dao.picture.co.PictureCategorySimpleTreeCO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="open_flag" property="openFlag" jdbcType="SMALLINT" />
+    <result column="at_last_trademark" property="atLastTrademark" jdbcType="SMALLINT" />
+    <collection property="childrenList" select="treeSimple" column="{openFlag=open_flag,parentId=id}"/>
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" extends="BaseResultMap" >
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parent_id, name, english_name, sequence, image, at_last_trademark, open_flag,
+    type, create_time, create_user_id, create_user_name, update_time, update_user_id, 
+    update_user_name, del_flag
+  </sql>
+  <sql id="Blob_Column_List" >
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from picture_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from picture_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" useGeneratedKeys="true" keyProperty="id">
+    insert into picture_category (id, parent_id, name,
+      english_name, sequence, image,
+      at_last_trademark, open_flag, type,
+      create_time, create_user_id, create_user_name,
+      update_time, update_user_id, update_user_name,
+      del_flag, description)
+    values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+      #{englishName,jdbcType=VARCHAR}, #{sequence,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR},
+      #{atLastTrademark,jdbcType=SMALLINT}, #{openFlag,jdbcType=SMALLINT}, #{type,jdbcType=SMALLINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR},
+      #{delFlag,jdbcType=SMALLINT}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" >
+    insert into picture_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="atLastTrademark != null" >
+        at_last_trademark,
+      </if>
+      <if test="openFlag != null" >
+        open_flag,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="atLastTrademark != null" >
+        #{atLastTrademark,jdbcType=SMALLINT},
+      </if>
+      <if test="openFlag != null" >
+        #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" >
+    update picture_category
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="atLastTrademark != null" >
+        at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      </if>
+      <if test="openFlag != null" >
+        open_flag = #{openFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" >
+    update picture_category
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=DECIMAL},
+      image = #{image,jdbcType=VARCHAR},
+      at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      type = #{type,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=SMALLINT},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.picture.dataobject.PictureCategoryDO" >
+    update picture_category
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=DECIMAL},
+      image = #{image,jdbcType=VARCHAR},
+      at_last_trademark = #{atLastTrademark,jdbcType=SMALLINT},
+      open_flag = #{openFlag,jdbcType=SMALLINT},
+      type = #{type,jdbcType=SMALLINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSequenceAddByParentId">
+    update picture_category set sequence =sequence+#{sequenceAdd} where parent_id = #{parentId} and sequence &gt; #{sequenceStart}
+  </update>
+  <select id="listByParentIdAndOpenFlag" resultMap="BaseResultMap">
+    select * from picture_category where  parent_id = #{parentId}
+    <if test="openFlag !=null">
+      and open_flag = #{openFlag}
+    </if>
+     and del_flag=0 order by sequence
+  </select>
+<select id="treeCOByParentId" resultMap="PictureCategoryPageCOResultMap">
+select  id, parent_id, name, english_name, image, at_last_trademark, open_flag,
+  type
+   from picture_category where parent_id =#{parentId}
+  and del_flag=0
+  order by sequence
+</select>
+
+<select id="findEffectByUpOrDown" resultMap="BaseResultMap">
+  select * from picture_category where parent_id = #{parentId} and del_flag=0 and sequence
+<choose>
+  <when test="flag">
+    &lt; #{sequence} order by sequence desc limit 1
+  </when>
+  <otherwise>
+    &gt; #{sequence} order by sequence  limit 1
+  </otherwise>
+</choose>
+</select>
+  <select id="listByCondition"  resultMap="BaseResultMap">
+    select * from picture_category where del_flag=0
+    <if test="openFlag !=null">
+      and open_flag=#{openFlag}
+    </if>
+  </select>
+  <select id="treeByParentId" resultMap="PictureCategoryTreeResultMap">
+    select *,sequence old_sequence from picture_category where parent_id =#{parentId} and del_flag=0 order by sequence
+  </select>
+  <select id="treeSimple" resultMap="PictureCategorySimpleTreeResultMap">
+        select id,name,english_name,parent_id,image,at_last_trademark,open_flag from picture_category where parent_id = #{parentId}
+        <if test="openFlag !=null">
+          and open_flag = #{openFlag}
+        </if>
+        and del_flag = 0 order by sequence
+  </select>
+  <select id="listByPictureThemeId" resultMap="BaseResultMap">
+    SELECT * FROM picture_category a INNER JOIN picture_category_theme_relevance b on a.id=b.category_id
+         WHERE b.id=#{themeId} ORDER BY b.sequence,a.sequence
+  </select>
+
+  <select id="listByTypeAndDistributorIdsAndMaterialIdAndModelId" resultMap="BaseResultMap">
+   SELECT * FROM picture_category a WHERE a.parent_id=0 and a.type = #{type} and a.open_flag=1 and a.del_flag=0
+       and EXISTS(
+        SELECT 1 FROM picture b LEFT JOIN picture_distributor_relevance c on b.id=c.picture_id
+        <if test="materialId !=null">
+          LEFT JOIN picture_material_relevance e ON e.picture_id = b.id and e.del_flag=0
+        </if>
+        <if test="modelId !=null">
+          LEFT JOIN picture_model_relevance f ON b.id = f.picture_id and f.del_flag=0
+        </if>
+        WHERE ( b.category_id=a.id or b.category_id in (SELECT d.id FROM picture_category d WHERE d.parent_id=a.id and d.open_flag=1 and d.del_flag=0 ) )
+         and b.open_flag=1 and b.del_flag=0
+        <choose>
+          <when test="isSanXing">
+            and b.reseller_scope=4 and c.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+              #{distributorId}
+            </foreach>
+          </when>
+          <otherwise>
+            and (b.reseller_scope=1  or (b.reseller_scope=2 and #{countryId}=37) or (b.reseller_scope=3 and #{countryId} &lt;&gt; 37 ) or (b.reseller_scope=4 and c.distributor_id
+            in
+            <foreach collection="distributorIds" item="distributorId" open="(" close=")" separator=",">
+              #{distributorId}
+            </foreach>
+                ))
+          </otherwise>
+        </choose>
+       <if test="materialId !=null">
+         and e.material_id=#{materialId}
+       </if>
+       <if test="modelId !=null">
+         AND ( b.model_scope = 1 OR ( b.model_scope = 2 AND f.del_flag = 0 AND f.model_id =#{modelId} ) )
+       </if>
+
+        )
+        order by a.sequence
+  </select>
+  <select id="listByIdList" resultMap="BaseResultMap">
+    select * from picture_category where del_flag=0
+    and (
+    <foreach collection="categoryIdList" separator=" or " item="id">
+      id = #{id}
+    </foreach>
+    ) order by sequence
+  </select>
+
+  <select id="listByParentId" resultMap="BaseResultMap">
+    select * from picture_category where parent_id=#{parentId} and open_flag=1 and del_flag=0
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<!--pages/code/equityReceived/equityReceived.wxml-->
+<wxs module="unit" src="../../../filter/formatStr.wxs"></wxs>
+
+<view class="equity-received">
+  <view class="equity-status-wrap">
+    <view class="equity-status">
+      <icon class="icon-box-img" type="success" size="20"></icon>
+      <text class="text">领取成功！</text>
+    </view>
+  </view>
+  <view class="code-wrap">
+    <view class="code-info">
+      <image class="image" src="{{codeData.headImg}}" mode="widthFix"></image>
+      <view class="code">{{ codeData.secretCode }}</view>
+      <view class="code-b">有效期至：{{ unit.formatDate(codeData.endTime, 'YY-MM-DD') }}</view>
+    </view>
+  </view>
+  <view class="btn-wrap">
+    <button class="btn border-btn" bindtap="goCode">进入卡包中心</button>
+    <button class="btn confirm-btn" bindtap="goCustom">前往定制</button>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+</view>

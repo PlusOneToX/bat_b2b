@@ -1,0 +1,11 @@
+<!--pages/customize/customize.wxml-->
+<view class="custom-intro">
+  <view class="img-wrap">
+    <view class="text">Be your own designer</view>
+    <image class="text-img" src="../../assets/images/custom-text.png"></image>
+    <image class="bg-img" src="../../assets/images/custom-bg.png"></image>
+  </view>
+  <view class="btn-wrap">
+    <view class="btn confirm-btn" bindtap="goCustom">立即定制</view>
+  </view>
+</view>

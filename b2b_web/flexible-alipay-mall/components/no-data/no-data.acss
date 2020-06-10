@@ -1,0 +1,49 @@
+.no-data {
+  position: absolute;
+  width: 100%;
+  padding: 0 30rpx;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+}
+
+.no-data .empty-img {
+  display: inline-block;
+  width: 360rpx;
+}
+
+.no-data .text {
+  font-size: 32rpx;
+  color: #333333;
+  line-height: 45rpx;
+}
+
+.no-data .btn {
+  display: inline-block;
+  height: 90rpx;
+  background: #FFDA01;
+  border-radius: 90rpx;
+}
+
+.no-data .empty-data .empty-img {
+  height: 264rpx;
+}
+
+.no-data .empty-data .text {
+  margin-top: 15rpx;
+}
+
+.no-data .empty-cart .empty-img {
+  height: 298rpx;
+}
+
+.no-data .empty-cart .text {
+  margin-top: 37rpx;
+}
+
+.no-data .empty-cart .btn {
+  margin-top: 165rpx;
+  width: 330rpx;
+}

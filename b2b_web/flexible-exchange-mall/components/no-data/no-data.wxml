@@ -1,0 +1,15 @@
+<!--components/no-data/no-data.wxml-->
+<view class="no-data">
+  <!-- 购物车为空 -->
+  <view class="empty-cart" wx:if="{{flagType === 'shopcart'}}">
+    <image class="empty-img" src="../../assets/images/no-cart.png" mode="heightFix"></image>
+    <view class="text">购物车还是空的，快去定制吧~</view>
+    <button class="btn" bindtap="goCustom">去定制</button>
+  </view>
+
+  <!-- 数据为空 -->
+  <view class="empty-data" wx:else>
+    <image class="empty-img" src="../../assets/images/no-data.png" mode="heightFix"></image>
+    <view class="text">暂无数据</view>
+  </view>
+</view>

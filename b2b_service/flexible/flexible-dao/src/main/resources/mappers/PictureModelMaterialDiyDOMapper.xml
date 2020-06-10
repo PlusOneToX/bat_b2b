@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bat.flexible.dao.picture.PictureModelMaterialDiyDOMapper">
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.picture.dataobject.PictureModelMaterialDiyDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="picture_id" jdbcType="INTEGER" property="pictureId" />
+    <result column="material_id" jdbcType="INTEGER" property="materialId" />
+    <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="generate_image" jdbcType="VARCHAR" property="generateImage" />
+    <result column="preview_image" jdbcType="VARCHAR" property="previewImage" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, picture_id, material_id, model_id, generate_image, preview_image, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from picture_model_material_diy
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from picture_model_material_diy
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.picture.dataobject.PictureModelMaterialDiyDO" useGeneratedKeys="true" keyProperty="id">
+    insert into picture_model_material_diy (id, picture_id, material_id, 
+      model_id, generate_image, preview_image,
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, 
+      #{modelId,jdbcType=INTEGER}, #{generateImage,jdbcType=VARCHAR}, #{previewImage,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureModelMaterialDiyDO">
+    insert into picture_model_material_diy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pictureId != null">
+        picture_id,
+      </if>
+      <if test="materialId != null">
+        material_id,
+      </if>
+      <if test="modelId != null">
+        model_id,
+      </if>
+      <if test="generateImage != null">
+        generate_image,
+      </if>
+      <if test="previewImage != null">
+        preview_image,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pictureId != null">
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null">
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="generateImage != null">
+        #{generateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="previewImage != null">
+        #{previewImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.picture.dataobject.PictureModelMaterialDiyDO">
+    update picture_model_material_diy
+    <set>
+      <if test="pictureId != null">
+        picture_id = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null">
+        material_id = #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null">
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="generateImage != null">
+        generate_image = #{generateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="previewImage != null">
+        preview_image = #{previewImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.picture.dataobject.PictureModelMaterialDiyDO">
+    update picture_model_material_diy
+    set picture_id = #{pictureId,jdbcType=INTEGER},
+      material_id = #{materialId,jdbcType=INTEGER},
+      model_id = #{modelId,jdbcType=INTEGER},
+      generate_image = #{generateImage,jdbcType=VARCHAR},
+      preview_image = #{previewImage,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getByMaterialIdAndModelIdAndPictureId" resultMap="BaseResultMap">
+    select * from picture_model_material_diy where material_id = #{materialId} and model_id =#{modelId} and picture_id=#{pictureId}
+  </select>
+  <select id="listByCondition" resultMap="BaseResultMap">
+     select * from picture_model_material_diy where
+     1=1
+     <if test="materialId !=null">
+       and material_id = #{materialId}
+     </if>
+     <if test="modelId !=null">
+       and model_id =#{modelId}
+     </if>
+     <if test="pictureId !=null">
+       and picture_id=#{pictureId}
+     </if>
+
+  </select>
+</mapper>

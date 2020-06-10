@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeCardDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeCardDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="code_name" property="codeName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="code_desc" property="codeDesc" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="SMALLINT" />
+    <result column="code_quantity" property="codeQuantity" jdbcType="INTEGER" />
+    <result column="limit_quantity" property="limitQuantity" jdbcType="INTEGER" />
+    <result column="sale_quantity" property="saleQuantity" jdbcType="INTEGER" />
+    <result column="exchange_quantity" property="exchangeQuantity" jdbcType="INTEGER" />
+    <result column="refund_quantity" property="refundQuantity" jdbcType="INTEGER" />
+    <result column="invalid_count" property="invalidCount" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="exchange_way" property="exchangeWay" jdbcType="SMALLINT" />
+    <result column="order_use_threshold" property="orderUseThreshold" jdbcType="DECIMAL" />
+    <result column="goods_scope" property="goodsScope" jdbcType="SMALLINT" />
+    <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR" />
+    <result column="is_entity" property="isEntity" jdbcType="SMALLINT" />
+    <result column="is_use_mall" property="isUseMall" jdbcType="SMALLINT" />
+    <result column="mall_type" property="mallType" jdbcType="SMALLINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="distributor_scope" property="distributorScope" jdbcType="SMALLINT" />
+    <result column="mail_setting" property="mailSetting" jdbcType="SMALLINT" />
+    <result column="mail_fee" property="mailFee" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ExchangeCardPageCOResultMap" type="com.bat.flexible.dao.exchange.co.ExchangeCardPageCO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code_name" property="codeName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="SMALLINT" />
+    <result column="code_quantity" property="codeQuantity" jdbcType="INTEGER" />
+    <result column="sale_quantity" property="saleQuantity" jdbcType="INTEGER" />
+    <result column="exchange_quantity" property="exchangeQuantity" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="exchange_way" property="exchangeWay" jdbcType="SMALLINT" />
+    <result column="qr_code_url" property="qrCodeUrl" jdbcType="VARCHAR" />
+    <result column="synchronized_quantity" property="synchronizedQuantity" jdbcType="INTEGER" />
+    <result column="is_sync" property="isSync" jdbcType="SMALLINT" />
+    <result column="is_use_mall" property="isUseMall" jdbcType="SMALLINT" />
+    <result column="is_entity" property="isEntity" jdbcType="SMALLINT" />
+    <result column="mail_setting" property="mailSetting" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, item_id, code_name, status, code_desc, type, source, code_quantity, limit_quantity, 
+    sale_quantity, exchange_quantity, refund_quantity, invalid_count, start_time, end_time, 
+    exchange_way, order_use_threshold, goods_scope, qr_code_url, is_entity, is_use_mall, 
+    mall_type, create_user_id, create_user_name, create_time, update_user_id, update_user_name, 
+    update_time, model_no, head_img, distributor_scope, mail_setting, mail_fee
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exchange_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_card (id, item_id, code_name, 
+      status, code_desc, type, 
+      source, code_quantity, limit_quantity, 
+      sale_quantity, exchange_quantity, refund_quantity, 
+      invalid_count, start_time, end_time, 
+      exchange_way, order_use_threshold, goods_scope, 
+      qr_code_url, is_entity, is_use_mall, 
+      mall_type, create_user_id, create_user_name, 
+      create_time, update_user_id, update_user_name, 
+      update_time, model_no, head_img, 
+      distributor_scope, mail_setting, mail_fee
+      )
+    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{codeName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=SMALLINT}, #{codeDesc,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
+      #{source,jdbcType=SMALLINT}, #{codeQuantity,jdbcType=INTEGER}, #{limitQuantity,jdbcType=INTEGER}, 
+      #{saleQuantity,jdbcType=INTEGER}, #{exchangeQuantity,jdbcType=INTEGER}, #{refundQuantity,jdbcType=INTEGER}, 
+      #{invalidCount,jdbcType=INTEGER}, #{startTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, 
+      #{exchangeWay,jdbcType=SMALLINT}, #{orderUseThreshold,jdbcType=DECIMAL}, #{goodsScope,jdbcType=SMALLINT}, 
+      #{qrCodeUrl,jdbcType=VARCHAR}, #{isEntity,jdbcType=SMALLINT}, #{isUseMall,jdbcType=SMALLINT}, 
+      #{mallType,jdbcType=SMALLINT}, #{createUserId,jdbcType=INTEGER}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateUserName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{modelNo,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, 
+      #{distributorScope,jdbcType=SMALLINT}, #{mailSetting,jdbcType=SMALLINT}, #{mailFee,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="codeName != null" >
+        code_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="codeDesc != null" >
+        code_desc,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="codeQuantity != null" >
+        code_quantity,
+      </if>
+      <if test="limitQuantity != null" >
+        limit_quantity,
+      </if>
+      <if test="saleQuantity != null" >
+        sale_quantity,
+      </if>
+      <if test="exchangeQuantity != null" >
+        exchange_quantity,
+      </if>
+      <if test="refundQuantity != null" >
+        refund_quantity,
+      </if>
+      <if test="invalidCount != null" >
+        invalid_count,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="exchangeWay != null" >
+        exchange_way,
+      </if>
+      <if test="orderUseThreshold != null" >
+        order_use_threshold,
+      </if>
+      <if test="goodsScope != null" >
+        goods_scope,
+      </if>
+      <if test="qrCodeUrl != null" >
+        qr_code_url,
+      </if>
+      <if test="isEntity != null" >
+        is_entity,
+      </if>
+      <if test="isUseMall != null" >
+        is_use_mall,
+      </if>
+      <if test="mallType != null" >
+        mall_type,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="modelNo != null" >
+        model_no,
+      </if>
+      <if test="headImg != null" >
+        head_img,
+      </if>
+      <if test="distributorScope != null" >
+        distributor_scope,
+      </if>
+      <if test="mailSetting != null" >
+        mail_setting,
+      </if>
+      <if test="mailFee != null" >
+        mail_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="codeName != null" >
+        #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="codeDesc != null" >
+        #{codeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=SMALLINT},
+      </if>
+      <if test="codeQuantity != null" >
+        #{codeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="limitQuantity != null" >
+        #{limitQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="saleQuantity != null" >
+        #{saleQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeQuantity != null" >
+        #{exchangeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="refundQuantity != null" >
+        #{refundQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="invalidCount != null" >
+        #{invalidCount,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeWay != null" >
+        #{exchangeWay,jdbcType=SMALLINT},
+      </if>
+      <if test="orderUseThreshold != null" >
+        #{orderUseThreshold,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsScope != null" >
+        #{goodsScope,jdbcType=SMALLINT},
+      </if>
+      <if test="qrCodeUrl != null" >
+        #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isEntity != null" >
+        #{isEntity,jdbcType=SMALLINT},
+      </if>
+      <if test="isUseMall != null" >
+        #{isUseMall,jdbcType=SMALLINT},
+      </if>
+      <if test="mallType != null" >
+        #{mallType,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelNo != null" >
+        #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null" >
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorScope != null" >
+        #{distributorScope,jdbcType=SMALLINT},
+      </if>
+      <if test="mailSetting != null" >
+        #{mailSetting,jdbcType=SMALLINT},
+      </if>
+      <if test="mailFee != null" >
+        #{mailFee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardDO" >
+    update exchange_card
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="codeName != null" >
+        code_name = #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="codeDesc != null" >
+        code_desc = #{codeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=SMALLINT},
+      </if>
+      <if test="codeQuantity != null" >
+        code_quantity = #{codeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="limitQuantity != null" >
+        limit_quantity = #{limitQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="saleQuantity != null" >
+        sale_quantity = #{saleQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeQuantity != null" >
+        exchange_quantity = #{exchangeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="refundQuantity != null" >
+        refund_quantity = #{refundQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="invalidCount != null" >
+        invalid_count = #{invalidCount,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeWay != null" >
+        exchange_way = #{exchangeWay,jdbcType=SMALLINT},
+      </if>
+      <if test="orderUseThreshold != null" >
+        order_use_threshold = #{orderUseThreshold,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsScope != null" >
+        goods_scope = #{goodsScope,jdbcType=SMALLINT},
+      </if>
+      <if test="qrCodeUrl != null" >
+        qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isEntity != null" >
+        is_entity = #{isEntity,jdbcType=SMALLINT},
+      </if>
+      <if test="isUseMall != null" >
+        is_use_mall = #{isUseMall,jdbcType=SMALLINT},
+      </if>
+      <if test="mallType != null" >
+        mall_type = #{mallType,jdbcType=SMALLINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserName != null" >
+        update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modelNo != null" >
+        model_no = #{modelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="headImg != null" >
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorScope != null" >
+        distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+      </if>
+      <if test="mailSetting != null" >
+        mail_setting = #{mailSetting,jdbcType=SMALLINT},
+      </if>
+      <if test="mailFee != null" >
+        mail_fee = #{mailFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCardDO" >
+    update exchange_card
+    set item_id = #{itemId,jdbcType=INTEGER},
+      code_name = #{codeName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      code_desc = #{codeDesc,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      source = #{source,jdbcType=SMALLINT},
+      code_quantity = #{codeQuantity,jdbcType=INTEGER},
+      limit_quantity = #{limitQuantity,jdbcType=INTEGER},
+      sale_quantity = #{saleQuantity,jdbcType=INTEGER},
+      exchange_quantity = #{exchangeQuantity,jdbcType=INTEGER},
+      refund_quantity = #{refundQuantity,jdbcType=INTEGER},
+      invalid_count = #{invalidCount,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      exchange_way = #{exchangeWay,jdbcType=SMALLINT},
+      order_use_threshold = #{orderUseThreshold,jdbcType=DECIMAL},
+      goods_scope = #{goodsScope,jdbcType=SMALLINT},
+      qr_code_url = #{qrCodeUrl,jdbcType=VARCHAR},
+      is_entity = #{isEntity,jdbcType=SMALLINT},
+      is_use_mall = #{isUseMall,jdbcType=SMALLINT},
+      mall_type = #{mallType,jdbcType=SMALLINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_user_name = #{updateUserName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      model_no = #{modelNo,jdbcType=VARCHAR},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      distributor_scope = #{distributorScope,jdbcType=SMALLINT},
+      mail_setting = #{mailSetting,jdbcType=SMALLINT},
+      mail_fee = #{mailFee,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listByItemIdAndStatusList" resultMap="BaseResultMap">
+    select * from exchange_card where item_id = #{itemId}
+    <if test="statusList !=null and statusList.size()>0">
+      and (
+      <foreach collection="statusList" separator=" or " item="status">
+       status = #{status}
+      </foreach>
+      )
+    </if>
+  </select>
+  <update id="createStartExchangeEvent">
+    CREATE EVENT event_start_exchangeCard${exchangeId} ON SCHEDULE AT TIMESTAMP #{time,jdbcType=VARCHAR} ON COMPLETION NOT PRESERVE DO UPDATE exchange_card SET status = 2 WHERE id = #{exchangeId}
+  </update>
+
+  <update id="createEndExchangeEvent">
+    CREATE EVENT event_end_exchangeCard${exchangeId} ON SCHEDULE AT TIMESTAMP #{time,jdbcType=VARCHAR} ON COMPLETION NOT PRESERVE DO UPDATE exchange_card SET status = 4 WHERE id = #{exchangeId}
+  </update>
+  <select id="betweenStatusOrderByStatusDesc" resultMap="BaseResultMap">
+    Select * from exchange_card where `status` BETWEEN 1 AND 2 ORDER BY `status` DESC
+  </select>
+
+  <select id="listCOByCondition" resultMap="ExchangeCardPageCOResultMap">
+    SELECT
+    c.id,
+    c.code_name,
+    c.type,
+    c.source,
+    c.exchange_way,
+    c.code_quantity,
+    c.exchange_quantity,
+    c.start_time,
+    c.end_time,
+    c.`status`,
+    c.qr_code_url,
+    SUM(f.synchronized_quantity) synchronized_quantity,
+    CASE
+    WHEN ( SUM( IFNULL( f.add_quantity, 0 )-IFNULL(f.synchronized_quantity,0)) > 0 )  and (c.`status` = 1 or c.`status`=2) and c.is_entity=1 THEN
+    1 ELSE 0
+    END is_sync,
+    c.is_use_mall,
+    c.is_entity,
+    c.mail_setting
+    FROM
+    exchange_card c
+    LEFT JOIN exchange_factory f ON f.exchange_id = c.id
+    WHERE 1=1
+    <if test="type !=null">
+      AND c.type = #{type}
+    </if>
+    <if test="exchangeWay !=null">
+      AND c.exchange_way = #{exchangeWay}
+    </if>
+    <if test="status !=null">
+      and c.`status` = #{status}
+    </if>
+    <if test="isEntity !=null">
+      and c.is_entity = #{isEntity}
+    </if>
+    <if test="codeName !=null and codeName !=''">
+      and c.code_name like concat ('%',#{codeName},'%')
+    </if>
+    group by c.id
+  </select>
+  <select id="listByIdList" resultMap="BaseResultMap">
+    select * from exchange_card
+    where id in
+    <foreach collection="exchangeIdList" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </select>
+
+  <select id="findQuanyiByDistributorIdAndMaterialId"
+          resultMap="BaseResultMap">
+    select
+    a.*
+    from exchange_card a
+    left join exchange_material_relevance c on c.exchange_id=a.id
+    where  (a.distributor_scope=1 or
+    (a.distributor_scope= 2 and
+    EXISTS(SELECT * FROM exchange_distributor_relevance b
+    WHERE b.distributor_id=#{distributorId} and b.exchange_id=a.id)
+    ))
+    and c.material_id=#{materialId} and a.status=2 and exchange_way=2 and is_entity=0 and a.end_time>=REPLACE(unix_timestamp(current_timestamp(3)),'.','')
+    order by a.create_time desc
+    limit 1
+  </select>
+
+  <select id="countQuanyiByDistributorIdAndMaterialId" resultType="java.lang.Integer">
+    select
+    count(*)
+    from exchange_card a
+    left join exchange_material_relevance c on c.exchange_id=a.id
+    where 1=1
+    <if test="distributorId !=null">
+      and (a.distributor_scope=1 or
+      (a.distributor_scope= 2 and
+      EXISTS(SELECT * FROM exchange_distributor_relevance b
+      WHERE b.distributor_id=#{distributorId} and b.exchange_id=a.id)
+      ))
+    </if>
+    and c.material_id=#{materialId} and exchange_way=2 and is_entity=0 and a.end_time>=REPLACE(unix_timestamp(current_timestamp(3)),'.','')
+  </select>
+
+</mapper>

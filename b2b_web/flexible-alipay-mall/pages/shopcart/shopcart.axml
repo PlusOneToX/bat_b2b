@@ -1,0 +1,124 @@
+<view class="shopcart-wrap">
+  <!-- 购物车为空 -->
+  <view class="shopcart-null" a:if="{{noPro}}">
+    <no-data flagType="{{'shopcart'}}"></no-data>
+  </view>
+  <!-- 购物车非空 -->
+  <view a:else class="shopcart-content">
+    <view class="item-title">
+      <view class="item-title-l">
+        <view class="label checkbox-wrap" onTap="handleSelectAll">
+          <checkbox class="checkbox-item" controlled="{{true}}" color="#333333" value="{{checkAll}}" checked="{{checkAll}}" />全选
+        </view>
+      </view>
+      <view class="item-title-r" onTap="handleDeleteAll">
+        <text class="iconfont icon-dashbox"></text>
+      </view>
+    </view>
+    <view class="shopcart-main">
+      <view class="pro-wrap">
+        <view class="pro-list shop-list" a:for="{{mGoods}}" a:for-index="index" a:for-item="item">
+          <view class="pro-detail" a:for="{{item}}" a:for-index="childindex" a:for-item="v">
+            <text class="checkbox isStock" a:if="{{v.isStockOut}}"></text>
+            <view class="checkbox" a:else onTap="handleSelectSingle" data-good="{{v}}" data-child="{{childindex}}" data-parent="{{index}}">
+              <checkbox class="checkbox-item" controlled="{{true}}" color="#333333" value="{{v.isChecked}}" checked="{{v.isChecked}}" />
+            </view>
+            <view a:if="{{v.diy}}">
+              <view class="pro-img">
+                <image class="img" src="{{v.diy.previewImage}}" mode="heightFix"></image>
+              </view>
+              <view class="pro-intro">
+                <view class="pro-title">{{ v.itemName }}</view>
+                <view class="pro-spe">
+                  <text>规格：</text>
+                  <view>{{ v.diy.modelName }}</view>
+                  <view>{{ v.diy.materialName }}</view>
+                </view>
+                <view class="pro-price">
+                  ￥
+                  <text class="price">{{ v.salePrice }}</text>
+                </view>
+              </view>
+            </view>
+            <view class="isStock" a:if="{{v.isStockOut}}">
+              <text>缺货</text>
+            </view>
+            <view class="stepper" a:else>
+              <view class="stepper-minus" onTap="changeNum" data-id="{{v.id}}" data-type="-1">
+                <text class="iconfont icon-minus"></text>
+              </view>
+              <input class="stepper-input" type="number" controlled="{{true}}" maxlength="3" value="{{v.itemCount}}" data-id="{{v.id}}" data-good="{{v}}" data-child="{{childindex}}" data-parent="{{index}}" onBlur="handleInput" onInput="changeInput" />
+              <view class="stepper-plus" onTap="changeNum" data-id="{{v.id}}" data-type="1">
+                <text class="iconfont icon-add"></text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 失效商品 -->
+      <view class="invalid-pro" hidden="{{invalidGoods.length <= 0}}">
+        <view class="item-title">
+          <view class="item-title-l">失效商品</view>
+          <text class="item-title-r text-r" onTap="handleEmpty">清空失效商品</text>
+        </view>
+        <view class="pro-wrap">
+          <view class="pro-list" a:for="{{invalidGoods}}" a:for-index="index" a:for-item="item">
+            <view class="pro-detail">
+              <view class="invalid-label">失效</view>
+              <view a:if="{{item.diy}}">
+                <view class="pro-img">
+                  <image class="img" src="{{item.diy.previewImage}}" mode="heightFix"></image>
+                </view>
+                <view class="pro-intro">
+                  <view class="pro-title">{{ item.itemName }}</view>
+                  <view class="pro-spe">
+                    <text>规格：</text>
+                    <view>{{ item.diy.modelName }}</view>
+                    <view>{{ item.diy.materialName }}</view>
+                  </view>
+                  <view class="pro-price">
+                    ￥
+                    <text class="price">{{ item.salePrice }}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 底部操作栏 -->
+    <view class="fixed-btn-wrap" a:if="{{goods.length > 0}}">
+      <view class="price-total">
+        合计：
+        <text class="price">￥</text>
+        <text class="price amount">{{ totalPrice || 0 }}</text>
+      </view>
+      <view class="btn" onTap="handleSubmit">提交订单</view>
+    </view>
+  </view>
+
+  <!-- 柔性关闭弹窗 -->
+  <view class="flexible-dialog" a:if="{{showFlexible}}">
+	  <view class="flexible-dialog-content">
+	      <view class="flexible-cotent-top">
+	      	<image class="flexible-cotent-top-img" src="../../assets/images/flexible-logo.png" mode="widthFix"/>
+	      </view>
+		  
+		  <view class="flexible-cotent-middle-title">
+		  	 通知提醒
+		  </view>
+		  <view class="flexible-cotent-middle-info">
+		  	 尊敬的客户，本商城将于6月30日停止运营，仅保留订单查询服务。感谢您的信任和支持。
+		  </view>
+		  <view class="flexible-cotent-bottom" onTap="clickFlexible"> 
+		  	 知道了
+		  </view>
+	  </view>
+  </view>
+  
+  <!-- loading -->
+  <view hidden="{{!showLoading}}">
+    <w-loading message="{{message}}"></w-loading>
+  </view>
+</view>

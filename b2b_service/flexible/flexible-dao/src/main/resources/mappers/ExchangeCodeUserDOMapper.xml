@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bat.flexible.dao.exchange.ExchangeCodeUserDOMapper" >
+  <resultMap id="BaseResultMap" type="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeUserDO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exchange_code_id" property="exchangeCodeId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ExchangeCodeUserCOResultMap" type="com.bat.flexible.dao.exchange.co.ExchangeCodeUserCO">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="exchange_id" property="exchangeId" jdbcType="INTEGER" />
+    <result column="plain_code" property="plainCode" jdbcType="VARCHAR" />
+    <result column="secret_code" property="secretCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="code_name" property="codeName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="mail_setting" property="mailSetting" jdbcType="SMALLINT" />
+    <result column="mail_fee" property="mailFee" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, exchange_code_id, user_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exchange_code_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exchange_code_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeUserDO" useGeneratedKeys="true" keyProperty="id" >
+    insert into exchange_code_user (id, exchange_code_id, user_id, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{exchangeCodeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeUserDO" useGeneratedKeys="true" keyProperty="id">
+    insert into exchange_code_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exchangeCodeId != null" >
+        exchange_code_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeCodeId != null" >
+        #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeUserDO" >
+    update exchange_code_user
+    <set >
+      <if test="exchangeCodeId != null" >
+        exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bat.flexible.dao.exchange.dataobject.ExchangeCodeUserDO" >
+    update exchange_code_user
+    set exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listCOByUserIdAndStatus" resultMap="ExchangeCodeUserCOResultMap">
+    SELECT b.id,b.exchange_id,b.plain_code,b.secret_code,b.create_time,b.`status`,c.code_name,c.start_time,c.end_time,c.head_img,
+         c.mail_setting,c.mail_fee
+         FROM exchange_code_user a LEFT JOIN exchange_code b ON a.exchange_code_id = b.id LEFT JOIN exchange_card c ON b.exchange_id = c.id
+     WHERE a.user_id = #{userId}
+     <if test="status ==3">
+       AND (b.`status`=3 or  b.`status`=4)
+     </if>
+    <if test="status !=3">
+      AND   b.`status`=#{status}
+    </if>
+     order by a.create_time desc
+  </select>
+
+  <select id="findByExchangeCodeId" resultMap="ExchangeCodeUserCOResultMap">
+    SELECT b.id,b.exchange_id,b.plain_code,b.secret_code,b.create_time,b.`status`,c.code_name,c.start_time,c.end_time,c.head_img,
+    c.mail_setting,c.mail_fee
+    FROM exchange_code_user a LEFT JOIN exchange_code b ON a.exchange_code_id = b.id LEFT JOIN exchange_card c ON b.exchange_id = c.id
+    WHERE a.exchange_code_id = #{exchangeCodeId}
+  </select>
+
+  <select id="getByExchangeCodeId" resultMap="BaseResultMap">
+    select * from exchange_code_user where exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER}
+  </select>
+  <select id="countByCondition" resultType="java.lang.Integer">
+    SELECT count(a.id)
+    FROM exchange_code_user a LEFT JOIN exchange_code b ON a.exchange_code_id = b.id
+    <if test="materialId !=null">
+      INNER JOIN exchange_material_relevance c ON b.exchange_id = c.exchange_id
+    </if>
+    WHERE a.user_id = #{userId}
+    <if test="status !=null and status ==2">
+      AND (b.`status`=2 or  b.`status`=4)
+    </if>
+    <if test="status !=null and status !=2">
+      AND   b.`status`=#{status}
+    </if>
+    <if test="materialId !=null">
+       AND c.material_id = #{materialId} and b.status=1
+    </if>
+  </select>
+
+  <!-- 前台用户进行兑换码解绑 -->
+  <delete id="unboundExchange" parameterType="java.lang.Integer" >
+    delete from exchange_code_user
+    where user_id = #{userId,jdbcType=INTEGER} and exchange_code_id = #{exchangeCodeId,jdbcType=INTEGER}
+  </delete>
+
+</mapper>

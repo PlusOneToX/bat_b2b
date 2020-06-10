@@ -1,0 +1,36 @@
+<!--pages/transfer/transfer.wxml-->
+<view class="transfer-wrap">
+  <image class="avatar" src="{{headImg}}" mode="scaleToFill"></image>
+  <view class="username">好友: {{nickName}}</view>
+  <view class="text">{{receiveText}}</view>
+  <view class="card-info-wrap">
+    <view class="card-info">
+      <image class="card-b" src="../../assets/images/transfer-card-b.png" mode="widthFix"></image>
+      <image class="card-in" src="{{receiveImg}}" mode="scaleToFill"></image>
+      <image class="card-b"
+        src="{{(isReceived && isTheSame) ? '../../assets/images/transfer-card-t2.png' : '../../assets/images/transfer-card-t1.png'}}"
+        mode="widthFix"></image>
+    </view>
+  </view>
+  <view class="share-btn-wrap">
+    <button class="btn-wrap" bindtap="handleBtn">
+      <image class="btn"
+        src="{{(isReceived && isTheSame) ? '../../assets/images/btn-bg-a.png' : '../../assets/images/btn-bg.png'}}"
+        mode="widthFix"></image>
+      <text class="btn-text {{(isReceived && isTheSame) ? 'received' : ''}}">{{(isReceived && isTheSame) ? "去定制" :
+        "开心收下"}}</text>
+    </button>
+  </view>
+
+  <!-- 已领取 -->
+  <view class="received-tips" wx:if="{{isReceived && isTheSame}}">
+    <view class="tips-s">兑换卡已放入您的卡包中心，详细查看路径</view>
+    <view>{{diyTitle}}小程序-首页-卡包中心</view>
+  </view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+</view>
