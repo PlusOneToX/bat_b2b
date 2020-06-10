@@ -24,16 +24,16 @@ import java.util.UUID;
 @Component
 public class WechatUtil {
 
-    private static  String appId="wxf5a453081ec045d9" ;
+    private static  String appId="" ;
 
-    private static  String SECRET="591f340ae6e28587cd35b5d1e380dcfe" ;
+    private static  String SECRET="" ;
 
-    @Value("${wechat.program.appid:wxf5a453081ec045d9}")
+    @Value("${wechat.program.appid}")
     public  void setAppId(String appId) {
         WechatUtil.appId = appId;
     }
 
-    @Value("${wechat.program.secret:591f340ae6e28587cd35b5d1e380dcfe}")
+    @Value("${wechat.program.secret}")
     public  void setSECRET(String SECRET) {
         WechatUtil.SECRET = SECRET;
     }
