@@ -1,0 +1,165 @@
+// pages/category/category.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    currentIndex:0,
+    rightContent:[],
+    leftMenuList:["推荐分类","服装","手机背膜","iPad前膜","时尚耳机","保护机壳","车载仪器","DFH产品","iPad前膜",
+                  "时尚耳机","保护机壳","车载仪器","DFH产品","iPad前膜","时尚耳机","保护机壳","车载仪器","DFH产品"],
+    cates:[
+      {
+        cat_id:0,
+        cat_name:"推荐分类",
+        children:[
+          {
+            cat_id:0,
+            cat_name:"秒杀专场",
+            children:[
+              {
+                cat_id:0,
+                cat_name:"钢化膜",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:1,
+                cat_name:"背膜",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:2,
+                cat_name:"背膜1",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:3,
+                cat_name:"背膜2",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:4,
+                cat_name:"背膜3",
+                cat_icon:"../../assets/images/cate_image.png"
+              }
+            ]
+          },
+          {
+            cat_id:1,
+            cat_name:"热门推荐",
+            children:[
+              {
+                cat_id:0,
+                cat_name:"遮阳伞",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:1,
+                cat_name:"智能音箱",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:2,
+                cat_name:"迷你风扇",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:3,
+                cat_name:"迷你风扇1",
+                cat_icon:"../../assets/images/cate_image.png"
+              },
+              {
+                cat_id:4,
+                cat_name:"迷你风扇2",
+                cat_icon:"../../assets/images/cate_image.png"
+              }
+            ]
+          },
+        ]
+      },
+      {
+        cat_id:1,
+        cat_name:"服装",
+        children:[
+          {
+            cat_id:0,
+            cat_name:"上装",
+            children:[
+              {
+                cat_id:0,
+                cat_name:"羽绒服",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:1,
+                cat_name:"毛衣开衫",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:2,
+                cat_name:"卫衣",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:3,
+                cat_name:"风衣外套",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:4,
+                cat_name:"打底衫",
+                cat_icon:"../../assets/images/cate_image2.png"
+              }
+            ]
+          },
+          {
+            cat_id:1,
+            cat_name:"下装",
+            children:[
+              {
+                cat_id:0,
+                cat_name:"leggings",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:1,
+                cat_name:"智裙装",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:2,
+                cat_name:"休闲裤",
+                cat_icon:"../../assets/images/cate_image2.png"
+              },
+              {
+                cat_id:3,
+                cat_name:"短裤",
+                cat_icon:"../../assets/images/cate_image2.png"
+              }
+            ]
+          },
+        ]
+      }
+    ]
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
+    this.setData({
+      rightContent: this.data.cates[0].children
+    })
+
+  },
+
+  leftMenuItemClicked: function(e){
+    const { index } = e.currentTarget.dataset;
+    this.setData({
+      currentIndex: index,
+      rightContent: this.data.cates[index].children
+    })
+  }
+})

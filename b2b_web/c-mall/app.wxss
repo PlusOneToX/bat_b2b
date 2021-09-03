@@ -1,0 +1,141 @@
+/**app.wxss**/
+@import '/style/color.wxss';
+@import '/style/font.wxss';
+
+page,view,text,swiper,swiper-item,image,navigator{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+page{
+  background-color: #f6f6f6;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+image {
+  vertical-align: middle;
+}
+
+/* 单元格 */
+.cell{
+  background-color: var(--norm-backgroud-white-color);
+  border-radius: 8rpx;
+}
+
+/* 商品单元格 */
+.goods-cell{
+  background-color: var(--norm-backgroud-white-color);
+  border-radius: 32rpx;
+}
+
+/*   自定义swiper指示点  */
+.swiper-dots {
+  position: absolute;
+  right: 60rpx;
+  bottom: 52rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.swiper-dots .dot{
+  margin-left: 8rpx;
+  width: 12rpx;
+  height: 4rpx;
+  background-color: var(--norm-white-alpha-color);
+  border-radius: 8rpx;
+}
+
+.swiper-dots .active{
+  width: 24rpx;
+  background-color: var(--norm-backgroud-white-color);
+}
+
+/* 单元格头部 标题 */
+.header-title{
+  font-size: var(--norm-largest-font-size);
+  font-weight: var(--norm-medium-font-weight);
+  color: var( --norm-main-black-color);
+  text-align: left;
+
+}
+
+/* 单元格头部 查看更多 */
+.header-more-text{
+  font-size: var(--norm-small-font-size);
+  color: var(--norm-blck-color);
+  text-align: right;
+}
+
+/* 商品价格 */
+.price-wrap .unit{
+  color: var(--norm-red-color);
+  font-size: var(--norm-smaller-font-size);
+  font-family: var(--unit-font-family);
+  line-height: 28rpx;
+}
+
+.price-wrap .current-price{
+  color: var(--norm-red-color);
+  font-family: var(--number-font-family);
+  font-size: var(--norm-largest-font-size);
+  font-weight: bold;
+  line-height: 32rpx;
+}
+
+.price-wrap .origin-Price{
+  padding-left: 8rpx;
+  color: var(--norm-gray1-color);
+  font-family: var(--number-font-family);
+  font-size: var(--norm-smaller-font-size);
+  font-weight: bold;
+  text-decoration:line-through;
+  line-height: 22rpx;
+}
+
+/* 商品选项卡 */
+.goods-item{
+  background-color: var(--norm-backgroud-white-color);
+  border-radius: 16rpx;
+}
+
+/* 商品名称 */
+.goods-name{
+  color: var(--norm-main-black-color);
+  font-size: var( --norm-middle-font-size); 
+  line-height: 32rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* 商品数量增减 */
+.goods-num-tool{
+  display: flex;
+}
+
+.num-edit{
+  width: 54rpx;
+  height: 50rpx;
+}
+
+.num-edit image{
+  width: 100%;
+  height: 100%;
+}
+
+.goods-num{
+  width: 98rpx;
+  height: 50rpx;
+  margin: 0 4rpx;
+  background: #F2F4FA;
+  text-align: center;  
+}
+
+/* 弹出视图 */
+.van-popup {
+  padding-bottom: 0 !important;
+  border-radius: 16rpx 16rpx 0 0;
+}

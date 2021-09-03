@@ -1,0 +1,30 @@
+/* pages/setting/setting.wxss */
+
+page {
+  background-color: #ffffff;
+}
+
+.setting-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.setting-logo {
+  margin-top: 100rpx;
+  width: 478rpx;
+  height: 362rpx;
+}
+
+.btn-logout {
+  margin-top: 492rpx;
+  width: 646rpx;
+  height: 88rpx;
+  background: #F2F4FA;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  color: #333333;
+  line-height: 88rpx;
+}

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "authorize":"../../component/authorize/authorize"
+  },
+  "navigationBarTitleText": "购物车"
+}

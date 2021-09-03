@@ -1,0 +1,57 @@
+<!--pages/address_add/address_add.wxml-->
+<view class="address-container">
+
+  <view class="cell">
+    <view class="address-item">
+      <view class="title">收货人姓名</view>
+      <input class="input-name" placeholder="请输入收货人姓名" placeholder-style="color:#c0c0c0;" bindinput="bindinputUserName"></input>
+    </view>
+    <view class="address-item">
+      <view class="title">手机号码</view>
+      <input type="digit" placeholder="请输入11位手机号码" placeholder-style="color:#c0c0c0;" bindinput="bindinputMobile"></input>
+    </view>
+    <view class="address-item">
+      <view class="title">所在地区</view>
+      <input value="{{currentRegion}}" placeholder="地区信息" placeholder-style="color:#c0c0c0;" disabled="true" bindtap="chooseRegion"></input>
+    </view>
+    <view class="address-item">
+      <view class="title">详细地址</view>
+      <input placeholder="请输入详细地址" placeholder-style="color:#c0c0c0;" bindinput="bindinputDetail"></input>
+    </view>
+  </view>
+
+  <view class="cell">
+    <view class="default-item" bindtap="handleCheck">
+      <block wx:if="{{addressInfo.isDefault}}">
+        <image class="checkbox-checked" src="../../assets/images/icon_selected.png"></image>
+      </block>
+      <block wx:else>
+        <image class="checkbox-unchecked" src="../../assets/images/icon_unselected.png"></image>
+      </block>
+      <view class="title">设置为默认地址</view>
+    </view>
+  </view>
+
+  <!-- 选择地区-->
+  <van-popup class="region-menu" show="{{isOpenRegionMenu}}" position="bottom">
+    <van-picker 
+      class="region-picker"
+      show-toolbar 
+      item-height="32"
+      visible-item-count="5"
+      confirm-button-text="完成"
+      column-class="column-class"
+      active-class="active-class"
+      columns="{{ regions }}" 
+      bind:cancel="onRegionCancel"
+      bind:confirm="onRegionConfirm"
+    />
+  </van-popup>
+
+  <!-- 保存地址  -->
+  <view class="btn-save" bindtap="saveAddress">保存收货地址</view>
+
+  <!-- Toast -->
+  <van-toast id="van-toast" />
+
+</view>

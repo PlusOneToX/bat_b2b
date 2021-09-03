@@ -1,0 +1,27 @@
+page{
+
+  /* 页面背景色 */
+  --norm-backgroud-gray-color:#f6f6f6;
+  --norm-backgroud-white-color:#ffffff;
+
+  /* 主要黑色字体 */
+  --norm-main-black-color:#333333;
+
+  /* 主要灰色字体 */
+  --norm-main-gray-color:#bcbcbc;
+
+  /* 其他颜色 */
+  --norm-blck-color:#3b3b3b;
+
+  --norm-white-color:#ffffff;
+
+  --norm-red-color:#eb2b22;
+
+  --norm-gray-color:#666666;
+  --norm-gray1-color:#bcbcbc;
+  --norm-gray2-color:#737373;
+  --norm-gray3-color:#999999;
+
+  --norm-white-alpha-color: rgb(255,255,255,0.37);
+
+}

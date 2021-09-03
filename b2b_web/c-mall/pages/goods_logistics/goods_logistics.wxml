@@ -1,0 +1,39 @@
+<!--pages/goods_logistics/goods_logistics.wxml-->
+
+<view class="logistics-container">
+
+  <view class="order-wrap cell">
+    <view class="order-state">
+      <image class="image" src="../../assets/images/wait_receive.png"></image>
+      <view class="text">待收货</view>
+    </view>
+    <view class="order-logistics">
+      <image class="image" src="../../assets/images/zhongtong.png"></image>
+      <view class="text">中通快递</view>
+    </view>
+  </view>
+
+  <view class="logistics-wrap cell">
+    <view class="logistics-item">
+      <view class="line"></view>
+      <view class="bigCircular">收</view>
+      <view class="text-content">
+          <view class="detail">[ 收货地址]广东省深圳市南山桃源街道去留仙大道时代广场A座16楼 </view>
+      </view>  
+    </view>
+    <view class="logistics-item" wx:for="{{newExpressList}}" wx:key="index">
+      <view class="line {{index=== (newExpressList.length - 1)? 'last':''}}"></view>
+      <view class="circular {{index===0? 'active' : ''}}"></view>
+      <view class="text-content {{index=== (newExpressList.length - 1)? 'last':''}}">
+          <view class="status {{index===0 ? 'active':''}}">{{item.status}}</view>
+          <view class="detail {{index===0 ? 'active':''}}">{{item.detail}}</view>
+          <view class="time {{index===0 ? 'active':''}}">{{item.time}}</view>
+          <view class="more-wrap" wx:if="{{ index===1 && isShowMore }}" bindtap="seeMoreLogistics">
+            <view class="text">点击查看更多物流详情</view>
+            <image class="arrow" src="../../assets/images/expand_arrow.png"></image>
+          </view>
+      </view>     
+    </view>
+  </view>
+  
+</view>

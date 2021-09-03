@@ -1,0 +1,30 @@
+<!--pages/search_detail/search_detail.wxml-->
+<view class="detail-container">
+  <!-- 搜索框 -->
+  <view class="search-wrap">
+	  <image src="../../assets/images/icon-search.png" mode="widthFix"></image>
+	  <input placeholder="请输入您想要的商品…" 	placeholder-style="color:var(--norm-gray-color);" bindconfirm="search" confirm-type="search"></input>
+  </view>
+
+  <!-- 搜索内容 -->
+  <view class="search-content">
+
+    <!-- 搜索为空 -->
+    <view class="search-empty">
+      <image src="../../assets/images/img_nosearch.png" mode="widthFix"></image>
+      <view class="text">未搜索出结果，请重新输入…</view>
+    </view>
+
+     <!-- 其他关键词-->
+    <view class="search-keyword" wx:if="{{keyword.length > 0}}">
+      <view class="title-text">换其他关键词？</view>
+      <view class="keyword-content">
+        <view class="content-item" wx:for="{{keyword}}" wx:key="*this">{{item}}</view>
+      </view>
+    </view>
+
+  </view>
+
+</view>
+
+

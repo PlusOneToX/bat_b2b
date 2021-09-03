@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "Tabs":"../../component/Tabs/Tabs"
+  },
+  "navigationBarTitleText": "优惠券"
+}

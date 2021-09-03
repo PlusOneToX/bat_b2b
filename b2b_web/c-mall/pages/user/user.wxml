@@ -1,0 +1,138 @@
+<!--pages/user/user.wxml-->
+<block wx:if="{{isLogin}}">
+  <view class="user-container">
+    <!-- 用户信息 -->
+    <view class="user-info-wrap">
+      <image class="user-bg" src="../../assets/images/user_bg_image.png" mode="widthFix"></image>
+      <view class="user-info">
+        <image class="avatar" src="../../assets/images/user_avatar.png" mode="widthFix"></image>
+        <view class="name">薄荷糖绿</view>
+      </view>
+    </view>
+
+    <view class="user_content">
+      <view class="user-main">
+
+        <!-- 我的订单 -->
+        <view class="order-wrap cell">
+          <navigator class="header" url="/pages/order/order?type=0">
+            <view class="header-left">我的订单</view>
+            <view class="header-right">
+              <text class="text">全部</text>
+              <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+            </view>
+          </navigator>
+          <view class="order-content">
+            <navigator class="order-item" url="/pages/order/order?type=1">
+              <view class='pictrue'>
+                <image class="icon" src="../../assets/images/icon_unpaid.png"></image>
+                <text class="order-num">5</text>
+              </view>
+              <view class="title">待付款</view>
+            </navigator>
+            <navigator class="order-item" url="/pages/order/order?type=2">
+              <view class='pictrue'>
+                <image class="icon" src="../../assets/images/icon_shipped.png"></image>
+                <text class="order-num">5</text>
+              </view>
+              <view class="title">待发货</view>
+            </navigator>
+            <navigator class="order-item" url="/pages/order/order?type=3">
+              <view class='pictrue'>
+                <image class="icon" src="../../assets/images/icon_received.png"></image>
+                <text class="order-num">5</text>
+              </view>
+              <view class="title">待收货</view>
+            </navigator>
+            <navigator class="order-item" url="/pages/order/order?type=4">
+              <view class='pictrue'>
+                <image class="icon" src="../../assets/images/icon_finifshed.png"></image>
+                <text class="order-num">5</text>
+              </view>
+              <view class="title">已完成</view>
+            </navigator>
+          </view>
+        </view>
+
+        <!-- 用户工具 -->
+        <view class="user-tool cell">
+          <view class="tool-item" bindtap="handleAddress">
+            <image class="icon" src="../../assets/images/icon_address.png"></image>
+            <view class="title">地址管理</view>
+          </view>
+          <view class="tool-item" bindtap="handleCoupon">
+            <image class="icon" src="../../assets/images/icon_coupon.png"></image>
+            <view class="title">优惠劵</view>
+          </view>
+          <view class="tool-item" bindtap="handleService">
+            <image class="icon" src="../../assets/images/icon_service.png"></image>
+            <view class="title">在线客服</view>
+          </view>
+          <view class="tool-item" bindtap="handleSetting">
+            <image class="icon" src="../../assets/images/icon_setting.png"></image>
+            <view class="title">设置</view>
+          </view>
+        </view>
+
+        <!-- 推荐 -->
+        <view class="recommend-wrap">
+          <view class="title-wrap">
+            <image src="../../assets/images/user_recommend_left.png"></image>
+            <view class="title">为您推荐</view>
+            <image src="../../assets/images/user_recommend_right.png"></image>
+          </view>
+          
+          <view class="goods-list">
+            <view class="goods-item" wx:for="{{recommendList}}" wx:key="id" bindtap="gotoGoodDetail">
+              <image class="goods-image" src="{{item.imageSrc}}" mode="widthFix"></image>
+              <view class="goods-info">
+                <view class="goods-name">{{item.title}}</view>
+                <view class="tag-list">
+                  <view class="tag-item" wx:for="{{item.tags}}" wx:for-item="item1" wx:for-index="index1" wx:key="*this">
+                    <view class="tag">{{item1}}</view>
+                  </view>
+                </view>
+                <view class="price-wrap">
+                  <view class="unit">¥</view>
+                  <view class="current-price">{{item.curPrice}}</view>
+                  <view class="origin-Price">{{item.oriPrice}}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+    </view>
+
+    <!-- 在线客服 -->
+    <van-popup class="service-menu" show="{{isShowServiceMenu}}" position="bottom">
+      <view class="service-options">
+        <view class="service-item" bindtap="handleHotline">
+          <image class="icon" src="../../assets/images/service-hotline.png"></image>
+          <view class="title">客服热线</view>
+        </view>
+        <view class="service-item" bindtap="handleWechat">
+          <image class="icon" src="../../assets/images/service-wechat.png"></image>
+          <view class="title">微信客服</view>
+        </view>
+      </view>
+      <view class="btn-cancel" bindtap="closeServiceMenu">取消</view>
+    </van-popup>
+
+    <!-- Dialog -->
+    <van-dialog id="van-dialog" />
+
+  </view>
+</block>
+<block wx:else>
+  <view class="navigaiton-bar" style="height: {{navBarHeight}}px;">
+    <view 
+      class="naiv-title" 
+      style="top: {{menuTop}}px; height: {{menuHeight}}px;"
+    >
+      微信授权
+    </view>
+  </view>
+  <authorize class="authorize" bindauthSuccess="authSuccess" style="top: {{navBarHeight}}px;"></authorize>
+</block>

@@ -1,0 +1,71 @@
+<!--pages/address/address.wxml-->
+<view class="address-container">
+
+  <block wx:if="{{addressList.length>0}}">
+    <view 
+    class="address-item"  
+    wx:for="{{addressList}}" 
+    wx:key="id"
+    data-index="{{index}}"
+    bindtouchstart= "onTouchStart"
+    bindtouchmove= "onTouchMove"
+    bindtouchend= "onTouchEnd"
+    >
+      <movable-area class="movable-area" style="height: {{item.itemHeight}}px;">
+        <movable-view 
+          class="movable-view" 
+          out-of-bounds="true"
+          x="{{item.moveX}}" 
+          direction="horizontal" 
+        >
+          <view class="address-wrap" id="address-cell">
+            <view class="top-wrap">
+              <text class="name">{{item.userName}}</text>
+              <text class="phone-number">{{item.telNumber}}</text>
+            </view>
+            <view class="bottom-wrap">
+              <view class="left-box">
+                <text class="default" wx:if="{{item.isDefault}}">默认</text>
+                <text class="info">{{item.fullRegion}}</text>
+              </view>
+              <view class="right-box" data-index="{{index}}" bindtap="handleEdit">
+                <image class="edit" src="../../assets/images/edit_image.png"></image>
+              </view>
+            </view>
+          </view>
+        </movable-view>        
+      </movable-area>
+      <view class="right-wrap" style="width: {{ item.isDefault?150:300}}rpx;">
+        <view wx:if="{{!item.isDefault}}" class="btn-default" data-index="{{index}}" bindtap="handleDefault">
+          设为默认
+        </view>
+        <view class="btn-delete" data-index="{{index}}"  bindtap="handleDelete">
+          删除
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="address-no-data">
+      <image class="tip-image" src="../../assets/images/address-no-data.png"></image>
+      <view class="tip">暂未添加收货地址哦～</view>
+      <view class="add-button" bindtap="addAddress">
+        <image class="image" src="../../assets/images/add_image.png"></image>
+        <view class="desc">添加收货地址～</view>
+      </view>
+    </view>
+  </block>
+ 
+
+  <!--添加地址 -->
+  <view class="btm-tool" wx:if="{{addressList.length>0}}">
+    <view class="btn-add" bindtap="addAddress">
+      <image class="image" src="../../assets/images/add_image.png"></image>
+      <view class="desc">添加收货地址</view>
+    </view>
+  </view>
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+
+</view>

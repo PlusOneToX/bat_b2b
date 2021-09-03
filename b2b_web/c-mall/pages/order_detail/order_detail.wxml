@@ -1,0 +1,92 @@
+<!--pages/order_detail/order_detail.wxml-->
+<view class="detail-container">
+
+  <view class="cell">
+    <view class="order-state">
+      <image class="image" src="{{order.tagIcon}}"></image>
+      <view class="text">{{order.type===4 ? "已签收" : order.tag}}</view>
+    </view>
+    <view class="order-tip">
+      <view wx:if="{{ order.type===1 }}"> 
+        <view class="unpaid-des">订单已提交，请尽快完成支付！</view>
+        <view class="unpaid-time">剩余时间29:26秒，超时订单将自动关闭</view>
+      </view>
+      <view  wx:if="{{ order.type===2 }}"> 
+        <view class="unshipped-des" wx:if="{{ order.type===2 }}">您的订单快马加鞭出库中，请耐心等待！</view>
+      </view>
+      <view wx:if="{{ order.type===3 || order.type===4 }}"> 
+        <view class="unreceived-item" bindtap="gotoLogistics">
+          <view class="unreceived-des"></view>
+          <image src="../../assets/images/arrow_image.png"></image>
+        </view>
+        <view class="unreceived-time">2018-10-25 18:32:12</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cell">
+    <view class="address-header">
+      <text class="name"></text>
+      <text class="phone-number"></text>
+    </view>
+    <view class="address-content">
+      <view class="left-content">
+        <image class="address-icon" src="../../assets/images/address_icon.png"></image>
+        <view class="address-info"></view>
+      </view>
+      <view class="right-content">
+        <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+      </view>
+    </view>
+  </view>
+
+  <view class="cell">
+    <view class="order-id">订单编号: {{order.id}}</view>
+    <view class="goods-list" wx:for="{{order.goodsList}}">
+      <!-- 订单图片 -->
+      <view class="goods-image-wrap">
+        <image class="image" src="{{item.goods_icon}}"></image>
+      </view>
+      <!-- 订单信息 -->
+      <view class="goods-info-wrap">
+        <view class="info-item">
+          <view class="goods-name">{{item.goods_name}}</view>
+          <view class="goods-price">¥{{item.goods_price}}</view>
+        </view>
+        <view class="info-item">
+          <view class="goods-param">规格:{{item.goods_param}}</view>
+          <view class="goods-number">X{{item.goods_num}}</view>
+        </view>
+      </view>
+    </view>
+    <!-- 运费 -->
+    <view class="freight-wrap">
+      <view class="title">运费</view>
+      <view class="text">¥ 12.00</view>
+    </view>
+    <!-- 总价 -->
+    <view class="total-price-wrap">
+      <view class="title">总价</view>
+      <view class="text">¥ 37.00</view>
+    </view>
+    <view class="footer-button-wrap" wx:if="{{ order.type!==1 }}">
+      <view class="btn-refund">退款</view>
+    </view>
+  </view>
+
+  <view class="order-info-wrap cell">
+    <view class="title">订单信息 </view>
+    <view class="id">订单编号: {{order.id}}</view>
+    <view class="create-time">创建时间：2018-02-25 18:32:12</view>
+    <view class="paid-time" wx:if="{{ order.type!==1 }}">付款时间：2018-02-25 18:50:12</view>
+  </view>
+
+  <view class="btm-tool" wx:if="{{ order.type ===1 }}">
+    <view class="btn-cancle" bindtap="cancleOrder">取消订单</view>
+    <view class="btn-pay" bindtap="toPayNow">立即支付</view>
+  </view>
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+
+</view>

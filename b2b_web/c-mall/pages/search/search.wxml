@@ -1,0 +1,27 @@
+<!--pages/search/search.wxml-->
+<view class="search-container">
+
+  <!-- 搜索框 -->
+  <view class="search-wrap">
+	  <view class="search-left">
+		  <image src="../../assets/images/icon-search.png" mode="widthFix"></image>
+		  <input placeholder="请输入您想要的商品…" 	placeholder-style="color:var(--norm-gray-color);" bindconfirm="search" confirm-type="search"></input>
+	  </view>
+	  <view class="search-right" bindtap="cancelSearch">取消</view>
+  </view>
+
+  <!-- 搜索历史-->
+  <view class="search-history" wx:if="{{searchHistory.length > 0}}">
+    <!-- 提示标题 -->
+    <view class="header">
+      <view class="title-text">搜索历史</view>
+      <image class="icon-delete" src="../../assets/images/icon_delete.png" mode="widthFix" bindtap="clearHistory"></image>
+    </view>
+    <!-- 内容 -->
+    <view class="history-content">
+      <view class="content-item" wx:for="{{searchHistory}}" wx:key="*this">{{item}}</view>
+    </view>
+
+  </view>
+
+</view>

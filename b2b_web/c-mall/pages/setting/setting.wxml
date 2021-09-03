@@ -1,0 +1,7 @@
+<!--pages/setting/setting.wxml-->
+<view class="setting-container">
+
+  <image class="setting-logo" src="../../assets/images/setting_logo.png"></image>
+  <view class="btn-logout" bindtap="logout">退出登陆</view>
+
+</view>

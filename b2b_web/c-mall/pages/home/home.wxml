@@ -1,0 +1,206 @@
+<!--pages/home/home.wxml-->
+<view class="home-container">
+
+  <!-- 网络提示 -->
+  <view class="network-wrap" wx:if="{{!hasNetwork}}">
+    <icon type="warn" size="12"></icon>
+    <view class="text">网络连接不可用，请检查您的网络设置！</view>
+  </view>
+
+  <!-- 焦点区 -->
+  <view class="focus-wrap">
+    <!-- 轮播图 -->
+    <view class="banner">
+      <block wx:if="{{bannerList.length > 0}}">
+        <swiper autoplay circular interval="5000" bindchange="handleSwiperChange">
+          <swiper-item wx:for="{{bannerList}}" wx:key="id">
+            <image class="banner-image" mode="aspectFill" src="{{item.image_url}}"> </image>
+          </swiper-item>
+        </swiper>
+        <!-- 自定义swiper指示点 -->
+        <view class="swiper-dots">
+          <view 
+           class="dot {{index == swiperCurrent?'active':''}}" 
+           wx:for="{{bannerList}}" 
+           wx:key="id"
+          > 
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <image class="banner-image" mode="aspectFill" src="../../assets/images/banner.png"> </image>
+      </block>
+    </view>
+    <!-- 搜索框 -->
+    <view class="search" bindtap="handleSearchTap">
+      <image src="../../assets/images/icon-search.png"></image>
+      <view class="desc">请输入您想要的商品…</view>
+    </view>
+
+  </view>
+
+  <!-- 主体部分  -->
+  <view class="home-content"> 
+    <view class="home-main">
+      <!-- 分类 -->
+      <view class="category-wrap cell">
+        <view class="category-item" wx:for="{{cateList}}" wx:key="id" bindtap="goCateDetail" data-index="{{item.id}}">
+          <image class="image" src="{{item.imageSrc}}"></image>
+          <view class="title">{{item.title}}</view>
+        </view>
+      </view>
+
+      <!-- 秒杀转场 -->
+      <view class="seckill-wrap cell">
+        <view class="seckill-header"> 
+          <image class="image" src="../../assets/images/img-miaosha.png" mode="heightFix"></image>
+          <view class="countdown-wrap">
+              <block wx:if="{{isTimerOut}}">秒杀结束</block>
+              <block wx:else>
+                <view class="item time">{{countdown.hour}}</view> 
+                <view class="item colon">:</view>
+                <view class="item time">{{countdown.minute}}</view>
+                <view class="item colon">:</view>
+                <view class="item time">{{countdown.second}}</view>
+              </block>
+          </view>
+          <view class="header-more-text">查看更多</view>
+        </view>
+        <view class="seckill-list">
+          <view class="seckill-item" wx:for="{{seckillList}}" wx:key="id">
+            <image class="image" mode="widthFix" src="{{item.imageSrc}}"></image>
+            <view class="price-wrap">
+              <view class="unit">¥</view>
+              <view class="current-price">{{item.curPrice}}</view>
+              <view class="origin-Price">{{item.oriPrice}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 最新-->
+      <view class="newest-list-wrap cell">
+        <view class="newest-item">
+          <view class="newest-header">
+            <image class="image" src="../../assets/images/img-new.png" mode="heightFix"></image>
+            <view class="header-more-text">查看更多</view>
+          </view>
+          <view class="newest-box-a">
+            <image class="image" src="../../assets/images/img-jinggang.png"></image>
+            <image class="image" src="../../assets/images/img-jinggang.png"></image>
+          </view>
+        </view>
+        <view class="newest-item">
+          <view class="newest-header">
+            <image class="image" src="../../assets/images/img-other.png" mode="heightFix"></image>
+            <view class="more header-more-text">查看更多</view>
+          </view>
+          <view class="newest-box-b">
+            <image class="image" src="../../assets/images/dessert_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+      <!-- 好物推荐 -->
+      <view class="recommend-wrap cell">
+        <view class="recommend-banner">
+          <view class="banner-content">
+            <view class="banner-header">
+              <view class="header-title">好物推荐</view>
+              <view class="header-more-text">查看更多</view>
+            </view>
+            <view class="banner">
+              <swiper class="swiper">
+                <swiper-item wx:for="{{recommendSwiperList}}" wx:key="id">
+                  <image src="{{item.image_url}}" mode="widthFix"></image>
+                </swiper-item>
+              </swiper>
+            </view>
+          </view>
+        </view>
+        <view class="recommend-goods">
+          <scroll-view scroll-x class="goods-content">
+            <view class="goods-list">
+              <view class="goods-item" wx:for="{{recommendGoodsList}}" wx:key="id">
+                <image class="goods-image" src="../../assets/images/shoujike.png"></image>
+                <view class="goods-name">{{item.title}}</view>
+                <view class="price-wrap">
+                  <view class="unit">¥</view>
+                  <view class="current-price">{{item.curPrice}}</view>
+                  <view class="origin-Price">{{item.oriPrice}}</view>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+
+      <!-- TPU专属 -->
+      <view class="recommend-wrap cell">
+        <view class="recommend-banner">
+          <view class="banner-content">
+            <view class="banner-header">
+              <view class="header-title">TPU专属</view>
+              <view class="header-more-text">查看更多</view>
+            </view>
+            <view class="banner">
+              <swiper class="swiper">
+                <swiper-item wx:for="{{recommendSwiperList}}" wx:key="id">
+                  <image src="../../assets/images/swiper_image2.png" mode="widthFix"></image>
+                </swiper-item>
+              </swiper>
+            </view>
+          </view>
+        </view>
+        <view class="recommend-goods">
+          <scroll-view scroll-x class="goods-content">
+            <view class="goods-list">
+              <view class="goods-item" wx:for="{{recommendGoodsList}}" wx:key="id">
+                <image class="goods-image" src="../../assets/images/shoujike.png"></image>
+                <view class="goods-name">{{item.title}}</view>
+                <view class="price-wrap">
+                  <view class="unit">¥</view>
+                  <view class="current-price">{{item.curPrice}}</view>
+                  <view class="origin-Price">{{item.oriPrice}}</view>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </view> 
+
+      <!-- 猜你喜欢 -->
+      <view class="like-wrap">
+        <view class="header-title">猜你喜欢</view>
+        <view class="goods-list">
+          <view class="goods-item" wx:for="{{likeList}}" wx:key="id" bindtap="gotoGoodDetail">
+            <image class="goods-image" src="{{item.imageSrc}}" mode="widthFix"></image>
+            <view class="goods-info">
+              <view class="goods-name">{{item.title}}</view>
+              <view class="tag-list">
+                <view class="tag-item" wx:for="{{item.tags}}" wx:for-item="item1" wx:for-index="index1" wx:key="*this">
+                  <view class="tag">{{item1}}</view>
+                </view>
+              </view>
+              <view class="price-wrap">
+                <view class="unit">¥</view>
+                <view class="current-price">{{item.curPrice}}</view>
+                <view class="origin-Price">{{item.oriPrice}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 数据加载完毕提示 -->
+      <view class="no-more" wx:if="{{isLoadFinished}}">
+        没有更多啦～
+      </view>
+
+    </view>
+  </view>
+
+  <!-- my toast -->
+  <toast-loading inner-text="111" id='toastLoading'></toast-loading>
+  
+</view>

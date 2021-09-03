@@ -1,0 +1,222 @@
+/* pages/order_confirm/order_confirm.wxss */
+.confirm-container{
+  padding-bottom: calc(130rpx + constant(safe-area-inset-bottom));/* 兼容 iOS < 11.2 */
+  padding-bottom: calc(130rpx + env(safe-area-inset-bottom));/* 兼容 iOS >= 11.2 */
+}
+
+.cell {
+  margin: 24rpx;
+}
+
+.address-wrap {
+  padding: 36rpx 20rpx 32rpx;
+}
+
+.address-header {
+  margin: 0 58rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.address-header .name {
+  font-size: 28rpx; 
+  color: #333333;
+}
+
+.address-header .phone-number {
+  font-size: 28rpx; 
+  color: #737373;
+}
+
+.address-content {
+  margin-top: 38rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.address-content .left-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+}
+
+.address-icon{
+  margin-top: 10rpx;
+  width: 38rpx;
+  height: 46rpx;
+}
+
+.address-info{
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.right-content {
+  width: 118rpx;
+  text-align: right;
+}
+
+.arrow{
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.goods-wrap{
+  padding: 32rpx 20rpx 34rpx;
+  display: flex;
+}
+
+.goods-image-wrap{
+  width: 176rpx;
+  height: 176rpx;
+}
+
+.goods-image-wrap .image {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+} 
+
+.goods-info-wrap{
+  flex: 1;
+  padding-left: 24rpx;
+}
+
+.info-item {
+  margin-bottom: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.goods-name {
+  width: 306rpx;
+  font-size: 28rpx;
+  color: #000000;
+  line-height: 40rpx;
+}
+
+.goods-price {
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.goods-param {
+  font-size: 24rpx;
+  color: #333333;
+}
+
+.goods-number {
+  font-size: 24rpx;
+  color: #000000;
+}
+
+.goods-price-wrap {
+  padding: 32rpx 32rpx 34rpx 22rpx;
+}
+
+.goods-price-wrap .title{
+  font-size: 28rpx;
+  color: #333333
+}
+
+.freight-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.freight-item .text{
+  font-size: 28rpx;
+  color: #737373
+}
+
+.coupon-item{
+  margin-top: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coupon-item .text{
+  font-size: 28rpx;
+  color: #737373
+}
+
+.total-price-item{
+  margin-top: 26rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-price-item .text1{
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #EB2B22;
+}
+
+.total-price-item .text2{
+  font-size: 28rpx;
+  color: #EB2B22;
+}
+
+.order-info-wrap .title{
+  font-size: 32rpx;
+  color: #000000;
+}
+
+.order-info-wrap .id{
+  margin-top: 28rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.order-info-wrap .create-time{
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.btm-tool {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background-color: #ffffff;
+  padding: 22rpx 26rpx calc(28rpx + constant(safe-area-inset-bottom));  /* 兼容 iOS < 11.2 */
+  padding: 22rpx 26rpx calc(28rpx + env(safe-area-inset-bottom)) 34rpx;  /* 兼容 iOS >= 11.2 */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.total-price-wrap{
+  font-size: 24rpx;
+  color: #333333;
+  margin-right: 26rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.total-price-wrap .text{
+  margin-left: 12rpx;
+  font-size: 40rpx;
+  font-family: var(--number-font-family);
+  color: #F94021;
+}
+
+.btn-pay {
+  width: 224rpx;
+  height: 80rpx;
+  background: linear-gradient(92deg, #F0541D 0%, #EA2423 100%);
+  border-radius: 40rpx;
+  font-size: 30rpx;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 80rpx;
+}

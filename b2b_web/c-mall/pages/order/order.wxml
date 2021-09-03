@@ -1,0 +1,61 @@
+<!--pages/order/order.wxml-->
+<view class="order-container">
+
+  <!-- 分组 -->
+  <view class="tabs">
+    <view class="tabs-title" >
+      <view class="title-item {{item.isActive?'active':''}}" wx:for="{{tabList}}" wx:key="id" bindtap="tabsItemClick" data-index="{{item.id}}">
+        <view class="title">{{item.value}}</view>
+        <view class="line" wx:if="{{item.isActive}}"></view>
+      </view>
+    </view>
+    <view class="tabs-content">
+      <block wx:if="{{ newOrderList.length > 0 }}">
+        <view class="order-list cell" wx:for="{{newOrderList}}" wx:key="id" bindtap="goOrderDetail" data-id="{{item.id}}">
+          <view class="order-header">
+            <view class="id">订单编号：{{item.id}}</view>
+            <view class="state">{{item.tag}}</view>
+          </view>
+          <view class="goods-list" wx:for="{{item.goodsList}}" wx:for-item="item1"  wx:key="goods_id">
+            <!-- 订单图片 -->
+            <view class="goods-image-wrap">
+              <image class="image" src="{{item1.goods_icon}}"></image>
+            </view>
+            <!-- 订单信息 -->
+            <view class="goods-info-wrap">
+              <view class="info-item">
+                <view class="goods-name">{{item1.goods_name}}</view>
+                <view class="goods-price">¥{{item1.goods_price}}</view>
+              </view>
+              <view class="info-item">
+                <view class="goods-param">规格:{{item1.goods_param}}</view>
+                <view class="goods-number">X{{item1.goods_num}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="total-price-wrap">
+            共1件商品，合计¥ <text class="total-price">49.9</text>
+          </view>
+          <view class="footer-button-wrap">
+            <view class="button" wx:if="{{item.type===1}}" bindtap="toPay" data-id="{{item.id}}">
+              立即支付 <text class="countdown">29:26</text>
+            </view>
+            <view class="button" wx:if="{{item.type===3}}" bindtap="seeLogistics" data-id="{{item.id}}">查看物流</view>
+            <view class="button" wx:if="{{item.type===3}}" bindtap="confirmReceive" data-id="{{item.id}}">确认收货</view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="order-no-data">
+          <view class="tip-wrap">
+            <image class="image" src="../../assets/images/order-no-data.png"></image>
+            <view class="text">您还没有订单哦～</view>
+          </view>
+          <view class="button" bindtap="toSee">去逛逛</view>
+        </view>
+      </block>
+    </view>
+
+</view>
+
+</view>

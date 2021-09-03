@@ -1,0 +1,70 @@
+{
+  "pages":[
+    "pages/home/home",
+    "pages/category/category",
+    "pages/cart/cart",
+    "pages/user/user",
+    "pages/search/search",
+    "pages/search_detail/search_detail",
+    "pages/apparel/apparel",
+    "pages/goods_detail/goods_detail",
+    "pages/coupon/coupon",
+    "pages/address/address",
+    "pages/address_add/address_add",
+    "pages/address_edit/address_edit",
+    "pages/order/order",
+    "pages/order_detail/order_detail",
+    "pages/order_confirm/order_confirm",
+    "pages/goods_logistics/goods_logistics",
+    "pages/authorize/authorize",
+    "pages/setting/setting"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "C端商城",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#000000",
+    "selectedColor": "#FF5A5F",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "./assets/icons/home.png",
+        "selectedIconPath": "/assets/icons/home-pre.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "分类",
+        "iconPath": "./assets/icons/class.png",
+        "selectedIconPath": "./assets/icons/class-pre.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "./assets/icons/cart.png",
+        "selectedIconPath": "./assets/icons/cart-pre.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "./assets/icons/my.png",
+        "selectedIconPath": "./assets/icons/my-pre.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index"
+  },
+  "sitemapLocation": "sitemap.json"
+}

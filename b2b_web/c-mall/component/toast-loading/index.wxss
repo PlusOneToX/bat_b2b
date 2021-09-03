@@ -1,0 +1,61 @@
+/* component/toast-loadinging/index.wxss */
+.toast_container {   
+  width: 100vw;  
+  height: 100vh; 
+  z-index: 10000;  
+  position: fixed;
+  top: 0;
+  display: flex; 
+  justify-content: center;  
+  align-items: center; 
+  background: rgb(0, 0, 0,0.5);
+}  
+
+.toast_content {  
+  width: 282rpx;
+  height: 282rpx;  
+  background: #4C4A4D;
+  border-radius: 16rpx;  
+} 
+
+.loading {
+  width: 84rpx;
+  height: 76rpx;
+  margin: 88rpx auto 32rpx;
+}
+
+.loading view{
+  background-color: #FFFFFF;
+  height: 100%;
+  width: 7rpx;
+  border-radius: 5rpx;
+  float: left;
+  margin-right: 14rpx;
+  animation: stretchdelay 4s infinite ease-in-out;
+}
+
+.loading .second{
+  animation-delay: -3s;
+}
+.loading .three{
+  animation-delay: -2s;
+}
+.loading .four{
+  animation-delay: -1s;
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+.text {   
+  color: #fff;  
+  font-size: 30rpx;  
+  text-align: center;  
+} 

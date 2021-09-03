@@ -1,0 +1,15 @@
+<!--component/toast-loading/index.wxml-->
+<view class="toast_container" wx:if="{{isShow}}">  
+  <view class="toast_content"> 
+    <view class="loading">
+      <view class="first"></view>
+      <view class="second"></view>
+      <view class="three"></view>
+      <view class="four"></view>
+    </view>
+    <view class="text">  
+       {{dataText}}
+    </view>  
+  </view>  
+</view> 
+

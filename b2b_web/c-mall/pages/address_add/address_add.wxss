@@ -1,0 +1,70 @@
+/* pages/address_add/address_add.wxss */
+.cell {
+  margin: 26rpx 24rpx 24rpx;
+  padding: 10rpx 0 10rpx;
+}
+
+.address-item {
+  padding: 20rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.address-item .title{
+  font-size: 32rpx;
+  color: #4A4A4A;
+  width: 202rpx;
+}
+
+.address-item input{
+  font-size: 32rpx;
+  color: #4A4A4A;
+  width: 460rpx;
+}
+
+.default-item {
+
+  padding: 20rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.default-item image{
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 6rpx;
+}
+
+.van-popup {
+  padding: 20rpx 24rpx 104rpx !important;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.region-picker {
+  --picker-confirm-action-color:#333333;
+  --picker-cancel-action-color:#333333;
+}
+
+.column-class {
+  color: rgb(51, 51, 51, 0.3) !important;
+  font-size: 32rpx !important;
+}
+
+.active-class {
+  color: #333333 !important;
+  font-size: 32rpx !important;
+}
+
+.btn-save {
+  margin: 186rpx 124rpx 0;
+  background:#F94021;
+  height: 80rpx;
+  border-radius: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #ffffff;
+  font-size: 32rpx;
+}
+

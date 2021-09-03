@@ -1,0 +1,156 @@
+/* pages/goods_logistics/goods_logistics.wxss */
+.logistics-container{
+  padding-bottom: 100rpx;
+}
+
+.order-wrap {
+  margin: 24rpx;
+  padding: 32rpx 20rpx 52rpx;
+}
+
+.order-state {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.order-state .image {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.order-state .text {
+  margin-left: 20rpx;
+  font-size: 32rpx; 
+  font-weight: 500;
+  color: #000000;
+}
+
+.order-logistics {
+  margin-top: 36rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.order-logistics .image {
+  width: 62rpx;
+  height: 62rpx;
+}
+
+.order-logistics .text {
+  margin-left: 20rpx;
+  font-size: 28rpx; 
+  font-weight: 500;
+  color: #333333;
+}
+
+ .logistics-wrap {
+  margin: 0 24rpx;
+  padding: 54rpx 20rpx 32rpx;
+}
+
+ .logistics-item {
+  position:relative;
+  padding:0 38rpx;
+ }
+
+ .logistics-item .line {
+  position:absolute;
+  top:10rpx;
+  left:38rpx;
+  width: 2rpx;
+  height: 100%;
+  background-color: #D8D8D8;
+}
+
+.logistics-item .line.last {
+  background-color: #ffffff;
+}
+
+.logistics-item .bigCircular {
+  position:absolute;
+  top:10rpx;
+  left:20rpx;
+  width:36rpx;
+  height:34rpx;
+  border-radius:50%;
+  background-color:#EB2B22;
+  color: #FFFFFF;
+  font-size: 20rpx;
+  text-align: center;
+  line-height: 34rpx;
+}
+
+ .logistics-item .circular {
+  position:absolute;
+  top:10rpx;
+  left:29rpx;
+  width:20rpx;
+  height:20rpx;
+  border-radius:50%;
+  background-color:#9B9B9B;
+}
+
+.logistics-item .circular.active {
+  background-color:#F94021;
+}
+
+.text-content {
+  padding:0 0 72rpx 32rpx;
+}
+
+.text-content.last {
+  padding:0 0 0 32rpx;
+}
+
+.text-content .status { 
+  font-size:28rpx;
+  color:#737373;
+  font-weight: 400;
+}
+
+.text-content .status.active { 
+  font-weight: 500;
+  color: #EB2B22;
+}
+
+.text-content .detail { 
+  margin-top: 14rpx;
+  font-size:24rpx;
+  color:#737373;
+  line-height: 34rpx;
+}
+
+.text-content .detail.active { 
+  color: #000000;
+}
+
+.text-content .time { 
+  margin-top: 2rpx;
+  font-size:24rpx;
+  color:#737373;
+  line-height: 34rpx;
+}
+
+.text-content .time.active { 
+  color: #333333;
+}
+
+.more-wrap {
+  margin-top: 62rpx;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.more-wrap .text{
+  font-size: 28rpx;
+  color: #737373;
+}
+
+.more-wrap .arrow{
+  width: 40rpx;
+  height: 40rpx;
+}

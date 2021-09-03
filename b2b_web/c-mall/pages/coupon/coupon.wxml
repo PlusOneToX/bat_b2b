@@ -1,0 +1,59 @@
+<!--pages/coupon/coupon.wxml-->
+<view class="coupon-container">
+
+  <!-- 分组 -->
+  <view class="tabs">
+    <view class="tabs-title" >
+      <view class="title-item {{item.isActive?'active':''}}" wx:for="{{tabList}}" wx:key="id" bindtap="tabsItemClick" data-index="{{item.id}}">
+        <view class="title">{{item.value}}</view>
+        <view class="line" wx:if="{{item.isActive}}"></view>
+      </view>
+    </view>
+    <view class="tabs-content">
+      <block wx:if="{{newCouponList.length>0}}">
+        <view class="coupon-list" wx:for="{{newCouponList}}" wx:key="id">
+          <view class="coupon-item cell">
+            <view class="left-content {{item.couponDisable?'disable':''}} {{item.thresholdType===1?'active':''}}">
+              <view class="face-vaule {{item.couponDisable?'disable':''}} {{item.thresholdType===1?'active':''}}">
+                ¥ <text class="vaule">{{item.vaule}}</text>
+              </view>
+              <view class="threshold {{item.couponDisable?'disable':''}} {{item.thresholdType===1?'active':''}}">{{item.threshold}}</view>
+            </view>
+            <view class="right-content">
+              <view class="cate-item">{{item.subCate}}</view>
+              <view class="range-item">
+                <view class="range">{{item.range}}</view>
+                <view class="now-get" wx:if="{{item.type===1}}">立即领取</view>
+                <view class="now-get" wx:if="{{item.type===2}}">立即使用</view>
+              </view>
+              <view class="stauts-wrap" wx:if="{{item.type===3 || item.type===4}}">
+                <image class="image" wx:if="{{item.type===3}}" src="../../assets/images/coupon_used.png"></image>
+                <image class="image" wx:else src="../../assets/images/coupon_expired.png"></image>
+              </view>
+              <view class="time-item">{{item.time}}</view>
+              <view class="coupon-type-item" bindtap="seeCouponDetail" data-index="{{index}}">
+                <view class="coupon-type">{{item.coupontype}}</view>
+                <image wx:if="{{item.isShowDetail}}" src="../../assets/images/arrow_down_gray.png"></image>
+                <image wx:else src="../../assets/images/arrow_right_gray.png"></image>
+              </view>
+            </view>
+          </view>
+          <view class="detail-wrap" wx:if="{{item.isShowDetail}}">
+            <view class="time">有效期: {{item.time}}</view>
+            <view class="tip-item" wx:for="{{item.tips}}" wx:for-item="item1" wx:key="*this">
+              <view class="circle"></view>
+              <view class="tip">{{item1}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="coupon-no-data">
+          <image src="../../assets/images/coupon-no-data.png"></image>
+          <view class="text">您还没有优惠券哦～</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+</view>

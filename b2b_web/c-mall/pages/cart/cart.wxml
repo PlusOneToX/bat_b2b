@@ -1,0 +1,148 @@
+<!--pages/cart/cart.wxml-->
+<block wx:if="{{isLogin}}">
+  <view class="cart-container">
+
+    <view class="top-tool" wx:if="{{cart.length > 0}}">
+      <view class="left-box" bindtap="selectAddress" wx:if="{{ isCanEdit && curShortAddress.length>0 }}">
+        <image src="../../assets/images/address_cart.png"></image>
+        <view class="address">{{curShortAddress}}</view>
+      </view>
+      <view class="right-box">
+        <view class="line"></view>
+        <view class="btn-edit" bindtap="handleEdit">{{ isCanEdit? "编辑" : "完成" }}</view>
+      </view>
+    </view>
+
+    <!-- 购物车商品 -->
+    <view class="cart-content">
+    
+      <block wx:if="{{cart.length > 0}}">
+        <view class="cart-wrap" wx:for="{{cart}}" wx:key="cat_id">
+          <!-- 分类标题 -->
+          <view class="cates-title" data-id="{{item.cat_id}}" bindtap="cateTitleClick">
+            <view class="title">{{item.cat_name}}</view>
+            <image class="image" src="../../assets/images/arrow_image.png"></image>
+          </view>
+          <view 
+            class="goods-item"
+            wx:for="{{item.goodsList}}"
+            wx:for-item="item1"
+            wx:for-index="index1" 
+            wx:key="goods_id"
+            data-index="{{index}}"
+            data-index1="{{index1}}"
+            bindtouchstart= "onTouchStart"
+            bindtouchmove= "onTouchMove"
+            bindtouchend= "onTouchEnd"
+          >
+            <movable-area class="movable-area">
+              <movable-view
+                class="movable-view" 
+                out-of-bounds="true"
+                x="{{item1.x}}" 
+                direction="horizontal" 
+              >
+                <!-- 复选框 -->
+                <view class="goods-check-wrap" bindtap="handleGoodsCheck" data-goodsid="{{item1.goods_id}}" data-cateid="{{item.cat_id}}">
+                  <image wx:if="{{item1.goods_checked}}"class="checkbox-checked" src="../../assets/images/icon_selected.png"></image>
+                  <image wx:else class="checkbox-unchecked" src="../../assets/images/icon_unselected.png"></image>
+                </view>
+                <!-- 商品图片 -->
+                <view class="goods-image-wrap">
+                  <image src="{{item1.goods_icon}}"></image>
+                </view>
+                <!-- 商品信息 -->
+                <view class="goods-info-wrap">
+                  <view class="goods-name">{{item1.goods_name}}</view>
+                  <view class="goods-param-wrap">
+                    <view class="goods-param">{{item1.goods_param}}</view>
+                    <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+                  </view>
+                  <view class="goods-price-wrap">
+                    <view class="price-wrap">
+                      <view class="unit">¥</view>
+                      <view class="current-price">{{item1.goods_price}}</view>
+                    </view>
+                    <view class="goods-num-tool">
+                      <view class="num-edit" bindtap="handleNumEdit" data-id="{{item1.goods_id}}" data-index="{{-1}}">
+                        <image wx:if="{{item1.minusEnable}}" src="../../assets/images/minus_enable.png"></image>
+                        <image wx:else src="../../assets/images/minus_disable.png"></image>
+                      </view>
+                      <view class="goods-num">{{item1.goods_num}}</view>
+                      <view class="num-edit" bindtap="handleNumEdit" data-id="{{item1.goods_id}}" data-index="{{1}}">
+                        <image wx:if="{{item1.plusEnable}}" src="../../assets/images/plus_enable.png"></image>
+                        <image wx:else src="../../assets/images/plus_disable.png"></image>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </movable-view>
+            </movable-area>
+            <view class="right-button-wrap">
+              <view class="delete" data-index="{{index}}" data-index1="{{index1}}" bindtap="deleteButtonClick">删除</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="no-data-wrap">
+          <image src="../../assets/images/cart_no_data.png"></image>
+          <view class="tip">购物车空空如也～</view>
+          <view class="button" bindtap="toSee">去逛逛</view>
+        </view>
+        
+      </block>
+      
+    </view>
+
+    <!-- 底部工具栏 -->
+    <view class="bottom-tool" wx:if="{{cart.length > 0}}">
+      <view class="all-check-wrap" bindtap="handleAllCheck">
+        <block wx:if="{{isAllChecked}}">
+          <image class="checkbox-checked" src="../../assets/images/icon_selected.png"></image>
+        </block>
+        <block wx:else>
+          <image class="checkbox-unchecked" src="../../assets/images/icon_unselected.png"></image>
+        </block>
+        <view class="text">全选</view>
+      </view>
+      <view class="total-price-wrap" wx:if="{{ isCanEdit }}">
+        总计: 
+        <text class="text1">¥</text>
+        <text class="text2">{{totalPrice}}</text>
+      </view>
+      <view class="btn-pay" wx:if="{{ isCanEdit }}" bindtap="gotoPay">去结算</view>
+      <view class="btn-delete" wx:if="{{ !isCanEdit }}" bindtap="handleDelete">删除</view>
+
+    </view>
+
+    <!-- 收货地址切换 -->
+    <van-popup class="address-menu" show="{{isShowAddressPopup}}" position="bottom" custom-style="max-height: 1072rpx">
+      <view class="header-item">
+        <view class="title">选择地址</view>
+        <view class="close-wrap">
+          <image class="close-image" src="../../assets/images/close.png" bindtap="closeAddressMenu"></image>
+        </view>
+      </view>
+      <view class="address-item" wx:for="{{addressList}}" wx:key="id" bindtap="handleAdderssCheck" data-index="{{index}}">
+        <view class="address-check-wrap">
+          <image wx:if="{{item.isChecked}}" class="checkbox-checked" src="../../assets/images/icon_selected.png"></image>
+          <image wx:else class="checkbox-unchecked" src="../../assets/images/icon_unselected.png"></image>
+        </view>
+        <view class="address">{{item.fullRegion}}</view>
+      </view>
+      <view class="button" bindtap="selectOtherAddress">选择其他地址</view>
+    </van-popup>
+
+
+    <!-- Dialog -->
+    <van-dialog id="van-dialog" />
+
+    <!-- Toast -->
+    <van-toast id="van-toast" />
+
+  </view>
+</block>
+<block wx:else>
+  <authorize class="authorize" bindauthSuccess="authSuccess"></authorize>
+</block>

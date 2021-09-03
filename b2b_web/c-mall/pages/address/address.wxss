@@ -1,0 +1,177 @@
+/* pages/address/address.wxss */
+.address-item {
+  margin-top: 24rpx;
+  display: flex;
+  background: red;
+}
+
+.movable-area {
+  height: 100rpx;
+  background: #fff;
+  flex: 1;
+}
+
+.movable-view {
+  height: auto;
+  width:  100vw;
+  background: #fff;
+}
+
+.address-wrap {
+  padding: 32rpx 20rpx;
+}
+
+.top-wrap {
+  margin-bottom: 38rpx;
+}
+
+.top-wrap .name {
+  font-size: 32rpx;
+  color: #4A4A4A;
+  font-weight: 600;
+}
+
+.top-wrap .phone-number {
+  margin-left: 140rpx;
+  font-size: 32rpx;
+  color: #4A4A4A;
+}
+
+.bottom-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start
+}
+
+.left-box{
+  margin-right: 100rpx;
+}
+
+.left-box .default {
+  padding: 0 10rpx;
+  margin-right: 10rpx;
+  height: 36px;
+  background: rgb(249, 64, 33,0.1);
+  border-radius: 18rpx;
+  font-size: 28rpx;
+  color: #F94021;
+}
+
+.left-box .info {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 40rpx
+}
+
+.right-box{
+  width: 108rpx;
+  text-align: center;
+}
+
+.right-box .edit {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.address-no-data {
+  margin: 76rpx 80rpx;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-no-data .tip-image{
+  margin-top: 72rpx;
+  width: 470rpx;
+  height: 376rpx;
+  
+}
+
+.address-no-data .tip{
+  margin-top: 32rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333333; 
+}
+
+.address-no-data .add-button{
+  height: 80rpx;
+  width: 502rpx;
+  margin: 194rpx auto 90rpx;
+  border-radius: 40rpx;
+  background: linear-gradient(92deg, #F0541D 0%, #EA2423 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-no-data .add-button .image{
+  width: 32rpx;
+  height: 34rpx;
+  margin-right: 16rpx;
+}
+
+.address-no-data .add-button .text{
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #E4E4E4;
+}
+
+.btm-tool{
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background: #ffffff;
+  padding: 22rpx 124rpx calc(20rpx + constant(safe-area-inset-bottom));
+  padding: 22rpx 124rpx calc(20rpx + env(safe-area-inset-bottom));
+}
+
+.btm-tool .btn-add{
+  background: linear-gradient(92deg, #F0541D 0%, #EA2423 100%);
+  height: 80rpx;
+  border-radius: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btm-tool .btn-add .image{
+  width: 32rpx;
+  height: 34rpx;
+  margin-right: 16rpx;
+}
+
+.btm-tool .btn-add .desc{
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.right-wrap{
+  display: flex;
+}
+
+.btn-default{
+  width: 150rpx;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  background: #bcbcbc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-delete {
+  width: 150rpx;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

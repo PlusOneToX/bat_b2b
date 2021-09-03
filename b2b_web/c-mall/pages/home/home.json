@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "toast-loading":"../../component/toast-loading/index"
+  },
+  "navigationBarTitleText": "C端商城",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F6F6F6",
+  "backgroundTextStyle": "dark"
+}

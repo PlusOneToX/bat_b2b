@@ -1,0 +1,13 @@
+<!--component/authorize/authorize.wxml-->
+<view class="authorize-container">
+  <image class="authorize-bg" src="../../assets/images/authorize_bg.png"></image>
+  <view class="authorize-content">
+    <image class="authorize-logo" src="../../assets/images/authorize_logo.png"></image>
+    <block>
+      <button class="btn-auth" wx:if="{{showWxAuthButton}}" bindtap="getUserProfile">微信授权</button>
+      <button class="btn-auth" wx:else open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">手机号快捷登录</button>
+    </block>
+    <view class="btn-unauth" bindtap="unAuthButtonClick">暂不授权</view>
+  </view>
+</view>
+

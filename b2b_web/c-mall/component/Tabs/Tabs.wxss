@@ -1,0 +1,21 @@
+/* component/Tabs/Tabs.wxss */
+
+.tabs{
+  margin-top: 24rpx;
+}
+
+.tabs-title{
+  display: flex;
+}
+
+.title-item{
+  padding: 20rpx 6rpx;
+  width: 120rpx;
+  color: #333640;
+  font-size: 32rpx;
+  font-weight: 400;
+}
+
+.active{
+  font-weight: 600;
+}

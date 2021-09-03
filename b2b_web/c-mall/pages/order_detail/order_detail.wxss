@@ -1,0 +1,294 @@
+/* pages/order_detail/order_detail.wxss */
+
+.detail-container{
+  padding-bottom: 100rpx;
+}
+
+.cell {
+  margin: 24rpx;
+  padding: 32rpx 20rpx;
+}
+
+.order-state {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.order-state .image {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.order-state .text {
+  margin-left: 20rpx;
+  font-size: 32rpx; 
+  font-weight: 500;
+  color: #333333;
+}
+
+.order-tip {
+  margin:0 22rpx 0 56rpx;
+}
+
+.order-tip .unpaid-des {
+  margin-top: 28rpx;
+  font-size: 28rpx; 
+  font-weight: 500;
+  color: #333333;
+}
+
+.order-tip .unpaid-time {
+  margin-top: 16rpx;
+  font-size: 24rpx; 
+  color: #F94021;
+}
+
+.order-tip .unshipped-des {
+  margin: 38rpx 0 40rpx;
+  font-size: 28rpx; 
+  font-weight: 500;
+  color: #F94021;
+}
+
+.order-tip .unreceived-item {
+  margin-top: 28rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-tip .unreceived-des {
+  font-size: 28rpx; 
+  font-weight: 500;
+  color: #333333;
+}
+
+.order-tip image {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.order-tip .unreceived-time {
+  margin-top: 16rpx;
+  font-size: 24rpx; 
+  color: #737373;
+}
+
+.address-header {
+  margin: 0 58rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.address-header .name {
+  font-size: 28rpx; 
+  color: #333333;
+}
+
+.address-header .phone-number {
+  font-size: 28rpx; 
+  color: #737373;
+}
+
+.address-content {
+  margin-top: 38rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.address-content .left-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+}
+
+.address-icon{
+  margin-top: 10rpx;
+  width: 38rpx;
+  height: 46rpx;
+}
+
+.address-info{
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.right-content {
+  width: 118rpx;
+  text-align: right;
+}
+
+.arrow{
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.order-id {
+  font-size: 28rpx;
+  color: #737373;
+}
+
+.goods-list{
+  margin-top: 28rpx;
+  display: flex;
+}
+
+.goods-image-wrap{
+  padding-left: 4rpx;
+  width: 176rpx;
+  height: 176rpx;
+}
+
+.goods-image-wrap .image {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx;
+} 
+
+.goods-info-wrap{
+  flex: 1;
+  padding: 0 20rpx;
+}
+
+.info-item {
+  margin-bottom: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.goods-name {
+  width: 306rpx;
+  font-size: 28rpx;
+  color: #000000;
+  line-height: 40rpx;
+}
+
+.goods-price {
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.goods-param {
+  font-size: 24rpx;
+  color: #333333;
+}
+
+.goods-number {
+  font-size: 24rpx;
+  color: #000000;
+}
+
+.freight-wrap{
+  margin-top: 34rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.freight-wrap .title{
+  font-size: 28rpx;
+  color: #333333
+}
+
+.freight-wrap .text{
+  font-size: 28rpx;
+  color: #737373
+}
+
+.total-price-wrap{
+  margin-top: 34rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-price-wrap .title{
+  font-size: 28rpx;
+  color: #333333
+}
+
+.total-price-wrap .text{
+  font-size: 28rpx;
+  color: #D0021B;
+}
+
+.footer-button-wrap {
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-refund{
+  width: 220rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+  border: 2rpx solid #E7E9EE;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #737373;
+  text-align: center;
+  line-height: 58rpx;
+}
+
+.order-info-wrap .title{
+  font-size: 32rpx;
+  color: #000000;
+}
+
+.order-info-wrap .id{
+  margin-top: 28rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.order-info-wrap .create-time{
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.order-info-wrap .paid-time{
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  color: #000000;
+}
+
+.btm-tool {
+  margin: 28rpx 24rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-cancle {
+  margin-right: 12rpx;
+  width: 220rpx;
+  height: 60rpx;
+  background: #E9E9E9;
+  border-radius: 30rpx; 
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #737373;
+  text-align: center;
+  line-height: 60rpx;
+}
+
+.btn-pay {
+  width: 220rpx;
+  height: 60rpx;
+  background: #F94021;
+  border-radius: 30rpx; 
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 60rpx;
+}

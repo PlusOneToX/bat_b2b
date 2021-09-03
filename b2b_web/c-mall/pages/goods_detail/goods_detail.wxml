@@ -1,0 +1,239 @@
+<!--pages/goods_detail/goods_detail.wxml-->
+<view class="detail-container">
+  <!-- 轮播主图-->
+  <view class="banner-wrap">
+    <swiper autoplay circular interval="10000">
+      <swiper-item wx:for="{{goodsObj.pics}}" bindtap="handlePrevewImage" data-url="{{item.pics_url}}">
+        <image src="../../assets/images/good_detail_main.png" mode="widthFix"></image>
+      </swiper-item>
+      <swiper-item bindtap="handlePrevewImage">
+        <image src="../../assets/images/good_info.png" mode="widthFix"></image>
+      </swiper-item>
+      <swiper-item bindtap="handlePrevewImage">
+        <image src="../../assets/images/good_detail_main.png" mode="widthFix"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="detail-content">
+    <view class="detail-main">
+
+      <!-- 商品信息 -->
+      <view class="goods-cell">
+        <view class="goods-price-box">
+          <view class="price-wrap">
+            <view class="unit">¥</view>
+            <view class="current-price">59.9</view>
+            <view class="origin-Price">68.08</view>
+          </view>
+          <view class="payed-num">已售567件</view>
+        </view>
+        <view class="goods-name">
+          奥黛丽的春天~方领刺绣裙子女春长袖碎花轻薄温柔雪纺连衣裙
+        </view>
+        <view class="tag-wrap">
+          <view class="tag-list">
+            <view class="tag-item" wx:for="{{tags}}" wx:key="*this">
+              <view class="tag">{{item}}</view>
+            </view>
+          </view>
+          <view class="coupon-wrap">
+            <view class="coupon">领劵</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 商品参数 -->
+      <view class="goods-cell">
+        <!-- 选择商品 -->
+        <view class="param-item-wrap" bindtap="paramItemClick" data-id="0">
+          <view class="param-item">
+            <view class="param-text">
+              <text class="text1">选择</text>
+              <text class="text2">寸长/颜色分类</text>
+            </view>
+            <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+          </view>
+          <view class="good-color">
+            <image src="../../assets/images/good_color.png"></image>
+            <image src="../../assets/images/good_color.png"></image>
+            <image src="../../assets/images/good_color.png"></image>
+            <view class="color-hint">共有5种颜色可选</view>
+          </view>
+        </view>
+        <!-- 保障 -->
+        <view class="param-item" bindtap="paramItemClick" data-id="1">
+          <view class="param-text">
+            <text class="text1">保障</text>
+            <text class="text2">内容七天无理由退换</text>
+          </view>
+          <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+        </view>
+
+        <!-- 参数 -->
+        <view class="param-item" bindtap="paramItemClick" data-id="2">
+          <view class="param-text">
+            <text class="text1">参数</text>
+            <text class="text2">品牌规格…</text>
+          </view>
+          <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+        </view>
+      </view>
+
+      <!-- 货品详情 -->
+      <view class="good-info">
+        <view class="good-info-title">
+          <view class="line"></view>
+          <view class="title">货品详情</view>
+          <view class="line"></view>
+        </view>
+        <view class="goods_info_content">
+          <image src="../../assets/images/good_info.png"></image>
+          <image src="../../assets/images/good_info.png"></image>
+          <image src="../../assets/images/good_info.png"></image>
+          <image src="../../assets/images/good_info.png"></image>
+        </view>
+        
+      </view>
+
+      <!-- 底部工具栏 -->
+      <view class="bottom-tool">
+        <view class="tool-item">
+          <image src="../../assets/images/kefu_image.png"></image>
+          <view class="text">客服</view>
+        </view>
+        <view class="tool-item">
+          <view class='pictrue'>
+            <image src="../../assets/images/cart_image.png"></image>
+            <text class="cart-num">2</text>
+          </view>
+          <view class="text">购物车</view>
+        </view>
+        <view class="tool-item">
+          <image src="../../assets/images/shoucang_image.png"></image>
+          <view class="text">收藏</view>
+        </view>
+        <view class="button-cart" bindtap="addToCart">
+          加入购物车
+        </view>
+        <view class="button-buy" bindtap="toBuy">
+          立即购买
+        </view>
+      </view>
+
+      <!-- 规格选择弹出框 -->
+      <van-popup class="sku-menu" show="{{isShowSkuMenu}}" position="bottom" 
+      custom-style="max-height: 80%; overflow: visible;">
+        <!-- 头部：价格、库存 -->
+        <view class="header-content">
+          <view class="close-wrap">
+            <image class="close-image" src="../../assets/images/close.png" bindtap="closePopupTap"></image>
+          </view>
+          <image class="goods-image" src="../../assets/images/good_detail_main.png"></image>
+          <view class="price-wrap">
+            <view class="unit">¥</view>
+            <view class="current-price">59.9</view>
+          </view>
+          <view class="remian-num">库存 108 件</view>
+        </view>
+
+        <view class="sku-item" wx:for="{{goodsObj.skuList}}" wx:key="sku_id">
+          <view class="item-title">{{item.sku_name}}</view>
+          <view class="item-content">
+            <view class="item {{item.activeIndex===index1?'active':''}}" 
+             wx:for="{{item.list}}" 
+             wx:key="*this" 
+             wx:for-item="item1" 
+             wx:for-index="index1" 
+             bindtap="skuItemClick"
+             data-id="{{item.sku_id}}"
+             data-index="{{index1}}"
+            >
+              {{item1}}
+            </view>
+          </view>
+        </view>
+
+        <!-- 数量 -->
+        <view class="sku-item">
+          <view class="num-wrap">
+            <view class="item-title">购买数量</view>
+            <view class="goods-num-tool">
+              <view class="num-edit" bindtap="handleNumEdit" data-id="{{goodsObj.goods_id}}" data-index="{{-1}}">
+                <image wx:if="{{minusEnable}}" src="../../assets/images/minus_enable.png"></image>
+                <image wx:else src="../../assets/images/minus_disable.png"></image>
+              </view>
+              <view class="goods-num">{{goodsObj.goods_num}}</view>
+              <view class="num-edit" bindtap="handleNumEdit" data-id="{{goodsObj.goods_id}}" data-index="{{1}}">
+                <image wx:if="{{plusEnable}}" src="../../assets/images/plus_enable.png"></image>
+                <image wx:else src="../../assets/images/plus_disable.png"></image>
+              </view>
+              </view>
+          </view>
+        </view>
+        <!-- 按钮 -->
+        <view class="menu-btm-button">
+          <block wx:if="{{isClickGoodsCellSku}}">
+            <view class="button-cart" bindtap="addToCart">加入购物车</view>
+            <view class="button-buy" bindtap="toBuy">立即购买</view>
+          </block>
+          <block wx:else>
+            <view class="confirm" bindtap="hanleSkuConfirm">确认</view>
+          </block>
+        </view>
+      </van-popup>
+
+      <!-- 基本服务弹出框-->
+      <van-popup 
+       class="service-menu basic-menu" 
+       show="{{isShowServiceMenu}}" 
+       position="bottom" 
+       custom-style="max-height: 80%;"
+      >
+        <view class="header">基本服务</view>
+        <view class="list">
+          <view class="item" wx:for="{{serviceList}}" wx:key="*this">
+            <image class="image" src="../../assets/images/icon_selected.png"></image>
+            <view class="content">{{item}}</view>
+          </view>
+        </view>
+        <!-- 按钮 -->
+        <view class="menu-btm-button">
+          <view class="button-finish" bindtap="finishButtonClicked">完成</view>
+        </view>
+      </van-popup>
+
+      <!-- 产品参数弹出框-->
+      <van-popup 
+       class="goods-param-menu basic-menu" 
+       show="{{isShowGoodsParamMenu}}" 
+       position="bottom" 
+       custom-style="max-height: 80%;"
+      >
+        <view class="header">产品参数</view>
+        <view class="list" >
+          <view class="item" wx:for="{{goodsParamList}}" wx:key="id">
+            <view class="title">{{item.title}}</view>
+            <view class="desc">{{item.desc}}</view>
+          </view>
+        </view>
+        <!-- 按钮 -->
+        <view class="menu-btm-button">
+          <view class="button-finish" bindtap="finishButtonClicked">完成</view>
+        </view>
+      </van-popup>
+
+
+    </view>
+  </view>
+
+
+
+
+
+
+
+
+
+</view>
+

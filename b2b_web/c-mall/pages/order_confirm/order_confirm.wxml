@@ -1,0 +1,68 @@
+<!--pages/order_confirm/order_confirm.wxml-->
+<view class="confirm-container">
+
+  <view class="address-wrap cell">
+    <view class="address-header">
+      <text class="name"></text>
+      <text class="phone-number"></text>
+    </view>
+    <view class="address-content">
+      <view class="left-content">
+        <image class="address-icon" src="../../assets/images/address_icon.png"></image>
+        <view class="address-info"></view>
+      </view>
+      <view class="right-content">
+        <image class="arrow" src="../../assets/images/arrow_image.png"></image>
+      </view>
+    </view>
+  </view>
+
+  <view class="goods-wrap cell" wx:for="{{goodsList}}">
+    <!-- 订单图片 -->
+    <view class="goods-image-wrap">
+      <image class="image" src="{{item.goods_icon}}"></image>
+    </view>
+    <!-- 订单信息 -->
+    <view class="goods-info-wrap">
+      <view class="info-item">
+        <view class="goods-name">{{item.goods_name}}</view>
+        <view class="goods-price">¥{{item.goods_price}}</view>
+      </view>
+      <view class="info-item">
+        <view class="goods-param">规格:{{item.goods_param}}</view>
+        <view class="goods-number">X{{item.goods_num}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="goods-price-wrap cell">
+     <!-- 运费 -->
+     <view class="freight-item">
+      <view class="title">运费</view>
+      <view class="text">¥ 12.00</view>
+    </view>
+    <!-- 优惠券 -->
+    <view class="coupon-item">
+      <view class="title">优惠券</view>
+      <view class="text">-¥ 12.00</view>
+    </view>
+    <!-- 总价 -->
+    <view class="total-price-item">
+      <view class="title">总价</view>
+      <view class="text1">
+        ¥ 234<text class="text2">.00</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="btm-tool">
+    <view class="total-price-wrap">
+      总计:   <text class="text">¥234.00</text>
+    </view>
+    <view class="btn-pay" bindtap="toPayNow">立即支付</view>
+  </view>
+
+  <!-- Dialog -->
+  <van-dialog id="van-dialog" />
+
+</view>

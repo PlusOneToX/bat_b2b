@@ -1,0 +1,103 @@
+<!--pages/apparel/apparel.wxml-->
+<view class="apparel-container">
+
+  <!-- banner -->
+  <view class="banner-wrap">
+    <block wx:if="{{bannerList1.length > 0}}">
+      <swiper class="banner" autoplay circular interval="5000" bindchange="handleSwiperChange">
+        <swiper-item wx:for="{{bannerList}}" wx:key="id">
+          <image class="banner-image" mode="widthFix" src="../../assets/images/apparel_banner.png"> </image>
+        </swiper-item>
+      </swiper>
+      <!-- 自定义swiper指示点 -->
+      <view class="dots">
+        <block wx:for="{{bannerList}}" wx:key="id">
+          <view class="dot {{index == swiperCurrent?'active':''}}"> </view>
+        </block>
+      </view>
+    </block>
+    <view class="banner" wx:else>
+      <image class="banner-image" mode="widthFix" src="../../assets/images/apparel_banner.png"> </image>
+    </view>
+  </view>
+
+  <view class="apparel-content">  
+
+      <!-- 秒杀转场 -->
+      <view class="seckill-wrap cell">
+        <view class="seckill-header"> 
+          <image class="image" src="../../assets/images/img-miaosha.png" mode="heightFix"></image>
+          <view class="countdown-wrap">
+              <block wx:if="{{isTimerOut}}">秒杀结束</block>
+              <block wx:else>
+                <view class="item time">{{countdown.hour}}</view> 
+                <view class="item colon">:</view>
+                <view class="item time">{{countdown.minute}}</view>
+                <view class="item colon">:</view>
+                <view class="item time">{{countdown.second}}</view>
+              </block>
+          </view>
+          <view class="header-more-text">查看更多</view>
+        </view>
+        <view class="seckill-list">
+          <view class="seckill-item" wx:for="{{seckillList}}" wx:key="id">
+            <image class="image" mode="widthFix" src="{{item.imageSrc}}"></image>
+            <view class="price-wrap">
+              <view class="unit">¥</view>
+              <view class="current-price">{{item.curPrice}}</view>
+              <view class="origin-Price">{{item.oriPrice}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 最新-->
+      <view class="newest-list-wrap cell">
+        <view class="newest-item">
+          <view class="newest-header">
+            <image class="image" src="../../assets/images/img-new.png" mode="heightFix"></image>
+            <view class="header-more-text">查看更多</view>
+          </view>
+          <view class="newest-box-a">
+            <image class="image" src="../../assets/images/img-jinggang.png"></image>
+            <image class="image" src="../../assets/images/img-jinggang.png"></image>
+          </view>
+        </view>
+        <view class="newest-item">
+          <view class="newest-header">
+            <image class="image" src="../../assets/images/img-other.png" mode="heightFix"></image>
+            <view class="more header-more-text">查看更多</view>
+          </view>
+          <view class="newest-box-b">
+            <image class="image" src="../../assets/images/dessert_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+    <!-- 分组 -->
+    <Tabs class="tabs-wrap" tabList="{{tabList}}" bindtabsItemChange="handleTabsItemChange">
+      <block wx:if="{{tabList[0].isActive}}">
+        <view class="goods-list">
+          <view class="goods-item" wx:for="{{likeList}}" wx:key="id">
+            <image class="goods-image" src="{{item.imageSrc}}" mode="widthFix"></image>
+            <view class="goods-info">
+              <view class="goods-name">{{item.title}}</view>
+              <view class="tag-list">
+                <view class="tag-item" wx:for="{{item.tags}}" wx:for-item="item1" wx:for-index="index1" wx:key="*this">
+                  <view class="tag">{{item1}}</view>
+                </view>
+              </view>
+              <view class="price-wrap">
+                <view class="unit">¥</view>
+                <view class="current-price">{{item.curPrice}}</view>
+                <view class="origin-Price">{{item.oriPrice}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </Tabs>
+
+  </view>
+</view>
+

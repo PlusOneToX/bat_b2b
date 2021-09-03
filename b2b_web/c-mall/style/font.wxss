@@ -1,0 +1,38 @@
+page{
+
+  /* 数字的字体 */
+  --number-font-family: DINAlternate-Bold, DINAlternate;
+
+  /* 单位的的字体 */
+  --unit-font-family: ArialMT;
+
+  /* 超大号字体 */
+  --norm-oversized-font-size: 36rpx;
+
+  /* 特大号字体 */
+  --norm-largest-font-size: 32rpx;
+
+  /* 大号字体 */
+  --norm-large-font-size: 28rpx;
+
+  /* 中号字体 */
+  --norm-middle-font-size: 24rpx;
+
+  /* 小号字体 */
+  --norm-small-font-size: 22rpx;
+
+  /* 特小号字体 */
+  --norm-smaller-font-size: 20rpx;
+
+  
+
+  /* 中等 */
+  --norm-medium-font-weight: 500;
+
+  /* 半加粗 */
+  --norm-semibold-font-weight: 600;
+
+  /* 加粗 */
+  --norm-Bold-font-weight: 700;
+
+}

@@ -1,0 +1,277 @@
+/* pages/user/user.wxss */
+
+
+
+
+.user-info-wrap {
+  width: 100vw;
+  height: 506rpx;
+  background: linear-gradient(87deg, #FF720D 0%, #EA2324 100%);
+}
+
+.user-bg{
+  position: relative;
+  width: 100%;
+}
+
+.user-info{
+  position: absolute;
+  top: 202rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.user-info .avatar {
+  width: 136rpx;
+  height: 136rpx;
+  border-radius: 50%;
+}
+
+.user-info .name {
+  color: #fff;
+  margin-top: 20rpx;
+  font-size: 36rpx;
+}
+
+.user_content{
+  position: relative;
+}
+
+.user-main{
+  position: absolute;
+  top: -76rpx;
+  left: 24rpx;
+  right: 24rpx;
+}
+
+.order-wrap .header{
+  display: flex;
+  padding: 18rpx 30rpx;
+  border-radius: 16rpx;
+}
+
+.order-wrap .header-left{
+  flex: 1;
+  font-size: 28rpx;
+  color: #333640;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.order-wrap .header-right{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-right .text{
+  font-size: 28rpx;
+  color: #979797;
+}
+
+.header-right .arrow{
+  width: 32rpx;
+  height: 32rpx;
+  font-size: 28rpx;
+  color: #979797;
+}
+
+.order-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 12rpx;
+}
+
+.order-item {
+  flex: 1;
+  margin: 0 4rpx;
+  padding: 34rpx 0 32rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.order-item .pictrue{
+  position: relative;
+  width:72rpx;
+  height:72rpx;
+}
+
+.order-item .icon{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.order-item .order-num {
+  position: absolute;
+  right: -8rpx;
+  top: -16rpx;
+  min-width:16rpx;
+  background: linear-gradient(73deg, #FF6D4F 0%, #FF4E67 100%);
+  color: #ffffff;
+  border-radius: 18px;
+  font-size: 24rpx;
+  padding: 0 10rpx; 
+}
+
+.order-item .title{
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #333640;
+}
+
+.user-tool {
+  margin-top: 24rpx;
+  display: flex;
+  padding: 0 42rpx;
+}
+
+.user-tool .tool-item{
+  flex: 1;
+  margin: 0 10rpx;
+  padding: 28rpx 0;
+  text-align: center;
+}
+
+.user-tool .icon{
+  width: 78rpx;
+  height: 78rpx;
+}
+
+.user-tool .title{
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #333640;
+}
+
+.recommend-wrap{
+  margin-top: 24rpx;
+  background-color: var(--norm-backgroud-gray-color);
+}
+
+.recommend-wrap .title-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 28rpx 0 24rpx;
+}
+
+.recommend-wrap .title-wrap image{
+  width: 56rpx;
+  height: 60rpx;
+}
+
+.recommend-wrap .title{
+  font-size: 28rpx;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 16rpx;
+
+}
+
+.recommend-wrap .goods-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+}
+
+.recommend-wrap .goods-item{
+  width: 340rpx;
+  margin-bottom: 20rpx;
+  padding-bottom: 30rpx;
+}
+
+.recommend-wrap .goods-item .goods-image{
+  width: 100%;
+}
+
+.recommend-wrap .goods-item .goods-info{
+  padding: 0 32rpx;
+}
+
+.recommend-wrap .goods-item .tag-list {
+  display: flex;
+  margin-top: 8rpx;
+}
+
+.tag-list .tag-item{
+  margin-right: 10rpx;
+  padding: 0 8rpx;
+  border: #F94021 solid 1px;
+  border-radius: 4rpx;
+}
+
+.tag-item .tag{
+  color: #F94021;
+  font-size: 16rpx;
+}
+
+.recommend-wrap .goods-item .price-wrap{
+  margin-top: 18rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.service-menu .service-options{
+  padding: 60rpx 24rpx 24rpx;
+  border-bottom: 2px solid #E5E5E5;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+.service-item {
+  width: 200rpx;
+}
+
+.service-item .title{
+  font-size: 28rpx;
+  color: #4A4A4A;
+}
+
+.service-options .icon{
+  width: 60rpx;
+  height: 62rpx;
+}
+
+.service-menu .btn-cancel {
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.navigaiton-bar {
+  position: relative;
+  width: 100vw;
+  background-color: #ffffff;
+}
+
+.naiv-title {
+  position: absolute;
+  padding-top: 6rpx;
+  width: 100%;
+  font-size: 26rpx;
+  font-family: Helvetica;
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.authorize {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
