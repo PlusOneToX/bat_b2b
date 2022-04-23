@@ -9,7 +9,7 @@
     <name>worth-life</name>
     <packaging>pom</packaging>
 
-    <description>worth-life后台管理系统</description>
+    <description>worth-life</description>
 
     <profiles>
         <profile>
