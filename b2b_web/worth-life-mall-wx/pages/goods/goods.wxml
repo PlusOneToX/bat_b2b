@@ -1,0 +1,290 @@
+<view>
+	<view class="tui-header-box" style="height:{{height}}px;background:rgba(255,255,255,{{opcity}})">
+		<view class="tui-header" style="padding-top:{{top+20}}px; opacity:{{opcity}}">
+			商品详情
+		</view>
+		<view class="tui-header-icon" style="margin-top:{{top}}px">
+			<tui-icon name="arrowleft" color="{{opcity>=1?'#000':'#fff'}}" bindtap="back" tui-icon-class="tui-icon-back" class="tui-icon" style="background:rgba(0, 0, 0, {{iconOpcity}});"></tui-icon>
+			<tui-icon name="more-fill" color="{{opcity>=1?'#000':'#fff'}}" size="20" tui-icon-class="tui-icon-more" class="tui-icon tui-icon-ml" style="background:rgba(0, 0, 0, {{iconOpcity}});" catchtap="openMenu"></tui-icon>
+			<!-- <tui-badge type="red" tui-badge-class="tui-badge" size="small">5</tui-badge> -->
+		</view>
+	</view>
+
+	<!--顶部下拉菜单-->
+	<tui-top-dropdown tui-top-dropdown="tui-top-dropdown" bgcolor="rgba(76, 76, 76, 0.95);" show="{{menuShow}}" height="0" bind:close="closeMenu">
+		<view class="tui-menu-box tui-padding">
+			<view class="tui-menu-header" style="padding-top:{{top+20}}px;">
+				功能直达
+			</view>
+			<view class="tui-menu-itembox">
+				<block>
+					<view class="tui-menu-item" hover-class="tui-opcity" hover-stay-time="150" bindtap="switchNav" data-name="index">
+						<view class="tui-badge-box">
+							<tui-icon name="home" color="#fff" size="23"></tui-icon>
+						</view>
+						<view class="tui-menu-text">首页</view>
+					</view>
+				</block>
+				<block>
+					<view class="tui-menu-item" hover-class="tui-opcity" hover-stay-time="150" bindtap="showShare">
+						<view class="tui-badge-box">
+							<tui-icon name="share" color="#fff" size="26"></tui-icon>
+						</view>
+						<view class="tui-menu-text">分享</view>
+					</view>
+				</block>
+				<block>
+					<view class="tui-menu-item" hover-class="tui-opcity" hover-stay-time="150" bindtap="feedback">
+						<view class="tui-badge-box">
+							<tui-icon name="feedback" color="#fff" size="23"></tui-icon>
+							<!-- <tui-badge type="red" tui-badge-class="tui-menu-badge" size="small" wx:if="0">0</tui-badge> -->
+						</view>
+						<view class="tui-menu-text">我要反馈</view>
+					</view>
+				</block>
+			</view>
+			<tui-icon name="up" color="#fff" size="26" class="tui-icon-up" catchtap="closeMenu"></tui-icon>
+		</view>
+	</tui-top-dropdown>
+	<!---顶部下拉菜单-->
+	<scroll-view class="container" scroll-y="true">
+		<view wx:if="{{showNavList}}" class="modal-wrap"></view>
+		<view class="fast-nav {{isIphoneX ?'fix-iphonex-fast-nav':''}}">
+			<button wx:if="{{!showNavList}}" class="contact" open-type="contact" send-message-title="{{goods.name}}" send-message-img="{{gallery[0]}}" send-message-path="/pages/goods/goods?id={{id}}" bindcontact='contact' show-message-card="true" plain size="25" session-from="weapp">
+				<text class='icon chat'></text>
+			</button>
+			<view wx:if="{{!showNavList}}" class="nav" bindtap="toggleNav">
+				<text>快捷</text>
+				<text>导航</text>
+			</view>
+			<view class="nav-list" wx:if="{{showNavList}}">
+				<view class="nav-item">
+					<text class="nav-text">首页</text>
+					<view class="nav-cell" bindtap="switchNav" data-name="index">
+						<image src="../../static/images/nav-1.png"></image>
+					</view>
+				</view>
+				<view class="nav-item">
+					<text class="nav-text">足迹</text>
+					<navigator class="nav-cell" url="../ucenter/footprint/footprint">
+						<image src="../../static/images/nav-2.png"></image>
+					</navigator>
+				</view>
+				<view class="nav-item">
+					<text class="nav-text">搜索</text>
+					<navigator class="nav-cell" url="../search/search">
+						<image src="../../static/images/nav-3.png"></image>
+					</navigator>
+				</view>
+				<view class="nav-item">
+					<text class="nav-text">购物车</text>
+					<view class="nav-cell" bindtap="switchNav" data-name="cart">
+						<image src="../../static/images/nav-4.png"></image>
+					</view>
+				</view>
+			</view>
+			<image src="../../static/images/search_close.png" wx:if="{{showNavList}}" background-size="cover" class="close" bindtap="toggleNav"></image>
+		</view>
+		<view>
+			<swiper class="goodsimgs" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+				<swiper-item wx:if="{{goods.videoUrl}}">
+					<video title="{{goods.name}}"
+					enable-play-gesture
+					show-mute-btn
+					show-casting-button
+					show-screen-lock-button
+					play-btn-position="bottom"
+					class="list" object-fit="contain" src="{{goods.videoUrl}}"></video>
+				</swiper-item>
+				<swiper-item wx:for="{{gallery}}" wx:key="id">
+					<image class="list" src="{{item.url}}" background-size="cover" data-img="{{item.url}}" bindtap="previewImg"></image>
+				</swiper-item>
+			</swiper>
+
+            <view class="goods-info">
+				<view class="c">
+					<view class="price">￥{{goods.retailPrice}}</view>
+					<view class="org-price">价格<text >￥{{goods.marketPrice}}</text></view>
+					<view class="name">{{goods.name}}</view>
+					<view class="desc" wx:if="{{goods.goodsBrief}}">{{goods.goodsBrief}}</view>
+				</view>
+				<view class="service-policy">
+						<view class="item">30天无忧退货</view>
+						<view class="item">48小时快速退款</view>
+						<view class="item">满88元免邮费</view>
+				</view>
+			</view>
+			<!-- <view class="goods-info">
+				<view class="c">
+					<text class="name">{{goods.name}}</text>
+					<text class="desc" wx:if="{{goods.goodsBrief}}">{{goods.goodsBrief}}</text>
+					<text class="price">￥{{goods.retailPrice}}</text>
+					<text class="org-price line-through">￥{{goods.marketPrice}}</text>
+					<view class="brand" wx:if="{{goods.brandName}}">
+						<navigator url="../brandDetail/brandDetail?id={{goods.brandId}}">
+							<text>{{goods.brandName}}</text>
+						</navigator>
+					</view>
+				</view>
+			</view> -->
+		<!-- <view class="section-nav section-attr" bindtap="switchAttrPop">
+			<view class="t">{{selected}}</view>
+			<image class="i" src="../../static/images/address_right.png" background-size="cover"></image>
+		</view> -->
+	 <!-- <view class="section-nav section-act">
+		<view class="t">
+			<view class="label">1个促销:</view>
+			<view class="tag">万圣趴</view>
+			<view class="text">全场满499，额外送糖果</view>
+		</view>
+		<image class="i" src="../../static/images/address_right.png" background-size="cover"></image>
+		</view> -->
+   
+
+			<view class="comments" wx:if="{{comment.count > 0}}">
+				<view class="h">
+					<navigator url="../comment/comment?goodsId={{goods.id}}&type=0">
+						<text class="t">评价({{comment.count > 999 ? '999+' : comment.count}})</text>
+						<text class="i">查看全部</text>
+					</navigator>
+				</view>
+				<view class="b">
+					<view class="item">
+						<view class="info">
+							<view class="user">
+								<image src="{{comment.data.headImgUrl}}"></image>
+								<text>{{comment.data.nickname}}</text>
+							</view>
+							<view class="time">{{comment.data.addTime}}</view>
+						</view>
+						<view class="content">
+							{{comment.data.content}}
+						</view>
+						<view class="imgs" wx:if="{{comment.data.picList.length > 0}}">
+							<image class="img" wx:for="{{comment.data.picList}}" wx:key="id" src="{{item.picUrl}}"></image>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="goods-attr">
+				<view class="t">商品参数</view>
+				<view class="l">
+					<view class="item" wx:for="{{attribute}}" wx:key="name">
+						<text class="left">{{item.attributeName}}</text>
+						<text class="right">{{item.value}}</text>
+					</view>
+				</view>
+			</view>
+
+			<view class="detail">
+				<import src="../../lib/wxParse/wxParse.wxml" />
+				<template is="wxParse" data="{{wxParseData:goodsDetail.nodes}}" />
+			</view>
+
+			<view class="common-problem">
+				<view class="h">
+					<view class="line"></view>
+					<text class="title">常见问题</text>
+				</view>
+				<view class="b">
+					<view class="item" wx:for="{{issueList}}" wx:key="id">
+						<view class="question-box">
+							<text class="spot"></text>
+							<text class="question">{{item.question}}</text>
+						</view>
+						<view class="answer">
+							{{item.answer}}
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+	<!--底部选择层-->
+	<tui-bottom-popup show="{{openAttr}}" tui-popup-class="tui-popup" bind:close="switchAttrPop">
+		<view class="tui-popup-box">
+			<view class="tui-product-box tui-padding">
+				<image src="{{goods.listPicUrl}}" class="tui-popup-img"></image>
+				<view class="tui-popup-price">
+					<view class="tui-amount tui-bold">￥{{selectPrice}}</view>
+					<view class="tui-number">编号:{{goods.goodsSn}} 库存：{{selectStock}}</view>
+				</view>
+			</view>
+			<scroll-view scroll-y class="tui-popup-scroll">
+				<view class="tui-scrollview-box">
+					<view class="tui-bold tui-attr-title" wx:for="{{keyValue}}" wx:for-item="attrValueObj" wx:for-index="attrIndex" wx:key="attrIndex">{{attrValueObj.key}}
+						<view class="tui-attr-box">
+							<view wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:for-index="valueIndex" wx:key="valueIndex" class="tui-attr-item tui-attr-item-{{attrIndex==firstIndex || attrValueObj.attrValueStatus[valueIndex]?(value==attrValueObj.selectedValue?'active':''):'disabled'}}" bindtap="selectAttrValue" data-status="{{attrValueObj.attrValueStatus[valueIndex]}}" data-value="{{value}}" data-key="{{attrValueObj.key}}" data-code="{{attrCode}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}">{{value}}</view>
+						</view>
+					</view>
+					<view class="tui-number-box tui-bold tui-attr-title">
+						<view class="tui-attr-title">数量</view>
+						<tui-numberbox min="1" value="{{number}}" bindchange="changeNumber"></tui-numberbox>
+					</view>
+				</view>
+			</scroll-view>
+			<view class="tui-operation tui-operation-right tui-right-flex tui-popup-btn">
+				<tui-button type="red" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex" bindtap="addToCart">加入购物车</tui-button>
+				<tui-button type="warning" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex" bindtap="buyGoods">立即购买</tui-button>
+			</view>
+			<tui-icon name="close-fill" color="#999" class="tui-icon-close" size="20" bindtap="switchAttrPop"></tui-icon>
+		</view>
+	</tui-bottom-popup>
+
+	<tui-bottom-popup show="{{shareVisible}}" tui-popup-class="tui-popup" bind:close="hideShare">
+		<view class="share-bottom">
+			<view class="share-bottom-footer">
+				<view class="share-to">分享到</view>
+				<view class="imgs">
+					<button class="btn-share" open-type="share">
+						<image class='sharebtn_image' src='/static/images/weixin.png'></image>
+					</button>
+					<button class="btn-share" bindtap="pengyouquan">
+						<image class='sharebtn_image' src='/static/images/pengyouquan.png'></image>
+					</button>
+					<button class="btn-share" bindtap="formSubmit">
+						<image class='sharebtn_image' src='/static/images/haibao.png'></image>
+					</button>
+				</view>
+				<button class="btn-share" bindtap="hideShare">取消</button>
+			</view>
+		</view>
+	</tui-bottom-popup>
+
+	<view class="bottom-btn">
+      <view class="show-btn">
+		<view wx:if="{{!openAttr}}" class=" l-collect " bindtap="closeAttrOrCollect">
+			<image class="icon" src="{{ collectBackImage }}"></image>
+			<text >收藏</text>
+		</view>
+
+		<view class="l l-cart" bindtap="openCartPage">
+			<text class="cart-count">{{cartGoodsCount}}</text>
+			<image class="icon" src="/static/images/ic_menu_shoping_nor.png"></image>
+			<text >购物车</text>
+		</view>
+
+		 <view class="sharebtn" bindtap="showShare">
+			<image src='/static/images/share.png'></image>
+			<text >分享</text>
+		</view>
+
+	  </view>
+
+	    <view class="allBtn">
+			<view bindtap="addToCart" class="cart">加入购物车</view>
+			<view bindtap="buyGoods" class="goods">立即购买</view>
+		</view>
+		  
+	   	   
+		<!-- <tui-button type="red" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex" bindtap="addToCart">加入购物车</tui-button>
+		<tui-button type="warning" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex" bindtap="buyGoods">立即购买</tui-button> -->
+	</view>
+</view>
+<!--生成海报  -->
+<view class='imagePathBox' hidden="{{maskHidden == false}}">
+	<image src="{{imagePath}}" class='shengcheng'></image>
+	<button class='savePoster' bindtap='savePoster'>保存到相册</button>
+	<button class='cancelPoster' bindtap='cancelPoster'>取消</button>
+</view>
+<canvas hidden="{{maskHidden == false}}" style="width: 350px;height: 450px;position:fixed;" canvas-id="mycanvas" />

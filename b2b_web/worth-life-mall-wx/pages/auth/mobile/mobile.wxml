@@ -1,0 +1,29 @@
+<view class="userinfo">
+	<image class="userinfo-avatar" src="{{userInfo.headImgUrl}}" background-size="cover"></image>
+	<text class="userinfo-nickname">{{userInfo.nickname}}</text>
+</view>
+
+<view>
+	<view>
+		<view class="login-title">{{title}}</view>
+		<form bindsubmit="bindLoginMobilecode">
+			<form bindsubmit="bindGetPassCode">
+				<view class="login">
+					<view class="first-line">
+						<input disabled="{{isSend}}" placeholder-class="phcolor" class="tui-input" name="mobile" placeholder="请输入手机号码" bindinput="bindInputMobile" maxlength="11" value="{{mobile}}" type='number' auto-focus />
+					</view>
+					<view class="first-line">
+						<input placeholder-class="phcolor" name="password" class="tui-input" name="mobile" placeholder="重置密码" bindinput="bindInputPw" maxlength="8" value="{{password}}" />
+					</view>
+					<view class="second-line">
+						<input type="digit" name="code" placeholder="四位验证码" />
+						<button bindtap="countDownPassCode" disabled="{{disableGetMobileCode}}">{{getCodeButtonText}}</button>
+					</view>
+				</view>
+			</form>
+			<view class="third-line">
+				<button formType="submit" disabled="{{disableSubmitMobileCode}}">提交</button>
+			</view>
+		</form>
+	</view>
+</view>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallDistDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.SUPERIOR_ID,
+        T.NAME,
+        T.IS_AUDIT,
+        T.JOIN_TIME,
+        T.AMOUNT_AVAILABLE,
+        T.AMOUNT_WITHDRAWN,
+        T.AMOUNT_TOTAL,
+        T.INVITATION_CODE,
+        U.NICKNAME,
+        UU.NICKNAME SUPERIOR_NICKNAME
+        FROM MALL_DIST T
+        JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_DIST TT ON T.SUPERIOR_ID = TT.ID
+        LEFT JOIN MALL_USER UU ON TT.USER_ID = UU.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.code != null and params.code.trim() != ''">
+            AND T.INVITATION_CODE = #{params.code}
+        </if>
+    </sql>
+
+    <select id="selectMallDistPage" resultType="com.platform.modules.mall.entity.MallDistEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallDistEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryById" resultType="com.platform.modules.mall.entity.MallDistEntity">
+        SELECT
+            T.ID,
+            T.USER_ID,
+            T.SUPERIOR_ID,
+            T.NAME,
+            T.IS_AUDIT,
+            T.JOIN_TIME,
+            T.AMOUNT_AVAILABLE,
+            T.AMOUNT_WITHDRAWN,
+            T.AMOUNT_TOTAL,
+            T.INVITATION_CODE,
+            U.NICKNAME,
+            U.HEAD_IMG_URL,
+            UU.NICKNAME SUPERIOR_NICKNAME
+        FROM MALL_DIST T
+        JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_DIST TT ON T.SUPERIOR_ID = TT.ID
+        LEFT JOIN MALL_USER UU ON TT.USER_ID = UU.ID
+        WHERE T.ID = #{id}
+    </select>
+    <select id="queryByUserId" resultType="com.platform.modules.mall.entity.MallDistEntity">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.SUPERIOR_ID,
+        T.NAME,
+        T.IS_AUDIT,
+        T.JOIN_TIME,
+        T.AMOUNT_AVAILABLE,
+        T.AMOUNT_WITHDRAWN,
+        T.AMOUNT_TOTAL,
+        T.INVITATION_CODE,
+        U.NICKNAME,
+        U.HEAD_IMG_URL,
+        UU.NICKNAME SUPERIOR_NICKNAME
+        FROM MALL_DIST T
+        JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_DIST TT ON T.SUPERIOR_ID = TT.ID
+        LEFT JOIN MALL_USER UU ON TT.USER_ID = UU.ID
+        WHERE T.USER_ID = #{userId}
+    </select>
+    <select id="queryTeam" resultType="com.platform.modules.mall.entity.MallDistTeamEntity">
+        SELECT
+        D.ID,
+        D.USER_ID,
+        D.SUPERIOR_ID,
+        D.JOIN_TIME,
+        U.NICKNAME,
+        U.HEAD_IMG_URL,
+        (SELECT COUNT(*) FROM MALL_DIST WHERE MALL_DIST.SUPERIOR_ID = D.ID) AS TEAM_COUNT
+        FROM MALL_DIST D
+        LEFT JOIN MALL_USER U ON U.ID = D.USER_ID
+        ${ew.customSqlSegment}
+    </select>
+    <update id="updateAmount">
+        UPDATE MALL_DIST
+        SET
+        AMOUNT_AVAILABLE = AMOUNT_AVAILABLE - ${deductionAmount},
+        AMOUNT_WITHDRAWN = AMOUNT_WITHDRAWN + ${amount}
+        WHERE USER_ID = #{userId}
+    </update>
+    <select id="getFirstTeamIds" resultType="java.lang.Integer">
+        SELECT ID FROM MALL_DIST WHERE SUPERIOR_ID = #{id}
+    </select>
+    <select id="getInvitationInfo" resultType="com.platform.modules.mall.entity.MallDistEntity">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.NAME,
+        T.INVITATION_CODE,
+        U.NICKNAME,
+        U.HEAD_IMG_URL
+        FROM MALL_DIST T
+        JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE T.USER_ID = #{userId}
+    </select>
+    <update id="addAmountAvailable">
+        UPDATE MALL_DIST
+        SET
+        AMOUNT_AVAILABLE = AMOUNT_AVAILABLE + ${income},
+        AMOUNT_TOTAL = AMOUNT_TOTAL + ${income}
+        WHERE USER_ID = #{userId}
+    </update>
+</mapper>

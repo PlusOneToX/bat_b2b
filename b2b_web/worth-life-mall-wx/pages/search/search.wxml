@@ -1,0 +1,100 @@
+<scroll-view class="container" style="height: 100%;">
+	<view class="search-header">
+		<view class="input-box tui-rolling-search">
+			<icon class="icon" type="search" size='13' color='#999'></icon>
+			<input name="input" bindinput="inputChange" class="keyword tui-hot-item" hold-keyboard="{{true}}" placeholder="请输入关键字搜索" value="{{keyword}}" confirm-type="search" bindfocus="inputFocus" bindconfirm="onKeywordConfirm" confirm-type="search"  />
+			<image class="del" wx:if="{{keyword}}" catchtap="clearKeyword" src="/static/images/clear.png"></image>
+		</view>
+		<view class="right" bindtap="closeSearch">取消</view>
+	</view>
+	<view class="no-search" wx:if="{{ !searchStatus}}">
+		<view class="serach-keywords search-history" wx:if="{{!keyword  && historyKeyword.length}}">
+			<view class="h">
+				<text class="title">搜素历史</text>
+			</view>
+			<view class="b">
+				<view class="item" wx:for="{{historyKeyword}}" wx:key="item" bindtap="onKeywordTap" data-keyword="{{item}}" hover-class="navigator-hover">
+					<tui-tag type="gray" tui-tag-class="tui-tag" shape="circle">{{item}}</tui-tag>
+				</view>
+				<image class="icon" bindtap="clearHistory" src="/static/images/clear.png"></image>
+			</view>
+		</view>
+		<view class="serach-keywords search-hot" wx:if="{{!keyword}}">
+			<view class="h">
+				<text class="title">大家正在搜</text>
+			</view>
+			<view class="b">
+				<view class="item" bindtap="onKeywordTap" data-keyword="{{item.KEYWORD}}" wx:for="{{hotKeyword}}" wx:key="item" index-class="navigator-hover">
+					<tui-tag type="gray" tui-tag-class="tui-tag" shape="circle">{{item.KEYWORD}}</tui-tag>
+				</view>
+			</view>
+		</view>
+		<view class="shelper-list" wx:if="{{keyword}}">
+			<view class="item" hover-class="navigator-hover" wx:for="{{helpKeyword}}" wx:key="item" bindtap="onKeywordTap" data-keyword="{{item}}">{{item}}</view>
+		</view>
+	</view>
+
+	<view class="search-result" wx:if="{{ searchStatus && goodsList.length}}">
+		<view class="sort">
+			<view class="sort-box">
+				<view class="item {{currentSortType == 'default' ? 'active' : ''}}" bindtap="openSortFilter" id="defaultSort">
+					<text class="txt">综合</text>
+				</view>
+				<view class="item by-price {{currentSortType == 'price' ? 'active' : ''}} {{currentSortOrder == 'asc'  ? 'asc' : 'desc'}}" bindtap="openSortFilter" id="priceSort">
+					<text class="txt">价格</text>
+				</view>
+				<view class="item {{currentSortType == 'category' ? 'active' : ''}}" bindtap="openSortFilter" id="categoryFilter">
+					<text class="txt">分类</text>
+				</view>
+			</view>
+			<view class="sort-box-category" wx-if="{{categoryFilter}}">
+				<view class="item {{item.checked ? 'active' : ''}}" wx:for="{{filterCategory}}" wx:key="id" data-category-index="{{index}}" bindtap="selectCategory">{{item.name}}</view>
+			</view>
+		</view>
+		<view class="cate-item">
+			<view class="tui-product-list">
+				<view class="tui-product-container">
+					<block wx:for="{{goodsList}}" wx:key="index" wx:if="{{(index+1)%2!=0}}">
+						<!--商品列表-->
+						<view class="tui-pro-item" hover-class="hover" hover-start-time="150" data-id="{{item.id}}" bindtap="goodsDetail">
+							<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+							<view class="tui-pro-content">
+								<view class="tui-pro-tit">{{item.name}}</view>
+								<view>
+									<view class="tui-pro-price">
+										<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+										<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+									</view>
+									<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+								</view>
+							</view>
+						</view>
+					</block>
+				</view>
+				<view class="tui-product-container">
+					<block wx:for="{{goodsList}}" wx:key="index" wx:if="{{(index+1)%2==0}}">
+						<!--商品列表-->
+						<view class="tui-pro-item" hover-class="hover" data-id="{{item.id}}" hover-start-time="150" bindtap="goodsDetail">
+							<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+							<view class="tui-pro-content">
+								<view class="tui-pro-tit">{{item.name}}</view>
+								<view>
+									<view class="tui-pro-price">
+										<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+										<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+									</view>
+									<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+								</view>
+							</view>
+						</view>
+					</block>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<view class="search-result-empty" wx:if="{{!goodsList.length && searchStatus}}">
+		<image class="icon" src="/static/images/no-search.png"></image>
+		<text class="text">您寻找的商品还未上架</text>
+	</view>
+</scroll-view>

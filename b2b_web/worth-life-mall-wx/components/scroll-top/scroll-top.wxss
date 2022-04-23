@@ -1,0 +1,19 @@
+.tui-scroll-top {
+		width: 62rpx;
+		height: 62rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		position: fixed;
+		z-index: 999999;
+		/* -webkit-transform: translateZ(0);
+		transform: translateZ(0); */
+		/* -webkit-overflow-scroll: touch; */
+	}
+
+	.tui-scroll-top-img {
+		width: 62rpx;
+		height: 62rpx;
+		display: block;
+	}

@@ -1,0 +1,43 @@
+<view class="enroll-item">
+  <view class="item-title">收款人姓名</view>
+  <view class="item-xing">*</view>
+  <input class="item-content" type="text" placeholder="请输入姓名" bindinput="getUserIdCardName"></input>
+</view>
+<view class="enroll-item" style="margin-top: 2rpx;">
+  <view class="item-title">银行卡号</view>
+  <view class="item-xing">*</view>
+  <input class="item-content" type="number" placeholder="请输入银行卡号" bindblur="getUserIdCardNumber"></input>
+</view>
+<view class='enroll-item select_box' style="margin-top: 2rpx;">
+  <view class="item-title">卡类型</view>
+  <view class="item-xing">*</view>
+    <view class='item-content select' catchtap='cardTypeSelectTap'>
+        <text class='select_text'>{{cardType}}</text>
+    </view>
+    <view class='mask' wx:if="{{cardTypeShow}}" catchtap='cardTypeSelectTap'></view>
+    <view class='option_box' style='height:{{cardTypeShow?(cardTypeList.length*70+10):0}}rpx;'>
+        <text class='option' style='{{index==cardTypeList.length-1&&"border:0;"}}' wx:for='{{cardTypeList}}' wx:key='this' data-index='{{index}}' catchtap='cardTypeOptionTap'>{{item}}</text>
+    </view>
+</view>
+<view class="bank-reminder">微信提现仅支持可选银行列表</view>
+
+<view class='enroll-item select_box' style="margin-top: 2rpx;">
+  <view class="item-title">银行名称</view>
+  <view class="item-xing">*</view>
+    <view class='item-content select' catchtap='bankTypeSelectTap'>
+        <text class='select_text'>{{bankName}}</text>
+    </view>
+    <view class='mask' wx:if="{{bankTypeShow}}" catchtap='bankTypeSelectTap'></view>
+    <view class='option_box' style='height:{{bankTypeShow?(bankTypeList.length>10?800:bankTypeList.length*80):0}}rpx;'>
+        <text class='option' style='{{index==bankTypeList.length-1&&"border:0;"}}' wx:for='{{bankTypeList}}' wx:key='{{item.id}}' data-index='{{index}}' catchtap='bankTypeOptionTap'>{{item.bankName}}</text>
+    </view>
+</view>
+<!-- <view class="enroll-item" style="margin-top: 2rpx;">
+  <view class="item-title">银行名称</view>
+  <view class="item-xing">*</view>
+  <input class="item-content" type="text" placeholder="请输入支行名称" value="{{bankName}}"></input>
+</view> -->
+<view class="withdraw-note">提现须知</view>
+<view class="bank-reminder"></view>
+<view class="bank-reminder">请在上方填写您的真实的个人信息并与身份证信息一致，自动填充的信息请勿更改，信息出错或者不一致会导致您提现失效。我们承诺您的资料只会在本平台用户提现打款时使用不会对外使用，请放心填写。</view>
+<view class="sign-up" bindtap="submitInfos">提交</view>

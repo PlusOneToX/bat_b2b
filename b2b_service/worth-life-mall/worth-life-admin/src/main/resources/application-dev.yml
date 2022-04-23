@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      first:
+        url: jdbc:mysql://gz-cdb-a6901jmp.sql.tencentcdb.com:59544/platform_plus_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: xABCo9CbRWJoXXgI
+      second:
+        url: jdbc:mysql://gz-cdb-a6901jmp.sql.tencentcdb.com:59544/platform_plus_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: xABCo9CbRWJoXXgI
+#      first:
+#        url: jdbc:mysql://localhost:3306/platform_plus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+#        username: root
+#        password: root
+#      second:
+#        url: jdbc:mysql://localhost:3306/platform_plus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+#        username: root
+#        password: root
+#    driverClassName: oracle.jdbc.driver.OracleDriver
+#    druid:
+#      validation-query: SELECT 1
+#      first:
+#        url: jdbc:oracle:thin:@localhost:1521:platform
+#        username: platform
+#        password: root
+#      second:
+#        url: jdbc:oracle:thin:@localhost:1521:platform
+#        username: platform
+#        password: root
+      initial-size: 10 # 初始化连接:连接池启动时创建的初始化连接数量
+      max-active: 1000 # 最大活动连接:连接池在同一时间能够分配的最大活动连接的数量,如果设置为非正数则表示不限制
+      min-idle: 10 # 最小空闲连接:连接池中容许保持空闲状态的最小连接数量,低于这个数量将创建新的连接,如果设置为0则不创建
+      max-wait: 60000 # 最大等待时间:当没有可用连接时,连接池等待连接被归还的最大时间(以毫秒计数),超过时间则抛出异常,如果设置为-1表示无限等待
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: druid # sql-stat监控用户名
+        login-password: root # sql-stat监控密码
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true

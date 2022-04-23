@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallUserIntegralDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.UPDATE_TIME,
+        T.AMOUNT,
+        T.USER_ID,
+        T.FREEZE
+        FROM MALL_USER_INTEGRAL T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+    </sql>
+
+    <select id="selectMallUserIntegralPage" resultType="com.platform.modules.mall.entity.MallUserIntegralEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallUserIntegralEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "收益明细",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "tui-button": "/components/extend/button/button",
+    "tui-list-cell": "/components/list-cell/list-cell",
+    "tui-list-view": "/components/list-view/list-view"
+  }
+}

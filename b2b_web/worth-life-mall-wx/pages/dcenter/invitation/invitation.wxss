@@ -1,0 +1,14 @@
+.button-area {
+    width: 100vw; 
+    height: 10vh; 
+}
+.btn {
+    width: 60%;
+    height: 6vh;
+    text-align: center;
+    background-color: #018DDF;
+    color: white;
+    font-size: 28rpx;
+    margin-top: 2vh;
+    border-radius: 50px;
+}

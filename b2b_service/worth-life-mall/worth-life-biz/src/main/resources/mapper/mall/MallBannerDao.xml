@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallBannerDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.MEDIA_TYPE,
+        T.TITLE,
+        T.IMAGE_URL,
+        T.LINK,
+        T.CONTENT,
+        T.END_TIME,
+        T.ENABLED,
+        T.VIDEO_URL
+        FROM MALL_BANNER T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+        <if test="params.enabled != null">
+            AND T.ENABLED = #{params.enabled}
+        </if>
+    </sql>
+
+    <select id="selectMallBannerPage" resultType="com.platform.modules.mall.entity.MallBannerEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallBannerEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

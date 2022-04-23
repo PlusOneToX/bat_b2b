@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText":"我的团队",
+  "navigationBarTextStyle":"black",
+  "usingComponents": {
+    "tui-nomore": "/components/nomore/nomore"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "直播房间",
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "subscribe": "plugin-private://wx2b03c6e691cd7370/components/subscribe/subscribe",
+    "tui-icon": "/components/icon/icon",
+    "tui-tag": "/components/tag/tag"
+  }
+}

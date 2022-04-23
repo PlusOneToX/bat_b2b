@@ -1,0 +1,102 @@
+<view class="container">
+
+	<view class="no-cart" wx:if="{{cartGoods.length <= 0}}">
+		<view class="c">
+		     <image src="/static/images/cart.png" ></image>
+			<view class="title-box">
+				购物车空空如也～
+			</view>
+			<view class="to-index-btn" bindtap="toIndexPage">
+				去逛逛
+			</view>
+		</view>
+	</view>
+	<view class="cart-view" wx:if="{{cartGoods.length > 0}}">
+		<view class="list">
+			<view class="group-item">
+				<view class="tui-cart-cell  tui-mtop" wx:for="{{cartGoods}}" wx:key="id">
+					<swipe-action actions="{{actions}}" bindchange="deleteCartByItem" data-cart-id="{{item.id}}" data-goods-name="{{item.goodsName}}">
+						<view class="tui-goods-item" slot="content">
+							<label class="tui-checkbox" data-item-index="{{index}}" bindtap="checkedItem">
+								<checkbox checked="{{item.checked ? true : false}}" color="#fff" data-item-index="{{index}}"></checkbox>
+							</label>
+							<image src="{{item.listPicUrl}}" class="tui-goods-img" data-id="{{item.goodsId}}" bindtap="goodsDetail" />
+							<view class="tui-goods-info">
+								<view class="tui-goods-title">
+									{{item.goodsName}}
+								</view>
+								<view class="tui-goods-model">
+									<view class="tui-model-text">{{item.goodsSpecifitionNameValue || ''}}</view>
+								</view>
+								<view class="tui-price-box">
+									<view class="tui-goods-price">￥{{item.retailPrice}}</view>
+									<tui-numberbox iconsize="22" height="28" width="100" data-goods-id="{{item.id}}" data-item-index="{{index}}" value="{{ item.number }}" step="1" min="0" max="1000" bindchange="changeNumber"></tui-numberbox>
+								</view>
+							</view>
+						</view>
+					</swipe-action>
+				</view>
+			</view>
+		</view>
+		<view class="cart-bottom">
+
+			<label class="tui-checkbox" data-item-index="{{index}}" bindtap="checkedAll">
+				<checkbox checked="{{checkedAllStatus ? true : false}}" color="#fff"></checkbox>
+				全选({{cartTotal.checkedGoodsCount>99?"99+":cartTotal.checkedGoodsCount}})
+			</label>
+			<view class="total" ><block wx:if="{{!isEditCart}}">合计：{{!isEditCart ? '￥'+cartTotal.checkedGoodsAmount : ''}}</block></view>
+			<view class="delete" bindtap="editCart"><text>{{!isEditCart ? '编辑' : '完成'}}</text></view>
+			<view class="checkout" bindtap="deleteCart" wx:if="{{isEditCart}}"><text>删除所选</text></view>
+			<view class="checkout" bindtap="checkoutOrder" wx:if="{{!isEditCart}}"><text>去结算</text></view>
+		</view>
+	</view>
+
+	<view wx:if="{{footprintList.length > 0}}">
+		<!--猜你喜欢-->
+		<tui-divider size="{{28}}" bold="{{true}}" color="#333" bgcolor="#f4f4f4" width="50%">
+			<tui-icon name="like" size="{{18}}" color="#e41f19"></tui-icon>
+			<text class="tui-youlike">猜你喜欢</text>
+		</tui-divider>
+		<view class="tui-product-list">
+			<view class="tui-product-container">
+				<block wx:for="{{footprintList}}" wx:key="index" wx:if="{{(index+1)%2!=0}}">
+					<!--商品列表-->
+					<view class="tui-pro-item" hover-class="hover" hover-start-time="150" data-id="{{item.goodsId}}" bindtap="goodsDetail">
+						<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+						<view class="tui-pro-content">
+							<view class="tui-pro-tit">{{item.goodsName}}</view>
+							<view>
+								<view class="tui-pro-price">
+									<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+									<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+								</view>
+								<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+							</view>
+						</view>
+					</view>
+					<!--商品列表-->
+					<!-- <template is="productItem" data="{{item,index:index}}" /> -->
+				</block>
+			</view>
+			<view class="tui-product-container">
+				<block wx:for="{{footprintList}}" wx:key="index" wx:if="{{(index+1)%2==0}}">
+					<!--商品列表-->
+					<view class="tui-pro-item" hover-class="hover" data-id="{{item.goodsId}}" hover-start-time="150" bindtap="goodsDetail">
+						<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+						<view class="tui-pro-content">
+							<view class="tui-pro-tit">{{item.goodsName}}</view>
+							<view>
+								<view class="tui-pro-price">
+									<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+									<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+								</view>
+								<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+		</view>
+	</view>
+</view>
+<tui-tips position="center" id="tui-tips-ctx"></tui-tips>

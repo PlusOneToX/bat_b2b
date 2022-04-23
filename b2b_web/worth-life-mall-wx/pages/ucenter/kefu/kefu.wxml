@@ -1,0 +1,11 @@
+<!--pages/ucenter/kefu/kefu.wxml-->
+<view class="container">
+  <view class="item _top20" hover-class="active-bg" bindtap="openCall">
+    <text class="icon cell"></text>
+    <text class="txt">电话客服</text>
+  </view>
+  <button open-type="contact" class="item mybtn _top20" hover-class="active-bg">
+    <text class="icon-chat"></text>
+    <text class="txt">在线客服</text>
+  </button>
+</view>

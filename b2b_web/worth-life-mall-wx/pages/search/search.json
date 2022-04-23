@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "tui-tag": "/components/tag/tag",
+    "tui-icon": "/components/icon/icon"
+  }}

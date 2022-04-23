@@ -1,0 +1,111 @@
+<view class="container">
+	<view class="tui-box">
+		<tui-list-cell wx:if="{{!shopsId&&checkedAddress}}" arrow="{{true}}" last="{{true}}" radius="{{true}}" bindtap="selectAddress">
+			<view class="tui-address">
+				<view>
+					<view class="tui-userinfo">
+						<text class="tui-name">{{checkedAddress.userName}}</text> {{checkedAddress.mobile}}
+					</view>
+					<view class="tui-addr">
+						<view class="tui-addr-tag" wx:if="{{checkedAddress.isDefault === 1}}">默认</view>
+						<text>{{checkedAddress.provinceName + checkedAddress.cityName+checkedAddress.countyName+checkedAddress.detailInfo}}</text>
+					</view>
+				</view>
+			</view>
+			<view class="tui-bg-img"></view>
+		</tui-list-cell>
+		<tui-list-cell wx:if="{{!shopsId&&!checkedAddress}}" arrow="{{true}}" last="{{true}}" radius="{{true}}" bindtap="selectAddress">
+			<view class="tui-address">
+				<view class="tui-none-addr">
+					<image src="/static/images/index/map.png" class="tui-addr-img" mode="widthFix"></image>
+					<text>选择收货地址</text>
+				</view>
+			</view>
+			<view class="tui-bg-img"></view>
+		</tui-list-cell>
+		<tui-list-cell wx:if="{{shopsId}}">
+			<view>
+				<text>店铺自提订单</text>
+			</view>
+			<view class="tui-bg-img"></view>
+		</tui-list-cell>
+		<view class="tui-top tui-goods-info">
+			<tui-list-cell hover="{{false}}" lineLeft="{{false}}">
+				<view class="tui-goods-title">
+					商品信息
+				</view>
+			</tui-list-cell>
+			<block wx:for="{{checkedGoodsList}}" wx:key="id">
+				<tui-list-cell hover="{{false}}" padding="0">
+					<view class="tui-goods-item">
+						<image src="{{item.listPicUrl}}" class="tui-goods-img" data-id="{{item.goodsId}}" bindtap="goodsDetail"></image>
+						<view class="tui-goods-center">
+							<view class="tui-goods-name">{{item.goodsName}}</view>
+							<view class="tui-goods-attr">{{item.goodsSpecifitionNameValue||''}}</view>
+						</view>
+						<view class="tui-price-right">
+							<view>￥{{item.retailPrice}}</view>
+							<view>x{{item.number}}</view>
+						</view>
+					</view>
+				</tui-list-cell>
+			</block>
+			<tui-list-cell hover="{{false}}">
+				<view class="tui-padding tui-flex">
+					<view>商品总额</view>
+					<view>￥{{goodsTotalPrice}}</view>
+				</view>
+			</tui-list-cell>
+			<tui-list-cell hover="{{false}}" bindtap="navigateToCoupon">
+				<view class="tui-padding tui-flex">
+					<view>优惠券</view>
+					<view class="coupon">
+						<text wx:if="{{!couponId}}">选择优惠券</text>
+						<text wx:else>- ￥{{sumSubPrice}}</text>
+					</view>
+				</view>
+			</tui-list-cell>
+			<tui-list-cell hover="{{false}}">
+				<view class="tui-padding tui-flex">
+					<view>配送费</view>
+					<view>￥{{shippingFee}}</view>
+				</view>
+			</tui-list-cell>
+			<tui-list-cell hover="{{false}}" lineLeft="{{false}}" padding="0">
+				<view class="tui-remark-box tui-padding tui-flex">
+					<view>订单备注</view>
+					<input type="text" class="tui-remark" placeholder="选填: 请先和商家协商一致" bindblur="bindPostscriptBlur" bindinput="bindPostscriptBlur" auto-focus placeholder-class="tui-phcolor"></input>
+				</view>
+			</tui-list-cell>
+			<tui-list-cell hover="{{false}}" last="{{true}}">
+				<view class="tui-padding tui-flex tui-total-flex">
+					<view class="tui-flex-end tui-color-red">
+						<view class="tui-black">合计： </view>
+						<view class="tui-size-26">￥</view>
+						<view class="tui-price-large">{{actualPrice}}</view>
+					</view>
+				</view>
+			</tui-list-cell>
+		</view>
+		<view class="tui-top">
+			<tui-list-cell hover="{{false}}" wx:for="{{cartArr}}" wx:key="value" bindtap="radioChange" data-value="{{item.value}}">
+				<view class="tui-padding tui-flex">
+					<view>{{item.name}}</view>
+					<radio value="{{index}}" wx:if="{{item.value == payType}}" checked='checked'></radio>
+					<radio value="{{index}}" wx:else></radio>
+				</view>
+			</tui-list-cell>
+		</view>
+	</view>
+	<view class="tui-safe-area"></view>
+	<view class="tui-tabbar">
+		<view class="tui-flex-end tui-color-red tui-pr-20">
+			<view class="tui-black">实付金额: </view>
+			<view class="tui-size-26">￥</view>
+			<view class="tui-price-large">{{payPrice}}</view> 
+		</view>
+		<view class="tui-pr25">
+			<tui-button width="200rpx" height="70rpx" type="danger" shape="circle" bind:click="submitOrder">确认支付</tui-button>
+		</view>
+	</view>
+</view>

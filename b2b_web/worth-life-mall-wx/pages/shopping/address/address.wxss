@@ -1,0 +1,159 @@
+page {
+  height: 100%;
+  width: 100%;
+  background: #f4f4f4;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.address-list {
+  padding-left: 31.25rpx;
+  background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAKCAMAAADfAc3wAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURc2AgICg1v///+rw+ffq6tKMjI2p2ouo2QT3I5MAAAA9SURBVCjPpcs5EgAgCARB5ND//9jEYwlZJp1q0ZTNAS3L10OgcGlYlYZNuGoRly3guv2YsA8z9mLKHsxZ3e5sBBsNqhCTAAAAAElFTkSuQmCC) 0 0 repeat-x;
+  background-size: auto 10.5rpx;
+  margin-bottom: 90rpx;
+}
+
+.address-list .item {
+  height: 156.55rpx;
+  align-items: center;
+  display: flex;
+  border-bottom: 1rpx solid #dcd9d9;
+}
+
+.address-list .l {
+  width: 125rpx;
+  overflow: hidden;
+}
+
+.address-list .name {
+  width: 125rpx;
+  height: 43rpx;
+  font-size: 29rpx;
+  color: #333;
+  margin-bottom: 5.2rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.address-list .default {
+  padding: 5rpx 8rpx;
+  flex-shrink: 0;
+  background: #EB0909;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25rpx;
+  line-height: 25rpx;
+  transform: scale(0.8);
+  transform-origin: 0 center;
+  border-radius: 6rpx;
+  margin-left: 10rpx;
+}
+
+.address-list .c {
+  flex: 1;
+  height: auto;
+  overflow: hidden;
+}
+
+.address-list .mobile {
+  height: 29rpx;
+  font-size: 29rpx;
+  line-height: 29rpx;
+  overflow: hidden;
+  color: #333;
+  margin-bottom: 6.25rpx;
+}
+
+.address-list .address {
+  height: auto;
+  font-size: 25rpx;
+  line-height: 37rpx;
+  overflow: hidden;
+  color: #666;
+}
+
+.address-list .r {
+  width: 52rpx;
+  height: auto;
+  overflow: hidden;
+  margin-right: 16.5rpx;
+}
+
+.address-list .del {
+  display: block;
+  width: 52rpx;
+  height: 52rpx;
+}
+
+.add-address {
+  display: inline-block;
+
+  background: linear-gradient(270deg, #F96319 0%, #F92C19 100%);
+  border-radius: 43px;
+  width: 40%;
+  height: 86rpx;
+  position: fixed;
+  border: none;
+  bottom: 65rpx;
+  left: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  font-size: 30rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  line-height: 42rpx;
+}
+
+
+.sync-address {
+  width: 40%;
+  position: fixed;
+  background-color: #17AF43;
+  height: 86rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 43rpx;
+  border: none;
+  color: #fff;
+  font-size: 29rpx;
+  bottom: 65rpx;
+  right: 50rpx;
+}
+
+.address-icon {
+  width: 35rpx;
+  height: 35rpx;
+  margin-right: 15rpx;
+}
+
+.empty-view {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-view .icon {
+  height: 263rpx;
+  width: 339rpx;
+  margin-bottom: 10rpx;
+}
+
+.empty-view .text {
+  width: auto;
+  font-size: 28rpx;
+  line-height: 35rpx;
+  color: #999;
+}

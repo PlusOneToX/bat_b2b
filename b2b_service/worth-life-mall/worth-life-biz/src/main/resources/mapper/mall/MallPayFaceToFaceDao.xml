@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallPayFaceToFaceDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.FROM_TYPE,
+        T.ORDER_SN,
+        T.PAY_STATUS,
+        T.ACTUAL_PRICE,
+        T.ADD_TIME,
+        T.PAY_TIME,
+        T.SHOPS_ID,
+        S.NAME SHOPS_NAME,
+        U.NICKNAME
+        FROM MALL_PAY_FACE_TO_FACE T
+        LEFT JOIN MALL_SHOPS S ON T.SHOPS_ID = S.ID
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE 1=1
+        <if test="params.shopsId != null and params.shopsId.trim() != ''">
+            AND T.SHOPS_ID = #{params.shopsId}%
+        </if>
+    </sql>
+
+    <select id="selectMallPayFaceToFacePage" resultType="com.platform.modules.mall.entity.MallPayFaceToFaceEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallPayFaceToFaceEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

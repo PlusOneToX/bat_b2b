@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "品牌供应商",
+  "usingComponents": {
+    "tui-nomore": "/components/nomore/nomore"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "历史浏览",
+  "usingComponents": {
+    "swipe-action": "/components/swipe-action/swipe-action"
+  }
+}

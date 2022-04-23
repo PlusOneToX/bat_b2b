@@ -1,0 +1,28 @@
+<view class="container">
+	<view class="tui-flex">
+		<view class="tui-cube-box">
+			<view class="tui-cube tui-cube-1">Vue</view>
+			<view class="tui-cube tui-cube-2">SpringBoot</view>
+			<view class="tui-cube tui-cube-3">MyBatisPlus</view>
+			<view class="tui-cube tui-cube-4">MySQL</view>
+			<view class="tui-cube tui-cube-5">elementUI</view>
+			<view class="tui-cube tui-cube-6">ThorUI</view>
+		</view>
+
+	</view>
+	<view class="tui-content-box">
+		<view class="tui-content">尊敬的用户您好，欢迎使用微同商城！</view>
+		<view class="tui-content">微同商城商业版是微同科技为企业用户定制的微信小程序商城项目，前端使
+			用Vue+elementUI，后台基于SpringBoot 2 开发，微信相关开发使用WxJava，
+			数据库操作使用Mybatis升级版MyBatisPlus，实现前后端分离。能够有效降低企业开发成本，提升开发效率。
+			后台体验地址（admin8/888888）
+      <text class="tui-content-email" bindtap="copy" data-text="http://fly2you.cn/platform-mall">http://fly2you.cn/platform-mall</text>。</view>
+		<view class="tui-content">项目可能还存在缺陷或者bug，如果您在使用过程中发现问题或者有更好的建议，可反馈给我们。</view>
+		<view class="tui-content">
+			您可以通过反馈或者以下方式联系我！
+		</view>
+		<view class="tui-content tui-content-email" bindtap="copy" data-text="939961241@qq.com">939961241@qq.com</view>
+		<view class="tui-content tui-content-email" bindtap="copy" data-text="151602347">QQ交流群：151602347</view>
+	</view>
+
+</view>

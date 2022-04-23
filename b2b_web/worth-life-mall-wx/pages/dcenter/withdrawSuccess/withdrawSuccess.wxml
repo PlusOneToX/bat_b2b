@@ -1,0 +1,18 @@
+<view class="dcenter-withdraw">
+    <view class='weui-cell-list'>
+        <view class='submit'></view>
+        <view class='block-submit'>
+            <image class="icon-submit" src="/static/images/icon_submit.png"/>
+            <view class='title-submit'>提现申请已提交，等待审核处理</view>
+            <view class='time'>{{incomeTime}}</view>
+        </view>
+    </view>
+    <view class='weui-cell-list'>
+        <view class='money'></view>
+        <view class='block-money'>
+            <image class="icon-money" src="/static/images/icon_money.png"/>
+            <view class='title-money'>到账成功</view>
+        </view>
+    </view>
+    <tui-button type="primary" shape="circle" bindtap="finish" class="btn">完成</tui-button>
+</view>

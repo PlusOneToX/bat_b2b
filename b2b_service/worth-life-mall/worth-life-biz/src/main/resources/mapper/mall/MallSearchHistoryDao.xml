@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallSearchHistoryDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.KEYWORD,
+        T.SEARCH_FROM,
+        T.ADD_TIME,
+        U.NICKNAME
+        FROM MALL_SEARCH_HISTORY T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+    </sql>
+
+    <select id="selectMallSearchHistoryPage" resultType="com.platform.modules.mall.entity.MallSearchHistoryEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallSearchHistoryEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

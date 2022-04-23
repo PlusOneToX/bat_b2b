@@ -1,0 +1,37 @@
+.tui-distributor {
+    height: 24rpx;
+    margin-left: 18rpx;
+    display: flex;
+    align-items: center;
+}
+
+.tui-distributor-text {
+    font-size: 20rpx;
+}
+
+.tui-distributor-image {
+    width: 24rpx;
+    height: 24rpx;
+}
+
+.tui-distributor-box1 {
+    border: 2rpx solid #f6c846;
+    border-radius: 4px;
+    color: #f6c947;
+    height: 24rpx;
+    display: flex;
+    align-items: center;
+    padding: 0 10rpx;
+    box-sizing: content-box;
+}
+
+.tui-distributor-box2 {
+    color: #876624;
+    background: linear-gradient(123deg, #ffffff -27%, #fcefc8 -1%, #f6c845 59%);
+    border-radius: 3px;
+    padding: 0 6rpx;
+    /*height: 28rpx;*/
+    display: flex;
+    align-items: center;
+    height: 100%;
+}

@@ -1,0 +1,62 @@
+<view class="container">
+    <view class="line" style="height: 1rpx;"></view>
+    <view class="heade">
+        <view class="title">
+            <text>{{shopInfo.name}}</text>
+            <image src="/static/images/renzheng_icon.png" class="tagImg" />
+        </view>
+        <view class="price">￥{{shopInfo.awardTotal}}</view>
+        <view class="sub_text">总奖励（元）</view>
+        <view class="name">
+            <text>推广者账号：{{shopInfo.inviteUserNikeName || "--"}}</text>
+            <text >入驻时间：{{shopInfo.createTime}}</text>
+        </view>
+    </view>
+        <view class="line" style="height: 10rpx;"></view>
+    <view class="container_box">
+        <view class="tabs">
+            <view class="tab  {{active==0?'active':''}}" bindtap="checkTab" data-active="0">
+                邀请记录
+            </view>
+            <view class="tab {{active==1?'active':''}}" bindtap="checkTab" data-active="1">
+                推广收入
+            </view>
+        </view>
+        <scroll-view class="content" scroll-top="{{scrollTop}}" refresher-triggered="{{triggered}}" refresher-enabled bindrefresherrefresh="refresherrefresh" scroll-y bindscrolltolower="scrolltolower" lower-threshold="100">
+            <block wx:if="{{active==0}}" wx:for="{{recordDataSource}}" wx:key="index">
+                <template is="recordItem" data="{{item:item}}"></template>
+            </block>
+             <block wx:if="{{active==1}}" wx:for="{{rewardDataSource}}" wx:key="index">
+                <template is="rewardItem" data="{{item:item}}"></template>
+            </block>
+              <tui-nomore bgcolor="#F5F5F5" visible="{{hasMoreData}}"></tui-nomore>
+        </scroll-view>
+    </view>
+</view>
+<template name="recordItem">
+    <view class="recordItem">
+        <view class="lf">
+            <view class="name">{{item.userName}}（{{item.levelName}}）</view>
+            <view class="tips">{{item.relation==1?'直邀': item.relation==2?'间邀':'--'}}</view>
+            <view class="time">{{item.createTime}}</view>
+        </view>
+        <!-- <view class="ri">
+            <text class="num">+200</text>
+            <text class="text">积分</text>
+        </view> -->
+    </view>
+</template>
+<template name="rewardItem">
+    <view class="rewardItem">
+        <view class="lf">
+            <view class="number">订单编号：{{item.pid}}</view>
+             <view class="messge">店铺用户下单-{{item.relation==1?'直邀': item.relation==2?'间邀':''}}</view>
+            <view class="account">用户账号：{{item.originNikeName || "--"}}</view>
+            <view class="time">{{item.createTime || ""}}</view>
+        </view>
+        <view class="ri">
+            <text class="num">+{{item.award}}</text>
+            <text class="text">订单金额：{{item.actualPrice}}元</text>
+        </view>
+    </view>
+</template>

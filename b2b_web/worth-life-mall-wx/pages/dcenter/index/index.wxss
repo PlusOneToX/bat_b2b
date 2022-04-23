@@ -1,0 +1,152 @@
+page {
+    background: #f2f2f2;
+}
+
+.card-container {
+    padding: 64rpx 32rpx 32rpx;
+}
+
+.white-card {
+    color: black;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+}
+
+.white-card > .first {
+    display: flex;
+    margin-bottom: -32rpx;
+    padding-top: 8rpx;
+}
+
+.info {
+    margin-left: 64rpx;
+    padding-left: 8rpx;
+}
+
+.info > text {
+    color: #a0a0a0;
+    font-size: 24rpx;
+}
+
+.nickname {
+    display: flex;
+    align-items: center;
+}
+
+.nickname > text {
+    font-weight: 400;
+    font-size: 32rpx;
+}
+
+.inviter {
+    margin-right: 24rpx;
+}
+
+.avatar {
+    position: relative;
+    left: 48rpx;
+    top: -48rpx;
+    width: 128rpx;
+    height: 128rpx;
+}
+
+.value-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 12rpx 32rpx;
+}
+
+.value-block {
+    text-align: center;
+}
+
+.value-block .value {
+    color: #fb5d5d;
+    font-weight: 600;
+    font-size: 28rpx;
+}
+
+.value-block .name {
+    color: #a0a0a0;
+    font-weight: 400;
+    font-size: 28rpx;
+    display: block;
+}
+
+.black-card {
+    color: white;
+    width: 100%;
+    background: black;
+    border-radius: 64px 64px 16px 16px;
+}
+
+.bottom-card {
+    padding: 10rpx 0;
+    display: flex;
+}
+
+.bottom-card text {
+    font-weight: 400;
+    font-size: 22rpx;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    width: 32rpx;
+    height: 32rpx;
+    margin-right: 10rpx;
+}
+
+.menus {
+    display: flex;
+    background: white;
+}
+
+.menu {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    align-items: center;
+    padding: 32rpx;
+}
+
+.menu:not(:last-of-type) {
+    border-right: 1rpx solid #f2f2f2;
+}
+
+.icon2 {
+    width: 96rpx;
+    height: 96rpx;
+}
+
+.menus .value {
+    color: #fb5d5d;
+    font-weight: 400;
+    font-size: 22rpx;
+}
+
+.menus .unit {
+    font-weight: 300;
+    font-size: 22rpx;
+}
+
+.menus .title {
+    font-weight: 300;
+    font-size: 28rpx;
+}
+
+.menus .subtitle{
+    font-weight: 400;
+    font-size: 22rpx;
+    color: #7f7f7f;
+}

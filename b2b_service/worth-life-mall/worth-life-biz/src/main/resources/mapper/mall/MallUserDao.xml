@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallUserDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_NAME,
+        T.PASSWORD,
+        T.GENDER,
+        T.BIRTHDAY,
+        T.REGISTER_TIME,
+        T.LAST_LOGIN_TIME,
+        T.LAST_LOGIN_IP,
+        T.USER_LEVEL_ID,
+        T.NICKNAME,
+        T.MOBILE,
+        T.REGISTER_IP,
+        T.HEAD_IMG_URL,
+        T.OPEN_ID,
+        T.UNION_ID,
+        T.SUBSCRIBE,
+        T.SUBSCRIBE_TIME,
+        T.SIGN_ALL_INTEGRAL,
+        T.SIGN_USED_INTEGRAL,
+        T.BALANCE,
+        L.NAME USER_LEVEL_NAME,
+        T.invite_code,
+        T.invite_user_id,
+        T.level
+        FROM MALL_USER T
+        LEFT JOIN MALL_USER_LEVEL L ON T.USER_LEVEL_ID = L.ID
+        WHERE 1=1
+        <if test="params.userName != null and params.userName.trim() != ''">
+            AND T.USER_NAME LIKE '%${params.userName}%'
+        </if>
+        <if test="params.mobile != null and params.mobile.trim() != ''">
+            AND T.MOBILE LIKE '%${params.mobile}%'
+        </if>
+        <if test="params.gender != null and params.gender.trim() != ''">
+            AND T.GENDER = #{params.gender}
+        </if>
+    </sql>
+
+    <select id="selectMallUserPage" resultType="com.platform.modules.mall.entity.MallUserEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallUserEntity">
+        <include refid="selectSql"/>
+    </select>
+    <select id="getMerchantRole" resultType="string">
+        SELECT ROLE_ID FROM `sys_role` WHERE ROLE_NAME='商家'
+    </select>
+
+
+    <select id="getCountPeople"  resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+        SELECT *,1 as relation FROM mall_user_invite_record  WHERE invite_user_id=#{getUserId}
+        UNION ALL
+        SELECT *,2 as relation FROM mall_user_invite_record  WHERE invite_user_id IN(SELECT user_id FROM mall_user_invite_record WHERE invite_user_id=#{getUserId})
+    </select>
+
+
+</mapper>

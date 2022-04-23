@@ -1,0 +1,2 @@
+<!--pages/auth/company/company.wxml-->
+<web-view src="https://fly2you.cn"></web-view>

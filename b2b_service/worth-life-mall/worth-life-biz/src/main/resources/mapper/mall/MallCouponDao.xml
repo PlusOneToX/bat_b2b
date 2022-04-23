@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallCouponDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.TITLE,
+        T.COUPON_SN,
+        T.COUPON_TYPE,
+        T.MIN_PRICE,
+        T.SUB_PRICE,
+        T.DISCOUNT,
+        T.BEGIN_TIME,
+        T.END_TIME,
+        T.BEGIN_GET_TIME,
+        T.END_GET_TIME,
+        T.TOTAL_COUNT,
+        T.SEND_COUNT,
+        T.LIMIT_TYPE,
+        T.LIMIT_USER,
+        T.STATUS,
+        T.SORT
+        FROM MALL_COUPON T
+        WHERE 1=1
+        <if test="params.title != null and params.title.trim() != ''">
+            AND T.TITLE LIKE '%${params.title}%'
+        </if>
+        <if test="params.couponSn != null and params.couponSn.trim() != ''">
+            AND T.COUPON_SN LIKE '%${params.couponSn}%'
+        </if>
+        <if test="params.couponType != null and params.couponType != ''">
+            AND T.COUPON_TYPE = #{params.couponType}
+        </if>
+        <if test="params.status != null and params.status != ''">
+            AND T.STATUS = #{params.status}
+        </if>
+    </sql>
+
+    <select id="selectMallCouponPage" resultType="com.platform.modules.mall.entity.MallCouponEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallCouponEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

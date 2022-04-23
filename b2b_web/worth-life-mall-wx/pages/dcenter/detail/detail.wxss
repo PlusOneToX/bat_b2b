@@ -1,0 +1,76 @@
+page {
+    background: #f2f2f2;
+}
+
+.filter {
+    background: #fff;
+    display: flex;
+    padding: 16rpx 32rpx;
+}
+
+.filter-btn {
+    margin-left: 16rpx;
+}
+
+.header {
+    background: #f2f2f2;
+    display: flex;
+    justify-content: space-between;
+    padding: 16rpx 48rpx;
+}
+
+.header .name {
+    font-weight: 300;
+    color: #7F7F7F;
+    font-size: 28rpx;
+}
+
+.header .value {
+    font-weight: 400;
+    color: #FB5D5D;
+    font-size: 28rpx;
+}
+
+.cell-content {
+    width: 100%;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10rpx;
+}
+
+.info text {
+    font-weight: 400;
+    font-size: 25rpx;
+    color: #333333;
+}
+
+.info .time {
+    font-size: 24rpx;
+    color: #7f7f7f;
+    font-weight: 400;
+}
+.info .status {
+    font-size: 24rpx;
+    color: #FB8585;
+    font-weight: 400;
+}
+
+.no-income{
+    display: flex;
+    justify-content: center;
+}
+
+.no-income-image { 
+    margin-top: 100px;
+    width:300rpx;
+    height:300rpx;
+  }
+.no-income-text { 
+    display: flex;
+    justify-content: center;
+    font-size: 48rpx;
+    color: #BCBCBC;
+}

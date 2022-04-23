@@ -1,0 +1,103 @@
+<scroll-view scroll-y class="container">
+    <form bindsubmit="handleSubmit">
+        <view class="line" style="height: 1rpx;"></view>
+        <view class="header">
+            <view class="title">店铺认证</view>
+            <view class="text">请上传清晰的证件照片，必须能看清证件号码和店铺名称；仅支持PNG、JPG、JPEG格式，每张照片大小限制在2M以内。</view>
+        </view>
+        <view class="line" style="height: 10rpx;"></view>
+        <view class="formItem">
+            <view class="info">
+                <text style="color:#F93B19">*</text><text>店铺名称</text>
+            </view>
+            <view class="link">
+                <input placeholder-class="inputPlaceholder" disabled="{{shopStatus==0 || shopStatus==1}}" bindinput="handleInput" data-name="shopName" value="{{form.shopName}}" placeholder="请输入店铺名称 " />
+            </view>
+        </view>
+        <view class="formItem">
+            <view class="info">
+                <text style="color:#F93B19">*</text><text>联系方式</text>
+            </view>
+            <view class="link">
+                <input placeholder-class="inputPlaceholder" disabled="{{shopStatus==0 || shopStatus==1}}" bindinput="handleInput" data-name="phone" value="{{form.phone}}" placeholder="请输入手机号码 " />
+            </view>
+        </view>
+        <view class="formItem">
+            <view class="info">
+                <text>社会信用代码</text>
+            </view>
+            <view class="link">
+                <input placeholder-class="inputPlaceholder" disabled="{{shopStatus==0 || shopStatus==1}}" bindinput="handleInput" data-name="authCode" value="{{form.authCode}}" placeholder="请输入社会信用代码" />
+            </view>
+        </view>
+        <view class="formItem direction">
+            <view class="info">
+                <text>店铺地址</text>
+            </view>
+            <view class="link">
+                <input placeholder-class="inputPlaceholder" disabled="{{shopStatus==0 || shopStatus==1}}" style="min-width:600rpx" bindinput="handleInput" data-name="shopAddress" value="{{form.shopAddress}}" placeholder="请输入店铺详细地址" />
+            </view>
+        </view>
+        <view class="formItem update">
+            <view class="info">
+                <text>营业执照</text>
+            </view>
+            <view class="link">
+                <view class="img_box" bindtap="uploaderImg" data-name="licenseFront">
+                    <image src="{{form.licenseFront?form.licenseFront:'https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/9a6a395ea5744523b7453bf4f31328b9.png'}}" mode="widthFix" />
+                </view>
+            </view>
+        </view>
+        <view class="formItem update not_border">
+            <view class="info">
+                <text>店铺照片</text>
+            </view>
+            <view class="link">
+                <view class="img_box" bindtap="uploaderImg" data-name="shopImag">
+                    <image src="{{form.shopImag?form.shopImag:'https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/9a6a395ea5744523b7453bf4f31328b9.png'}}" mode="widthFix" />
+                </view>
+            </view>
+        </view>
+        <view class="line" style="height: 10rpx;"></view>
+        <view class="formItem">
+            <view class="info">
+                <text>法人姓名</text>
+            </view>
+            <view class="link">
+                <input placeholder-class="inputPlaceholder" disabled="{{shopStatus==0 || shopStatus==1}}" bindinput="handleInput" data-name="legalPerson" value="{{form.legalPerson}}" placeholder="请输入法人姓名 " />
+            </view>
+        </view>
+        <view class="formItem">
+            <view class="info">
+                <text>法人身份证号码</text>
+            </view>
+            <view class="link">
+                <input placeholder-class="inputPlaceholder" disabled="{{shopStatus==0 || shopStatus==1}}" bindinput="handleInput" data-name="idCardNo" value="{{form.idCardNo}}" placeholder="请输入法人身份证号码 " />
+            </view>
+        </view>
+        <view class="formItem not_border identity">
+            <view class="info">
+                <text>身份证照片</text>
+            </view>
+            <view class="link">
+                <view class="id_box">
+                    <view class="img_box">
+                        <image src="{{form.identityCardFront?form.identityCardFront:'https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/b9459da98b6e4a1f844126fa9ee6df87.png'}}" mode="widthFix" />
+                    </view>
+                    <view class="text">请上传身份证正面</view>
+                    <view class="up_btn" bindtap="uploaderImg" wx:if="{{!(shopStatus==0 || shopStatus==1)}}" data-name="identityCardFront">上传</view>
+                </view>
+                <view class="id_box">
+                    <view class="img_box">
+                        <image src="{{form.identityCardVerso?form.identityCardVerso:'https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/14eae49692f2416a83df22dbf9bee351.png'}}" mode="widthFix" />
+                    </view>
+                     <view class="text">请上传身份证背面</view>
+                    <view class="up_btn" bindtap="uploaderImg" wx:if="{{!(shopStatus==0 || shopStatus==1)}}" data-name="identityCardVerso">上传</view>
+                </view>
+            </view>
+        </view>
+        <view class="submit"  wx:if="{{!(shopStatus==0 || shopStatus==1)}}">
+            <button hover-class="none" formType="submit">提交</button>
+        </view>
+    </form>
+</scroll-view>

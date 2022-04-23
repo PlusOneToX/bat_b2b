@@ -1,0 +1,57 @@
+<view class="container">
+	<view class="cate-nav">
+		<scroll-view scroll-x="true" scroll-with-animation class="cate-nav-body" style="width: 750rpx;">
+			<view wx:for="{{navList}}" wx:key="item" class="item {{ id == item.id ? 'active' : ''}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="switchCate">
+				<view class="name">{{item.name}}</view>
+			</view>
+		</scroll-view>
+	</view>
+	
+	<scroll-view scroll-y="true" scroll-top="{{scrollTop}}">
+
+		<view class="cate-item">
+			<view class="h">
+				<text class="name">{{currentCategory.name}}</text>
+				<text class="desc">{{currentCategory.frontName?currentCategory.frontName:''}}</text>
+			</view>
+			<view class="tui-product-list">
+				<view class="tui-product-container">
+					<block wx:for="{{goodsList}}" wx:key="index" wx:if="{{(index+1)%2!=0}}">
+						<!--商品列表-->
+						<view class="tui-pro-item" hover-class="hover" hover-start-time="150" data-id="{{item.id}}" bindtap="goodsDetail">
+							<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+							<view class="tui-pro-content">
+								<view class="tui-pro-tit">{{item.name}}</view>
+								<view>
+									<view class="tui-pro-price">
+										<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+										<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+									</view>
+									<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+								</view>
+							</view>
+						</view>
+					</block>
+				</view>
+				<view class="tui-product-container">
+					<block wx:for="{{goodsList}}" wx:key="index" wx:if="{{(index+1)%2==0}}">
+						<!--商品列表-->
+						<view class="tui-pro-item" hover-class="hover" data-id="{{item.id}}" hover-start-time="150" bindtap="goodsDetail">
+							<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+							<view class="tui-pro-content">
+								<view class="tui-pro-tit">{{item.name}}</view>
+								<view>
+									<view class="tui-pro-price">
+										<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+										<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+									</view>
+									<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+								</view>
+							</view>
+						</view>
+					</block>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+</view>

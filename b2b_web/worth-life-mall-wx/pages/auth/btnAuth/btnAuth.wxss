@@ -1,0 +1,60 @@
+.hd {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hd .logo {
+  width: 320rpx;
+  height: 127rpx;
+  margin-top: 200rpx;
+}
+
+.hd .title {
+  text-align: center;
+  font-size: 36rpx;
+  color: #000;
+}
+
+.btns {
+  margin-top: 300rpx;
+}
+
+.btn {
+  margin: 10rpx;
+}
+
+.btn_primary {
+  display: block;
+  width: 80%;
+  height: 98rpx;
+  background: linear-gradient(270deg, #F96319 0%, #F92C19 100%);
+  border-radius: 49rpx;
+
+  font-size: 26rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.noLogin{
+  background-color:transparent;
+  margin-top: 30rpx;
+  font-size: 26rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ABABAB;
+  line-height: 37rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button::after{
+  border: none;
+}

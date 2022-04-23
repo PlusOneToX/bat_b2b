@@ -1,0 +1,17 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "tui-button": "/components/extend/button/button",
+    "tui-list-cell": "/components/list-cell/list-cell",
+    "bottom-popup": "/components/bottom-popup/bottom-popup",
+    "tui-icon": "/components/icon/icon",
+    "tui-divider": "/components/divider/divider",
+    "tui-footer": "/components/footer/footer",
+    "distributor": "/components/distributor/distributor"
+  }
+}

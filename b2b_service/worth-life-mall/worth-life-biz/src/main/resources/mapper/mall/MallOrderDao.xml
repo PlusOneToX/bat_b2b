@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallOrderDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.FROM_TYPE,
+        T.ORDER_TYPE,
+        T.ORDER_SN,
+        T.USER_ID,
+        T.ORDER_STATUS,
+        T.SHIPPING_STATUS,
+        T.PAY_STATUS,
+        T.PAY_TYPE,
+        T.CONSIGNEE,
+        T.COUNTRY,
+        T.PROVINCE,
+        T.CITY,
+        T.DISTRICT,
+        T.ADDRESS,
+        T.POSTAL_CODE,
+        T.MOBILE,
+        T.POSTSCRIPT,
+        T.SHIPPING_ID,
+        T.SHIPPING_NAME,
+        T.SHIPPING_CODE,
+        T.SHIPPING_NO,
+        T.SHIPPING_FEE,
+        T.PREPAY_ID,
+        T.ACTUAL_PRICE,
+        T.INTEGRAL_MONEY,
+        T.ORDER_PRICE,
+        T.ADD_TIME,
+        T.CONFIRM_TIME,
+        T.PAY_TIME,
+        T.COUPON_ID,
+        T.COUPON_PRICE,
+        T.PARENT_ID,
+        T.SHOPS_ID,
+        T.GOODS_ID,
+        T.EXPIRE_TIME,
+        U.NICKNAME,
+        S.NAME SHOPS_NAME,
+        S.SHOPS_SN
+        FROM MALL_ORDER T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_SHOPS S ON T.SHOPS_ID = S.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.orderSn != null and params.orderSn.trim() != ''">
+            AND T.ORDER_SN LIKE '%${params.orderSn}%'
+        </if>
+        <if test="params.userId != null and params.userId.trim() != ''">
+            AND T.USER_ID = #{params.userId}
+        </if>
+        <if test="params.sysUserId != null and params.sysUserId.trim() != ''">
+            AND S.USER_ID = #{params.sysUserId}
+        </if>
+        <if test="params.fromType != null and params.fromType != ''">
+            AND T.FROM_TYPE = #{params.fromType}
+        </if>
+        <if test="params.orderStatus != null and params.orderStatus.toString() != ''">
+            AND T.ORDER_STATUS = #{params.orderStatus}
+        </if>
+        <if test="params.orderType != null and params.orderType != ''">
+            AND T.ORDER_TYPE = #{params.orderType}
+        </if>
+        <if test="params.payStatus != null and params.payStatus != ''">
+            AND T.PAY_STATUS = #{params.payStatus}
+        </if>
+        <if test="params.consignee != null and params.consignee.trim() != ''">
+            AND T.CONSIGNEE LIKE '%${params.consignee}%'
+        </if>
+        <if test="params.mobile != null and params.mobile.trim() != ''">
+            AND T.MOBILE LIKE '%${params.mobile}%'
+        </if>
+        <if test="params.orderType == null">
+            AND T.ORDER_TYPE != 3
+        </if>
+        <if test="params.notExists != null and params.notExists == 301">
+            AND NOT EXISTS(SELECT 1 FROM MALL_COMMENT WHERE MALL_COMMENT.ORDER_ID = T.ID)
+        </if>
+    </sql>
+
+    <select id="selectMallOrderPage" resultType="com.platform.modules.mall.entity.MallOrderEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallOrderEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryUserCountMap" resultType="java.util.Map">
+        SELECT
+        COUNT(A.ID) AS orders,
+        SUM(CASE A.ORDER_STATUS WHEN 0 THEN 1 ELSE 0 END ) AS unPayNum,
+        SUM(CASE A.ORDER_STATUS WHEN 201 THEN 1 ELSE 0 END ) AS unSendNum,
+        SUM(CASE A.ORDER_STATUS WHEN 300 THEN 1 ELSE 0 END ) AS unTakeNum,
+        (SELECT COUNT(1)
+        FROM MALL_ORDER O LEFT JOIN MALL_COMMENT C ON C.ORDER_ID = O.ID
+        WHERE O.ORDER_STATUS = 301 AND C.ID IS NULL
+        <if test="userId != null">
+            and O.USER_ID = #{userId}
+        </if>
+        ) AS unEvalNum
+        FROM
+        MALL_ORDER A
+        WHERE 1 = 1 AND A.ORDER_TYPE != 3
+        <if test="userId != null">
+            and A.USER_ID = #{userId}
+        </if>
+    </select>
+    <select id="queryById" resultType="com.platform.modules.mall.entity.MallOrderEntity">
+        SELECT
+        T.ID,
+        T.FROM_TYPE,
+        T.ORDER_TYPE,
+        T.ORDER_SN,
+        T.USER_ID,
+        T.ORDER_STATUS,
+        T.SHIPPING_STATUS,
+        T.PAY_STATUS,
+        T.PAY_TYPE,
+        T.CONSIGNEE,
+        T.COUNTRY,
+        T.PROVINCE,
+        T.CITY,
+        T.DISTRICT,
+        T.ADDRESS,
+        T.POSTAL_CODE,
+        T.MOBILE,
+        T.POSTSCRIPT,
+        T.SHIPPING_ID,
+        T.SHIPPING_NAME,
+        T.SHIPPING_CODE,
+        T.SHIPPING_NO,
+        T.SHIPPING_FEE,
+        T.PREPAY_ID,
+        T.ACTUAL_PRICE,
+        T.INTEGRAL_MONEY,
+        T.ORDER_PRICE,
+        T.ADD_TIME,
+        T.CONFIRM_TIME,
+        T.PAY_TIME,
+        T.COUPON_ID,
+        T.COUPON_PRICE,
+        T.PARENT_ID,
+        T.SHOPS_ID,
+        T.GOODS_ID,
+        T.EXPIRE_TIME,
+        U.NICKNAME,
+        S.NAME SHOPS_NAME,
+        S.SHOPS_SN,
+        C.TITLE COUPON_TITLE
+        FROM MALL_ORDER T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_SHOPS S ON T.SHOPS_ID = S.ID
+        LEFT JOIN MALL_COUPON C ON T.COUPON_ID = C.ID
+        WHERE T.ID = #{orderId}
+    </select>
+
+    <select id="shopsGoodsSalesCount" resultType="java.util.Map">
+        SELECT G.GOODS_NAME, COUNT(G.GOODS_ID) GOODS_COUNT, SUM(O.ACTUAL_PRICE) PRICE_SUM
+        FROM MALL_ORDER O
+        LEFT JOIN MALL_ORDER_GOODS G ON O.ID = G.ORDER_ID
+        WHERE O.SHOPS_ID IS NOT NULL
+        AND O.PAY_STATUS = 3
+        <if test="params.shopsId != null and params.shopsId.trim() != ''">
+            AND O.SHOPS_ID = #{params.shopsId}
+        </if>
+        <if test="params.startTime != null and params.startTime.trim() != ''">
+            AND O.ADD_TIME >= #{params.startTime}
+        </if>
+        <if test="params.endTime != null and params.endTime.trim() != ''">
+            AND O.ADD_TIME <![CDATA[<= #{params.endTime} ]]>
+        </if>
+        GROUP BY G.GOODS_ID
+    </select>
+
+    <select id="allShopsGoodsSalesCount" resultType="java.util.Map">
+        SELECT S.NAME, SUM(O.ACTUAL_PRICE) PRICE_SUM
+        FROM MALL_ORDER O
+        LEFT JOIN MALL_SHOPS S ON O.SHOPS_ID = S.ID
+        WHERE O.SHOPS_ID IS NOT NULL
+        AND O.PAY_STATUS = 3
+        <if test="params.startTime != null and params.startTime.trim() != ''">
+            AND O.ADD_TIME >= #{params.startTime}
+        </if>
+        <if test="params.endTime != null and params.endTime.trim() != ''">
+            AND O.ADD_TIME <![CDATA[<= #{params.endTime} ]]>
+        </if>
+        GROUP BY O.SHOPS_ID
+    </select>
+</mapper>

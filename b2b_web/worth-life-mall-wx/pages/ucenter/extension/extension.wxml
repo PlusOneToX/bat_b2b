@@ -1,0 +1,110 @@
+<view class="container">
+    <view class="headers">
+        <view class="header {{header==0?'active':''}}" bindtap="checkHeade" data-type="{{0}}">
+            我的团队
+        </view>
+        <!-- <view class="header {{header==1?'active':''}}" bindtap="checkHeade" data-type="{{1}}">
+            我的店铺
+        </view> -->
+    </view>
+    <view class="tipTitle">
+        <block wx:if="{{header==0}}">
+            <view class="tipItem">
+                <view class="num">{{teamData.directCount || 0}}</view>
+                <view class="text">直邀人数</view>
+            </view>
+            <view class="tipItem">
+                <view class="num">{{teamData.indirectCount || 0}}</view>
+                <view class="text">间邀人数</view>
+            </view>
+            <view class="tipItem">
+                <view class="num">{{teamData.award || 0}}</view>
+                <view class="text">我的收入(元)</view>
+            </view>
+        </block>
+        <block wx:if="{{header==1}}">
+            <view class="tipItem">
+                <view class="num">{{shopData.shopCount || 0}}</view>
+                <view class="text">店铺数量</view>
+            </view>
+            <view class="tipItem">
+                <view class="num">{{shopData.award || 0}}</view>
+                <view class="text">我的收入(元)</view>
+            </view>
+        </block>
+    </view>
+    <view class="line" style="height:18rpx"></view>
+    <view class="tabs {{header==1?'shop':''}}">
+        <!-- 我的团队 -->
+        <block wx:if="{{header==0}}">
+            <view class="tab {{tabActive==0?'active':''}}" data-type="0" bindtap="checkTab">
+                <text>邀请记录</text>
+            </view>
+            <view class="tab {{tabActive==1?'active':''}}" data-type="1" bindtap="checkTab">
+                <text>邀请收入</text>
+            </view>
+        </block>
+        <!-- 我的店铺 -->
+        <block wx:elif="{{header==1}}">
+            <view class="shop_title">店铺记录</view>
+        </block>
+    </view>
+    <scroll-view class="tables" scroll-top="{{scrollTop}}" refresher-triggered="{{triggered}}" refresher-enabled bindrefresherrefresh="refresherrefresh" scroll-y bindscrolltolower="scrolltolower">
+        <block wx:if="{{ header==0 && tabActive==0}}">
+            <template is="record" wx:for="{{recordDataSource}}" data="{{item:item}}" wx:key="index" />
+        </block>
+        <block wx:if="{{header==0 && tabActive==1}}">
+            <template is="reward" wx:for="{{rewardDataSource}}" data="{{item:item}}" wx:key="index" />
+        </block>
+         <block wx:if="{{header==1}}">
+            <template is="shop" wx:for="{{shopDataSource}}" data="{{item:item}}" wx:key="index" />
+        </block>
+        <tui-nomore bgcolor="#F5F5F5" visible="{{hasMoreData}}"></tui-nomore>
+    </scroll-view>
+    <view class="allBtn">
+        <button hover-class="none" open-type="share">微信邀请</button>
+        <button bindtap="faceShow">二维码邀请</button>
+    </view>
+</view>
+<view class="faceExtension" wx:if="{{faceShow}}" bindtap="faceHiden">
+    <canvas canvasId="share" class="canvas-hide" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;"></canvas>
+    <view class="preservationBox">
+        <!-- <view class="bgTextImg"></view> -->
+        <view class="bgtext">价值人生从传递一款好酒开始</view>
+        <image src="{{qrImg}}" class="qrImg" mode="widthFix" />
+        <button catchtap="preservation">保存二维码</button>
+    </view>
+</view>
+<template name="record">
+    <view class="recordItem">
+        <view class="account">{{item.userName}}（{{item.levelName}}）</view>
+        <view class="relationship">{{item.relation==1?'直邀': item.relation==2?'间邀':'--'}}</view>
+        <view class="time">{{item.createTime}}</view>
+    </view>
+</template>
+<template name="reward">
+    <view class="rewardItem">
+        <view class="messge">
+            <view class="number">订单编号：{{item.pid}}</view>
+            <view class="title">邀请好友下单-{{item.relation==1?'直邀': item.relation==2?'间邀':''}}</view>
+            <view class="account">用户账号：{{item.originNikeName || "--"}}</view>
+            <view class="time">创建时间：{{item.createTime || ""}}</view>
+        </view>
+        <view class="price">
+            <view class="add_price">+{{item.award}}</view>
+            <view class="order">订单金额：{{item.actualPrice}}元</view>
+        </view>
+    </view>
+</template>
+<template name="shop">
+    <view class="shopItem" bindtap="shopDetail" data-id="{{item.userId}}">
+        <view class="account">
+            <view class="phone">{{item.nikeName || "--"}}</view>
+            <view class="time">{{item.createTime}}</view>
+        </view>
+        <view class="name">
+            <view class="worde">{{item.name || "--"}}</view>
+            <image src="/static/images/right.png" class="right-icon"></image>
+        </view>
+    </view>
+</template>

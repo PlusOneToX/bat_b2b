@@ -1,0 +1,110 @@
+page {
+  background: #f2f2f2;
+}
+.list {
+  width: 100%;
+}
+.card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10rpx 30rpx;
+}
+.card:first-child {
+  padding-top: 30rpx;
+}
+.common-card {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 3rpx 20rpx rgba(183, 183, 183, 0.1);
+  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.show-card {
+  padding: 20rpx 30rpx;
+  background: #C74F54;
+  position: relative;
+}
+
+.show-card .unbinding {
+  width: 50rpx;
+  height: 50rpx;
+  text-align: center;
+  font-size: 50rpx;
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.show-card .bank-name {
+  font-size: 40rpx;
+  color: white;
+}
+.show-card .bank-type {
+  font-size: 28rpx;
+  padding-top: 5rpx;
+  color:rgba(255,255,255,0.4);
+}
+.show-card .card-number {
+  padding-top: 40rpx;
+  font-size: 60rpx;
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+.add-card {
+  height: 130rpx;
+}
+.add-card .add {
+  float: left;
+  font-size: 70rpx;
+  padding: 30rpx 30rpx 0 30rpx;
+}
+.add-card .text {
+  float: left;
+  font-size: 30rpx;
+  padding-top: 50rpx;
+}
+
+
+.option_box{
+  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+  overflow: hidden;
+  position: fixed; 
+  bottom: 0; 
+  width: 100%;
+  height: 0;
+  background: #fff;
+  transition: height 0.3s;
+  z-index: 9999;
+
+}
+.option{
+  width: 100%;
+  text-align: center;
+  display: block;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  color: #8a8a8a;
+  border-bottom: 1px solid #efefef;
+  padding: 10rpx;
+}
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  z-index: 9000;
+  opacity: 0.7;
+}
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+  }

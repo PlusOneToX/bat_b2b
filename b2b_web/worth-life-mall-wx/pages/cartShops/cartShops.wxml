@@ -1,0 +1,60 @@
+<view class="container">
+	<view class="service-policy">
+		<view class="item">付款后请联系店员收货</view>
+		<view class="item">如申请退货请联系店员</view>
+	</view>
+	<view class="no-cart" wx:if="{{cartGoods.length <= 0}}">
+		<view class="c">
+			<view class="title-box">
+				购物车空空如也～
+			</view>
+			<view class="to-index-btn" bindtap="toIndexPage">
+				去逛逛
+			</view>
+		</view>
+	</view>
+	<view class="cart-view" wx:if="{{cartGoods.length > 0}}">
+		<view class="list">
+			<view class="group-item">
+				<view class="goods">
+
+					<view class="item" wx:for="{{cartGoods}}" wx:key="id">
+						<swipe-action actions="{{actions}}" bindchange="deleteCartByItem" data-cart-id="{{item.id}}" data-goods-name="{{item.goodsName}}">
+							<view slot="content">
+								<view class="checkbox {{item.checked ? 'checked' : ''}}" bindtap="checkedItem" data-item-index="{{index}}"></view>
+								<view class="cart-goods">
+									<navigator url="/pages/goods/goods?id={{item.goodsId}}">
+										<image class="img" src="{{item.listPicUrl}}"></image>
+									</navigator>
+									<view class="info">
+										<view class="t">
+											<navigator class="name" url="/pages/goods/goods?id={{item.goodsId}}">
+												<text>{{item.goodsName}}</text>
+											</navigator>
+											<view class="goods-do">
+												<text class="price">￥{{item.retailPrice}}</text>
+												<text class="org-price">{{item.marketPrice?'￥'+item.marketPrice:''}}</text>
+											</view>
+											<text class='name-value'>{{item.goodsSpecifitionNameValue || ''}}</text>
+											<view class='number'>
+												<tui-numberbox iconsize="22" height="28" width="56" data-goods-id="{{item.id}}" data-item-index="{{index}}" value="{{ item.number }}" step="1" min="0" bindchange="changeNumber"></tui-numberbox>
+											</view>
+										</view>
+									</view>
+								</view>
+							</view>
+						</swipe-action>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cart-bottom">
+			<view class="checkbox {{checkedAllStatus ? 'checked' : ''}}" bindtap="checkedAll">全选({{cartTotal.checkedGoodsCount}})</view>
+			合计：
+			<view class="total">{{!isEditCart ? '￥'+cartTotal.checkedGoodsAmount : ''}}</view>
+			<view class="delete" bindtap="editCart">{{!isEditCart ? '编辑' : '完成'}}</view>
+			<view class="checkout" bindtap="deleteCart" wx:if="{{isEditCart}}">删除所选</view>
+			<view class="checkout" bindtap="checkoutOrder" wx:if="{{!isEditCart}}">下单</view>
+		</view>
+	</view>
+</view>

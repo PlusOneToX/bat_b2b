@@ -1,0 +1,18 @@
+<view class="container">
+	<view class="day-list">
+		<view class="item" wx:for="{{collectList}}" wx:for-item="iitem" wx:key="id">
+			<swipe-action actions="{{actions}}" bindchange="deleteItem" data-id="{{iitem.goodsId}}">
+				<view slot="content">
+					<view data-id="{{iitem.goodsId}}" bindtap="goodsDetail">
+						<image class="img" src="{{iitem.listPicUrl}}"></image>
+						<view class="info">
+							<view class="name">{{iitem.goodsName}}</view>
+							<view class="subtitle">{{iitem.goodsBrief}}</view>
+							<view class="price">￥{{iitem.retailPrice}}</view>
+						</view>
+					</view>
+				</view>
+			</swipe-action>
+		</view>
+	</view>
+</view>

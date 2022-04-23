@@ -1,0 +1,40 @@
+<view class="dcenter-order">
+    <view wx:if="{{teamListFL.length <= 0}}">
+        <view class="no-team"><image src="/static/images/img_no_income.png" class="no-team-image"></image></view>
+        <view><text class="no-team-text">暂无团队成员</text></view>
+    </view>
+    <view wx:else class="list">
+        <view>
+            <text class="title">一级团队（{{teamListFL.length}}人）</text>
+        </view>
+        <view wx:for="{{teamListFL}}" wx:for-item="item" wx:key="index" class="team-list" data-id="{{item.id}}" data-team-count="{{item.teamCount}}" catchtap="getSLTeam">
+            <view class="team-content">
+                <view>
+                    <image src="{{item.headImgUrl}}" class="img"></image>
+                </view>
+                <view class="middle">
+                    <text class="name">{{item.nickname}}</text>
+                    <text class="join-time">{{item.joinTime}}</text>
+                </view>
+                <view class="right">
+                    <text>二级团队（{{item.teamCount}}人）</text>
+                </view>
+                <view wx:if="{{item.teamCount > 0}}" class="icon">
+                    <image src="/static/images/icon_right.png" class="img {{activeId === item.id ? 'active-img' : ''}}"></image>
+                </view>
+            </view>
+            <!-- 二级团队 -->
+            <view wx:if="{{activeId === item.id}}" class="team-content-sl">
+                <view wx:for="{{teamListSL}}" wx:for-item="item" wx:key="index" class="team-list-sl">
+                    <view>
+                        <image src="/static/images/mine_def_touxiang_3x.png" class="img-sl"></image>
+                    </view>
+                    <view class="middle-sl">
+                        <text class="name-sl">{{item.nickname}}</text>
+                        <text class="join-time-sl">{{item.joinTime}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

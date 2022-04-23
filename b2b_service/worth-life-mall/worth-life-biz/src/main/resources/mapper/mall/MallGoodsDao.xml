@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallGoodsDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.NAME,
+        T.CATEGORY_ID,
+        T.GOODS_SN,
+        T.BRAND_ID,
+        T.GOODS_NUMBER,
+        T.IS_HOT,
+        T.IS_ON_SALE,
+        T.IS_NEW,
+        T.IS_LIMITED,
+        T.IS_DELETE,
+        T.LIST_PIC_URL,
+        T.KEYWORDS,
+        T.GOODS_BRIEF,
+        T.UNIT_PRICE,
+        T.MARKET_PRICE,
+        T.RETAIL_PRICE,
+        T.COUNTER_PRICE,
+        T.SELL_VOLUME,
+        T.IS_APP_EXCLUSIVE,
+        T.APP_EXCLUSIVE_PRICE,
+        T.GOODS_DESC,
+        T.SORT,
+        T.PROMOTION_TAG,
+        T.PROMOTION_DESC,
+        T.SALES,
+        T.CREATE_USER_ID,
+        T.CREATE_TIME,
+        T.CREATE_USER_DEPT_ID,
+        T.UPDATE_USER_ID,
+        T.UPDATE_TIME,
+        T.VIDEO_URL,
+        C.NAME CATEGORY_NAME,
+        B.NAME BRAND_NAME
+        FROM MALL_GOODS T
+        LEFT JOIN MALL_CATEGORY C ON T.CATEGORY_ID = C.ID
+        LEFT JOIN MALL_BRAND B ON T.BRAND_ID = B.ID
+        WHERE 1=1 AND IS_DELETE=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+        <if test="params.goodsSn != null and params.goodsSn.trim() != ''">
+            AND T.GOODS_SN LIKE '%${params.goodsSn}%'
+        </if>
+        <if test="params.isOnSale != null">
+            AND T.IS_ON_SALE = #{params.isOnSale}
+        </if>
+        <if test="params.goodsId != null and params.goodsId.trim() != ''">
+            AND  T.ID = #{params.goodsId}
+        </if>
+    </sql>
+
+    <select id="selectMallGoodsPage" resultType="com.platform.modules.mall.entity.MallGoodsEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallGoodsEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

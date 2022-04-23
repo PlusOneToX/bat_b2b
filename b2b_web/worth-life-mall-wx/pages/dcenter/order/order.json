@@ -1,0 +1,5 @@
+{
+  "navigationBarTitleText": "分销订单",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50
+}

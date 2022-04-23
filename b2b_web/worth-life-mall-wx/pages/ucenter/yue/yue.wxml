@@ -1,0 +1,59 @@
+<view class="header">
+    <view class='header-bg'>
+        <view class="header-yu">当前余额（元）</view>
+        <view class='header-money'>{{nowMoney}}</view>
+        <!-- <view class='header-tip'>会员用户充值可享受9折优惠~</view> -->
+    </view>
+    <view class="operation">
+         <view class="btn" bindtap='goPayment' wx:if="{{chongzhi == 1}}">充值</view>
+         <view class="btn Withdrawal" bindtap="carry">提现</view>
+    </view>
+</view>
+<!-- <view class='main-li flex' bindtap='goPayment' wx:if="{{chongzhi == 1}}">
+    <view>
+        <text class='main-pic main-pic1'></text>立即充值
+    </view>
+    <view class='iconfont icon-xiala main-xia'></view>
+</view> -->
+<view class='main-li flex' bindtap='indexs'>
+    <view bindtap='indexs'>
+        <text class='main-pic main-pic2'></text>进入商城
+    </view>
+    <view class='iconfont icon-xiala main-xia'></view>
+</view>
+<view class='main-li flex main-li4' bindtap='goBankCard'>
+    <view>
+        <image class="main-pic" src="/static/images/icon_bank_card.png"/>我的银行卡
+    </view>
+</view>
+<!-- <view class='main-li flex main-li3'>
+    <image class="main-pic" src="/static/images/facetoface_color.png" />当面付
+</view> -->
+<view class='main-con'>
+    <block wx:for="{{payFaceToFace}}" wx:key="index">
+        <view class='main-item flex'>
+            <view class='main-text'>
+                <view class='main-number'>{{item.orderSn}}</view>
+                <view class='main-time'>{{item.addTime}}</view>
+            </view>
+            <view class='item-money'>支付成功：{{item.actualPrice}}元</view>
+        </view>
+    </block>
+</view>
+<view class='main-li flex main-li3'>
+    <view>
+        <text class='main-pic main-pic3'></text>账户明细
+    </view>
+</view>
+<view class='main-con'>
+    <block wx:for="{{mainArray}}" wx:key="item">
+        <view class='main-item flex'>
+            <view class='main-text'>
+                <view class='main-number'>{{item.logDesc}}</view>
+                <view class='main-time'>{{item.addTime}}</view>
+            </view>
+            <view class='item-money' wx:if="{{item.type==1}}">+{{item.price}}元</view>
+            <view class='item-money money-active' wx:else>-{{item.price}}元</view>
+        </view>
+    </block>
+</view>

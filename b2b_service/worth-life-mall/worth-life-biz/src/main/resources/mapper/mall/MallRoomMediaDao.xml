@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallRoomMediaDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ROOMID,
+        T.MEDIA_URL,
+        T.EXPIRE_TIME,
+        T.CREATE_TIME
+        FROM MALL_ROOM_MEDIA T
+        WHERE 1=1
+        <if test="params.roomid != null and params.roomid != ''">
+            AND T.ROOMID = #{params.roomid}
+        </if>
+    </sql>
+
+    <select id="selectMallRoomMediaPage" resultType="com.platform.modules.mall.entity.MallRoomMediaEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallRoomMediaEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

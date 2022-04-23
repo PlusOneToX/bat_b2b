@@ -1,0 +1,48 @@
+<view class="container">
+	<show-empty-data wx:if="{{couponList.length<=0}}" showType="NO_SUIT_COUPON"></show-empty-data>
+	<view wx:else>
+		<view class="tui-coupon-item tui-top20" wx:for="{{couponList}}" wx:key="index">
+			<image src="/static/images/bg_coupon_3x.png" class="tui-coupon-bg" mode="widthFix"></image>
+			<image src="/static/images/img_coupon_beused_3x.png" class="tui-coupon-sign" mode="widthFix" wx:if="{{item.status===1}}"></image>
+			<image src="/static/images/img_coupon_failure_3x.png" class="tui-coupon-sign" mode="widthFix" wx:if="{{item.status===2}}"></image>
+			<view class="tui-coupon-item-left">
+				<view class="tui-coupon-price-box {{item.status!=0?'tui-color-grey':''}}">
+					<view class="tui-coupon-price-sign" wx:if="{{item.couponType==1}}">￥</view>
+					<view class="tui-coupon-price tui-price-small" wx:if="{{item.couponType==1}}">{{item.subPrice}}</view>
+					<view class="tui-coupon-price tui-price-small" wx:if="{{item.couponType==2}}">{{item.discount}}</view>
+					<view class="tui-coupon-price-sign" wx:if="{{item.couponType==2}}">折</view>
+				</view>
+				<view class="tui-coupon-intro">满{{item.minPrice}}元可用</view>
+			</view>
+			<view class="tui-coupon-item-right">
+				<view class="tui-coupon-content">
+					<view class="tui-coupon-title-box" wx:if="{{item.limitType===0}}">
+						<view class="tui-coupon-btn {{item.status!=0?'tui-bg-grey':''}}">全场券</view>
+						<view class="tui-coupon-title">全部商品可用</view>
+					</view>
+					<view class="tui-coupon-title-box" wx:if="{{item.limitType===1}}">
+						<view class="tui-coupon-btn {{item.status!=0?'tui-bg-grey':''}}">指定商品</view>
+						<view class="tui-coupon-title">指定商品可用</view>
+					</view>
+					<view class="tui-coupon-title-box" wx:if="{{item.limitType===2}}">
+						<view class="tui-coupon-btn {{item.status!=0?'tui-bg-grey':''}}">指定品牌</view>
+						<view class="tui-coupon-title">指定品牌可用</view>
+					</view>
+					<view class="tui-coupon-rule">
+						<view class="tui-rule-box tui-padding-btm">
+							<view class="tui-coupon-circle"></view>
+							<view class="tui-coupon-text">不可叠加使用</view>
+						</view>
+						<view class="tui-rule-box">
+							<view class="tui-coupon-circle"></view>
+							<view class="tui-coupon-text">{{item.beginTime}} 至 {{item.endTime}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="tui-btn-box" wx:if="{{item.status==0}}">
+				<tui-button type="danger" bindtap="selectCoupon" data-id="{{item.couponId}}" width="146rpx" height="52rpx" size="{{24}}" shape="circle" plain="{{false}}">立即使用</tui-button>
+			</view>
+		</view>
+	</view>
+</view>

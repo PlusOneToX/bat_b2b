@@ -1,0 +1,47 @@
+<view class="container">
+    <view class="header">
+        <view class="header_box">
+            <image src="{{userInfo.avatarUrl||'/static/images/mine_def_touxiang_3x.png'}}" class="tui-avatar"></image>
+            <view class="tui-info">
+                <view class="tui-nickname">{{userInfo.nickName}}</view>
+                <view class="tui-tag" wx:if="{{currentDjname}}">{{currentDjname}}</view>
+            </view>
+            <navigator url="/pages/ucenter/integralDetailed/integralDetailed" hover-class="none" class="detailed" >积分明细</navigator>
+        </view>
+    </view>
+    <view class="content">
+        <view class="circular">
+          <!-- <canvas canvasId="integral" class="canvas-integral" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;"></canvas>
+          <canvas canvasId="price" class="canvas-price" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;"></canvas> -->
+           <view class="cir_box">
+             <view class="title">累计积分</view>
+              <view class="speed">
+                  <view class="speed_box" style="width:{{amount/nextIntegral*100}}%"></view>
+               </view>
+               <view class="text">{{(amount || 0) + "/" + (nextIntegral || 0)}}</view>
+           </view>
+           <view class="cir_line"></view>
+            <view class="cir_box">
+             <view class="title">累计购买金额（￥）</view>
+              <view class="speed">
+                  <view class="speed_box" style="width:{{actualPrice/nextMoney*100}}%"></view>
+               </view>
+               <view class="text">{{(actualPrice || 0) + "/" + (nextMoney || 0)}}</view>
+           </view>
+        </view>
+        <view class="worde">距离下个等级还差 <block wx:if="{{disparityIntegral>=0}}">{{disparityIntegral}}积分</block><block wx:if="{{disparityMoney >= 0 }}">，{{disparityMoney}}元</block></view>
+        <view class="line"></view>
+        <view class="grader">
+            <view class="test">等级达标标准</view>
+            <view class="grader_item" wx:for="{{gradeList}}" wx:key="index">
+                <view class="lf">
+                    <view class="item_content">{{item.name}}</view>
+                    <view class="item_text">{{item.newIntegral}}积分，{{item.newMoney}}元</view>
+                </view>
+                <view class="ri">
+                    <view class="btn {{item.activation?'active':''}}">{{item.activation?'已获得':'暂未获得'}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

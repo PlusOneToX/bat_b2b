@@ -1,0 +1,43 @@
+<view class="container" wx:if="{{status == true}}">
+	<view class="tui-bg"></view>
+	<view class="tui-content">
+		<view class="tui-form">
+			<image src="/static/images/img_recharge_success.png" class="tui-icon"></image>
+			<view class="tui-title">订单已支付成功</view>
+			<view class="tui-sub-title">感谢您购买我们的产品</view>
+			<view class="tui-btn-box">
+				<tui-button type="danger" width="240rpx" height="70rpx" size="{{28}}" plain="{{true}}" shape="circle" bind:click="go" data-page="1">返回首页</tui-button>
+				<tui-button type="danger" shadow="{{true}}" width="240rpx" height="70rpx" size="{{28}}" shape="circle" bind:click="go" data-page="2">查看订单</tui-button>
+			</view>
+		</view>
+	</view>
+	<view class="tui-tips">
+		<view class="tui-grey">温馨提示:</view>
+		<view class="tui-light-grey">
+			付款成功后，商家不会以付款异常、卡单、系统升级为由联系您。请勿泄露银行卡号、手机验证码，否则会造成钱款损失！谨防电话诈骗！
+		</view>
+	</view>
+</view>
+
+<view class="container" wx:if="{{status != true}}">
+	<view class="tui-bg"></view>
+	<view class="tui-content">
+		<view class="tui-form">
+			<image src="/static/images/img_recharge_fail.png" class="tui-icon"></image>
+			<view class="tui-title">付款失败</view>
+			<view class="tui-sub-title">{{errmsg}}</view>
+			<view class="tui-btn-box">
+				<tui-button type="danger" width="240rpx" height="70rpx" size="{{28}}" plain="{{true}}" shape="circle" bindtap='payOrder'>重新付款</tui-button>
+				<tui-button type="danger" shadow="{{true}}" width="240rpx" height="70rpx" size="{{28}}" shape="circle" bind:click="go" data-page="2">查看订单</tui-button>
+			</view>
+		</view>
+	</view>
+	<view class="tui-tips">
+		<view class="tui-grey">温馨提示:</view>
+		<view class="tui-light-grey">
+			<view class="p">请在
+				<text class="time">30分钟</text> 内完成付款</view>
+			<view class="p">否则订单将会被系统取消！</view>
+		</view>
+	</view>
+</view>

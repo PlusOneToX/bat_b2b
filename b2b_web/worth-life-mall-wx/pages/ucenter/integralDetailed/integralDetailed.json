@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "积分明细",
+  "usingComponents": {
+    "tui-nomore": "/components/nomore/nomore"
+  }
+}

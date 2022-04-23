@@ -1,0 +1,78 @@
+<view class="container">
+  <view class="list-group" style="margin-top: 0px;">
+    <view class="list-cell">
+      <view class="list-cell-hd">
+        <image style="width: 80rpx;height:80rpx;" src="/static/images/rider.png"></image>
+      </view>
+      <view class="list-cell-bd">
+        <view class="list-label" style="padding-left: 20rpx;">
+          {{orderInfo.consignee}}
+        </view>
+      </view>
+      <view class="list-cell-ft" style="font-size: .7em;">
+        小伙伴都挺不容易的，能不能给个好评，亲 ^_^
+      </view>
+    </view>
+  </view>
+
+  <view class="service-box">
+    <view class="service-item">
+      <text class="label">服务态度</text>
+      <view class="star-box">
+        <text class="star {{ evalLevel > index ? 'checked' : '' }}" bindtap="handleScore" wx:for="{{5}}" wx:key="index" data-goods-level="{{index + 1}}" data-aim="evalLevel">★</text>
+      </view>
+      <text class="desc">{{handleDesc[evalLevel -1]}}</text>
+    </view>
+    <view class="service-item">
+      <text class="label">配送速度</text>
+      <view class="star-box">
+        <text class="star {{ deliveryLevel > index ? 'checked' : '' }}" bindtap="handleScore" wx:for="{{5}}" wx:key="index" data-goods-level="{{index + 1}}" data-aim="deliveryLevel">★</text>
+      </view>
+      <text class="desc">{{handleDesc[deliveryLevel -1]}}</text>
+    </view>
+  </view>
+
+  <view class="goods-list" wx:for="{{goodsList}}" wx:key="num" wx:for-index="num">
+    <view class="list-group">
+      <view class="list-cell">
+        <view class="list-cell-hd">
+          <image style="width: 100rpx;height:100rpx;" src="{{item.listPicUrl}}"></image>
+        </view>
+        <view class="list-cell-bd" style="padding-left: 20rpx;">
+          <view class="list-label">
+            {{item.goodsName}}
+          </view>
+          <view class="list-label-desc">
+            {{item.goodsSpecifitionNameValue}}
+          </view>
+        </view>
+      </view>
+      <view class="service-item" style="padding-left:20px">
+        <text class="label">商品质量</text>
+        <view class="star-box">
+          <text class="star {{ goodsList[num].goodsLevel > index ? 'checked' : '' }}" bindtap="handleScore" wx:for="{{5}}" wx:key="index" data-goods-level="{{index + 1}}" data-aim="{{ 'goodsList['+num+'].goodsLevel' }}">★</text>
+        </view>
+        <text class="desc">{{handleDesc[goodsList[num].goodsLevel -1]}}</text>
+      </view>
+
+      <view class="input-box">
+        <textarea class="content" bindinput="bindInpuntValue" auto-height data-goods-index="{{num}}" maxlength="140" placeholder="留言经过筛选后，对所有人可见" />
+        <text class="count">{{goodsList[num].comment.length}}/140</text>
+      </view>
+      <view class="pic-box">
+        <view class="pic-item" wx:for="{{goodsList[num].pics}}" wx:key="index">
+          <image src="{{item}}" bindtap="previewPic" data-urls="{{goodsList[num].pics}}"></image>
+          <text class="pic-delete" bindtap="handleDelete" data-src="{{item}}" data-pics="{{goodsList[num].pics}}" data-goods-index="{{num}}">x</text>
+        </view>
+        <view class="pic-item pic-handle" wx:if="{{goodsList[num].pics.length < 3}}" bindtap="chooseImageTap" data-pics="{{goodsList[num].pics}}" data-goods-index="{{num}}">
+          <image src="/static/images/photo_icon.png"></image>
+          <text class="desc">添加图片</text>
+        </view>
+      </view>
+
+    </view>
+  </view>
+  <view class="btn-box">
+    <button type="primary" bindtap="onPost">发 布</button>
+  </view>
+</view>

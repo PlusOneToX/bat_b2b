@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallCommentPictureDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.COMMENT_ID,
+        T.PIC_URL,
+        T.SORT
+        FROM MALL_COMMENT_PICTURE T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+    </sql>
+
+    <select id="selectMallCommentPicturePage" resultType="com.platform.modules.mall.entity.MallCommentPictureEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallCommentPictureEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "立即充值",
+  "usingComponents": {
+    "tui-alert": "/components/extend/alert/alert"
+  }
+}

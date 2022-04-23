@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "tui-icon": "/components/icon/icon",
+    "tui-numberbox": "/components/numberbox/numberbox"
+  }
+}

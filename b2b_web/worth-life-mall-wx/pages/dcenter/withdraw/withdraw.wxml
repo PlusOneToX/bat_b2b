@@ -1,0 +1,53 @@
+<view class="dcenter-withdraw">
+	<form>
+		<view class="form-container">
+			<text class="form-label">可提现佣金</text>
+			<text class="available-amount">{{ '¥ ' + availableAmount }}</text>
+		</view>
+		<view class="form-container">
+			<text class="form-label">提现方式</text>
+            <text class="select-withdraw" bindtap="withdrawSelectTap">
+                <text>{{form.type == "ENT_PAY" ? "余额" : (withdrawCard.bankName+withdrawCard.cardType+"("+withdrawCard.cardNumber+")")}}</text>
+            </text>
+             <image src="/static/images/icon_right.png" class="img" bindtap="withdrawSelectTap"></image>
+			<!-- <radio-group bindchange="modeChange">
+				<label>
+					<radio value="ENT_PAY" checked="{{ form.type === 'ENT_PAY' }}" />
+					<text>余额</text>
+				</label>
+				<label>
+					<radio value="PAY_BANK" checked="{{ form.type === 'PAY_BANK' }}" />
+					<text>第三方</text>
+				</label>
+			</radio-group> -->
+		</view>
+		<view class="form-container">
+			<text class="form-label">提现金额</text>
+			<input placeholder="请输入提现金额" bindinput="bindAmountInput" bindblur="checkAmount" value="{{form.amount}}" confirm-type="next" type="number"></input>
+			<text class="all-text" bindtap="withdrawAll">全部</text>
+			<view class="alert-text">{{alertText}}</view>
+		</view>
+		<tui-button type="primary" shape="circle" bindtap="submit" class="submit-btn">提现</tui-button>
+	</form>
+
+	<view class="withdraw-select">
+		<view class="mask" wx:if="{{withdrawShow}}" bindtap="closeWithdrawSelectTap"></view>
+		<view class="option_box" style="height:{{withdrawShow?260+(cardList.length>10?800:cardList.length*80):0}}rpx;">
+		    <view class="title">选择到账方式</view>
+            <view class="title-little">若提现到银行卡，会收取一定额度手续费。<text class="rule" bindtap="lookRule">查看手续费收费规则</text></view>
+			<text class="option" data-type="ENT_PAY" catchtap="selectWithdraw">余额</text>
+            <view style="height:{{withdrawShow?(cardList.length>10?800:cardList.length*80):0}}rpx;">
+                <text
+                    class="option"
+                    wx:for="{{cardList}}"
+                    wx:for-item="item" 
+                    wx:key="index" 
+                    data-id="{{item.id}}" 
+                    data-type="PAY_BANK"
+                    data-card-item="{{item}}"
+                    catchtap="selectWithdraw">{{item.bankName + item.cardType + "(" + item.cardNumber + ")" }}</text>
+            </view>
+            <text class="option" bindtap="bindingCard"><text style="font-size:38rpx;">+ </text>绑定新卡</text> 
+		</view>
+	</view>
+</view>

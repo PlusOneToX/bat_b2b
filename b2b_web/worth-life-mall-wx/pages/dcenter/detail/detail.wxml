@@ -1,0 +1,78 @@
+<view class="dcenter-detail">
+    <view class="filter">
+        <tui-button class="filter-btn" plain height="64rpx" width="96rpx"
+                    type="{{ filter === 'ALL' ? 'primary' : 'gray' }}" bindtap="switchFilter" data-index="ALL">
+            全部
+        </tui-button>
+        <tui-button class="filter-btn" plain height="64rpx" width="144rpx"
+                    type="{{ filter === 'PROXY' ? 'primary' : 'gray' }}" bindtap="switchFilter" data-index="PROXY">
+            代理提成
+        </tui-button>
+        <tui-button class="filter-btn" plain height="64rpx" width="144rpx"
+                    type="{{ filter === 'SALE' ? 'primary' : 'gray' }}" bindtap="switchFilter" data-index="SALE">
+            推广提成
+        </tui-button>
+        <tui-button class="filter-btn" plain height="64rpx" width="144rpx"
+                    type="{{ filter === 'WITHDRAW' ? 'primary' : 'gray' }}" bindtap="switchFilter" data-index="WITHDRAW">
+            佣金提现
+        </tui-button>
+    </view>
+    <view class="header">
+        <view>
+            <text class="name">本月收益：</text>
+            <text class="value">¥{{ monthIncome }}</text>
+        </view>
+        <view>
+            <text class="name">今日收益：</text>
+            <text class="value">¥{{ dayIncome }}</text>
+        </view>
+    </view>
+    <tui-list-view class="list">
+        <view wx:if="{{incomeList.length <= 0}}">
+            <view class="no-income"><image src="/static/images/img_no_income.png" class="no-income-image"></image></view>
+            <view><text class="no-income-text">暂无收益记录</text></view>
+        </view>
+        <tui-list-cell wx:for="{{incomeList}}" wx:for-item="item" wx:key="id" class="cell" padding="12rpx 30rpx">
+            <view class="cell-content">
+                <view class="info">
+                    <text wx:if="{{ item.type == 1 }}">代理提成</text>
+                    <text wx:elif="{{ item.type == 2 }}">推广提成</text>
+                    <text wx:else>佣金提现</text>
+                    <!-- 待改善 -->
+                    <text wx:if="{{item.income % 1 == 0}}">{{item.income+".00"}}</text>
+                    <text wx:else>{{item.income}}</text>
+                </view>
+                <view class="info">
+                    <text class="time">{{ item.incomeTime }}</text>
+                    <text class="status">
+                        <!-- 提成状态 -->
+                        <text wx:if="{{item.orderStatus == 201 || item.orderStatus == 300}}" style="color: #FB8585;">冻结中</text>
+                        <text wx:elif="{{item.orderStatus == 301}}" style="color: #00BFA0;">已到账</text>
+                        <text wx:elif="{{item.orderStatus > 400}}" style="color: #929292;">已失效</text>
+                        <!-- 提现状态 -->
+                        <text wx:elif="{{item.auditStatus == 0}}" style="color: #FB8585;">审核中</text>
+                        <text wx:elif="{{item.auditStatus == 2}}" style="color: #929292;">审核不通过</text>
+                        <text wx:elif="{{item.auditStatus == 1}}" style="color: #00BFA0;">审核通过</text>
+                    </text>
+                </view>
+            </view>
+        </tui-list-cell>
+        <!-- <tui-list-cell wx:for="{{incomeList}}" wx:for-item="item" wx:key="id" class="cell" padding="12rpx 30rpx">
+            <view class="cell-content">
+                <view class="info">
+                    <text wx:if="{{ item.type == 1 }}">代理提成{{item.orderStatus > 400 ? "（已失效）":(item.orderStatus != 301?"（冻结中）":"")}}</text>
+                    <text wx:elif="{{ item.type == 2 }}">推广提成{{item.orderStatus > 400 ? "（已失效）":(item.orderStatus != 301?"（冻结中）":"")}}</text>
+                    <text wx:else>
+                        <text wx:if="{{item.auditStatus == 0}}">佣金提现（审核中）</text>
+                        <text wx:elif="{{item.auditStatus == 2}}">佣金提现（审核不通过）</text>
+                        <text wx:else>佣金提现</text>
+                    </text>
+                    待改善
+                    <text wx:if="{{item.income % 1 == 0}}">{{item.income+".00"}}</text>
+                    <text wx:else>{{item.income}}</text>
+                </view>
+                <text class="time">{{ item.incomeTime }}</text>
+            </view>
+        </tui-list-cell> -->
+    </tui-list-view>
+</view>

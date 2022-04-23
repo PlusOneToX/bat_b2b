@@ -1,0 +1,62 @@
+<view class="dcenter-index">
+    <view class="card-container">
+        <view class="black-card">
+            <view class="white-card">
+                <view class="first">
+                    <image class="avatar"
+                           src="{{ mallDistEntity.headImgUrl }}"></image>
+                    <view class="info">
+                        <view class="nickname">
+                            <text>{{ mallDistEntity.nickname }}</text>
+                            <distributor value="1"/>
+                            <!-- <tag wx:if="!isAudit">审核中</tag> -->
+                        </view>
+                        <text class="inviter" wx:if="{{mallDistEntity.superiorNickname}}">邀请人：{{ mallDistEntity.superiorNickname }}</text>
+                        <text class="joinTime">加入时间：{{ mallDistEntity.joinTime }}</text>
+                    </view>
+                </view>
+                <view class="value-container">
+                    <view class="value-block">
+                        <text class="value">{{ mallDistEntity.amountAvailable }}</text>
+                        <text class="name">可提现</text>
+                    </view>
+                    <view class="value-block">
+                        <text class="value">{{ mallDistEntity.amountWithdrawn }}</text>
+                        <text class="name">成功提现</text>
+                    </view>
+                    <view class="value-block">
+                        <text class="value">{{ mallDistEntity.amountTotal }}</text>
+                        <text class="name">累计佣金</text>
+                    </view>
+                </view>
+            </view>
+            <view class="bottom-card">
+                <view class="full-width flex-center" bindtap="goDetail">
+                    <image class="icon" src="/static/images/icon_detail.png" />
+                    <text>明细</text>
+                </view>
+                <view class="full-width flex-center" bindtap="goWithdraw">
+                    <image class="icon" src="/static/images/icon_withdraw.png" />
+                    <text>提现</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="menus">
+        <view class="menu" bindtap="goOrder">
+            <image class="icon2" src="/static/images/ic_menu_order.png"/>
+            <text class="title">分销订单</text>
+            <view><text class="value">{{ orderCount }}</text><text class="unit"> 个</text></view>
+        </view>
+        <view class="menu" bindtap="goTeam">
+            <image class="icon2" src="/static/images/ic_menu_team.png"/>
+            <text class="title">我的团队</text>
+            <view><text class="value">{{ teamCount }}</text><text class="unit"> 人</text></view>
+        </view>
+        <view class="menu" bindtap="goInvitation">
+            <image class="icon2" src="/static/images/ic_menu_code.png"/>
+            <text class="title">我的二维码</text>
+            <text class="subtitle">推广二维码</text>
+        </view>
+    </view>
+</view>

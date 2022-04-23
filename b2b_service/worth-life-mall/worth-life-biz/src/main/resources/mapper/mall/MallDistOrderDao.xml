@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallDistOrderDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.BUYER_ID,
+        T.ORDER_ID,
+        T.TYPE,
+        T.INCOME,
+        T.INCOME_TIME,
+        T.COMMISSION_TYPE,
+        T.COMMISSION,
+        T.WITHDRAW_TYPE,
+        T.ENC_BANK_NO,
+        T.ENC_TRUE_NAME,
+        T.BANK_CODE,
+        T.AUDIT_STATUS,
+        T.AUDIT_DESC,
+        T.PAYMENT_NO,
+        T.GOODS_ID,
+        T.SKU_ID,
+        U.NICKNAME,
+        B.NICKNAME BUYER_NICKNAME,
+        O.ORDER_SN
+        FROM MALL_DIST_ORDER T
+        JOIN MALL_USER U ON T.USER_ID = U.ID
+        JOIN MALL_USER B ON T.BUYER_ID = B.ID
+        LEFT JOIN MALL_ORDER O ON T.ORDER_ID = O.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.orderSn != null and params.orderSn.trim() != ''">
+            AND O.ORDER_SN LIKE '%${params.orderSn}%'
+        </if>
+        <if test="params.type != null">
+            AND T.TYPE = #{params.type}
+        </if>
+    </sql>
+
+    <select id="selectMallDistOrderPage" resultType="com.platform.modules.mall.entity.MallDistOrderEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallDistOrderEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryById" resultType="com.platform.modules.mall.entity.MallDistOrderEntity">
+        SELECT
+            T.ID,
+            T.USER_ID,
+            T.BUYER_ID,
+            T.ORDER_ID,
+            T.TYPE,
+            T.INCOME,
+            T.INCOME_TIME,
+            T.COMMISSION_TYPE,
+            T.COMMISSION,
+            T.WITHDRAW_TYPE,
+            T.ENC_BANK_NO,
+            T.ENC_TRUE_NAME,
+            T.BANK_CODE,
+            T.AUDIT_STATUS,
+            T.AUDIT_DESC,
+            T.PAYMENT_NO,
+            T.GOODS_ID,
+            T.SKU_ID,
+            U.NICKNAME,
+            B.NICKNAME BUYER_NICKNAME,
+            O.ORDER_SN
+        FROM MALL_DIST_ORDER T
+                 JOIN MALL_USER U ON T.USER_ID = U.ID
+                 JOIN MALL_USER B ON T.BUYER_ID = B.ID
+                 LEFT JOIN MALL_ORDER O ON T.ORDER_ID = O.ID
+        WHERE T.ID = #{id}
+    </select>
+
+    <select id="getTotalWithdraw" resultType="java.math.BigDecimal">
+        SELECT
+        SUM(INCOME)
+        FROM MALL_DIST_ORDER
+        WHERE
+        USER_ID = #{userId}
+        <if test="startTime != null and endTime != null">
+            AND INCOME_TIME BETWEEN #{startTime} AND #{endTime}
+        </if>
+        AND TYPE = ${type}
+    </select>
+
+
+
+    <select id="distOrderPage" resultType="com.platform.modules.mall.entity.MallDistOrderDetailEntity">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.BUYER_ID,
+        U.NICKNAME AS BUYER_NICKNAME,
+        T.ORDER_ID,
+        T.INCOME,
+        T.INCOME_TIME,
+        T.COMMISSION_TYPE,
+        T.COMMISSION,
+        O.ORDER_SN,
+        O.ACTUAL_PRICE,
+        O.ORDER_STATUS,
+        G.GOODS_ID,
+        G.GOODS_NAME,
+        G.LIST_PIC_URL AS GOODS_PIC
+        FROM
+        MALL_DIST_ORDER T
+        LEFT JOIN MALL_ORDER O ON T.ORDER_ID = O.ID
+        LEFT JOIN MALL_USER U ON T.BUYER_ID = U.ID
+        LEFT JOIN MALL_ORDER_GOODS G ON T.ORDER_ID = G.ORDER_ID
+        AND T.GOODS_ID = G.GOODS_ID
+        AND T.SKU_ID = G.SKU_ID
+        ${ew.customSqlSegment}
+    </select>
+    <select id="getIncomeDetails" resultType="java.math.BigDecimal">
+        SELECT
+        SUM(T.INCOME)
+        FROM MALL_DIST_ORDER T
+        LEFT JOIN MALL_ORDER O ON T.ORDER_ID = O.ID
+        WHERE T.USER_ID = '${userId}'
+        <if test="startTime != null and endTime != null">
+            AND T.INCOME_TIME BETWEEN #{startTime} AND #{endTime}
+        </if>
+        AND T.TYPE IN
+            <foreach item="type" collection="orderType" separator="," open="(" close=")" index="">
+                #{type}
+            </foreach>
+        AND O.ORDER_STATUS IN
+            <foreach item="status" collection="orderStatus" separator="," open="(" close=")" index="">
+                #{status}
+            </foreach>
+    </select>
+    <select id="getIncomeDetailsPage" resultType="com.platform.modules.mall.entity.IncomeDetailsEntity">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.TYPE,
+        T.INCOME,
+        T.INCOME_TIME,
+        T.WITHDRAW_TYPE,
+        T.AUDIT_STATUS,
+        T.AUDIT_DESC,
+        O.ORDER_STATUS
+        FROM MALL_DIST_ORDER T
+        LEFT JOIN MALL_ORDER O ON T.ORDER_ID = O.ID
+
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

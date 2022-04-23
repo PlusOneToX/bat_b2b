@@ -1,0 +1,72 @@
+.btn {
+    border: 0;
+    margin:80rpx 0 0;
+    display: block;
+    font-size: 26rpx;
+    padding: 0 100rpx;
+    background: none;
+    color: #008DDF;
+    line-height: 1;
+}
+
+.weui-cell-list {
+    margin: 5px 40px 5px 50px;
+}
+
+.block-submit {
+    position: relative;
+    /* width: 100px; */
+    margin-left: 5rpx;
+    margin-top: 80rpx;
+    border-left: 4rpx solid #39A2DF;
+    height: 50px;
+    background: #fff
+}
+
+.icon-submit {
+    position: absolute;
+    width: 50rpx;
+    height: 50rpx;
+    top: -5rpx;
+    left: -27rpx;
+}
+
+.time {
+    position: absolute;
+    top: 40rpx;
+    left: 55rpx;
+    font-size: 25rpx;
+    color: #D7D7D7;
+}
+
+.title-submit {
+    position: absolute;
+    font-size: 30rpx;
+    left: 55rpx;
+    color:  #018DDF;
+}
+
+.block-money {
+    position: relative;
+    /* width: 100px; */
+    margin-left: 5rpx;
+    margin-top: -10rpx;
+    border-left: 4rpx solid #D7D7D7;
+    height: 50px;
+    background: #fff;
+}
+
+.icon-money {
+    position: absolute;
+    width: 50rpx;
+    height: 50rpx;
+    bottom: -5rpx;
+    left: -27rpx;
+}
+.title-money {
+    position: absolute;
+    font-size: 30rpx;
+    left: 55rpx;
+    bottom: 0;
+    color:  #B3B9BD;
+}

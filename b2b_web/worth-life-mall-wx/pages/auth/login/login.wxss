@@ -1,0 +1,108 @@
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 25rpx;
+  background: linear-gradient(to bottom, #e41f19 0%, #fff 100%);
+}
+
+.userinfo-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-top: 20rpx;
+  margin-bottom: 25rpx;
+}
+
+.userinfo-nickname {
+  color: #272727;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+/* 绑定手机号的两个form */
+
+.login-title {
+  margin: 20rpx 0 35rpx;
+  text-align: center;
+  font-size: 30rpx;
+}
+
+.login {
+  font-size: 32rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login .first-line {
+  height: 80rpx;
+  border: 1rpx solid rgb(217, 217, 217);
+  border-radius: 5px;
+  width: 600rpx;
+  margin-bottom: 40rpx;
+}
+
+.login .first-line input {
+  padding-left: 20rpx;
+  height: 80rpx;
+}
+
+.login .second-line {
+  height: 80rpx;
+  display: flex;
+  width: 600rpx;
+  margin-bottom: 50rpx;
+}
+
+.login .second-line input {
+  height: 80rpx;
+  width: 350rpx;
+  margin-right: 20rpx;
+  border: 1rpx solid rgb(217, 217, 217);
+  padding-left: 20rpx;
+  border-radius: 5px;
+}
+
+.login .second-line button {
+  text-align: center;
+  height: 84rpx;
+  line-height: 84rpx;
+  width: 250rpx;
+  font-size: 30rpx;
+  background-color: #e41f19;
+  color: #fff;
+}
+
+.login .password-second-line {
+  height: 80rpx;
+  display: flex;
+  width: 600rpx;
+  margin-bottom: 50rpx;
+}
+
+.login .password-second-line input {
+  height: 80rpx;
+  width: 600rpx;
+  border: 1rpx solid rgb(217, 217, 217);
+  padding-left: 20rpx;
+  border-radius: 5px;
+}
+
+.third-line {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600rpx;
+}
+
+.third-line button {
+  height: 80rpx;
+  font-size: 32rpx;
+  background-color: #e41f19;
+  color: #fff;
+}
+
+.form-item-text {
+  float: right;
+  margin: 40rpx 80rpx 0 0;
+}

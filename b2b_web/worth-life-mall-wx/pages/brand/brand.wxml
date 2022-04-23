@@ -1,0 +1,26 @@
+<view class="container">
+	<view class='brand-list' wx:if="{{brandList.length==0}}">
+		<view class='item'>
+			<view class="txt-box">
+				<view class="line">
+					<text class="no-name">暂无品牌</text>
+				</view>
+			</view>
+		</view>
+	</view>
+	<view class="brand-list">
+		<navigator url="../brandDetail/brandDetail?id={{item.id}}" class="item" wx:for="{{brandList}}" wx:key="id">
+			<view class="img-bg">
+				<image src="{{item.appListPicUrl}}" background-size="cover"></image>
+			</view>
+			<view class="txt-box">
+				<view class="line">
+					<text class="name">{{item.name}}</text>
+					<text class="s">|</text>
+					<text class="price">{{item.floorPrice}}元起</text>
+				</view>
+			</view>
+		</navigator>
+	</view>
+</view>
+<tui-nomore bgcolor="#fff" visible="{{true}}"></tui-nomore>

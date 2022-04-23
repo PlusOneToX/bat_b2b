@@ -1,0 +1,28 @@
+<view class="userinfo">
+	<image class="userinfo-avatar" background-size="cover"></image>
+	<text class="userinfo-nickname"></text>
+</view>
+
+<view>
+	<view>
+		<view class="login-title">登录</view>
+		<form bindsubmit="bindLoginMobilecode">
+			<form bindsubmit="bindGetPassCode">
+				<view class="login">
+					<view class="first-line">
+						<input placeholder-class="phcolor" class="tui-input" name="mobile" placeholder="请输入手机号码" bindinput="bindUsernameInput" maxlength="11" value="{{mobile}}" type='number' />
+					</view>
+					<view class="first-line">
+						<input placeholder-class="phcolor" password name="password" class="tui-input" name="mobile" placeholder="登录密码" bindinput="bindPasswordInput" maxlength="8" value="{{password}}" />
+					</view>
+				</view>
+			</form>
+			<view class="third-line">
+				<button bindtap="startLogin">登录</button>
+			</view>
+			<view class="form-item-text">
+				<navigator url="/pages/auth/mobile/mobile?type=2" class="reset">忘记密码</navigator>
+			</view>
+		</form>
+	</view>
+</view>

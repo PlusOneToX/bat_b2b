@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "立即提现",
+  "usingComponents": {
+    "tui-alert": "/components/extend/alert/alert"
+  }
+}

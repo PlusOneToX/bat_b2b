@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallCommentDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.ORDER_ID,
+        T.GOODS_ID,
+        T.GOODS_SPECIFITION_NAME_VALUE,
+        T.CONTENT,
+        T.TYPE,
+        T.ADD_TIME,
+        T.STATUS,
+        T.EVAL_LEVEL,
+        T.DELIVERY_LEVEL,
+        T.GOODS_LEVEL,
+        U.NICKNAME,
+        G.NAME GOODS_NAME
+        FROM MALL_COMMENT T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_GOODS G ON T.GOODS_ID = G.ID
+        <if test="params.hasPic != null and params.hasPic == 1">
+            LEFT JOIN MALL_COMMENT_PICTURE CP ON CP.COMMENT_ID = C.ID
+        </if>
+        WHERE 1=1
+        <if test="params.hasPic != null and params.hasPic == 1">
+            AND CP.ID IS NOT NULL
+        </if>
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.goodsId != null and params.goodsId.trim() != ''">
+            AND T.GOODS_ID = #{params.goodsId}
+        </if>
+        <if test="params.orderId != null and params.orderId.trim() != ''">
+            AND T.ORDER_ID = #{params.orderId}
+        </if>
+        <if test="params.status != null and params.status != ''">
+            AND T.STATUS = #{params.status}
+        </if>
+    </sql>
+
+    <select id="selectMallCommentPage" resultType="com.platform.modules.mall.entity.MallCommentEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallCommentEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryHasPicTotal" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT ID) FROM MALL_COMMENT
+        WHERE 1= 1
+        <if test="params.type != null and params.type != ''">
+            AND TYPE = #{params.type}
+        </if>
+        <if test="params.from != 1">
+            <if test="params.status != null and params.status != ''">
+                AND STATUS = #{params.status}
+            </if>
+        </if>
+        <if test="params.orderId != null and params.orderId.trim() != ''">
+            AND EXISTS (SELECT 1 FROM MALL_COMMENT_PICTURE WHERE MALL_COMMENT.ID = MALL_COMMENT_PICTURE.COMMENT_ID AND MALL_COMMENT.ORDER_ID = #{params.orderId})
+        </if>
+        <if test="params.goodsId != null and params.goodsId != ''">
+            AND EXISTS (SELECT 1 FROM MALL_COMMENT_PICTURE WHERE MALL_COMMENT.ID = MALL_COMMENT_PICTURE.COMMENT_ID AND MALL_COMMENT.GOODS_ID = #{params.goodsId})
+        </if>
+    </select>
+</mapper>

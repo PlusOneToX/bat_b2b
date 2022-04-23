@@ -1,0 +1,8 @@
+<!--component/show-empty-data/show-empty-data.wxml-->
+ <view class='no-course'>
+    <image class='img' src='../../static/images/my_course_empty.png'></image>
+
+     <text class='desc' wx:if="{{showType == 'NO_COUPON'}}">您还没有优惠券~</text>
+     <text class='desc' wx:if="{{showType == 'NO_SUIT_COUPON'}}">没有可用优惠券~</text>
+     <button class='btn' bindtap='gotoHome' wx:if="{{showType == 'NO_SUIT_COUPON'}}">去获取</button>
+  </view>

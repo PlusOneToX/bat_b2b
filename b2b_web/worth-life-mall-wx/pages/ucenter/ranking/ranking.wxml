@@ -1,0 +1,41 @@
+<scroll-view  class="container" refresher-triggered="{{triggered}}" refresher-enabled bindrefresherrefresh="refresherrefresh" scroll-y bindscrolltolower="scrolltolower" lower-threshold="100">
+    <view class="banner">
+        <!-- <image src="https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/8c9fa75e6a1346f385b1f26a11b008e7.png" mode="widthFix" /> -->
+        <image src="https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/image/invite.png" mode="widthFix" />
+        
+    </view>
+    <view class="header">
+        <view class="money">￥{{amountTotal}}</view>
+        <view class="pool">奖金池</view>
+        <view class="tagging">积分排名靠前者有机会参与奖金池瓜分，享超值福利</view>
+    </view>
+    <view class="theader">
+        <view style="text-align: left;">排名</view>
+        <view style="text-align: center;">累计积分</view>
+        <view style="text-align: right;"> 预计可得<text class="company">(元)</text></view>
+    </view>
+    <view  class="tbody" >
+        <view class="item" wx:for="{{dataSource}}" wx:key="index">
+            <view class="info" >
+                <view class="avatar">
+                    <image src="{{item.head}}" />
+                </view>
+                <view class="nickname">
+                    <view class="title">
+                        <image class="icon" wx:if="{{item.sort==1}}" src="https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/18d4fdc942be4c07ab68a8372bfec8d3.png" /> 
+                        <image class="icon" wx:elif="{{item.sort==2}}" src="https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/f1f930998a9646c2bc91ae995216f9d7.png" /> 
+                        <image class="icon" wx:elif="{{item.sort==3}}" src="https://excellent-1304180178.cos.ap-guangzhou.myqcloud.com/20210112/e975d89740064dec84c2064c16f4e3a0.png" /> 
+                        <text wx:if="{{item.sort}}">NO:{{item.sort}}</text>
+                    </view>
+                    <view class="phone">{{item.nikeName}}</view>
+                </view>
+            </view>
+            <view class="integral">
+                <view class="num">{{item.integral}}</view>
+                <view class="int_box" wx:if="{{item.remark}}">{{item.remark}}</view>
+            </view>
+            <view class="get">{{item.award}}</view>
+        </view>
+        <tui-nomore bgcolor="#F5F5F5" visible="{{hasMoreData}}"></tui-nomore>
+    </view>
+</scroll-view>

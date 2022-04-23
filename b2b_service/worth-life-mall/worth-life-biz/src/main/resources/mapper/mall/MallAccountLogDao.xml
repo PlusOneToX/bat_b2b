@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallAccountLogDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.FROM_TYPE,
+        T.TYPE,
+        T.PRICE,
+        T.LOG_DESC,
+        T.ADD_TIME,
+        T.ORDER_TYPE,
+        T.ORDER_SN,
+        U.NICKNAME
+        FROM MALL_ACCOUNT_LOG T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.type != null and params.type != ''">
+            AND T.TYPE = #{params.type}
+        </if>
+        <if test="params.userId != null and params.userId.trim() != ''">
+            AND T.USER_ID = #{params.userId}
+        </if>
+        <if test="params.orderType != null and params.orderType != ''">
+            AND T.ORDER_TYPE = #{params.orderType}
+        </if>
+        <if test="params.orderSn != null and params.orderSn.trim() != ''">
+            AND T.ORDER_SN LIKE '%${params.orderSn}%'
+        </if>
+    </sql>
+
+    <select id="selectMallAccountLogPage" resultType="com.platform.modules.mall.entity.MallAccountLogEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallAccountLogEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

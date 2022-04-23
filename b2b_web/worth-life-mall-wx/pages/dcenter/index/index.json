@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "分销中心",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "distributor": "/components/distributor/distributor"
+  }
+}

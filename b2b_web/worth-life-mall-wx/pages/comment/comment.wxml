@@ -1,0 +1,47 @@
+<view class="comments">
+  <view class="h">
+    <view class="item {{ showType == 0 ? 'active' : ''}}" bindtap="switchTab">
+      <view class="txt">全部({{goodsCount}})</view>
+    </view>
+    <view class="item {{ showType == 0 ? '' : 'active'}}" bindtap="switchTab">
+      <view class="txt">有图({{picCount}})</view>
+    </view>
+  </view>
+  <view class="b">
+    <view class="item" wx:for="{{comments}}" wx:key="id">
+      <view class="info">
+        <view class="user">
+          <image src="{{item.userInfo.headImgUrl}}"></image>
+          <text>{{item.userInfo.nickname}}</text>
+        </view>
+        <view class="time">{{item.addTime}}</view>
+      </view>
+      <view class="comment">{{item.content}}</view>
+      <view class="imgs" wx:if="{{item.commentPictureEntityList.length > 0}}">
+        <image class="img" data-url="{{pitem.picUrl}}" wx:for="{{item.commentPictureEntityList}}" bindtap="previewPic" wx:key="{{pitem.id}}" wx:for-item="pitem" src="{{pitem.picUrl}}"></image>
+      </view>
+      <view class="spec">
+        <!-- <text class="item">白色 2件</text> -->
+      </view>
+      <!--<view class="customer-service" wx:if="{{item.commentReplyVO}}">
+        <text class="u">小选回复：</text>
+        <text class="c">{{item.commentReplyVO.replyContent}}</text>
+      </view>-->
+      <view class="service-box">
+        <view class="service-item">
+          <text class="label">服务态度</text>
+          <view class="star-box">
+            <text class="star checked" wx:for="{{item.evalLevel}}" wx:key="index" data-score="{{index + 1}}">★</text>
+          </view>
+        </view>
+        <view class="service-item">
+          <text class="label">商品质量</text>
+          <view class="star-box">
+            <text class="star checked" wx:for="{{item.goodsLevel}}" wx:key="index" data-score="{{index + 1}}">★</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+</view>

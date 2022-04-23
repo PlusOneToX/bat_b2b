@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallCartDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.GOODS_ID,
+        T.GOODS_SN,
+        T.GOODS_NAME,
+        T.SKU_ID,
+        T.MARKET_PRICE,
+        T.RETAIL_PRICE,
+        T.NUMBER,
+        T.GOODS_SPECIFITION_NAME_VALUE,
+        T.CHECKED,
+        T.LIST_PIC_URL,
+        T.SHOPS_ID,
+        U.NICKNAME,
+        S.NAME SHOPS_NAME,
+        G.BRAND_ID
+        FROM MALL_CART T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_SHOPS S ON T.SHOPS_ID = S.ID
+        LEFT JOIN MALL_GOODS G ON T.GOODS_ID = G.ID
+        WHERE 1=1
+        <if test="params.checked != null and params.checked != ''">
+            AND T.CHECKED = #{params.checked}
+        </if>
+        <if test="params.userId != null and params.userId.trim() != ''">
+            AND T.USER_ID = #{params.userId}
+        </if>
+        <if test="params.goodsId != null and params.goodsId.trim() != ''">
+            AND T.GOODS_ID = #{params.goodsId}
+        </if>
+        <if test="params.shopsId != null and params.shopsId.trim() != ''">
+            AND T.SHOPS_ID = #{params.shopsId}
+        </if>
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.normal != null">
+            AND T.SHOPS_ID IS NULL
+        </if>
+    </sql>
+
+    <select id="selectMallCartPage" resultType="com.platform.modules.mall.entity.MallCartEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallCartEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

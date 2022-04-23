@@ -1,0 +1,135 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/search",
+    "pages/catalog/catalog",
+    "pages/shops/shops",
+    "pages/cartShops/cartShops",
+    "pages/newGoods/newGoods",
+    "pages/hotGoods/hotGoods",
+    "pages/brand/brand",
+    "pages/brandDetail/brandDetail",
+    "pages/category/category",
+    "pages/goods/goods",
+    "pages/cart/cart",
+    "pages/pay/pay",
+    "pages/payResult/payResult",
+    "pages/comment/comment",
+    "pages/commentPost/commentPost",
+    "pages/ucenter/index/index",
+    "pages/ucenter/address/address",
+    "pages/ucenter/addressAdd/addressAdd",
+    "pages/ucenter/footprint/footprint",
+    "pages/ucenter/order/order",
+    "pages/ucenter/orderDetail/orderDetail",
+    "pages/ucenter/feedback/feedback",
+    "pages/ucenter/collect/collect",
+    "pages/ucenter/kefu/kefu",
+    "pages/ucenter/wuliu/wuliu",
+    "pages/ucenter/sign/sign",
+    "pages/auth/login/login",
+    "pages/auth/btnAuth/btnAuth",
+    "pages/auth/mobile/mobile",
+    "pages/auth/company/company",
+    "pages/ucenter/yue/yue",
+    "pages/ucenter/chongzhi/chongzhi",
+    "pages/ucenter/skill/skill",
+    "pages/ucenter/skillDetail/skillDetail",
+    "pages/topic/topic",
+    "pages/topicDetail/topicDetail",
+    "pages/rooms/rooms",
+    "pages/ucenter/coupon/coupon",
+    "pages/ucenter/set/set",
+    "pages/ucenter/about/about",
+    "pages/ucenter/bankCard/bankCard",
+    "pages/ucenter/bindingBank/bindingBank",
+    "pages/ucenter/grade/grade",
+    "pages/ucenter/integralDetailed/integralDetailed",
+    "pages/ucenter/shop/shop",
+    "pages/ucenter/ranking/ranking",
+    "pages/ucenter/authentication/authentication",
+    "pages/ucenter/extension/extension",
+    "pages/ucenter/shopDetail/shopDetail",
+    "pages/ucenter/carry/carry"
+  ],
+  "subpackages": [
+    {
+      "root": "pages/shopping",
+      "pages": [
+        "checkout/checkout",
+        "address/address",
+        "addressAdd/addressAdd",
+        "couponCenter/couponCenter",
+        "selectCoupon/selectCoupon"
+      ]
+    },
+    {
+      "root": "pages/dcenter",
+      "pages": [
+        "apply/apply",
+        "index/index",
+        "detail/detail",
+        "withdraw/withdraw",
+        "order/order",
+        "team/team",
+        "invitation/invitation",
+        "withdrawSuccess/withdrawSuccess"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "价值人生酒",
+    "navigationBarBackgroundColor": "#fff",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+    "selectedColor": "#e41f19",
+    "color": "#666",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/ic_menu_choice_nor.png",
+        "selectedIconPath": "static/images/ic_menu_choice_pressed.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/catalog/catalog",
+        "iconPath": "static/images/ic_menu_sort_nor.png",
+        "selectedIconPath": "static/images/ic_menu_sort_pressed.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "iconPath": "static/images/ic_menu_shoping_nor.png",
+        "selectedIconPath": "static/images/ic_menu_shoping_pressed.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/ucenter/index/index",
+        "iconPath": "static/images/ic_menu_me_nor.png",
+        "selectedIconPath": "static/images/ic_menu_me_pressed.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 15000,
+    "downloadFile": 15000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于价值人生酒"
+    }
+  },
+  "plugins": {
+    "wt-logistics": {
+      "version": "1.0.0",
+      "provider": "wxeca4341756496160"
+    }
+  },
+  "debug": false,
+  "sitemapLocation": "sitemap.json"
+}

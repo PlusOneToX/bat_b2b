@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallDistributionRecordDao">
+    <select id="queryUserOrderDesc" resultType="com.platform.modules.mall.entity.MallDistributionRecordEntity">
+        select * from mall_distribution_record  where origin_id=#{params.userId}
+        <if test="params.relation != null and params.relation.trim() != ''">
+            AND relation = #{params.relation}
+        </if>
+<!--<if test="params.startTime != null and params.startTime.trim() != ''">
+    AND O.create_time >= #{params.startTime}
+</if>
+<if test="params.endTime != null and params.endTime.trim() != ''">
+    AND O.create_time <![CDATA[<= #{params.endTime} ]]>
+</if>
+<if test="params.pid != null and params.pid.trim() != ''">
+    AND O.pid = #{params.pid}
+</if>-->
+       <!-- select * from mall_distribution_record where origin_id=#{originId}
+        <if test="params.startTime != null and params.startTime.trim() != ''">
+            AND O.ADD_TIME >= #{params.startTime}
+        </if>
+        <if test="params.endTime != null and params.endTime.trim() != ''">
+            AND O.ADD_TIME <![CDATA[<= #{params.endTime} ]]>
+        </if>
+        <if test="params.pid != null and params.pid.trim() != ''">
+            AND pid LIKE '%${params.pid}%'
+        </if>-->
+    </select>
+
+    <sql id="selectSql">
+        SELECT
+        T.*
+        FROM MALL_DISTRIBUTION_RECORD T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+        <if test="params.userId != null ">
+            AND T.user_id = #{params.userId}
+        </if>
+        <if test="params.originId != null ">
+            AND T.origin_id = #{params.originId}
+        </if>
+        <if test="params.createTimeBegin != null ">
+            AND T.create_time >= #{params.createTimeBegin}
+        </if>
+        <if test="params.createTimeEnd != null ">
+            AND T.create_time &lt;= #{params.createTimeEnd}
+        </if>
+        <if test="params.pid != null ">
+            AND T.pid= #{params.pid}
+        </if>
+    </sql>
+
+    <select id="selectMallDistributionRecordPage" resultType="com.platform.modules.mall.entity.MallDistributionRecordEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="sumTotal" resultType="com.platform.modules.mall.entity.MallDistributionRecordEntity">
+        SELECT IFNULL(SUM(award),0) AS award ,IFNULL(SUM(actual_price),0) AS actual_price FROM mall_distribution_record WHERE user_id=#{param.userId}
+    </select>
+
+
+    <select id="sumInviteOrderRecord" resultType="com.platform.modules.mall.entity.MallDistributionRecordEntity">
+       SELECT IFNULL(SUM(IF(relation=1,actual_price,0)),0) AS actual_price,IFNULL(SUM(award),0)  AS award FROM mall_distribution_record
+         WHERE origin_id in
+        (SELECT USER_id FROM mall_user_invite_record WHERE invite_user_id =#{param.userId}
+        UNION ALL
+        SELECT USER_id FROM mall_user_invite_record WHERE invite_user_id in (SELECT USER_id FROM mall_user_invite_record WHERE invite_user_id =#{param.userId}) )
+
+        <if test="param.subordinate != null">
+            AND origin_id= #{param.subordinate}
+        </if>
+
+
+
+
+    </select>
+
+
+
+
+
+
+</mapper>

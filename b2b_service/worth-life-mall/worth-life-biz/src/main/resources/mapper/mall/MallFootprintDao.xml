@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallFootprintDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.GOODS_ID,
+        T.ADD_TIME,
+        U.NICKNAME,
+        U.HEAD_IMG_URL,
+        G.NAME GOODS_NAME,
+        G.LIST_PIC_URL,
+        G.RETAIL_PRICE,
+        G.SALES,
+        G.MARKET_PRICE,
+        G.GOODS_BRIEF
+        FROM MALL_FOOTPRINT T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        LEFT JOIN MALL_GOODS G ON T.GOODS_ID = G.ID
+        WHERE 1=1 and G.IS_DELETE = 1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.userId != null and params.userId.trim() != ''">
+            and T.USER_ID = #{params.userId}
+        </if>
+        <if test="params.goodsId != null and params.goodsId.trim() != ''">
+            and T.GOODS_ID = #{params.goodsId}
+        </if>
+        <if test="params.starTime != null and params.starTime != ''">
+            AND ADD_TIME <![CDATA[ > ]]> #{params.starTime}
+        </if>
+    </sql>
+    <select id="footprintCount" resultType="com.platform.modules.mall.entity.MallFootprintEntity">
+        SELECT NAME GOODS_NAME,COUNT(1) GOODS_SUM
+        FROM MALL_FOOTPRINT
+               LEFT JOIN MALL_GOODS ON MALL_GOODS.ID = MALL_FOOTPRINT.GOODS_ID
+        WHERE 1=1
+        <if test="params.starTime != null and params.starTime != ''">
+            AND ADD_TIME <![CDATA[ > ]]> #{params.starTime}
+        </if>
+        <if test="params.endTime != null and params.endTime != ''">
+            AND ADD_TIME <![CDATA[ < ]]> #{params.endTime}
+        </if>
+        group by GOODS_ID
+    </select>
+
+    <select id="selectMallFootprintPage" resultType="com.platform.modules.mall.entity.MallFootprintEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallFootprintEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

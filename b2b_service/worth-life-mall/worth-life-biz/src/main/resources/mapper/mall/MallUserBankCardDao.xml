@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallUserBankCardDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        U.NICKNAME,
+        T.CARD_NAME,
+        T.CARD_NUMBER,
+        T.CARD_TYPE,
+        T.BANK_TYPE_ID,
+        B.BANK_NAME,
+        T.CARD_STATUS,
+        T.BOUND_AT
+        FROM MALL_USER_BANK_CARD T
+        LEFT JOIN MALL_USER U
+        ON U.ID = T.USER_ID
+        LEFT JOIN MALL_BANK_TYPE B
+        ON B.ID = T.BANK_TYPE_ID
+        WHERE 1=1
+        <if test="params.id != null and params.id.trim() != ''">
+            AND T.ID = '${params.id}'
+        </if>
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.cardName != null and params.cardName.trim() != ''">
+            AND T.CARD_NAME LIKE '%${params.cardName}%'
+        </if>
+        <if test="params.cardNumber != null and params.cardNumber.trim() != ''">
+            AND T.CARD_NUMBER LIKE '%${params.cardNumber}%'
+        </if>
+        <if test="params.bankName != null and params.bankName.trim() != ''">
+            AND B.BANK_NAME LIKE '%${params.bankName}%'
+        </if>
+    </sql>
+
+    <select id="selectMallUserBankCardPage" resultType="com.platform.modules.mall.entity.MallUserBankCardEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallUserBankCardEntity">
+        <include refid="selectSql"/>
+    </select>
+    <select id="getCardList" resultType="com.platform.modules.mall.entity.MallUserBankCardEntity">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.CARD_NAME,
+        T.CARD_NUMBER,
+        T.CARD_TYPE,
+        T.BANK_TYPE_ID,
+        U.BANK_NAME,
+        U.BANK_CODE,
+        T.CARD_STATUS,
+        T.BOUND_AT
+        FROM MALL_USER_BANK_CARD T
+        LEFT JOIN MALL_BANK_TYPE U
+        ON T.BANK_TYPE_ID = U.ID
+
+        ${ew.customSqlSegment}
+    </select>
+    <select id="getCardSimpleInfoById" resultType="com.platform.modules.mall.entity.MallUserBankCardEntity">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.CARD_NAME,
+        T.CARD_NUMBER,
+        U.BANK_CODE
+        FROM MALL_USER_BANK_CARD T
+        LEFT JOIN MALL_BANK_TYPE U
+        ON T.BANK_TYPE_ID = U.ID
+        WHERE T.ID = #{id}
+    </select>
+    <select id="getCardInfoById" resultType="com.platform.modules.mall.entity.MallUserBankCardEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

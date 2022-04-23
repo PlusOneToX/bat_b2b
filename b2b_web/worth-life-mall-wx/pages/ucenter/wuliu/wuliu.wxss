@@ -1,0 +1,117 @@
+page {
+  min-height: 100%;
+  background-color: #f2f2f2;
+}
+
+.top-sec {
+  background-color: #e41f19;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24rpx 30rpx;
+}
+
+.top-sec .a-row {
+  display: flex;
+  font-size: 28rpx;
+  line-height: 54rpx;
+}
+
+.top-sec .a-row .label {
+  color: #fff;
+  margin-right: 28rpx;
+}
+
+.top-sec .a-row .text {
+  color: #fff;
+  margin-right: 28rpx;
+}
+
+.wl-name {
+  color: #fff;
+  margin-right: 28rpx;
+  font-size: 35rpx;
+}
+
+.sec-wrap {
+  width: 100%;
+  background-color: #fff;
+  margin-top: 20rpx;
+  font-size: 20rpx;
+}
+
+.details-info {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.details-info .a-row {
+  margin-left: 40rpx;
+  display: flex;
+  margin-right: 30rpx;
+  margin-bottom: 50rpx;
+  position: relative;
+  z-index: 4;
+}
+
+.details-info .a-row .info {
+  width: 90%;
+  font-size: 28rpx;
+}
+
+.date-box {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.info .text {
+  color: #000;
+  line-height: 42rpx;
+}
+
+.dot {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.default-dot {
+  background: #ddd;
+  width: 15rpx;
+  height: 15rpx;
+  border-radius: 100%;
+  margin-top: 10rpx;
+}
+
+.active-dot {
+  border: 2rpx solid #e41f19;
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  margin-top: 10rpx;
+}
+
+.active-dot .yuan-red {
+  background: #e41f19;
+  width: 15rpx;
+  height: 15rpx;
+  border-radius: 50%;
+}
+
+.line-box {
+  position: absolute;
+  top: -120rpx;
+  left: 54rpx;
+  background: #e41f19;
+  width: 4rpx;
+  height: 100%;
+}

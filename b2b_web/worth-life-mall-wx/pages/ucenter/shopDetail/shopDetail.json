@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "店铺详情",
+  "usingComponents": {
+    "tui-nomore": "/components/nomore/nomore"
+  }
+}

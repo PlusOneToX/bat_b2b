@@ -1,0 +1,9 @@
+<view class="tui-distributor">
+    <view wx:if="{{value}}" class="tui-distributor-box2">
+        <image src="/static/images/distributor.png" class="tui-distributor-image"></image>
+        <text class="tui-distributor-text">分销商</text>
+    </view>
+    <view wx:else class="tui-distributor-box1">
+        <text class="tui-distributor-text">成为分销商 ></text>
+    </view>
+</view>

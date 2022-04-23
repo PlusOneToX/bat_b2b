@@ -1,0 +1,10 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#e41f19",
+  "navigationBarTextStyle":"white",
+  "usingComponents": {
+    "tui-icon": "/components/icon/icon",
+    "tui-nomore": "/components/nomore/nomore",
+    "tui-scroll-top": "/components/scroll-top/scroll-top"
+  }
+}

@@ -1,0 +1,15 @@
+<view class="page">
+	<view class="hd">
+		<image class="logo" src="/static/images/logo.png"></image>
+		<!-- <view class="title">价值人生酒欢迎你!</view> -->
+	</view>
+	<view class="btns">
+		<!-- 需要使用 button 来授权登录 -->
+		<!-- <button class="btn_primary" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">微信登录</button> -->
+		<button class="btn_primary" wx:if="{{canIUse}}"  bindtap="getUserProfile"> 微信登录 </button>
+		<view class="btn" wx:else>请升级微信版本</view>
+		<!-- <tui-button class="btn" type="danger" shape="circle" width="500rpx" height="100rpx" size="{{26}}" bindtap="goLogin">手机登录</tui-button> -->
+		<button  class="noLogin" bindtap="noLogin">暂不登录</button>
+
+	</view>
+</view>

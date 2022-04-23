@@ -1,0 +1,3 @@
+<view class="tui-scroll-top" style="bottom:{{bottom}}rpx;right:{{right}}rpx" hidden="{{!visible || !toggle}}" catchtap="goTop">
+		<image class="tui-scroll-top-img" src="/static/images/scrollTop.png"></image>
+	</view>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallShopsGoodsDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.SHOPS_ID,
+        T.SHOPS_CATEGORY_ID,
+        T.GOODS_ID,
+        T.RETAIL_PRICE,
+        T.GOODS_NUMBER,
+        T.SORT,
+        S.NAME SHOPS_NAME,
+        C.NAME SHOPS_CATEGORY_NAME,
+        G.NAME GOODS_NAME,
+        G.LIST_PIC_URL,
+        G.GOODS_BRIEF
+        FROM MALL_SHOPS_GOODS T
+        LEFT JOIN MALL_SHOPS S ON T.SHOPS_ID = S.ID
+        LEFT JOIN MALL_SHOPS_CATEGORY C ON T.SHOPS_CATEGORY_ID = C.ID
+        LEFT JOIN MALL_GOODS G ON T.GOODS_ID = G.ID
+        WHERE 1=1 AND G.IS_DELETE = 1
+        <if test="params.shopsCategoryId != null and params.shopsCategoryId.trim() != ''">
+            AND T.SHOPS_CATEGORY_ID = #{params.shopsCategoryId}
+        </if>
+        <if test="params.shopsId != null and params.shopsId.trim() != ''">
+            AND T.SHOPS_ID = #{params.shopsId}
+        </if>
+        <if test="params.goodsId != null and params.goodsId.trim() != ''">
+            AND T.GOODS_ID = #{params.goodsId}
+        </if>
+        <if test="params.isOnSale != null">
+            AND G.IS_ON_SALE = #{params.isOnSale}
+        </if>
+    </sql>
+
+    <select id="selectMallShopsGoodsPage" resultType="com.platform.modules.mall.entity.MallShopsGoodsEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallShopsGoodsEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

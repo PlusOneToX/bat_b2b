@@ -1,0 +1,68 @@
+<view class="container">
+	<tui-tabs tabs="{{tabs}}" currentTab="{{currentTab}}" selectedColor="#E41F19" sliderBgColor="#E41F19" padding="0 20rpx" bind:change="change"></tui-tabs>
+	<view class="{{scrollTop>=0?'tui-order-list':''}}">
+		<view class="tui-order-item" wx:for="{{orderList}}" wx:key="index">
+			<tui-list-cell hover="{{false}}" wx:if="{{item.orderType == 2}}">
+				<view class="tui-goods-title">
+					<view>{{item.shopsName}} - {{item.shopsSn}}</view>
+				</view>
+			</tui-list-cell>
+			<tui-list-cell hover="{{false}}" lineLeft="{{false}}" bindtap="orderDetail" data-id="{{item.id}}">
+				<view class="tui-goods-title">
+					<view>订单号：{{item.orderSn}}</view>
+					<view class="tui-order-status">
+						<!-- <label wx:if="{{item.dateformat.second>0&&item.orderStatus === 0}}">待付款 {{(item.dateformat.hr!='00'?item.dateformat.hr+':':'')+item.dateformat.min+(item.dateformat?':':'')+item.dateformat.sec}}</label>
+						<label wx:else style="color: #e41f19;">{{item.orderStatusText}}</label> -->
+						<label style="color: #e41f19;">{{item.orderStatusText}}</label>
+					</view>
+				</view>
+			</tui-list-cell>
+			<block wx:for="{{item.orderGoodsEntityList}}" wx:for-item="cell" wx:key="index">
+				<tui-list-cell padding="0" bindtap="goodsDetail" data-id="{{cell.goodsId}}">
+					<view class="tui-goods-item">
+						<image src="{{cell.listPicUrl}}" class="tui-goods-img"></image>
+						<view class="tui-goods-center">
+							<view class="tui-goods-name">{{cell.goodsName}}</view>
+							<view class="tui-goods-attr">{{cell.goodsSpecifitionNameValue || ''}}</view>
+						</view>
+						<view class="tui-price-right">
+							<view>￥{{cell.retailPrice}}</view>
+							<view>x{{cell.number}}</view>
+						</view>
+					</view>
+				</tui-list-cell>
+			</block>
+			<tui-list-cell hover="{{false}}" last="{{true}}">
+				<view class="tui-goods-price">
+					<view>共{{item.orderGoodsEntityList.length||0}}件商品 合计：</view>
+					<view class="tui-size-24">￥</view>
+					<view class="tui-price-large">{{item.actualPrice}}</view>
+				</view>
+			</tui-list-cell>
+			<view class="tui-order-btn">
+				<view class="tui-btn-ml">
+					<tui-button type="warning" plain="{{false}}" data-order-id="{{item.id}}" catchtap="againBuy" width="148rpx" height="56rpx" size="{{26}}" shape="circle">再次购买</tui-button>
+				</view>
+				<view class="tui-btn-ml" wx:if="{{item.orderStatus==0}}">
+					<tui-button type="danger" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" data-orderStatus="{{item.orderStatus}}" data-id="{{item.id}}" bindtap="cancelOrder">取消订单</tui-button>
+				</view>
+				<view class="tui-btn-ml">
+					<tui-button type="danger" plain="{{false}}" data-order-id="{{item.id}}" data-actual-price="{{item.actualPrice}}" wx:if="{{item.orderStatus==0}}" bindtap="payOrder" width="148rpx" height="56rpx" size="{{26}}" shape="circle">立即支付</tui-button>
+				</view>
+				<view class="tui-btn-ml" wx:if="{{item.handleOption.confirm}}">
+					<tui-button type="primary" data-order-id="{{item.id}}" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="confirmOrder">确认收货</tui-button>
+				</view>
+				<view class="tui-btn-ml">
+					<tui-button type="green" plain="{{false}}" data-order-id="{{item.id}}" wx:if="{{item.handleOption.comment==true && item.commentCount == 0 }}" bindtap="postComment" width="148rpx" height="56rpx" size="{{26}}" shape="circle">评价晒单</tui-button>
+					<tui-button type="green" plain="{{false}}" data-order-id="{{item.id}}" wx:if="{{item.commentCount > 0 }}" bindtap="lookComment" width="148rpx" height="56rpx" size="{{26}}" shape="circle">查看评价</tui-button>
+				</view>
+			</view>
+		</view>
+		<view class="orderEmpty" wx:if="{{orderList.length==0}}">
+		   <image src="/static/images/orderEmpty.png" mode="widthFix" />
+		    暂无订单
+		</view>
+		  
+	</view>
+	<tui-nomore bgcolor="#F4F4F4"></tui-nomore>
+</view>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallRewardRecordDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.ORDER_ID,
+        T.ORDER_SN,
+        T.USER_ID,
+        T.ORDER_USER_ID,
+        T.ACTUAL_PRICE,
+        T.REWARD_AMOUNT,
+        T.REWARD_RATE,
+        T.CREATE_TIME
+        FROM MALL_REWARD_RECORD T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.USER_ID = '${params.name}'
+        </if>
+    </sql>
+
+    <select id="selectMallRewardRecordPage" resultType="com.platform.modules.mall.entity.MallRewardRecordEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallRewardRecordEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

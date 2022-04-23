@@ -1,0 +1,33 @@
+.tui-set-box {
+  padding-bottom: 20rpx;
+  color: #333;
+  border-top: 10rpx solid #f5f5f5;
+}
+
+.tui-list-cell {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  font-size: 30rpx;
+
+}
+
+.tui-info-box {
+  font-size: 34rpx;
+}
+
+.tui-avatar {
+  width: 140rpx;
+  height: 140rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+
+.tui-mtop {
+  /* margin-top: 20rpx; */
+  border-top: 15rpx solid #f5f5f5;
+}
+
+.tui-exit {
+  padding: 50rpx 50rpx;
+}

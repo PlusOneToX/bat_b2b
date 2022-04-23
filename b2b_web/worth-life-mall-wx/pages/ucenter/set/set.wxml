@@ -1,0 +1,29 @@
+<view class="tui-set-box">
+	<tui-list-cell padding="0" lineLeft="{{false}}" arrow="{{false}}">
+		<view class="tui-list-cell tui-info-box">
+			<image src="{{userInfo.headImgUrl}}" class="tui-avatar"></image>
+			<view>{{userInfo.nickname}}</view>
+		</view>
+	</tui-list-cell>
+	<view class="tui-mtop">
+		<tui-list-cell padding="0" lineLeft="{{false}}" arrow="{{true}}" bindtap="bindPhone">
+			<view class="tui-list-cell">
+				{{bindPhoneText}}
+			</view>
+		</tui-list-cell>
+		<!-- <tui-list-cell padding="0" lineLeft="{{false}}" arrow="{{true}}" bindtap="aboutUs">
+			<view class="tui-list-cell">
+				关于我们
+			</view>
+		</tui-list-cell> -->
+		<tui-list-cell padding="0" lineLeft="{{false}}" arrow="{{true}}" bindtap="openSetting">
+			<view class="tui-list-cell">
+				授权设置
+			</view>
+		</tui-list-cell>
+	</view>
+
+	<view class="tui-exit">
+		<tui-button type="danger" bind:click="exit" height="88rpx">退出登录</tui-button>
+	</view>
+</view>

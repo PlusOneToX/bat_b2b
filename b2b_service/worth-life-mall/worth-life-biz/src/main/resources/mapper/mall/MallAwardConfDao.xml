@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallAwardConfDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.*
+        FROM MALL_AWARD_CONF T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+        <if test="params.type != null ">
+            AND T.type =#{params.type}
+        </if>
+    </sql>
+
+    <select id="selectMallAwardConfPage" resultType="com.platform.modules.mall.entity.MallAwardConfEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallAwardConfEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

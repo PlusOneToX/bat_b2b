@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "申请分销商",
+  "usingComponents": {
+    "tui-button": "/components/extend/button/button"
+  }
+}

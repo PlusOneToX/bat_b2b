@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallFeedbackDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.MOBILE,
+        T.FEED_TYPE,
+        T.CONTENT,
+        T.STATUS,
+        T.ADD_TIME,
+        U.NICKNAME
+        FROM MALL_FEEDBACK T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.mobile != null and params.mobile.trim() != ''">
+            AND T.MOBILE LIKE '%${params.mobile}%'
+        </if>
+    </sql>
+
+    <select id="selectMallFeedbackPage" resultType="com.platform.modules.mall.entity.MallFeedbackEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallFeedbackEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

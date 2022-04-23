@@ -1,0 +1,24 @@
+<view class="container">
+    <view class="line"></view>
+    <view class="heade">
+        <view class="text">总积分</view>
+        <view class="num">{{integralCount}}</view>
+    </view>
+    <view class="container_box">
+        <view class="title">积分记录</view>
+        <scroll-view class="content" refresher-triggered="{{triggered}}" refresher-enabled bindrefresherrefresh="refresherrefresh" scroll-y bindscrolltolower="scrolltolower" lower-threshold="100">
+            <view class="item" wx:for="{{dataSource}}" wx:key="index">
+                <view class="lf">
+                    <view class="name">{{(item.json && item.json.remark) || "--"}}</view>
+                    <view class="tips">{{item.label}}</view>
+                    <view class="time">{{item.createTime}}</view>
+                </view>
+                <view class="ri">
+                    <text class="num">+{{item.amount}}</text>
+                    <text class="text">积分</text>
+                </view>
+            </view>
+            <tui-nomore bgcolor="#F5F5F5" visible="{{hasMoreData}}"></tui-nomore>
+        </scroll-view>
+    </view>
+</view>

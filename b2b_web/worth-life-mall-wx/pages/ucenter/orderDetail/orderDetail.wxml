@@ -1,0 +1,150 @@
+<view class="container">
+	<view class="tui-order-header">
+		<image src="/static/images/img_detail_bg.png" mode="widthFix" class="tui-img-bg"></image>
+		<view class="tui-header-content">
+			<view>
+				<view class="tui-status-text">
+					<navigator wx:if="{{orderInfo.orderType == 2}}" url="/pages/shops/shops?shopsSn={{orderInfo.shopsSn}}">
+						{{orderInfo.shopsName}} - {{orderInfo.shopsSn}}
+					</navigator>
+					<label wx:else>普通订单</label>
+					{{orderInfo.orderStatusText}}
+				</view>
+				<view class="tui-reason">
+					<text class="tui-reason-text" wx:if="{{orderInfo.dateformat.second>0&&orderInfo.orderStatus===0}}">等待买家付款 {{(orderInfo.dateformat.hr!='00'?orderInfo.dateformat.hr+':':'')+orderInfo.dateformat.min+(orderInfo.dateformat?':':'')+orderInfo.dateformat.sec}}</text>
+				</view>
+			</view>
+			<image src="{{parse.getImg('/static/images/',orderInfo.orderStatus)}}" class="tui-status-img" mode="widthFix"></image>
+		</view>
+	</view>
+	<tui-list-cell last="{{true}}" hover="{{false}}">
+		<view class="tui-flex-box">
+			<image src="/static/images/img_order_address3x.png" class="tui-icon-img"></image>
+			<view class="tui-addr">
+				<view class="tui-addr-userinfo">{{orderInfo.consignee}}
+					<text class="tui-addr-tel">{{orderInfo.mobile}}</text>
+				</view>
+				<view class="tui-addr-text" wx:if="{{orderInfo.orderType != 2}}">{{orderInfo.province + orderInfo.city + orderInfo.district + orderInfo.address}}</view>
+			</view>
+		</view>
+	</tui-list-cell>
+
+	<view class="tui-order-item">
+		<tui-list-cell hover="{{false}}" lineLeft="{{false}}">
+			<view class="tui-goods-title">
+				商品信息
+			</view>
+		</tui-list-cell>
+		<block wx:for="{{orderGoods}}" wx:key="id">
+			<tui-list-cell padding="0" bindtap="goodsDetail" data-id="{{item.goodsId}}">
+				<view class="tui-goods-item">
+					<image src="{{item.listPicUrl}}" class="tui-goods-img"></image>
+					<view class="tui-goods-center">
+						<view class="tui-goods-name">{{item.goodsName}}</view>
+						<view class="tui-goods-attr">{{item.goodsSpecifitionNameValue||''}}</view>
+					</view>
+					<view class="tui-price-right">
+						<view>￥{{item.retailPrice}}</view>
+						<view>x{{item.number}}</view>
+					</view>
+				</view>
+			</tui-list-cell>
+		</block>
+		<view class="tui-goods-info">
+			<view class="tui-price-flex  tui-size24">
+				<view>优惠券</view>
+				<view>{{orderInfo.couponName}} - ￥{{orderInfo.couponPrice||0}}</view>
+			</view>
+			<view class="tui-price-flex  tui-size24">
+				<view>配送费</view>
+				<view>￥{{orderInfo.shippingFee}}</view>
+			</view>
+			<view class="tui-price-flex tui-size32 tui-pbtm20">
+				<view class="tui-flex-shrink">合计</view>
+				<view class="tui-goods-price">
+					<view class="tui-size-24">￥</view>
+					<view class="tui-price-large">{{orderInfo.orderPrice}}</view>
+				</view>
+			</view>
+			<view class="tui-price-flex tui-size32">
+				<view class="tui-flex-shrink">实付款</view>
+				<view class="tui-goods-price tui-primary-color">
+					<view class="tui-size-24">￥</view>
+					<view class="tui-price-large">{{orderInfo.actualPrice||0}}</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<view class="tui-order-info">
+		<tui-list-cell hover="{{false}}">
+			<view class="tui-order-title">
+				订单信息
+			</view>
+		</tui-list-cell>
+		<view class="tui-order-content">
+			<view class="tui-order-flex">
+				<view class="tui-item-title">订单号:</view>
+				<view class="tui-item-content">{{orderInfo.orderSn||''}}</view>
+			</view>
+			<view class="tui-order-flex">
+				<view class="tui-item-title">创建时间:</view>
+				<view class="tui-item-content">{{orderInfo.addTime||''}}</view>
+			</view>
+			<view class="tui-order-flex" wx:if="{{orderInfo.payTime}}">
+				<view class="tui-item-title">付款时间:</view>
+				<view class="tui-item-content">{{orderInfo.payTime||''}}</view>
+			</view>
+			<view class="tui-order-flex" wx:if="{{orderInfo.orderType != 2}}">
+				<view class="tui-item-title">发货时间:</view>
+				<view class="tui-item-content">{{orderInfo.confirmTime||''}}</view>
+			</view>
+			<view class="tui-order-flex" wx:if="{{orderInfo.orderType != 2}}">
+				<view class="tui-item-title">配送方式:</view>
+				<view class="tui-item-content">{{orderInfo.shippingName||''}}</view>
+			</view>
+			<view class="tui-order-flex" wx:if="{{orderInfo.orderType != 2}}">
+				<view class="tui-item-title">物流单号:</view>
+				<view class="tui-item-content">{{orderInfo.shippingNo||''}}</view>
+			</view>
+			<view class="tui-order-flex">
+				<view class="tui-item-title">订单备注:</view>
+				<view class="tui-item-content">{{orderInfo.postscript || ''}}</view>
+			</view>
+			<view class="tui-order-flex" wx:if="{{orderInfo.orderType == 2}}">
+				<view class="tui-item-title">说明:</view>
+				<view class="tui-item-content">提货时展现此页面给店员查看</view>
+			</view>
+		</view>
+	</view>
+	<view class="tui-safe-area"></view>
+	<view class="tui-tabbar tui-order-btn">
+		<!-- todo 两种查询物流轨迹的方式 -->
+		<!-- 1、需要自己申请快递鸟账户 -->
+		<!-- <view class="tui-btn-mr" wx:if="{{orderInfo.shippingName}}">
+			<tui-button type="warning" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="wuliu">物流详情</tui-button>
+		</view> -->
+		<view class="tui-btn-mr" wx:if="{{orderInfo.shippingName}}">
+			<!-- 2、跳转快递100小程序，不需要再申请，使用时请二选一 -->
+			<tui-button type="warning" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="goMiniProgram">快递100</tui-button>
+		</view>
+		<view class="tui-btn-ml">
+			<tui-button type="warning" plain="{{false}}" data-order-id="{{orderInfo.id}}" catchtap="againBuy" width="148rpx" height="56rpx" size="{{26}}" shape="circle">再次购买</tui-button>
+		</view>
+		<view class="tui-btn-mr" wx:if="{{orderInfo.orderStatus==0}}">
+			<tui-button type="danger" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="cancelOrder">取消订单</tui-button>
+		</view>
+		<view class="tui-btn-mr" wx:if="{{orderInfo.orderStatus==0}}">
+			<tui-button type="danger" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" wx:if="{{orderInfo.dateformat.second>0}}" bindtap="payOrder">立即支付</tui-button>
+		</view>
+		<view class="tui-btn-mr" wx:if="{{orderInfo.handleOption.confirm}}">
+			<tui-button type="primary" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="confirmOrder">确认收货</tui-button>
+		</view>
+		<view class="tui-btn-mr" wx:if="{{orderInfo.handleOption.comment==true && orderInfo.commentCount == 0 }}">
+			<tui-button type="green" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="postComment">发表评价</tui-button>
+		</view>
+		<view class="tui-btn-mr" wx:if="{{orderInfo.commentCount > 0 }}">
+			<tui-button type="green" plain="{{false}}" width="148rpx" height="56rpx" size="{{26}}" shape="circle" bindtap="lookComment">查看评价</tui-button>
+		</view>
+	</view>
+</view>

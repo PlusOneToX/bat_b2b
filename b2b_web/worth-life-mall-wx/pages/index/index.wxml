@@ -1,0 +1,240 @@
+<!--index.wxml-->
+<view class="container">
+	<!--header-->
+	<view class="tui-header">
+		<view class="tui-category" hover-class="opcity" hover-stay-time="150" bindtap="category">
+			<tui-icon name="manage-fill" color="#fff" size="22" tui-icon-class="tui-icon-category"></tui-icon>
+			<view class="tui-category-scale">分类</view>
+		</view>
+		<view class="tui-rolling-search" >
+			<tui-icon name="search-2" size="18" unit="rpx"></tui-icon>
+			<swiper vertical autoplay circular interval="8000" class="tui-swiper">
+				<swiper-item wx:for="{{hotKeyword}}" wx:key="index" class="tui-swiper-item" data-keyword="{{item.KEYWORD}}"
+							 bindtap="search">
+					<view class="tui-hot-item">{{ item.KEYWORD }}</view>
+				</swiper-item>
+			</swiper>
+		</view>
+	</view>
+
+	<view class="tui-header-banner">
+		<!-- <view class="tui-hot-search">
+			<view>热搜</view>
+			<view class="tui-hot-tag" wx:for="{{hotKeyword}}" wx:key="index" data-keyword="{{item.KEYWORD}}" bindtap="search">{{ item.KEYWORD }}</view>
+		</view> -->
+		<!-- 轮播楼层 -->
+		<view class="tui-banner-bg" wx:if="{{banner.length > 0}}">
+			<view class="tui-primary-bg tui-route-left"></view>
+			<view class="tui-primary-bg tui-route-right"></view>
+			<!--banner-->
+			<view class="tui-banner-box">
+				<swiper indicator-dots="true" autoplay="true" interval="5000"  indicator-color="#FFFFFF" indicator-active-color="#FFFFFF" duration="150" class="tui-banner-swiper" circular="{{true}}">
+					<swiper-item wx:for="{{banner}}" wx:key="index">
+						<view wx:if="{{item.mediaType==1}}" bindtap="toLink" data-url="{{item.link}}">
+							<image src="{{item.imageUrl}}" class="tui-slide-image" mode="scaleToFill"></image>
+						</view>
+						<image wx:if="{{item.mediaType===0}}" src="{{item.imageUrl}}" background-size="cover" data-img="{{item.imageUrl}}" bindtap="previewImg" class="tui-slide-image" mode="scaleToFill"></image>
+						<video wx:if="{{item.mediaType===3}}" title="{{item.title}}" class="tui-slide-image" enable-play-gesture show-mute-btn show-casting-button show-screen-lock-button play-btn-position="bottom" object-fit="contain" src="{{item.videoUrl}}"></video>
+					</swiper-item>
+				</swiper>
+			</view>
+		</view>
+	</view>
+	<official-account></official-account>
+
+	<!-- 通知楼层 -->
+	<view class='tui-notice-board' wx:if="{{notice}}">
+		<view class="tui-icon-bg">
+			<tui-icon tui-icon-class="tui-rolling-icon" name="news-fill" size='24' color='#f54f46'></tui-icon>
+		</view>
+		<view class="tui-scorll-view">
+			<view class="tui-notice tui-animation">{{notice}}</view>
+		</view>
+	</view>
+
+	<!-- 店铺楼层 -->
+	<scroll-view scroll-y class='a-section' style="height: 250rpx;" wx:if="{{shopsList.length > 0}}">
+		<view class="content-wrapper" wx:for="{{shopsList}}" wx:key="id">
+			<view class="avatar">
+				<image class="img" src="{{item.imgUrl}}" background-size="cover" data-shops-sn="{{item.shopsSn}}" bindtap="shopsJump"></image>
+			</view>
+			<view class="content">
+				<view class="title">
+					<span class="brand"></span>
+					<span class="name">{{item.name}}-{{item.shopsSn}}</span>
+				</view>
+				<view class="description">
+					<tui-icon name="clock" color="gray" size="22"></tui-icon> {{item.workTime}}
+				</view>
+				<view class="description" wx:if="{{item.telephone}}" data-phone="{{item.telephone}}" bindtap="openCall">
+					<tui-icon name="voipphone" color="gray" data-phone="{{item.telephone}}" size="22"></tui-icon> {{item.telephone}}
+				</view>
+			</view>
+			<view class="description" data-longitude="{{item.longitude}}" data-latitude="{{item.latitude}}" data-name="{{item.name}}" data-address="{{item.details}}" bindtap="goHere">
+				<tui-icon name="position" color="gray" size="22"></tui-icon> {{item.details}}{{item.distant}}
+			</view>
+		</view>
+	</scroll-view>
+
+	<!-- channel楼层 -->
+	<view class="tui-product-category" wx:if="{{channel.length > 0}}">
+		<view class="tui-category-item" wx:for="{{channel}}" wx:key="id" bindtap="channel" data-url="{{item.url}}">
+			<image src="{{item.iconUrl}}" class="tui-category-img" mode="scaleToFill"></image>
+			<view class="tui-category-name">{{item.name}}</view>
+		</view>
+	</view>
+
+
+
+		<!-- 秒杀楼层 -->
+	<view class="a-section a-popular" wx:if="{{seckillGoods.length > 0}}">
+		<view class="seckill-section m-t">
+			<view class="s-header m-t">
+				<image class="s-img" src="/static/images/secskill-img.png" mode="widthFix"></image>
+				<text class="tip">每日一款</text>
+			</view>
+			<view class="b">
+				<view class="item" wx:for="{{seckillGoods}}" wx:if="{{item.show}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+					<navigator url="/pages/goods/goods?id={{item.goodsId}}">
+						<image class="img" src="{{item.listPicUrl}}" background-size="cover"></image>
+					</navigator>
+					<view class="right">
+						<view class="text">
+							<text class="name">{{item.name}}</text>
+							<text class="stock" wx:if="{{item.stock>0}}">还剩{{item.stock}}件</text>
+							<text class="stock" wx:else>已经抢完了</text>
+							<view wx:if="{{item.stock>0}}" style="display: flex;align-items:center;">
+								<text class="add_time">{{item.text}}</text>
+								<text class="hour timer">{{item.dateformat.day}}</text>天
+								<text class="hour timer">{{item.dateformat.hr}}</text>时
+								<text class="minute timer">{{item.dateformat.min}}</text>分
+								<text class="second timer">{{item.dateformat.sec}}</text>秒
+							</view>
+							<view class="price">￥{{item.price}}
+								<text class="orgPrice line-through">￥{{item.marketPrice}}</text>
+							</view>
+							<view class="subBtn">
+								<button bindtap="startSeckill" wx:if="{{item.stock>0}}"  data-id="{{item.id}}" class="btn-red" disabled="{{!item.btn}}">马上抢</button>
+								<button class="btn-red"  wx:else >抢完了</button>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<!-- 专题楼层 -->
+	<view class="seckill-section m-t" wx:if="{{topics.length > 0}}">
+		<view class="f-header m-t">
+			<image src="/static/images/topic.png" class="topic"></image>
+			<!-- <view class="tit-box">
+				<text class="tit">专题</text>
+				<text class="tit2">Topic</text>
+			</view> -->
+		</view>
+		<scroll-view class="floor-list" scroll-x>
+			<view class="scoll-wrapper">
+				<navigator wx:for="{{topics}}" wx:key="index" class="floor-item" url="../topicDetail/topicDetail?id={{item.id}}">
+					<view class="boxImg">
+						<image src="{{item.itemPicUrl}}" mode="aspectFill"></image>
+					</view>
+					<view  class="title ">{{ item.title }}</view>
+				</navigator>
+				<navigator url="../topic/topic">
+					<view class="more">
+						<text>查看全部</text>
+						<text>More+</text>
+					</view>
+				</navigator>
+			</view>
+		</scroll-view>
+	</view>
+
+
+
+	<!-- 品牌制造商楼层 -->
+	<view class="seckill-section m-t" wx:if="{{brand.length > 0}}">
+		<view class="f-header m-t">
+			<image src="/static/images/brand.png"></image>
+			<view class="tit-box">
+				<text class="tit">品牌制造商</text>
+				<text class="tit2">Branded Manufacturers</text>
+			</view>
+		</view>
+		<scroll-view class="floor-list" scroll-x>
+			<view class="scoll-wrapper">
+				<view wx:for="{{brand}}" data-id="{{item.id}}" wx:key="index" class="floor-item" bindtap="navToBrandDetail">
+					<image src="{{item.listPicUrl}}" mode="aspectFill"></image>
+					<text class="title clamp">{{ item.name }}</text>
+					<text class="price">￥{{ item.floorPrice }}</text>元起
+				</view>
+				<navigator url="../brand/brand">
+					<view class="more">
+						<text>查看全部</text>
+						<text>More+</text>
+					</view>
+				</navigator>
+			</view>
+		</scroll-view>
+	</view>
+
+	<view class="tui-product-box tui-pb-20 tui-bg-white" wx:if="{{newGoods.length > 0}}">
+		<view class="tui-group-name" bindtap="newGoods">
+			<text>新品推荐</text>
+			<tui-icon name="arrowright" size="20" color="#555"></tui-icon>
+		</view>
+		<view class="tui-new-box">
+			<view class="tui-new-item {{index!=0 && index!=1 ?'tui-new-mtop':''}}" wx:for="{{newGoods}}" wx:key="index" data-id="{{item.id}}" bindtap="navToGoodsDetail">
+				<image src="/static/images/new.png" class="tui-new-label"></image>
+				<view class="tui-title-box">
+					<view class="tui-new-title">{{item.name}}</view>
+					<view class="tui-new-price">
+						<text class="tui-new-present">￥{{item.retailPrice}}</text>
+						<text class="tui-new-original">￥{{item.marketPrice}}</text>
+					</view>
+				</view>
+				<image src="{{item.listPicUrl}}" class="tui-new-img"></image>
+			</view>
+		</view>
+	</view>
+
+	<view class="tui-product-box" wx:if="{{hotGoods.length > 0}}">
+		<view class="tui-group-name">
+			<text>热门推荐</text>
+		</view>
+		<view class="tui-product-list">
+			<view class="tui-product-container">
+				<block wx:for="{{hotGoods}}" wx:key="index" wx:if="{{(index+1)%2!=0}}">
+					<template is="productItem" data="{{item,index:index}}" />
+				</block>
+			</view>
+			<view class="tui-product-container">
+				<block wx:for="{{hotGoods}}" wx:key="index" wx:if="{{(index+1)%2==0}}">
+					<template is="productItem" data="{{item,index:index}}" />
+				</block>
+			</view>
+		</view>
+	</view>
+
+	<!--模板-->
+	<template name="productItem">
+		<!--商品列表-->
+		<view class="tui-pro-item" hover-class="hover" hover-start-time="150" bindtap="hotGoods" data-id="{{item.id}}">
+			<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+			<view class="tui-pro-content">
+				<view class="tui-pro-tit">{{item.name}}</view>
+				<view>
+					<view class="tui-pro-price">
+						<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+						<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+					</view>
+					<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+				</view>
+			</view>
+		</view>
+		<!--商品列表-->
+	</template>
+</view>
+<tui-scroll-top scrollTop="{{scrollTop}}"></tui-scroll-top>
+<tui-nomore bgcolor="#fff" visible="{{true}}"></tui-nomore>

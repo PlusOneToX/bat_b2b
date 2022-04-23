@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "选择优惠券",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black",
+  "backgroundColorTop": "#F5F5F5",
+  "backgroundColorBottom": "#F5F5F5",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "show-empty-data": "/components/show-empty-data/show-empty-data",
+    "tui-button":"/components/extend/button/button",
+    "tui-loadmore": "/components/loadmore/loadmore",
+    "tui-nomore": "/components/nomore/nomore"
+  }
+}

@@ -1,0 +1,57 @@
+<view class="dcenter-order">
+  <!-- 导航栏 -->
+    <view class="navbar">
+        <block wx:for="{{orderNav}}" wx:key="item">
+            <view class="navbar-item {{orderType === item.type ? 'navbar-item-active' : ''}}" data-navbar-index="{{item.type}}" catchtap="onNavBarTap">
+                <text>{{item.name}}</text>
+            </view>
+        </block>
+    </view>
+    <view class="list">
+        <view wx:if="{{orderList.length <= 0}}">
+            <view class="no-order"><image src="/static/images/img_no_income.png" class="no-order-image"></image></view>
+            <view><text class="no-order-text">暂无订单记录</text></view>
+        </view>
+        <view wx:for="{{orderList}}" wx:for-item="item" wx:key="index" class="cell">
+            <view class="cell-content">
+                <view class="goods">
+                    <view>
+                        <image src="{{item.goodsPic}}" class="img"></image>
+                    </view>
+                    <view class="right">
+                        <view class="title">{{item.goodsName}}</view>
+                        <view class="order-status">
+                            <text wx:if="{{item.orderStatus == 201 || item.orderStatus == 300}}" class="btn"  style="background-color: #4A90E2;">已付款</text>
+                            <text wx:elif="{{item.orderStatus == 301}}" class="btn" style="background-color:#65BA08;">已收货</text>
+                            <text wx:else class="btn" style="background-color:#9B9B9B;">已失效</text>
+                        </view>
+                    </view>
+                </view>
+                <view class="order-info">
+                    <view class="value-block">
+                        <text class="value">购买者</text>
+                        <text class="name">{{ item.buyerNickname }}</text>
+                    </view>
+                    <view class="value-block">
+                        <text class="value">付款金额</text>
+                        <text class="name">{{ item.actualPrice }}</text>
+                    </view>
+                    <view class="value-block">
+                        <text class="value">结算预估收入</text>
+                        <text class="name">{{ item.income }}</text>
+                    </view>
+                    <view class="value-block">
+                        <text wx:if="{{item.commissionType == 1}}" class="value">一级分销提成</text>
+                        <text wx:elif="{{item.commissionType == 2}}" class="value">二级分销提成</text>
+                        <text wx:elif="{{item.commissionType == 3}}" class="value">一级推广提成</text>
+                        <text wx:elif="{{item.commissionType == 4}}" class="value">二级推广提成</text>
+                        <text class="name">{{ item.commission * 100 + "%" }}</text>
+                    </view>
+                </view>
+                <view class="income-time">
+                    {{item.incomeTime + "付款"}}
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

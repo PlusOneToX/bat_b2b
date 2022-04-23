@@ -1,0 +1,12 @@
+{
+  "backgroundColor": "#f4f4f4",
+  "navigationBarTitleText": "购物车",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "tui-numberbox": "/components/numberbox/numberbox",
+    "tui-divider": "/components/divider/divider",
+    "tui-icon": "/components/icon/icon",
+    "swipe-action": "/components/swipe-action/swipe-action",
+    "tui-tips": "../../../components/tips/tips"
+  }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallBankTypeDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.BANK_NAME,
+        T.BANK_CODE
+        FROM MALL_BANK_TYPE T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.NAME LIKE '%${params.name}%'
+        </if>
+    </sql>
+
+    <select id="selectMallBankTypePage" resultType="com.platform.modules.mall.entity.MallBankTypeEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallBankTypeEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

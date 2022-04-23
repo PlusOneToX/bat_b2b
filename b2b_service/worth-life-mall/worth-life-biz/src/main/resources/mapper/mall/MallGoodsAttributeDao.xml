@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallGoodsAttributeDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.GOODS_ID,
+        T.ATTRIBUTE_ID,
+        T.VALUE,
+        A.NAME ATTRIBUTE_NAME,
+        T.ORDER_SORT
+        FROM MALL_GOODS_ATTRIBUTE T
+        LEFT JOIN MALL_ATTRIBUTE A ON A.ID = T.ATTRIBUTE_ID
+        WHERE 1=1
+        <if test="params.goodsId != null and params.goodsId.trim() != ''">
+            AND T.GOODS_ID = #{params.goodsId}
+        </if>
+    </sql>
+
+    <select id="selectMallGoodsAttributePage" resultType="com.platform.modules.mall.entity.MallGoodsAttributeEntity">
+        <include refid="selectSql"/>
+        ORDER BY T.ORDER_SORT ASC
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallGoodsAttributeEntity">
+        <include refid="selectSql"/>
+        ORDER BY T.ORDER_SORT ASC
+    </select>
+</mapper>

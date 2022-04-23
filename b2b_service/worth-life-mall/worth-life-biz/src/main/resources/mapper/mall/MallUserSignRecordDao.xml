@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallUserSignRecordDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.SIGN_TIME,
+        T.SIGN_INTEGRAL,
+        U.NICKNAME
+        FROM MALL_USER_SIGN_RECORD T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.userId != null and params.userId != ''">
+            AND T.USER_ID = #{params.userId}
+        </if>
+        <if test="params.type != null and params.type == 'nowMonth'">
+            AND DATE_FORMAT(T.SIGN_TIME, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+        </if>
+        <if test="params.type != null and params.type == 'nowDay'">
+            AND TO_DAYS(T.SIGN_TIME) = TO_DAYS(NOW())
+        </if>
+    </sql>
+
+    <select id="selectMallUserSignRecordPage" resultType="com.platform.modules.mall.entity.MallUserSignRecordEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallUserSignRecordEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallRoomGoodsDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.COVER_IMG,
+        T.ROOMID,
+        T.NAME,
+        T.URL,
+        T.PRICE,
+        T.PRICE2
+        FROM MALL_ROOM_GOODS T
+        WHERE 1=1
+        <if test="params.roomid != null and params.roomid != ''">
+            AND T.ROOMID = #{params.roomid}
+        </if>
+    </sql>
+
+    <select id="selectMallRoomGoodsPage" resultType="com.platform.modules.mall.entity.MallRoomGoodsEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallRoomGoodsEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

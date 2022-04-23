@@ -1,0 +1,6 @@
+<view class="dcenter-invitation">
+    <canvas canvas-id="invitationCanvas" style="width: 90vw; height: 90vh; margin: 0 5vw;"/>
+    <view class="button-area">
+        <button class="btn" bindtap="savePoster">保存图片分享</button>
+    </view>
+</view>

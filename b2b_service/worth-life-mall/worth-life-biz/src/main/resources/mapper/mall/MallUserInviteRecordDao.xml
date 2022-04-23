@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallUserInviteRecordDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.INVITE_USER_ID,
+        T.CREATE_TIME
+        FROM MALL_USER_INVITE_RECORD T
+        WHERE 1=1
+        <if test="params.name != null and params.name.trim() != ''">
+            AND T.INVITE_USER_ID = '${params.name}'
+        </if>
+    </sql>
+
+    <select id="selectMallUserInviteRecordPage" resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+        <include refid="selectSql"/>
+        <if test="params.userId != null and params.userId.trim() != ''">
+            AND T.user_id = '${params.userId}'
+        </if>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+        <include refid="selectSql"/>CONFIRM_TIME,PAY_TIME,COUPON_ID,COUPON_PRICE,PARENT_ID,SHOPS_ID,GOODS_ID,EXPIRE_TIME  FROM MALL_ORDER
+    </select>
+
+    <select id="selectAllInviteRecordPage" resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+         select * from  (select  *,1 as relation from  MALL_USER_INVITE_RECORD  WHERE invite_user_id=#{params.userId}
+         UNION ALL
+         select  *, 2 as relation from  MALL_USER_INVITE_RECORD WHERE invite_user_id in (select  USER_ID from  MALL_USER_INVITE_RECORD  WHERE invite_user_id=#{params.userId}))  as  AA
+         where   1+1=2
+        <if test="params.joinTimeBegin != null  ">
+            AND AA.create_time >= ${params.joinTimeBegin}
+        </if>
+        <if test="params.joinTimeEnd != null  ">
+            AND AA.create_time &lt;= ${params.joinTimeEnd}
+        </if>
+        <if test="params.relation != null  ">
+            AND AA.relation = ${params.relation}
+        </if>
+        <if test="params.subordinate != null  ">
+            AND AA.user_id = ${params.subordinate}
+        </if>
+    </select>
+
+    <select id="queryPageById"  resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+        SELECT *,1 as relation FROM mall_user_invite_record  WHERE invite_user_id=#{params.inviteUserId}
+        UNION ALL
+        SELECT *,2 as relation FROM mall_user_invite_record  WHERE invite_user_id IN(SELECT user_id FROM mall_user_invite_record WHERE invite_user_id=#{params.inviteUserId})
+    </select>
+
+    <!--查询店铺的直推间推用户-->
+    <select id="queryUserAll"  resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+        SELECT *,1 as relation FROM mall_user_invite_record  WHERE invite_user_id=#{id}
+        UNION ALL
+        SELECT *,2 as relation FROM mall_user_invite_record  WHERE invite_user_id IN(SELECT user_id FROM mall_user_invite_record WHERE invite_user_id=#{id})
+    </select>
+
+
+    <select id="inviteShopList"  resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+         SELECT * FROM  (SELECT invite_user_id,INVITE_USER_NAME,count(1) AS shopCount FROM mall_user_invite_record WHERE user_id IN  (SELECT id FROM mall_user WHERE role_type=2) GROUP BY invite_user_id,INVITE_USER_NAME ORDER BY invite_user_id ) AS AA WHERE 1+1=2
+        <if test="params.userId != null  ">
+            AND   AA.invite_user_id=#{params.userId}
+        </if>
+
+    </select>
+
+
+    <select id="shopDistributionRecord"  resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+        SELECT mu.id,mu.USER_NAME,ms.name,ms.CREATE_TIME AS createTime  FROM mall_user mu,mall_shops ms WHERE mu.id=ms.USER_ID AND mu.role_type=2
+
+        <if test="params.userId != null  ">
+            AND mu.id = ${params.userId}
+        </if>
+        <if test="params.joinTimeBegin != null  ">
+            AND ms.create_time >= ${params.joinTimeBegin}
+        </if>
+        <if test="params.joinTimeEnd != null  ">
+            AND ms.create_time &lt;= ${params.joinTimeEnd}
+        </if>
+
+    </select>
+
+
+    <select id="inviteShopListShopDetail"  resultType="com.platform.modules.mall.entity.MallUserInviteRecordEntity">
+
+
+        SELECT a.user_id,a.user_name, IFNULL( SUM(actual_price),0) AS actual_price, IFNULL(SUM(award),0) AS award FROM mall_user_invite_record a , mall_distribution_record b
+        WHERE a.invite_user_id=#{params.inviteUserId} AND b.user_id=a.invite_user_id
+
+        <if test="params.userId != null  ">
+            AND a.user_id = ${params.userId}
+        </if>
+
+        <if test="params.joinTimeBegin != null  ">
+
+            AND a.user_id in  (SELECT USER_ID FROM `mall_shops` WHERE CREATE_TIME >=#{params.joinTimeBegin})
+        </if>
+        <if test="params.joinTimeEnd != null  ">
+            AND a.user_id in (SELECT USER_ID FROM `mall_shops` WHERE CREATE_TIME &lt;= #{params.joinTimeEnd})
+        </if>
+
+        GROUP BY a.user_id,a.user_name
+    </select>
+
+</mapper>

@@ -1,0 +1,48 @@
+<!--pages/ucenter/sign/sign.wxml-->
+<view class='calendar'>
+  <view class='time'>
+    <view>
+      <text class='t_red'>{{year}}年</text>
+      <text class='t_red'>{{month}}月</text>
+    </view>
+    <view class='text-right'>
+      本月已签到
+      <text class='t_red'>{{calendarSignDay}}</text>天
+    </view>
+  </view>
+  <view class='weekName'>
+    <view class='sunday'>日</view>
+    <view class='monday'>一</view>
+    <view class='tuesday'>二</view>
+    <view class='wednesday'>三</view>
+    <view class='thursday'>四</view>
+    <view class='friday'>五</view>
+    <view class='saturday'>六</view>
+  </view>
+
+  <view class='week'>
+    <!--填补空格-->
+    <view wx:for='{{nbsp}}' wx:key="index">\n</view>
+
+    <view wx:for='{{date-1}}' wx:key="item" style='color:gainsboro;'>
+      <text wx:if='{{item+1==calendarSignData[item+1]}}' style='color:#e41f19;font-size:22rpx;'>签</text>
+      <text wx:else=''>{{item+1}}</text>
+    </view>
+    <view style='border-bottom: 1px solid #e41f19; padding-bottom:8rpx;'>
+      <text wx:if='{{date==calendarSignData[date]}}' style='color:#e41f19;font-size:22rpx;border-radius: 100%;background-color: ghostwhite'>签</text>
+      <text wx:else='' style='color:#e41f19;'>{{date}}</text>
+    </view>
+    <!-- 当天以后的日期只显示数字 -->
+    <view wx:for='{{monthDaySize-date}}' wx:key="item">{{item+date+1}}</view>
+
+    <!-- 当天以后的日期也显示签到 -->
+    <!-- <view wx:for='{{monthDaySize-date}}'>
+      <text wx:if='{{item+date+1==calendarSignData[item+date+1]}}' style='color:#e41f19;font-size:22rpx;'>签</text>
+      <text wx:else=''>{{item+date+1}}</text>
+    </view> -->
+  </view>
+  <view class='calendarSign'>
+    <button class='sign-btn' wx:if='{{date!=calendarSignData[date]}}' bindtap='calendarSign'>签到</button>
+    <button class='signed-btn' wx:else=''>今日已签到</button>
+  </view>
+</view>

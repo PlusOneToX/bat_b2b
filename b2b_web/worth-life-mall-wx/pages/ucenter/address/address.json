@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "地址管理",
+  "usingComponents": {
+    "tui-icon": "/components/icon/icon"
+  }
+}

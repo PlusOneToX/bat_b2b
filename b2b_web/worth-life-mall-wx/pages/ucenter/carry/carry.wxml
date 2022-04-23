@@ -1,0 +1,12 @@
+<form bindsubmit='submitSub' >
+	<view class="pay-bg">
+		<view class='title'>输入金额</view>
+		<view class='input flex'>
+			<input type='digit' placeholder='0.00' placeholder-class='placeholder' name='number'></input>
+		</view>
+		<view class='tip'>提示：当前余额为
+			<text>￥{{nowMoney}}</text>
+		</view>
+		<button class='but' form-type='submit'>立即提现</button>
+	</view>
+</form>

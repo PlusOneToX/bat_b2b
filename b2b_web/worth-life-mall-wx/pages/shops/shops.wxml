@@ -1,0 +1,68 @@
+<view class="container">
+
+	<view class="cart-panel" wx:if="{{footCart.cartTotal.goodsCount>0}}">
+		<view class="cart-icon">
+			<view class="nav-cell" bindtap="openCartPage">
+				<image src="../../static/images/cart-fixed.png">
+				</image>
+			</view>
+			<view class="cart-num">{{footCart.cartTotal.goodsCount}}</view>
+		</view>
+		<view class="cart-body">￥{{footCart.cartTotal.checkedGoodsAmount}}</view>
+		<view class="nav-cell" bindtap="openCartPage">
+			<view class="cart-pay">去结算 > </view>
+		</view>
+	</view>
+
+	<view class="content-wrapper">
+		<view class="avatar">
+			<image src="{{shopsVo.imgUrl}}"></image>
+		</view>
+		<view class="content">
+			<view class="title">
+				<span class="brand"></span>
+				<span class="name">{{shopsVo.name}}-{{shopsVo.shopsSn}}</span>
+			</view>
+			<view class="description">
+				<tui-icon name="clock" color="gray" size="22"></tui-icon> {{shopsVo.workTime}}
+			</view>
+			<view class="description">
+				<view class="description" wx:if="{{shopsVo.telephone}}" data-phone="{{shopsVo.telephone}}" bindtap="openCall">
+					<tui-icon name="voipphone" color="gray" data-phone="{{shopsVo.telephone}}" size="22"></tui-icon> {{shopsVo.telephone}}
+				</view>
+			</view>
+		</view>
+		<view class="description" data-longitude="{{shopsVo.longitude}}" data-latitude="{{shopsVo.latitude}}" data-name="{{shopsVo.name}}" data-address="{{shopsVo.details}}" bindtap="goHere">
+			<tui-icon name="position" color="gray" size="22"></tui-icon> {{shopsVo.details}}{{shopsVo.distant}}
+		</view>
+	</view>
+
+	<view class="catalog">
+		<scroll-view class="nav" scroll-y="true">
+			<view class="item {{ shopsCategoryId == item.id ? 'active' : ''}}" wx:for="{{navList}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="switchCategory" wx:key="index">{{item.name}}</view>
+		</scroll-view>
+		<scroll-view class="cate" scroll-y="true">
+			<view class="goods">
+				<view class="item" wx:for="{{goodsList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+					<view class="left">
+						<image class="img" wx:if="{{item.listPicUrl}}" src="{{item.listPicUrl}}"></image>
+					</view>
+					<view class="right">
+						<view class="text">
+							<text class="name">{{item.name}}</text>
+							<text class="desc" wx:if="{{item.goodsBrief}}">{{item.goodsBrief}}</text>
+							<view class="goods-do">
+								<text class="price">￥{{item.retailPrice}}</text>
+								<!-- //数量加减 -->
+								<view class="numbox">
+									<tui-numberbox iconsize="22" height="28" width="56" data-goods-id="{{item.goodsId}}" data-item-index="{{index}}" value="{{ item.cartNum }}" step="1" min="0" bindchange="changeNumber"></tui-numberbox>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+
+</view>

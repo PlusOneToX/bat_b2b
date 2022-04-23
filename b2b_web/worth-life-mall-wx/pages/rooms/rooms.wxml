@@ -1,0 +1,47 @@
+<!--header-->
+<view class="tui-header-box" style="height:{{height}}px;background:rgba(255,255,255,{{opcity}})">
+	<view class="tui-header" style="padding-top:{{top+20}}px;opacity:{{opcity}}">
+		直播房间
+	</view>
+</view>
+<!--header-->
+<view class="tui-container">
+	<view class="tui-extend-box">
+		<block wx:for="{{rooms}}" wx:key="index" wx:if="{{(index+1)%2!=0}}">
+			<template is="extendItem" data="{{item,index:index}}" />
+		</block>
+	</view>
+	<view class="tui-extend-box">
+		<block wx:for="{{rooms}}" wx:key="index" wx:if="{{(index+1)%2==0}}">
+			<template is="extendItem" data="{{item,index:index}}" />
+		</block>
+	</view>
+
+	<!--模板-->
+	<template name="extendItem">
+		<view class="tui-extend-item" style="background-image:url({{item.coverImg}});" id="{{item.roomid}}">
+			<view class="tui-title tui-light">
+				{{item.name}}
+			</view>
+			<view class="tui-sub-title" data-id="{{item.roomid}}" catchtap="livePlayer">{{item.anchorName}}</view>
+			<view class="tui-footer">
+				<tui-tag data-id="{{item.roomid}}" catchtap="livePlayer" wx:if="{{item.liveStatus===101}}" size="small" type="light-green" shape="circle" plain="{{true}}">观看直播</tui-tag>
+				<tui-tag data-id="{{item.roomid}}" catchtap="livePlayer" wx:if="{{item.liveStatus===103||item.liveStatus===105}}" size="small" type="white" shape="circle" plain="{{true}}">观看回放</tui-tag>
+				<subscribe class="subscribe" wx:if="{{item.liveStatus===102}}" room-id="{{item.roomid}}"></subscribe>
+				<view class="tui-time" wx:if="{{item.liveStatus===102}}">{{item.startTime}}</view>
+				<view>
+					<tui-icon wx:if="{{item.liveStatus===101}}" bold name="play" color="green" size="20"></tui-icon>
+					<tui-icon wx:if="{{item.liveStatus===102}}" name="time-fill" color="#FFFF00" size="20"></tui-icon>
+					<tui-icon wx:if="{{item.liveStatus===103}}" name="video" color="grey" size="20"></tui-icon>
+					<tui-icon wx:if="{{item.liveStatus===104}}" name="warning" color="#D02009" size="20"></tui-icon>
+					<tui-icon wx:if="{{item.liveStatus===105}}" name="warning" color="#D02009" size="20"></tui-icon>
+					<tui-icon wx:if="{{item.liveStatus===106}}" name="warning" color="#D02009" size="20"></tui-icon>
+					<tui-icon wx:if="{{item.liveStatus===107}}" name="close-fill" color="#D02009" size="20"></tui-icon>
+					<button open-type="share" catchtap="onShareAppMessage" class="tui-btn" data-index="{{index}}">
+						<tui-icon name="partake" color="#fff" size="20" tui-icon-class="tui-r-icon"></tui-icon>
+					</button>
+				</view>
+			</view>
+		</view>
+	</template>
+</view>

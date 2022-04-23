@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.modules.mall.dao.MallAddressDao">
+
+    <sql id="selectSql">
+        SELECT
+        T.ID,
+        T.USER_ID,
+        T.USER_NAME,
+        T.MOBILE,
+        T.POSTAL_CODE,
+        T.NATIONAL_CODE,
+        T.PROVINCE_NAME,
+        T.CITY_NAME,
+        T.COUNTY_NAME,
+        T.DETAIL_INFO,
+        T.IS_DEFAULT,
+        U.NICKNAME
+        FROM MALL_ADDRESS T
+        LEFT JOIN MALL_USER U ON T.USER_ID = U.ID
+        WHERE 1=1
+        <if test="params.nickname != null and params.nickname.trim() != ''">
+            AND U.NICKNAME LIKE '%${params.nickname}%'
+        </if>
+        <if test="params.userName != null and params.userName.trim() != ''">
+            AND T.USER_NAME LIKE '%${params.userName}%'
+        </if>
+        <if test="params.mobile != null and params.mobile.trim() != ''">
+            AND T.MOBILE LIKE '%${params.mobile}%'
+        </if>
+        <if test="params.userId != null and params.userId.trim() != ''">
+            AND T.USER_ID = #{params.userId}
+        </if>
+    </sql>
+    <update id="setDefaultAddress">
+        UPDATE MALL_ADDRESS SET IS_DEFAULT = 0 WHERE ID != #{id};
+		UPDATE MALL_ADDRESS SET IS_DEFAULT = 1 WHERE ID = #{id}
+    </update>
+
+    <select id="selectMallAddressPage" resultType="com.platform.modules.mall.entity.MallAddressEntity">
+        <include refid="selectSql"/>
+    </select>
+
+    <select id="queryAll" resultType="com.platform.modules.mall.entity.MallAddressEntity">
+        <include refid="selectSql"/>
+    </select>
+</mapper>

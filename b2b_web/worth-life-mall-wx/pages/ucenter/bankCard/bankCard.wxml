@@ -1,0 +1,25 @@
+<view class="ucenter-card">
+    <view class="list">
+        <view wx:for="{{cardList}}" wx:for-item="item" wx:key="index" data-id="{{item.id}}" class="card">
+            <view class="common-card show-card">
+              <view class="bank-name">{{item.bankName}}</view>
+              <view class="unbinding" data-card-id="{{item.id}}" bindtap="showUnbinding">×</view>
+              <view class="bank-type">{{item.cardType}}</view>
+              <view class="card-number">{{"**** **** **** "+item.cardNumber}}</view>
+            </view>
+        </view>
+        <view class="card" bindtap="goBinding">
+          <view class="common-card add-card">
+            <view class="add">+</view>
+            <view class="text">添加银行卡</view>
+          </view>
+        </view>
+    </view>
+    <view class="unbinding-select">
+      <view class='mask' wx:if="{{unbindingShow}}" bindtap='cancelUnbinding'></view>
+      <view class='option_box' style='height:{{unbindingShow?160:0}}rpx;'>
+          <text class='option' bindtap='unbinding'>解绑</text>
+          <text class='option'  bindtap='cancelUnbinding'>取消</text>
+      </view>
+    </view>
+</view>

@@ -1,0 +1,257 @@
+<view>
+	<!--header-->
+	<view class="tui-header-box" style="height:{{height}}px;background:rgba(255,255,255,{{opcity}})">
+		<view class="tui-header" style="padding-top:{{top+20}}px;opacity:{{opcity}}">
+			我的
+		</view>
+	</view>
+	<!--header-->
+
+	<view class="tui-mybg-box">
+		<image src="/static/images/userBg.png" class="tui-my-bg" mode="widthFix"></image>
+		<view class="tui-header-center">
+			<image src="{{curUser.headImgUrl||'/static/images/mine_def_touxiang_3x.png'}}" class="tui-avatar" bindtap="goLogin" data-type="3"></image>
+			<view class="tui-info">
+				<view class="tui-nickname">{{curUser.nickname||'点击头像登录'}}<text wx:if="{{shopStatus==1}}">商</text></view>
+				 <view class="tui-tag" wx:if="{{ shopStatus!=1 && curUser.userLevelName}}"> {{curUser.userLevelName}}</view>
+			</view>
+			<view class="tui-set-box">
+				<view class="tui-icon-box tui-icon-setup" bindtap="setting">
+					<image src="/static/images/set_box.png" />
+				</view>
+			</view>
+		</view>
+		<view class="tui-header-btm">
+			<view class="tui-btm-item" bindtap="goAsset" data-type="1">
+				<view class="tui-btm-num">{{curUser.balance?curUser.balance:0}}</view>
+				<view class="tui-btm-text">账户余额</view>
+			</view>
+			<view class="tui-btm-item" bindtap="goAsset" data-type="15">
+				<view class="tui-btm-num">{{curUser.signAllIntegral ?curUser.signAllIntegral :0}}</view>
+				<view class="tui-btm-text">积分排行榜</view>
+			</view>
+			<view class="tui-btm-item" bindtap="goAsset" data-type="12">
+				<view class="tui-btm-num">{{curUser.peopleCount?curUser.peopleCount:0}}</view>
+				<view class="tui-btm-text">我的团队</view>
+			</view>
+		</view>
+	</view>
+	<view class="tui-content-box">
+		<view class="tui-box tui-order-box">
+				<view class="tui-cell-header">
+					<view class="tui-cell-title">我的订单</view>
+					<view class="tui-cell-sub" bindtap="orderList" data-type="0">查看全部订单</view>
+					<image src="/static/images/right.png" class="right-icon"></image>
+				</view>
+			<view class="tui-order-list">
+				<view class="tui-order-item" bindtap="orderList" data-type="1">
+					<view class="tui-icon-box">
+						<image src="/static/images/icon_daifukuan_3x.png" class="tui-order-icon"></image>
+						<view class="tui-badge tui-badge-red" wx:if="{{unPayNum>0}}">{{unPayNum}}</view>
+					</view>
+					<view class="tui-order-text">待付款</view>
+				</view>
+				<view class="tui-order-item" bindtap="orderList" data-type="2">
+					<view class="tui-icon-box">
+						<image src="/static/images/icon_daifahuo_3x.png" class="tui-order-icon"></image>
+						<view class="tui-badge tui-badge-red" wx:if="{{unSendNum>0}}">{{unSendNum}}</view>
+					</view>
+					<view class="tui-order-text">待发货</view>
+				</view>
+				<view class="tui-order-item" bindtap="orderList" data-type="3">
+					<view class="tui-icon-box">
+						<image src="/static/images/icon_daishouhuo_3x.png" class="tui-order-icon"></image>
+						<view class="tui-badge tui-badge-red" wx:if="{{unTakeNum>0}}">{{unTakeNum}}</view>
+					</view>
+					<view class="tui-order-text">待收货</view>
+				</view>
+				<view class="tui-order-item" bindtap="orderList" data-type="4">
+					<view class="tui-icon-box">
+						<image src="/static/images/icon_daipingjia_3x.png" class="tui-order-icon"></image>
+						<view class="tui-badge tui-badge-red" wx:if="{{unEvalNum>0}}">{{unEvalNum}}</view>
+					</view>
+					<view class="tui-order-text">待评价</view>
+				</view>
+				<!-- <view class="tui-order-item" bindtap="orderList" data-type="5">
+					<view class="tui-icon-box">
+						<image src="/static/images/icon_tuikuan_3x.png" class="tui-order-icon"></image>
+						<view class="tui-badge tui-badge-red">2</view>
+					</view>
+					<view class="tui-order-text">退款/售后</view>
+				</view> -->
+			</view>
+		</view>
+		<view class="tui-box tui-tool-box">
+			<view class="tui-order-list tui-flex-wrap">
+				<view class="tui-tool-item"  bindtap="goAsset" data-type="13" wx:if="{{shopStatus!=1}}">
+						<image src="/static/images/wodedengji_icon.png" class="tui-tool-icon"></image>
+						<view class="tui-tool-text">我的等级</view>
+						 <view class="tui-tool-right">
+							 <image src="/static/images/right.png" class="right-icon"></image>
+						 </view>
+				</view>
+				<view class="tui-tool-item"  bindtap="goAsset" data-type="14">
+						<image src="/static/images/wodedianpu_icon.png" class="tui-tool-icon"></image>
+						<view class="tui-tool-text">我的店铺</view>
+						 <view class="tui-tool-right">
+							 <image src="/static/images/right.png" class="right-icon"></image>
+						 </view>
+				</view>
+				<view class="tui-tool-item"  bindtap="goAsset" data-type="16" >
+						<image src="/static/images/dianpurenzheng_icon.png" class="tui-tool-icon"></image>
+						<view class="tui-tool-text">店铺认证</view>
+						 <view class="tui-tool-right">
+							 <text class="icon-text">
+								 <block wx:if="{{shopStatus==0}}">认证中</block>
+								 <block wx:elif="{{shopStatus==1}}">认证成功</block>
+								 <block wx:elif="{{shopStatus==2}}">认证失败</block>
+							 </text>
+							 <image src="/static/images/right.png" class="right-icon"></image>
+						 </view>
+				</view>
+
+				<view class="tui-tool-item"  bindtap="goAsset" data-type="5">
+						<image src="/static/images/wodeshoucang.png"  class="tui-tool-icon"></image>
+						<view class="tui-tool-text">我的收藏</view>
+						 <view class="tui-tool-right">
+							 <image src="/static/images/right.png" class="right-icon"></image>
+						 </view>
+				</view>
+				<view class="tui-tool-item"  bindtap="goAsset" data-type="6">
+						<image src="/static/images/wodezuji.png" class="tui-tool-icon"></image>
+						<view class="tui-tool-text">我的足迹</view>
+						 <view class="tui-tool-right">
+							 <image src="/static/images/right.png" class="right-icon"></image>
+						 </view>
+				</view>
+				<!-- <view class="tui-tool-item" bindtap="goAsset" data-type="11">
+					<image src="/static/images/icon_distributor.png" class="tui-tool-icon"></image>
+                      <view class="tui-tool-text">分销中心</view>
+				</view>
+				<view class="tui-tool-item" bindtap="payFace">
+					<image src="/static/images/facetoface.png" class="tui-tool-icon"></image>
+					<view class="tui-tool-text">当面付</view>
+				</view> -->
+				<!-- <view class="tui-tool-item" bindtap="goAsset" data-type="2">
+					<view class="tui-icon-box">
+						<image src="/static/images/icon_gift.png" class="tui-tool-icon"></image>
+						<image src="/static/images/icon_tab_3x.png" class="tui-badge-icon"></image>
+					</view>
+					<view class="tui-tool-text">免费领好礼</view>
+				</view> -->
+				<!-- <view class="tui-tool-item" bindtap="goAsset" data-type="4">
+						<image src="/static/images/icon_miaosha.png" class="tui-tool-icon"></image>
+						<view class="tui-tool-text">我的秒杀</view>
+						<view class="tui-tool-right">
+						<image src="/static/images/right.png" class="right-icon"></image>
+						</view>
+				</view> -->
+				<!-- <view class=" tui-tool-item" bindtap="goAsset" data-type="5">
+						<image src="/static/images/icon_collect.png" class="tui-tool-icon"></image>
+					  <view class="tui-tool-text">我的收藏</view>
+					  <image src="/static/images/right.png" class="right-icon"></image>
+				</view>
+				<view class=" tui-tool-item" bindtap="goAsset" data-type="6">
+						<image src="/static/images/icon_footprint.png" class="tui-tool-icon"></image>
+					   <view class="tui-tool-text">我的足迹</view>
+					   <image src="/static/images/right.png" class="right-icon"></image>
+				</view> -->
+				<view class=" tui-tool-item" bindtap="goAsset" data-type="7">
+						<image src="/static/images/icon_address.png" class="tui-tool-icon"></image>
+					   <view class="tui-tool-text">地址管理</view>
+					   	<view class="tui-tool-right">
+						<image src="/static/images/right.png" class="right-icon"></image>
+						</view>
+				</view>
+				<view class=" tui-tool-item" bindtap="goAsset" data-type="8">
+						<image src="/static/images/icon_feedback.png" class="tui-tool-icon"></image>
+						<view class="tui-tool-text">意见反馈</view>
+						<view class="tui-tool-right">
+						<image src="/static/images/right.png" class="right-icon"></image>
+						</view>
+				</view>
+				<view class="tui-tool-item" bindtap="goAsset"  data-type="9">
+						<image src="/static/images/icon_kefu.png" class="tui-tool-icon"></image>
+					   <navigator class="tui-tool-text" hover-class="none" url="/pages/ucenter/kefu/kefu">联系客服</navigator>
+					   	<view class="tui-tool-right">
+						<image src="/static/images/right.png" class="right-icon"></image>
+						</view>
+				</view>
+				<!-- <view class="tui-tool-item" bindtap="downContract">
+					<image src="/static/images/icon_contract.png" class="tui-tool-icon"></image>
+					<view class="tui-tool-text">下载合同</view>
+				</view> -->
+				<!-- <view class="tui-tool-item" bindtap="goAsset" data-type="10">
+					<image src="/static/images/icon_ie.png" class="tui-tool-icon"></image>
+					<view class="tui-tool-text">企业官网</view>
+					<image src="/static/images/right.png" class="right-icon"></image>
+				</view> -->
+			</view>
+		</view>
+
+		<!--为你推荐-->
+		<tui-divider size="{{28}}" bold="{{true}}" color="#333" bgcolor="#f3f3f3" wx:if="{{newGoods.length>0}}" width="50%">为你推荐</tui-divider>
+		<view class="tui-product-list">
+			<view class="tui-product-container">
+				<block wx:for="{{newGoods}}" wx:key="index" wx:if="{{(index+1)%2!=0}}">
+					<!--商品列表-->
+					<view class="tui-pro-item" hover-class="hover" hover-start-time="150" data-id="{{item.id}}" bindtap="goodsDetail">
+						<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+						<view class="tui-pro-content">
+							<view class="tui-pro-tit">{{item.goodsName}}</view>
+							<view>
+								<view class="tui-pro-price">
+									<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+									<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+								</view>
+								<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+			<view class="tui-product-container">
+				<block wx:for="{{newGoods}}" wx:key="index" wx:if="{{(index+1)%2==0}}">
+					<!--商品列表-->
+					<view class="tui-pro-item" hover-class="hover" hover-start-time="150" data-id="{{item.id}}" bindtap="goodsDetail">
+						<image src="{{item.listPicUrl}}" class="tui-pro-img" mode="widthFix" />
+						<view class="tui-pro-content">
+							<view class="tui-pro-tit">{{item.goodsName}}</view>
+							<view>
+								<view class="tui-pro-price">
+									<text class="tui-sale-price">￥{{item.retailPrice}}</text>
+									<text class="tui-factory-price">￥{{item.marketPrice}}</text>
+								</view>
+								<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+		</view>
+	</view>
+</view>
+
+<bottom-popup show="{{faceShow}}" bindclose="closePayFace">
+	<tui-list-cell :hover="false">
+		<view class="tui-pay-item__title">
+			<view>当面付</view>
+			<input type="number" class="tui-pay-amuont" model:value="{{money}}" placeholder="请询问商家后输入" placeholder-class="tui-phcolor"></input>
+		</view>
+	</tui-list-cell>
+	<radio-group bindchange="radioChange">
+		<tui-list-cell unlined wx:for="{{shopsList}}" wx:key="index">
+			<label class="tui-pay-item">
+				<image src="{{item.imgUrl}}" class="tui-pay-logo"></image>
+				<text>{{item.name}}</text>
+				<view class="tui-radio">
+					<radio color="#EB0909" name="shopsId" value="{{item.id}}"></radio>
+				</view>
+			</label>
+		</tui-list-cell>
+	</radio-group>
+	<view class="tui-btn-pay">
+		<tui-button height="88rpx" type="danger" shape="circle" shadow bind:click="pay">去付款</tui-button>
+	</view>
+</bottom-popup>
+<!-- <tui-footer copyright="Copyright © 2020 安徽微同科技有限公司 All Rights Reserved." navigate="{{navigate}}" bgcolor="#fafafa"></tui-footer> -->
